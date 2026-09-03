@@ -6,9 +6,11 @@ import { url, absolute } from '../lib/url';
 interface Props {
   title?: string;
   description?: string;
+  /** For pages that should not be indexed or given a canonical URL, such as the 404 page. */
+  noindex?: boolean;
 }
 
-const { title, description = network.tagline } = Astro.props;
+const { title, description = network.tagline, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${network.short_name}` : network.name;
 
 const nav: Array<[string, string]> = [
@@ -38,7 +40,7 @@ const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${ur
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
     <link rel="alternate" type="text/calendar" title={`${network.short_name} events`} href={url('calendar.ics')} />
     <meta property="og:site_name" content={network.name} />
@@ -76,8 +78,11 @@ const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${ur
     <footer class="site-footer">
       <div class="container">
         <div>
-          <h4>{network.short_name}</h4>
-          <p>{network.name}{network.name_native ? ` · ${network.name_native}` : ''}</p>
+          <p class="footer-heading">{network.short_name}</p>
+          <p>
+            {network.name}
+            {network.name_native && <> · <span lang="zh">{network.name_native}</span></>}
+          </p>
           <p class="small">
             {network.contact_email
               ? <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>
@@ -85,7 +90,7 @@ const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${ur
           </p>
         </div>
         <div>
-          <h4>Take part</h4>
+          <p class="footer-heading">Take part</p>
           <ul>
             <li><a href={url('join/')}>Join as a lab</a></li>
             <li><a href={forms.nomination}>Nominate a speaker</a></li>
@@ -95,7 +100,7 @@ const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${ur
           </ul>
         </div>
         <div>
-          <h4>Open</h4>
+          <p class="footer-heading">Open</p>
           <ul>
             <li><a href={network.repo_url}>Source and data on GitHub</a></li>
             <li><a href={url('docs/')}>Charter and documents</a></li>

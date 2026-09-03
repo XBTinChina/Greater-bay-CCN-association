@@ -10,7 +10,7 @@ Everything on this site is a file in the public repository: labs, events, tutori
 ## Conventions used below
 
 - The id of an entry is its file name without the extension: `data/labs/jane-doe.yml` has the id `jane-doe`. Names are lowercase with hyphens.
-- URL means a full address with its scheme, such as https://example.org/lab.
+- URL means a full address with its scheme, such as `https://example.org/lab`.
 - Date means YYYY-MM-DD, unquoted.
 - Time means 24-hour HH:MM in Hong Kong Time, quoted ("16:00"), because unquoted YAML may read it as a number.
 - Quote titles that contain a colon.
@@ -233,6 +233,6 @@ A lab photo is a square head-and-shoulders image at `public/photos/<lab-id>.webp
 
 ## Dates, times and the weekly rebuild
 
-All times are Hong Kong Time (UTC+8, no daylight saving). An event ends at `end` on its last day, one hour after `start` if no end is given, or at the end of the last day if there is no start time, and counts as upcoming until then. A position is listed until one day after `expires`, or after `deadline` if there is no expiry; with neither it stays until removed.
+All times are Hong Kong Time (UTC+8, no daylight saving). An event ends at `end` on its last day. A single-day event with a `start` but no `end` ends one hour after it starts; otherwise, with no `end`, it ends at the end of its last day. It counts as upcoming until then. A position is listed until one day after `expires`, or after `deadline` if there is no expiry; with neither it stays until removed.
 
 These lists are computed at build time. The site is rebuilt on every merge and every Monday, so an event can stay under upcoming, or a position remain visible, for up to a week. Nothing needs fixing; the calendar feed and the [events](../../events/) and [positions](../../positions/) pages update together at the next build.

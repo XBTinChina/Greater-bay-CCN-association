@@ -39,7 +39,7 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
           <div>
             <span class="badge">{POSITION_TYPE_LABELS[p.data.type]}</span>
           </div>
-          <h3>{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</h3>
+          <h2 class="card-title">{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</h2>
           <div class="meta">
             {p.data.pi && `${p.data.pi} · `}
             {p.data.institution} · {p.data.city}

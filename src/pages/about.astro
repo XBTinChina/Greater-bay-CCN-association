@@ -14,7 +14,7 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
 
 <Base title="About" description={network.mission}>
   <h1>About the network</h1>
-  {network.name_native && <p class="muted">{network.name_native}</p>}
+  {network.name_native && <p class="muted" lang="zh">{network.name_native}</p>}
   <div class="prose">
     <p class="lead">{network.mission}</p>
     <p>
@@ -120,6 +120,7 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
       <>The contact address is being set up. Meanwhile, </>
     )}
     open an issue in the <a href={forms.issues}>repository</a>. Seminar announcements go out on the calendar
-    feed and the announcement list.
+    feed and the announcement list; to join the list, which carries the meeting links, ask any member PI or open
+    an issue titled "Announcement list".
   </p>
 </Base>

@@ -32,7 +32,7 @@ const levels = ['introductory', 'intermediate', 'advanced'].filter((l) => entrie
 
   {entries.length > 0 && (
     <form class="filters" role="search" aria-label="Filter tutorials" onsubmit="return false" style="grid-template-columns: 2fr 1fr 1fr">
-      <input type="search" id="t-text" placeholder="Search titles, topics, authors…" autocomplete="off" />
+      <input type="search" id="t-text" aria-label="Search tutorials" placeholder="Search titles, topics, authors…" autocomplete="off" />
       <select id="t-format" aria-label="Format">
         <option value="">All formats</option>
         {formats.map((f) => <option value={f}>{f}</option>)}
@@ -62,7 +62,7 @@ const levels = ['introductory', 'intermediate', 'advanced'].filter((l) => entrie
             <span class="badge neutral">{t.data.level}</span>
             {t.data.language !== 'English' && <span class="badge neutral">{t.data.language}</span>}
           </div>
-          <h3><a href={t.data.url}>{t.data.title}</a></h3>
+          <h2 class="card-title"><a href={t.data.url}>{t.data.title}</a></h2>
           <div class="meta">
             {t.data.authors.join(', ')}
             {lab && <span> · {labName(lab)}, {lab.data.institution_short ?? lab.data.institution}</span>}

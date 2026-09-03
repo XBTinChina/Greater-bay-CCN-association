@@ -17,7 +17,7 @@ The working language is English. Labs in the region work in Cantonese, Mandarin 
 
 ## 2. Purpose
 
-- Pool the audience that no single department has, so that any member lab can invite a speaker on behalf of a network of labs across HKU, CUHK, HKUST, SUSTech and the other participating institutions.
+- Pool the audience that no single department has, so that any member lab can invite a speaker on behalf of a network of labs across the participating institutions rather than on behalf of one department.
 - Run a joint seminar series with rotating hosts.
 - Keep a public, curated roster of participating labs.
 - Index tutorials and teaching material, and list open positions.
@@ -57,7 +57,7 @@ Until the founding labs confirm the first coordinators, one interim coordinator,
 - Slot: alternate Thursdays, 16:00 to 17:00 Hong Kong Time (UTC+8), on Zoom, with Tencent Meeting (VooV) as fallback.
 - Rotating hosts: each seminar is hosted by one member lab in turn. The host invites the speaker, chairs, and circulates the meeting link to the announcement list; links are never published on the site.
 - Junior slot: the host may open with a 15-minute talk by a student or postdoc.
-- Speaker nominations: anyone may nominate through the "[Speaker]" issue form. The queue is private to coordinators and is never published.
+- Speaker nominations: anyone may nominate through the "[Speaker]" issue form. The queue is read by the coordinators and never published on the site. Nominations are GitHub issues in a public repository, so they should say only what the nominee could read.
 - Recording: only with the speaker's written consent, given before the talk; recordings go to both Bilibili and YouTube.
 - Honorarium: none by default. A host institution may fund travel for an in-person visit.
 

@@ -10,7 +10,7 @@ type: seminar                 # seminar | workshop | summer-school | hackathon |
 date: 2026-10-29
 # end_date: 2026-10-31        # multi-day events only
 start: "16:00"                # HKT, quoted
-end: "17:00"
+end: "17:15"                  # 17:00 when there is no junior talk
 speaker: Jane Doe
 speaker_native: 杜珍           # optional
 speaker_affiliation: Southern University of Science and Technology

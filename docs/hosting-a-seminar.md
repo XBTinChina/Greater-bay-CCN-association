@@ -63,6 +63,6 @@ Every seminar is hosted by one member lab. The host picks the speaker, invites t
 
 ## If things go wrong
 
-- Speaker no-show. Message and call them at 16:00. At 16:10, run the junior talk if there is one, or tell the audience the session is postponed and post a new date within a week.
+- Speaker no-show. Message and call them at 16:00. If there is a junior talk it runs first as planned. If the main speaker has not appeared by 16:20 (16:10 when there is no junior talk), tell the audience the session is postponed and post a new date within a week.
 - Platform failure. Switch to the Tencent Meeting fallback and post the new link in the chat, the WeChat group and the announcement list. Keep the recording going on the new platform.
 - Disruption. Follow the [code of conduct](../code-of-conduct/): mute the person, remove them from the meeting if it continues, and report the incident to a coordinator or the contact address on the [About](../../about/) page.

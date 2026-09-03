@@ -35,7 +35,7 @@ is a file here, and every change is a pull request anyone can read.
 3. **A joint seminar series with rotating hosts.** Alternate Thursdays,
    16:00–17:00 Hong Kong Time, online on Zoom with Tencent Meeting as fallback.
    Each talk is hosted by one member lab, which invites the speaker on behalf
-   of the whole network. Anyone in a member lab can nominate a speaker.
+   of the whole network. Anyone can nominate a speaker.
 4. **English as the working language.** It is the one language that belongs to
    nobody in a region whose labs work in Cantonese, Mandarin and English.
    Names may appear in native script beside the Latin form; teaching material
@@ -59,9 +59,11 @@ automatically; a coordinator reviews it and the entry goes live when merged.
 | Follow the seminars | Subscribe to the [calendar feed](https://xbtinchina.github.io/Great-bay-CCN-association/calendar.ics) |
 
 The forms need a free GitHub account. If that is a problem, ask a colleague to
-submit on your behalf or use the contact address on the site's About page.
+submit on your behalf; a contact address will be added to the site's About page.
 
-Speaker nominations stay private to the coordinators and are never published.
+Speaker nominations are read by the coordinators and never published on the
+site. They are GitHub issues in a public repository, so write only what the
+nominee could read.
 
 ## What is in this repository
 
@@ -84,7 +86,7 @@ Speaker nominations stay private to the coordinators and are never published.
 ├── scripts/               Intake: turns a submitted form into a data file
 └── .github/
     ├── ISSUE_TEMPLATE/    The forms
-    └── workflows/         Deploy, build check, intake, weekly digest, poster
+    └── workflows/         Deploy, build check, intake, weekly digest, poster, labels
 ```
 
 Each `data/` folder contains an `example-*` file marked `draft: true`. Drafts
@@ -181,12 +183,17 @@ Things that only a repository owner can do, in the order they matter:
 5. **Move the repository to a GitHub organisation** once there are two or
    more coordinators, so the site URL and ownership stop being personal. Give
    at least two people owner rights.
-6. **Protect `main`** so that changes arrive by pull request and the build
-   check must pass.
+6. **Protect `main`** so that changes arrive by pull request. Do not make
+   *Build check* a required status check: pull requests opened by the intake
+   workflow cannot trigger it (GitHub's rule for bot tokens), which is why the
+   intake workflow runs the same build itself before opening them.
 7. **Ratify the charter.** It is marked as a draft until the founding labs
    have agreed it.
 8. Remove the "forming" banner in `data/network.yml` (`status_banner`) when the
    first seminar is scheduled.
+9. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
+   from the founding chat rather than submitted through the form; the PI
+   should verify the department, keywords and description.
 
 ## Licences
 

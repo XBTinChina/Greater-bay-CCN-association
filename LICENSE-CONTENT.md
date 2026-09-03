@@ -11,8 +11,9 @@ The full legal text is at <https://creativecommons.org/licenses/by/4.0/legalcode
 - Photos under `public/photos/`, which were submitted by or with the consent of the people shown.
 - The text of the website as rendered from these files.
 
-Code (under `src/`, `scripts/`, `.github/` and the configuration files at the
-repository root) is licensed under the MIT licence in `LICENSE`.
+Code (under `src/`, `scripts/`, `.github/`, `public/` except `public/photos/`,
+and the configuration files at the repository root) is licensed under the MIT
+licence in `LICENSE`.
 
 ## What CC BY 4.0 lets you do
 

@@ -37,7 +37,14 @@ await fs.access(input).catch(() => {
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1350 }, deviceScaleFactor: 2 });
+  // Under file:// the site's base-path asset URLs cannot resolve. The poster
+  // page is self-contained today; fail loudly if that ever stops being true.
+  const failed = [];
+  page.on('requestfailed', (r) => failed.push(r.url()));
   await page.goto(pathToFileURL(path.resolve(input)).href, { waitUntil: 'networkidle' });
+  if (failed.length) {
+    throw new Error(`The poster page tried to load assets that do not resolve under file://: ${failed.join(', ')}. Keep the poster self-contained or serve dist over HTTP.`);
+  }
   await page.evaluate(() => document.fonts.ready);
   const poster = page.locator('.poster');
   await poster.waitFor({ state: 'visible' });

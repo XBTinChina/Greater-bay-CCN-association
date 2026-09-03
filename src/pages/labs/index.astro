@@ -22,7 +22,7 @@ const cities = [...new Set(labs.map((l) => l.data.city))].sort(
   </p>
 
   <form class="filters" id="lab-filters" role="search" aria-label="Filter labs" onsubmit="return false">
-    <input type="search" id="f-text" placeholder="Search names, topics, institutions…" autocomplete="off" />
+    <input type="search" id="f-text" aria-label="Search labs" placeholder="Search names, topics, institutions…" autocomplete="off" />
     <select id="f-city" aria-label="City">
       <option value="">All cities</option>
       {cities.map((c) => <option value={c}>{c}</option>)}

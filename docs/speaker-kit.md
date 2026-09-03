@@ -9,7 +9,7 @@ Thank you for agreeing to speak in the GBA-CCN Network seminar series. Your host
 
 ## Who we are
 
-The Greater Bay Area Computational and Cognitive Neuroscience Network (GBA-CCN Network, 粤港澳大湾区计算与认知神经科学网络) is a network of computational and cognitive neuroscience labs across Hong Kong, Shenzhen, Guangzhou, Macau and the wider Greater Bay Area, at institutions including HKU, CUHK, HKUST and SUSTech. We are not a registered society; coordinators run the network, and each seminar is hosted by one member lab. The PI of that lab invited you, will chair your session and handles the logistics. The full roster is on [our labs page](../../labs/).
+The Greater Bay Area Computational and Cognitive Neuroscience Network (GBA-CCN Network, 粤港澳大湾区计算与认知神经科学网络) is a network of computational and cognitive neuroscience labs across Hong Kong, Shenzhen, Guangzhou, Macau and the wider Greater Bay Area. We are not a registered society; coordinators run the network, and each seminar is hosted by one member lab. The PI of that lab invited you, will chair your session and handles the logistics. The full roster is on [our labs page](../../labs/).
 
 ## Who is in the audience
 

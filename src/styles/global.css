@@ -252,12 +252,13 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
 }
-.site-footer h4 {
+.site-footer .footer-heading {
   font-size: 0.85rem;
+  font-weight: 650;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--muted);
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem;
 }
 .site-footer ul {
   list-style: none;
@@ -412,8 +413,10 @@ main {
   flex-direction: column;
   gap: 0.5rem;
 }
-.card h3 {
+.card h3,
+.card .card-title {
   margin: 0;
+  font-size: 1.1rem;
 }
 .card .meta {
   color: var(--muted);

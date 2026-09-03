@@ -12,6 +12,7 @@ import { GBA_CITIES } from '../lib/taxonomy';
     the audience through the announcement list and the seminars.
   </p>
 
+  <h2>Who takes part</h2>
   <div class="three">
     <div class="card">
       <h3>Member lab</h3>
@@ -30,8 +31,13 @@ import { GBA_CITIES } from '../lib/taxonomy';
     <div class="card">
       <h3>Audience</h3>
       <p class="small">
-        Anyone. Subscribe to the <a href={url('calendar.ics')}>calendar feed</a>
-        {network.contact_email ? <> or <a href={`mailto:${network.contact_email}`}>email us</a> to be added to the announcement list</> : ''}.
+        Anyone. Subscribe to the <a href={url('calendar.ics')}>calendar feed</a>. To join the announcement list, which
+        carries the meeting links,
+        {network.contact_email ? (
+          <> <a href={`mailto:${network.contact_email}`}>email us</a></>
+        ) : (
+          <> ask any member PI or <a href={forms.issues}>open an issue</a> titled "Announcement list"</>
+        )}.
         Students and postdocs need no application.
       </p>
     </div>

@@ -51,7 +51,7 @@ Nominations stay as issues labelled `speaker-nomination`; nothing is published. 
 
 ## The weekly routine
 
-Two workflows run every Monday at 00:00 UTC (08:00 Hong Kong Time). **Deploy site** rebuilds the site, which refreshes the split between upcoming and past events and drops expired positions. **Weekly digest** runs the lychee link checker over the built site and opens, or updates, an issue labelled `weekly-digest` listing pending intake issues, open intake pull requests and broken links.
+Two workflows run every Monday morning. **Deploy site** runs at 00:00 UTC (08:00 Hong Kong Time) and rebuilds the site, which refreshes the split between upcoming and past events and drops expired positions. **Weekly digest** runs an hour later, at 09:00 Hong Kong Time, and runs the lychee link checker over the built site and opens, or updates, an issue labelled `weekly-digest` listing pending intake issues, open intake pull requests and broken links.
 
 One coordinator reads the digest that day or the next. Merge what is ready, reply to what is stuck, and fix broken links by pull request.
 

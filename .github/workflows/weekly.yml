@@ -15,6 +15,7 @@ on:
 permissions:
   contents: read
   issues: write
+  pull-requests: read
 
 jobs:
   digest:
@@ -22,6 +23,7 @@ jobs:
     permissions:
       contents: read
       issues: write
+      pull-requests: read
     defaults:
       run:
         shell: bash
@@ -73,8 +75,9 @@ jobs:
           issues="$(gh issue list --label intake --state open --limit 200 --json number,title,createdAt,labels)"
           prs="$(gh pr list --state open --limit 200 --json number,title,headRefName,createdAt)"
 
+          marker='<!-- gba-ccn:weekly-digest -->'
           {
-            printf '# Weekly digest, %s\n\n' "$today"
+            printf '%s\n# Weekly digest, %s\n\n' "$marker" "$today"
             printf 'Written by the Weekly digest workflow every Monday. The text is replaced each week, so keep notes elsewhere. The routine is in the operations handbook.\n\n'
 
             printf '## Pending submissions (open issues labelled `intake`)\n\n'
@@ -126,7 +129,8 @@ jobs:
           ensure_label weekly-digest bfdadc "Automated weekly digest"
           ensure_label automation ededed "Opened by a workflow"
 
-          existing="$(gh issue list --label weekly-digest --state open --limit 1 --json number --jq '.[0].number // empty')"
+          # Only ever edit the issue this workflow wrote (identified by its marker), never a human's.
+          existing="$(gh issue list --label weekly-digest --state open --limit 20 --json number,body --jq "[.[] | select(.body | contains(\"$marker\"))][0].number // empty")"
           if [ -n "$existing" ]; then
             gh issue edit "$existing" --title "Weekly digest" --body-file .intake/DIGEST.md
             echo "Updated issue #$existing"

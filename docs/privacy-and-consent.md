@@ -29,7 +29,7 @@ A lab entry can contain these fields and nothing else:
 - `looking_for`: who the lab seeks (optional)
 - `joined`: the date the entry was approved
 
-Only name, institution, city, keywords and joining date are required; leave any other field blank if you do not want it published.
+The schema requires only name, institution, city, keywords and joining date; the form also asks for a short description. Leave any other field blank if you do not want it published.
 
 ## Where the data is stored
 

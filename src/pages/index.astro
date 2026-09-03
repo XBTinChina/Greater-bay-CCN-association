@@ -22,6 +22,7 @@ const talksHeld = past.filter((e) => e.data.type === 'seminar').length;
 const recentSpeakers = past.filter((e) => e.data.speaker).slice(0, 8);
 
 const newest = [...labs].sort((a, b) => b.data.joined.getTime() - a.data.joined.getTime()).slice(0, 6);
+const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 
 // Titles only: news bodies contain links relative to /news/, so they render there.
 const news = (await getCollection('news', (n) => !n.data.draft))
@@ -33,7 +34,7 @@ const news = (await getCollection('news', (n) => !n.data.draft))
   <section class="hero">
     <div class="kicker">Hong Kong · Shenzhen · Guangzhou · Macau and the wider Greater Bay Area</div>
     <h1>{network.name}</h1>
-    {network.name_native && <div class="native">{network.name_native}</div>}
+    {network.name_native && <div class="native" lang="zh">{network.name_native}</div>}
     <p class="lead">{network.mission}</p>
     <div class="actions">
       <a class="btn primary" href={url('join/')}>Join as a lab</a>
@@ -42,15 +43,15 @@ const news = (await getCollection('news', (n) => !n.data.draft))
     </div>
   </section>
 
-  <div class="stats" aria-label="Network at a glance">
-    <div class="stat"><div class="n">{members.length}</div><div class="l">member labs</div></div>
-    <div class="stat"><div class="n">{institutions.length}</div><div class="l">institutions</div></div>
-    <div class="stat"><div class="n">{cities.size}</div><div class="l">cities</div></div>
-    <div class="stat"><div class="n">{talksHeld}</div><div class="l">seminars held</div></div>
+  <section class="stats" aria-label="Network at a glance">
+    <div class="stat"><div class="n">{members.length}</div><div class="l">{plural(members.length, 'member lab', 'member labs')}</div></div>
+    <div class="stat"><div class="n">{institutions.length}</div><div class="l">{plural(institutions.length, 'institution', 'institutions')}</div></div>
+    <div class="stat"><div class="n">{cities.size}</div><div class="l">{plural(cities.size, 'city', 'cities')}</div></div>
+    <div class="stat"><div class="n">{talksHeld}</div><div class="l">{plural(talksHeld, 'seminar held', 'seminars held')}</div></div>
     {affiliates.length > 0 && (
-      <div class="stat"><div class="n">{affiliates.length}</div><div class="l">affiliate labs</div></div>
+      <div class="stat"><div class="n">{affiliates.length}</div><div class="l">{plural(affiliates.length, 'affiliate lab', 'affiliate labs')}</div></div>
     )}
-  </div>
+  </section>
 
   {institutions.length > 0 && (
     <section aria-label="Participating institutions">

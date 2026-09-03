@@ -407,7 +407,9 @@ async function buildPosition(v, ctx) {
   const { problems, warnings, issue, created } = ctx;
   let slug = truncateSlug(slugify(v.title));
   if (asciiLetters(slug) < 2) slug = `position-issue-${issue.number}`;
-  if (v.deadline && v.deadline < created) problems.push(`The application deadline (${v.deadline}) is already past.`);
+  // Compare with today, not the issue's creation date: an edit may arrive months later.
+  const today = dateInHongKong(new Date().toISOString());
+  if (v.deadline && v.deadline < today) problems.push(`The application deadline (${v.deadline}) is already past.`);
   if (v.expires && v.deadline && v.expires < v.deadline) problems.push('The removal date is before the application deadline.');
   if (!v.deadline && !v.expires) warnings.push('No deadline or removal date: the listing will stay up until someone removes it by hand.');
   checkNoMeetingLinks([v.title, v.body], problems);
@@ -575,6 +577,12 @@ export async function runIntake({ eventPath, outRoot = REPO_ROOT }) {
   const options = { quoted: entry.quoted, folded: entry.folded, comment };
   const text = entry.body !== undefined ? toMarkdownFile(entry.data, entry.body, options) : toYaml(entry.data, options);
   const target = path.join(outRoot, entry.file);
+  try {
+    await fs.access(path.join(REPO_ROOT, entry.file));
+    warnings.push(`${entry.file} already exists on main; this submission replaces it. The pull request lists it as a replacement.`);
+  } catch {
+    // New entry.
+  }
   await fs.mkdir(path.dirname(target), { recursive: true });
   await fs.writeFile(target, text, 'utf8');
   files.unshift(entry.file);
