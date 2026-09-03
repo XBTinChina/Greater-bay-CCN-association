@@ -250,6 +250,20 @@ select:focus-visible {
   height: 26px;
   flex: none;
 }
+.brand picture,
+.brand .brand-mark {
+  display: block;
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+.lockup {
+  display: block;
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  margin: 0 0 2rem;
+}
 .site-nav {
   display: flex;
   gap: 0.4rem 1.3rem;

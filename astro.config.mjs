@@ -17,10 +17,10 @@ export default defineConfig({
     format: 'directory',
   },
   integrations: [
-    // Build-time only; no runtime dependency. Posters and the two redirect
-    // stubs are left out of the sitemap.
+    // Build-time only; no runtime dependency. Posters and the redirect stub
+    // are left out of the sitemap.
     sitemap({
-      filter: (page) => !/\/poster\/$/.test(page) && !/\/(tutorials|positions)\/$/.test(page),
+      filter: (page) => !/\/poster\/$/.test(page) && !/\/tutorials\/$/.test(page),
     }),
   ],
 });

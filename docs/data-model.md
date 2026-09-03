@@ -237,4 +237,4 @@ A lab photo is a square head-and-shoulders image at `public/photos/<lab-id>.webp
 
 All times are Hong Kong Time (UTC+8, no daylight saving). An event ends at `end` on its last day. A single-day event with a `start` but no `end` ends one hour after it starts; otherwise, with no `end`, it ends at the end of its last day. It counts as upcoming until then. A position is listed until one day after `expires`, or after `deadline` if there is no expiry; with neither it stays until removed.
 
-These lists are computed at build time. The site is rebuilt on every merge and every Monday, so an event can stay under upcoming, or a position remain visible, for up to a week. Nothing needs fixing; the calendar feed and the [events](../../events/) and [resources](../../resources/) pages update together at the next build.
+These lists are computed at build time. The site is rebuilt on every merge and every Monday, so an event can stay under upcoming, or a position remain visible, for up to a week. Nothing needs fixing; the calendar feed and the [events](../../events/) and [positions](../../positions/) pages update together at the next build.

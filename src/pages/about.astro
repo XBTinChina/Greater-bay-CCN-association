@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import { network, forms, routes, founding, slotLine } from '../lib/network';
 import { url } from '../lib/url';
 import { publishedLabs, institutionsOf } from '../lib/labs';
+import { brand, hasBrand } from '../lib/brand';
 
 const labs = await publishedLabs();
 const institutions = institutionsOf(labs.filter((l) => l.data.tier === 'member'));
@@ -14,7 +15,14 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
 
 <Base title="About" description={network.mission}>
   <h1>About</h1>
-  {network.name_native && <p class="muted" lang="zh" style="margin-top:-0.3rem">{network.name_native}</p>}
+  {hasBrand ? (
+    <picture>
+      {brand.lockupLight && <source srcset={brand.lockupLight} media="(prefers-color-scheme: dark)" />}
+      <img class="lockup" src={brand.lockup} alt={`${network.acronym} logo: ${network.name}`} />
+    </picture>
+  ) : (
+    network.name_native && <p class="muted" lang="zh" style="margin-top:-0.3rem">{network.name_native}</p>
+  )}
   <div class="prose">
     <p class="lead">{network.mission}</p>
     <p>

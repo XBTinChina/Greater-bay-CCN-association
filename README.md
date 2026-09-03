@@ -76,7 +76,7 @@ nominee could read.
 │   ├── labs/              One YAML file per lab          → /labs/
 │   ├── events/            Seminars, workshops, schools   → /events/, /calendar.ics
 │   ├── tutorials/         Training index (links only)    → /resources/
-│   ├── positions/         Openings; expire automatically → /resources/
+│   ├── positions/         Openings; expire automatically → /positions/
 │   └── news/              Announcements                  → /news/
 ├── docs/                  Charter, code of conduct, handbooks → /docs/
 ├── public/photos/         PI photos, 400×400 WebP, metadata stripped
@@ -117,8 +117,13 @@ generated from the files in `data/` and `docs/` at build time.
 - **A founding stage.** With `stage: founding` in `data/network.yml`, the home
   page is a recruitment page: no counters, "founding labs", the seminar slot
   marked as proposed. Switch to `active` once the numbers signal traction
-  rather than fragility. The Resources page appears in the navigation only
-  when it has content, and the lab filters only once eight labs are listed.
+  rather than fragility. The Resources page (training material) appears in
+  the navigation only when it has content; Positions is always there so labs
+  can post openings; the lab filters render only once eight labs are listed.
+- **The logo.** Save the logo as `brand/logo.png` (dark artwork on white) and
+  run `node scripts/brand.mjs`. It writes the header mark and its dark-mode
+  variant, the lockup shown on the About page, the favicons and the sharing
+  image; the pages pick them up at the next build.
 - **Ordinary routes alongside GitHub.** Set `contact_email` and, if you run
   one, `mailing_list_url`, and the site offers pre-filled email for joining,
   following and nominating, with the GitHub forms as the open alternative.

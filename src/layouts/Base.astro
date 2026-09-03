@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Mark from '../components/Mark.astro';
 import { network, forms, routes, founding } from '../lib/network';
 import { url, absolute } from '../lib/url';
+import { brand, hasBrand } from '../lib/brand';
 
 interface Props {
   title?: string;
@@ -19,15 +20,15 @@ interface Props {
 const { title, description = network.tagline, noindex = false, hideBanner = false, jsonld } = Astro.props;
 const fullTitle = title ? `${title} · ${network.short_name}` : network.name;
 
-// Resources only appears in the navigation once there is something in it.
-const resourceCount =
-  (await getCollection('tutorials', (t) => !t.data.draft)).length +
-  (await getCollection('positions', (p) => !p.data.draft)).length;
+// Resources (training material) appears in the navigation once there is
+// something in it; Positions is always there so labs can post openings.
+const tutorialCount = (await getCollection('tutorials', (t) => !t.data.draft)).length;
 
 const nav: Array<[string, string]> = [
   ['Labs', 'labs/'],
   ['Events', 'events/'],
-  ...(resourceCount > 0 ? ([['Resources', 'resources/']] as Array<[string, string]>) : []),
+  ['Positions', 'positions/'],
+  ...(tutorialCount > 0 ? ([['Resources', 'resources/']] as Array<[string, string]>) : []),
   ['About', 'about/'],
 ];
 
@@ -51,7 +52,14 @@ const ogImage = absolute('og.png');
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
-    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    {hasBrand ? (
+      <>
+        <link rel="icon" href={url('favicon.png')} type="image/png" sizes="64x64" />
+        <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
+      </>
+    ) : (
+      <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    )}
     <link rel="alternate" type="text/calendar" title={`${network.short_name} events`} href={url('calendar.ics')} />
     <link rel="alternate" type="application/rss+xml" title={`${network.short_name} news and events`} href={url('feed.xml')} />
     <link rel="sitemap" href={url('sitemap-index.xml')} />
@@ -77,7 +85,14 @@ const ogImage = absolute('og.png');
     <header class="site-header">
       <div class="container">
         <a class="brand" href={url('')}>
-          <Mark />
+          {hasBrand ? (
+            <picture>
+              {brand.markLight && <source srcset={brand.markLight} media="(prefers-color-scheme: dark)" />}
+              <img src={brand.mark} alt="" width="34" height="34" class="brand-mark" />
+            </picture>
+          ) : (
+            <Mark />
+          )}
           <span>{network.short_name}</span>
         </a>
         <nav class="site-nav" aria-label="Main">

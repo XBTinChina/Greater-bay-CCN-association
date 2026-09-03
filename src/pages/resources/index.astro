@@ -1,40 +1,29 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { forms } from '../../lib/network';
-import { formatDate } from '../../lib/events';
+import { url } from '../../lib/url';
 import { labName, publishedLab } from '../../lib/labs';
-import { POSITION_TYPE_LABELS } from '../../lib/taxonomy';
 
-// Training: an index of tutorials, courses and recordings, hosted where their
-// authors keep them. Opportunities: openings in member and affiliate labs.
-const tutorialEntries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
+// Training material: an index of tutorials, courses and recordings, hosted
+// where their authors keep them. Positions have their own page.
+const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
   (a, b) => b.data.added.getTime() - a.data.added.getTime(),
 );
-const tutorials = await Promise.all(tutorialEntries.map(async (t) => ({ t, lab: await publishedLab(t.data.lab) })));
-
-const now = new Date();
-const positions = (await getCollection('positions', (p) => !p.data.draft))
-  .filter((p) => {
-    const until = p.data.expires ?? p.data.deadline;
-    return !until || until.getTime() + 24 * 60 * 60 * 1000 >= now.getTime();
-  })
-  .sort((a, b) => {
-    const da = a.data.deadline?.getTime() ?? Number.POSITIVE_INFINITY;
-    const db = b.data.deadline?.getTime() ?? Number.POSITIVE_INFINITY;
-    return da - db || b.data.posted.getTime() - a.data.posted.getTime();
-  });
-const openings = await Promise.all(positions.map(async (p) => ({ p, Content: (await render(p)).Content })));
+const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await publishedLab(t.data.lab) })));
 ---
 
-<Base title="Resources" description="Training material and open positions from labs of the network.">
+<Base title="Resources" description="Tutorials, courses and lecture recordings from labs of the network, curated as an index.">
   <h1>Resources</h1>
-  <p class="lead">Training material and openings from member and affiliate labs, indexed here and hosted where their owners keep them.</p>
-
-  <div class="section-head">
-    <h2 id="training">Training</h2>
-    <a href={forms.tutorial}>Add a tutorial</a>
+  <p class="lead">
+    Tutorials, courses and recordings from member labs, indexed here and hosted where their authors keep them.
+    Openings are on the <a href={url('positions/')}>positions page</a>; summer schools under <a href={url('events/')}>events</a>.
+  </p>
+  <div class="actions" style="margin-top:0.5rem">
+    <a class="btn small" href={forms.tutorial}>Add a tutorial</a>
   </div>
+
+  <h2 id="training">Training</h2>
   {tutorials.length === 0 ? (
     <p class="quiet">Nothing indexed yet. A notebook, a course page or a lecture recording takes a minute to add.</p>
   ) : (
@@ -57,39 +46,6 @@ const openings = await Promise.all(positions.map(async (p) => ({ p, Content: (aw
             {t.data.doi && (
               <div class="links">
                 <a href={`https://doi.org/${t.data.doi.replace(/^https?:\/\/doi\.org\//, '')}`}>DOI</a>
-              </div>
-            )}
-          </div>
-        </li>
-      ))}
-    </ul>
-  )}
-
-  <div class="section-head">
-    <h2 id="opportunities">Opportunities</h2>
-    <a href={forms.position}>Post a position</a>
-  </div>
-  {openings.length === 0 ? (
-    <p class="quiet">No open positions right now. Listings leave on their deadline.</p>
-  ) : (
-    <ul class="rows">
-      {openings.map(({ p, Content }) => (
-        <li class="row">
-          <div class="when">
-            <b>{POSITION_TYPE_LABELS[p.data.type]}</b>
-            <span>{p.data.deadline ? `Deadline ${formatDate(p.data.deadline, { weekday: undefined })}` : 'Open until filled'}</span>
-          </div>
-          <div>
-            <div class="title">{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</div>
-            <div class="sub">
-              {p.data.pi && `${p.data.pi} · `}
-              {p.data.institution} · {p.data.city}
-            </div>
-            <div class="prose small" style="margin-top:0.5rem"><Content /></div>
-            {(p.data.url || p.data.contact_email) && (
-              <div class="links">
-                {p.data.url && <a href={p.data.url}>How to apply</a>}
-                {p.data.contact_email && <a href={`mailto:${p.data.contact_email}`}>Contact</a>}
               </div>
             )}
           </div>
