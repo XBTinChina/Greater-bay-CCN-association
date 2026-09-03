@@ -1,0 +1,135 @@
+name: Weekly digest
+
+# Every Monday at 01:00 UTC (09:00 Hong Kong Time, an hour after the deploy):
+# builds the site, checks every link with lychee, and opens or updates one
+# issue labelled weekly-digest listing pending submissions, open intake pull
+# requests and broken links. Issue and pull request titles are handled as
+# data by jq and written to a file; nothing user-controlled is interpolated
+# into a shell command.
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+
+      - name: Build at the origin root so that internal links resolve as files
+        env:
+          ASTRO_BASE: /
+          ASTRO_SITE: https://example.invalid
+        run: |
+          mkdir -p .intake
+          npm run build
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Form links need a login (excluded); example.invalid is the fake origin above.
+          args: >-
+            --no-progress
+            --accept 200..299,403,429
+            --root-dir ${{ github.workspace }}/dist
+            --exclude mailto:
+            --exclude localhost
+            --exclude example.invalid
+            --exclude '^https://github.com/.*/issues/new'
+            --exclude-path dist/calendar.ics
+            'dist/**/*.html'
+          format: markdown
+          output: .intake/lychee.md
+          fail: false
+          failIfEmpty: false
+          token: ${{ github.token }}
+
+      - name: Compose the digest and open or update the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          LYCHEE_REPORT: .intake/lychee.md
+        run: |
+          set -euo pipefail
+          today="$(date -u +%F)"
+          issues="$(gh issue list --label intake --state open --limit 200 --json number,title,createdAt,labels)"
+          prs="$(gh pr list --state open --limit 200 --json number,title,headRefName,createdAt)"
+
+          {
+            printf '# Weekly digest, %s\n\n' "$today"
+            printf 'Written by the Weekly digest workflow every Monday. The text is replaced each week, so keep notes elsewhere. The routine is in the operations handbook.\n\n'
+
+            printf '## Pending submissions (open issues labelled `intake`)\n\n'
+            if [ "$(jq length <<<"$issues")" = 0 ]; then
+              printf 'None.\n\n'
+            else
+              printf '| Issue | Type | Age (days) | Pull request |\n|---|---|---|---|\n'
+              jq -r --argjson prs "$prs" '
+                ($prs | map(select(.headRefName | startswith("intake/issue-"))
+                             | {issue: ((.headRefName | ltrimstr("intake/issue-") | tonumber?) // -1), pr: .number})) as $heads
+                | .[]
+                | . as $i
+                | ([$heads[] | select(.issue == $i.number) | .pr] | first) as $pr
+                | ([$i.labels[].name | select(startswith("intake:")) | ltrimstr("intake:")] | join(", ")) as $type
+                | (((now - ($i.createdAt | fromdateiso8601)) / 86400) | floor) as $age
+                | ($i.title | gsub("[\r\n]+"; " ") | gsub("\\|"; "\\|")) as $title
+                | "| #\($i.number) \($title) | \($type) | \($age) | \(if $pr then "#\($pr)" else "none: check the Intake submissions run" end) |"
+              ' <<<"$issues"
+              printf '\n'
+            fi
+
+            printf '## Open intake pull requests\n\n'
+            if [ "$(jq '[.[] | select(.headRefName | startswith("intake/"))] | length' <<<"$prs")" = 0 ]; then
+              printf 'None.\n\n'
+            else
+              printf '| Pull request | Age (days) |\n|---|---|\n'
+              jq -r '
+                .[] | select(.headRefName | startswith("intake/"))
+                | (((now - (.createdAt | fromdateiso8601)) / 86400) | floor) as $age
+                | (.title | gsub("[\r\n]+"; " ") | gsub("\\|"; "\\|")) as $title
+                | "| #\(.number) \($title) | \($age) |"
+              ' <<<"$prs"
+              printf '\n'
+            fi
+
+            printf '## Link check\n\n'
+            if [ -s "$LYCHEE_REPORT" ]; then
+              head -n 100 "$LYCHEE_REPORT"
+              if [ "$(wc -l <"$LYCHEE_REPORT")" -gt 100 ]; then
+                printf '\n(trimmed to 100 lines; the full report is in the job summary of the workflow run)\n'
+              fi
+              printf '\n'
+            else
+              printf 'No report was produced.\n\n'
+            fi
+          } > .intake/DIGEST.md
+
+          ensure_label() { gh label create "$1" --color "$2" --description "$3" --force >/dev/null 2>&1 || true; }
+          ensure_label weekly-digest bfdadc "Automated weekly digest"
+          ensure_label automation ededed "Opened by a workflow"
+
+          existing="$(gh issue list --label weekly-digest --state open --limit 1 --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --title "Weekly digest" --body-file .intake/DIGEST.md
+            echo "Updated issue #$existing"
+          else
+            gh issue create --title "Weekly digest" --label weekly-digest --label automation --body-file .intake/DIGEST.md
+          fi

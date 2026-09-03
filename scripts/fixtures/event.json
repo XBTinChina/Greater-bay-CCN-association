@@ -1,0 +1,29 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 102,
+    "title": "[Event] Fixture seminar: keeping time in cortex",
+    "body": "### Event title\r\n\r\nFixture seminar: keeping time in cortex\r\n\r\n### Event type\r\n\r\nseminar\r\n\r\n### Date (YYYY-MM-DD)\r\n\r\n2027-03-04\r\n\r\n### End date (YYYY-MM-DD, multi-day events only)\r\n\r\n_No response_\r\n\r\n### Start time (HH:MM, Hong Kong Time)\r\n\r\n16:00\r\n\r\n### End time (HH:MM, Hong Kong Time)\r\n\r\n17:00\r\n\r\n### Speaker (Latin script)\r\n\r\nTesta Fixture\r\n\r\n### Speaker (native script)\r\n\r\n測試 菲克\r\n\r\n### Speaker affiliation\r\n\r\nFixture University of Science and Technology\r\n\r\n### Speaker web page\r\n\r\nhttps://example.org/fixture-lab\r\n\r\n### Junior speaker name\r\n\r\nWei Fixture\r\n\r\n### Junior speaker affiliation\r\n\r\nThe University of Hong Kong\r\n\r\n### Junior talk title\r\n\r\nA normative model of test errors\r\n\r\n### Host lab id\r\n\r\nxiangbin-teng\r\n\r\n### Host institution\r\n\r\n_No response_\r\n\r\n### Location\r\n\r\nOnline\r\n\r\n### Platform\r\n\r\nZoom\r\n\r\n### Registration link\r\n\r\n_No response_\r\n\r\n### Abstract (Markdown)\r\n\r\nFirst paragraph of the abstract, written for the intake test.\r\n\r\n### Bio\r\n\r\nA heading inside the abstract must not be mistaken for a form field.\r\n\r\n- a list item\r\n- another list item\r\n\r\n### Consent\r\n\r\n- [X] The speaker has agreed to be listed publicly\r\n- [ ] Written recording consent has been obtained\r\n",
+    "labels": [
+      {
+        "name": "intake"
+      },
+      {
+        "name": "intake:event"
+      }
+    ],
+    "state": "open",
+    "user": {
+      "login": "fixture-user"
+    },
+    "created_at": "2026-09-03T02:15:00Z",
+    "updated_at": "2026-09-03T02:15:00Z",
+    "html_url": "https://github.com/example/fixtures/issues/102"
+  },
+  "repository": {
+    "full_name": "example/fixtures"
+  },
+  "sender": {
+    "login": "fixture-user"
+  }
+}

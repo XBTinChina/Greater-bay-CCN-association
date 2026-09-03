@@ -1,0 +1,29 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 104,
+    "title": "[Position] Fixture postdoc in computational models of testing",
+    "body": "### Position title\r\n\r\nFixture postdoc in computational models of testing\r\n\r\n### Position type\r\n\r\npostdoc\r\n\r\n### Lab id\r\n\r\nexample-lab\r\n\r\n### PI\r\n\r\nTesta Fixture\r\n\r\n### Institution\r\n\r\nFixture University of Science and Technology\r\n\r\n### City\r\n\r\nShenzhen\r\n\r\n### Link to the full advertisement\r\n\r\nhttps://example.org/fixture-lab/jobs/postdoc\r\n\r\n### Contact email\r\n\r\ntesta.fixture@example.org\r\n\r\n### Application deadline (YYYY-MM-DD)\r\n\r\n2027-06-30\r\n\r\n### Remove the listing after (YYYY-MM-DD)\r\n\r\n_No response_\r\n\r\n### Description (Markdown)\r\n\r\nTwo or three sentences: the project, the skills wanted, the funding term, and how to apply.\r\n\r\nApply through the link above.\r\n",
+    "labels": [
+      {
+        "name": "intake"
+      },
+      {
+        "name": "intake:position"
+      }
+    ],
+    "state": "open",
+    "user": {
+      "login": "fixture-user"
+    },
+    "created_at": "2026-09-03T02:15:00Z",
+    "updated_at": "2026-09-03T02:15:00Z",
+    "html_url": "https://github.com/example/fixtures/issues/104"
+  },
+  "repository": {
+    "full_name": "example/fixtures"
+  },
+  "sender": {
+    "login": "fixture-user"
+  }
+}

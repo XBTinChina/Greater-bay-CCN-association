@@ -1,0 +1,54 @@
+# Speaker nomination form. Nominations are issues for the coordinators only;
+# the intake workflow creates no data file from them.
+name: Speaker nomination
+description: Propose a speaker for the joint seminar series. Read by coordinators; nothing is published.
+title: "[Speaker] "
+labels: ["speaker-nomination"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Nominations are read by the coordinators when planning the seminar season and are **not published on the site**. This is a public repository, though, so write only what you would be comfortable with the nominee reading.
+  - type: input
+    id: name
+    attributes:
+      label: Nominee
+      placeholder: Jane Doe
+    validations:
+      required: true
+  - type: input
+    id: affiliation
+    attributes:
+      label: Affiliation
+      placeholder: Southern University of Science and Technology
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Web page
+      placeholder: https://example.org/doelab
+  - type: input
+    id: why
+    attributes:
+      label: Why this speaker (one line)
+      placeholder: Recent work on predictive timing in auditory cortex that several member labs build on.
+    validations:
+      required: true
+  - type: input
+    id: suggested_host
+    attributes:
+      label: Suggested host lab
+      placeholder: Teng Lab, CUHK
+  - type: checkboxes
+    id: willing_to_host
+    attributes:
+      label: Hosting
+      options:
+        - label: I am willing to host this talk
+          required: false
+  - type: textarea
+    id: note
+    attributes:
+      label: Anything else
+      description: Timing constraints, a talk you saw, a connection to the region.

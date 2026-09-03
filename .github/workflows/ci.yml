@@ -1,0 +1,31 @@
+name: Build check
+
+# Validates every pull request by building the site (which checks every data
+# file against its schema) and by running the intake script's tests.
+# Deliberately pull_request, not pull_request_target: the checked-out code is
+# the contributor's and must never run with write permissions.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Build the site
+        run: npm run build
+      - name: Test the intake script
+        run: node scripts/test-intake.mjs

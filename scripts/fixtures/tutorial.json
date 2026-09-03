@@ -1,0 +1,29 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 103,
+    "title": "[Tutorial] Fitting fixture models to choice data",
+    "body": "### Title\r\n\r\nFitting fixture models to choice data\r\n\r\n### Authors (comma-separated)\r\n\r\nTesta Fixture, Wei Fixture\r\n\r\n### Lab id\r\n\r\nexample-lab\r\n\r\n### Format\r\n\r\nnotebook\r\n\r\n### Level\r\n\r\nintroductory\r\n\r\n### Language\r\n\r\nEnglish\r\n\r\n### Link to the material\r\n\r\nhttps://github.com/example/fixture-tutorial\r\n\r\n### DOI\r\n\r\nhttps://doi.org/10.5281/zenodo.0000000\r\n\r\n### Topics (1 to 8, comma-separated)\r\n\r\ndecision making, Bayesian inference, Python\r\n\r\n### Description (max 700 characters)\r\n\r\nA short notebook that exists only so that the intake test has a tutorial to process.\r\n\r\n### Confirmation\r\n\r\n- [X] The material is openly accessible at the link and I am an author or have the authors' permission\r\n",
+    "labels": [
+      {
+        "name": "intake"
+      },
+      {
+        "name": "intake:tutorial"
+      }
+    ],
+    "state": "open",
+    "user": {
+      "login": "fixture-user"
+    },
+    "created_at": "2026-09-03T02:15:00Z",
+    "updated_at": "2026-09-03T02:15:00Z",
+    "html_url": "https://github.com/example/fixtures/issues/103"
+  },
+  "repository": {
+    "full_name": "example/fixtures"
+  },
+  "sender": {
+    "login": "fixture-user"
+  }
+}

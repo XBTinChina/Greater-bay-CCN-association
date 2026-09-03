@@ -1,0 +1,101 @@
+name: Render poster
+
+# Screenshots the poster view of one event (dist/events/<id>/poster/) into a
+# PNG artifact for WeChat and mailing lists. Run it by hand with the event id,
+# which is the file name in data/events without .md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      event_id:
+        description: "the event id, e.g. 2026-10-29-jane-doe"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  poster:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read # configure-pages reads the Pages settings for the site origin printed on the poster
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check the event id
+        id: check
+        env:
+          EVENT_ID: ${{ inputs.event_id }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$EVENT_ID" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+            printf '::error::event_id must be lowercase letters, digits and hyphens, for example 2026-10-29-jane-doe; got %q\n' "$EVENT_ID"
+            exit 1
+          fi
+          echo "id=$EVENT_ID" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+
+      - name: Read the site origin and base path from GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        # If Pages is not enabled yet the defaults in astro.config.mjs are used.
+        continue-on-error: true
+
+      - name: Build
+        env:
+          PAGES_OK: ${{ steps.pages.outcome == 'success' }}
+          PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          PAGES_BASE: ${{ steps.pages.outputs.base_path }}
+        run: |
+          set -euo pipefail
+          # The poster prints the site address, so build with the real origin
+          # and base path. They come from configure-pages, so renaming or
+          # moving the repository needs no change here.
+          if [ "$PAGES_OK" = true ]; then
+            export ASTRO_SITE="$PAGES_ORIGIN" ASTRO_BASE="$PAGES_BASE"
+          fi
+          npm run build
+
+      - name: Find the poster page
+        env:
+          EVENT_ID: ${{ steps.check.outputs.id }}
+        run: |
+          set -euo pipefail
+          page="dist/events/${EVENT_ID}/poster/index.html"
+          if [ ! -f "$page" ]; then
+            echo "::error::No poster at ${page}. Check the event id (the file name in data/events without .md) and that the event is not a draft. Events in this build:"
+            ls dist/events || true
+            exit 1
+          fi
+
+      - name: Install Playwright for this run only
+        # playwright is deliberately not a project dependency. --no-save and
+        # --no-package-lock leave package.json and package-lock.json untouched;
+        # the install lives only in this runner's node_modules.
+        run: |
+          npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.58.2
+          npx playwright install --with-deps chromium
+
+      - name: Render
+        env:
+          EVENT_ID: ${{ steps.check.outputs.id }}
+        run: |
+          set -euo pipefail
+          mkdir -p .intake
+          node scripts/render-poster.mjs "dist/events/${EVENT_ID}/poster/index.html" ".intake/poster-${EVENT_ID}.png"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: poster-${{ steps.check.outputs.id }}
+          path: .intake/poster-${{ steps.check.outputs.id }}.png
+          if-no-files-found: error
