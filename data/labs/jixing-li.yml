@@ -1,0 +1,29 @@
+# Created from issue #4 by the intake workflow. Edit this file by pull request.
+
+pi: Jixing Li
+pi_native: 李吉星
+lab: LAnguages, Machines and Brains Lab
+institution: The Hong Kong Polytechnic University
+institution_short: PolyU
+department: Division of Artificial Intelligence and the Humanities
+city: Hong Kong
+tier: member
+website: https://compneurolinglab.github.io/
+scholar: https://scholar.google.com/citations?user=BAQ5tWoAAAAJ&hl=en
+github: https://compneurolinglab.github.io/
+orcid: https://orcid.org/0000-0002-5210-6224
+photo: jixing-li.webp
+keywords:
+  - cognitive neuroscience of language
+  - artificial intelligence
+  - naturalistic paradigm
+  - fMRI
+  - MEG
+  - EEG
+  - ECoG
+description: >-
+  Our research integrates cognitive neuroscience, linguistics, and artificial intelligence to
+  understand how the human brain processes language in naturalistic contexts and to harness this
+  understanding for clinical and technological applications.
+looking_for: Postdocs and PhD students with a computational background
+joined: 2026-09-03
