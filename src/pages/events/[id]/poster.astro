@@ -113,17 +113,23 @@ const titleSize = d.title.length > 90 ? 46 : d.title.length > 60 ? 54 : 64;
         font-size: 24px;
         color: #b9bcc4;
       }
+      /* Takes whatever height is left between the text and the date, so the
+         raster can never overlap a long title or speaker block. */
+      .spacer {
+        flex: 1 1 auto;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 36px 0 24px;
+        overflow: hidden;
+      }
       .raster {
-        position: absolute;
-        right: 0;
-        bottom: 310px;
         width: 520px;
         height: auto;
         opacity: 0.5;
-        pointer-events: none;
       }
       .when {
-        margin-top: auto;
         font-size: 34px;
         font-weight: 600;
         position: relative;
@@ -195,7 +201,9 @@ const titleSize = d.title.length > 90 ? 46 : d.title.length > 60 ? 54 : 64;
           {d.junior_speaker.affiliation && `, ${d.junior_speaker.affiliation}`}
         </div>
       )}
-      <Raster class="raster" rows={8} width={520} height={200} />
+      <div class="spacer">
+        <Raster class="raster" rows={8} width={520} height={200} />
+      </div>
       <div class="when">
         <div>{dateLine}</div>
         {timeLine && <div>{timeLine}</div>}
