@@ -31,7 +31,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
-import { Document, Scalar } from 'yaml';
+import { Document, Pair, Scalar, visit } from 'yaml';
 import sharp from 'sharp';
 import { FORMS, GBA_CITIES, IN_PERSON_ONLY, OTHER_CITY, TIME_ZONE, detectType } from './lib/forms.mjs';
 import { parseCheckboxes, parseIssueForm } from './lib/issue-form.mjs';
@@ -43,7 +43,15 @@ const PHOTO_SIZE = 400;
 const SLUG_MAX = 60;
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// The same rule as z.string().email() in the site schema, so a bad address is
+// caught here with a clear message rather than in the build log.
+const EMAIL_RE = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9-]*\.)+[A-Za-z]{2,}$/;
+// Strings that js-yaml (used by Astro to read the files) would turn into Date
+// objects unless quoted. Real date fields are written unquoted on purpose.
+const DATE_KEYS = new Set(['date', 'end_date', 'joined', 'added', 'posted', 'deadline', 'expires']);
+const DATE_LIKE_RE = /^\d{4}-\d{1,2}-\d{1,2}(?:$|[Tt ])/;
+// Letters that NFKD does not decompose to ASCII.
+const SPECIAL_LETTERS = { ł: 'l', ø: 'o', æ: 'ae', œ: 'oe', ß: 'ss', đ: 'd', þ: 'th', ð: 'd', ı: 'i', ŧ: 't', ħ: 'h' };
 const DOI_RE = /^10\.\d{4,9}\/\S+$/i;
 // Meeting links and passcodes must never reach a public data file.
 const MEETING_LINK_RE =
@@ -64,6 +72,8 @@ export class SubmissionError extends Error {
 
 export function slugify(text) {
   return String(text ?? '')
+    .toLowerCase()
+    .replace(/[łøæœßđþðıŧħ]/g, (ch) => SPECIAL_LETTERS[ch] ?? ch)
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
@@ -105,10 +115,12 @@ function plainLabel(label) {
   return String(label).replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
 }
 
-function isHttpsUrl(text) {
+// http:// is accepted because many mainland lab and department pages still
+// have no TLS, and the site schema accepts any URL with a scheme.
+function isWebUrl(text) {
   try {
     const u = new URL(text);
-    return u.protocol === 'https:' && u.hostname.includes('.');
+    return (u.protocol === 'https:' || u.protocol === 'http:') && u.hostname.includes('.');
   } catch {
     return false;
   }
@@ -137,7 +149,7 @@ function normaliseTime(text) {
 function splitList(text) {
   const seen = new Set();
   const items = [];
-  for (const raw of String(text).split(/[,，;；\n]+/)) {
+  for (const raw of String(text).split(/[,，、;；\n]+/)) {
     const item = collapse(raw);
     if (!item || seen.has(item.toLowerCase())) continue;
     seen.add(item.toLowerCase());
@@ -184,6 +196,18 @@ export function toYaml(data, { quoted = [], folded = [], comment } = {}) {
     const node = doc.get(key, true);
     if (node instanceof Scalar && typeof node.value === 'string' && node.value.length > 72) node.type = Scalar.BLOCK_FOLDED;
   }
+  // The yaml package (YAML 1.2) leaves "2026-10-29" plain; js-yaml, which Astro
+  // uses to read the file, would make it a Date. Quote such strings everywhere
+  // except in the fields that really are dates.
+  visit(doc, {
+    Scalar(key, node, ancestors) {
+      if (typeof node.value !== 'string' || !DATE_LIKE_RE.test(node.value)) return;
+      const parent = ancestors[ancestors.length - 1];
+      const ownKey = parent instanceof Pair && key === 'value' ? parent.key?.value : undefined;
+      if (DATE_KEYS.has(ownKey)) return;
+      node.type = Scalar.QUOTE_DOUBLE;
+    },
+  });
   return doc.toString({ lineWidth: 100, minContentWidth: 40 });
 }
 
@@ -227,7 +251,7 @@ function normalise(field, raw, problems) {
     case 'image':
       return text;
     case 'url':
-      if (!isHttpsUrl(text)) problems.push(`"${label}" must be a full https:// address (got "${text}").`);
+      if (!isWebUrl(text)) problems.push(`"${label}" must be a full web address starting with https:// or http:// (got "${text}").`);
       return text;
     case 'email': {
       const value = text.replace(/^mailto:/i, '').replace(/\s+/g, '');
@@ -237,12 +261,14 @@ function normalise(field, raw, problems) {
     case 'date': {
       const value = normaliseDate(text);
       if (!value) problems.push(`"${label}" must be a real date written YYYY-MM-DD (got "${text}").`);
-      return value ?? text;
+      // undefined, not the raw text: the problem is recorded, and returning the
+      // text would trigger spurious "end before start" comparisons downstream.
+      return value ?? undefined;
     }
     case 'time': {
       const value = normaliseTime(text);
       if (!value) problems.push(`"${label}" must be a 24-hour time written HH:MM, for example 16:00 (got "${text}").`);
-      return value ?? text;
+      return value ?? undefined;
     }
     case 'list': {
       const items = splitList(text);
@@ -434,20 +460,29 @@ const BUILDERS = { lab: buildLab, event: buildEvent, tutorial: buildTutorial, po
 
 // ---------------------------------------------------------------- photos
 
-/** The first image referenced in the photo field: Markdown image, <img>, or a bare attachment URL. */
+/**
+ * The image to use from the photo field: the first GitHub-hosted image
+ * (Markdown image, <img>, or a bare attachment URL). If none is GitHub-hosted,
+ * the first image found is returned so that the error can name its host.
+ */
 export function findImageUrl(text, allowFile = false) {
   const source = String(text ?? '');
-  const md = /!\[[^\]]*\]\(\s*<?((?:https?|file):\/\/[^\s)>]+)>?/.exec(source);
-  if (md) return md[1];
-  const img = /<img\b[^>]*\bsrc=["']([^"']+)["']/i.exec(source);
-  if (img) return img[1];
-  const bare = /https:\/\/(?:github\.com\/user-attachments\/(?:assets|files)\/|(?:private-)?user-images\.githubusercontent\.com\/)[^\s)>\]"']+/.exec(source);
-  if (bare) return bare[0];
-  if (allowFile) {
-    const file = /file:\/\/[^\s)>\]"']+/.exec(source);
-    if (file) return file[0];
+  const candidates = [];
+  for (const m of source.matchAll(/!\[[^\]]*\]\(\s*<?((?:https?|file):\/\/[^\s)>]+)>?/g)) candidates.push(m[1]);
+  for (const m of source.matchAll(/<img\b[^>]*\bsrc=["']([^"']+)["']/gi)) candidates.push(m[1]);
+  for (const m of source.matchAll(/https:\/\/(?:github\.com\/user-attachments\/(?:assets|files)\/|(?:private-)?user-images\.githubusercontent\.com\/)[^\s)>\]"']+/g)) {
+    candidates.push(m[0]);
   }
-  return null;
+  if (allowFile) for (const m of source.matchAll(/file:\/\/[^\s)>\]"']+/g)) candidates.push(m[0]);
+  const usable = candidates.find((u) => {
+    try {
+      const p = new URL(u);
+      return (p.protocol === 'https:' && allowedPhotoHost(p.hostname)) || (allowFile && p.protocol === 'file:');
+    } catch {
+      return false;
+    }
+  });
+  return usable ?? candidates[0] ?? null;
 }
 
 function allowedPhotoHost(hostname) {
@@ -496,9 +531,17 @@ async function downloadImage(url) {
       `The photo must be uploaded to the issue itself (drag the file into the photo field) so that GitHub hosts it; a link to ${parsed.hostname || 'another site'} is not accepted.`,
     );
   }
-  let result = await fetchWithCap(url, {});
-  if (result.status !== 200 && process.env.GITHUB_TOKEN) {
-    result = await fetchWithCap(url, { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` });
+  let result;
+  try {
+    result = await fetchWithCap(url, {});
+    if (result.status !== 200 && process.env.GITHUB_TOKEN) {
+      result = await fetchWithCap(url, { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` });
+    }
+  } catch (err) {
+    if (err instanceof SubmissionError) throw err;
+    // A network failure is not the submitter's fault; say so without a stack trace.
+    const why = err?.cause?.code ?? err?.code ?? err?.message ?? 'network error';
+    throw new SubmissionError(`The photo could not be downloaded from GitHub (${why}). Nothing is wrong with the form; edit the issue, or ask a coordinator to re-run the check.`);
   }
   if (result.status !== 200) {
     throw new SubmissionError(`The photo could not be downloaded (HTTP ${result.status}). Re-attach it by dragging the image into the photo field.`);
@@ -544,6 +587,35 @@ async function processPhoto(source, destination, warnings) {
   await writePhoto(buffer, destination, warnings);
 }
 
+/**
+ * A file with the same name already on main that was not created from this
+ * issue belongs to someone else (a second "Wei Zhang", a second "PhD position").
+ * Suffix the issue number instead of proposing to overwrite it. A file created
+ * from this very issue is the normal regeneration after an edit.
+ */
+async function avoidCollision(entry, issue, warnings) {
+  const existing = path.join(REPO_ROOT, entry.file);
+  let head;
+  try {
+    head = (await fs.readFile(existing, 'utf8')).split('\n').slice(0, 3).join('\n');
+  } catch {
+    return;
+  }
+  if (new RegExp(`Created from issue #${Number(issue.number)}\\b`).test(head)) return;
+  const suffix = `-${Number(issue.number)}`;
+  const ext = path.extname(entry.file);
+  const previous = path.basename(entry.file);
+  entry.slug = `${entry.slug}${suffix}`;
+  entry.file = `${entry.file.slice(0, -ext.length)}${suffix}${ext}`;
+  if (entry.photo) {
+    entry.photo.file = `public/photos/${entry.slug}.webp`;
+    entry.data.photo = `${entry.slug}.webp`;
+  }
+  warnings.push(
+    `${previous} already exists on main and was not created from this issue, so this entry is saved as ${path.basename(entry.file)}. If both describe the same lab or listing, a coordinator should merge them in the pull request.`,
+  );
+}
+
 // ------------------------------------------------------------------ main
 
 /**
@@ -567,6 +639,8 @@ export async function runIntake({ eventPath, outRoot = REPO_ROOT }) {
   const created = dateInHongKong(issue.created_at);
   const entry = await BUILDERS[type](values, { problems, warnings, issue, created, outRoot });
   if (problems.length) throw new SubmissionError(problems);
+
+  await avoidCollision(entry, issue, warnings);
 
   const files = [];
   if (entry.photo) {

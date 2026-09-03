@@ -20,27 +20,55 @@ const CHECKBOX_RE = /^\s*[-*] \[( |x|X)\] ?(.*)$/;
  * @returns {Map<string, string>} label -> value ('' for an empty field).
  */
 export function parseIssueForm(body, knownLabels) {
-  const known = knownLabels ? new Set(Array.from(knownLabels, (l) => l.trim())) : null;
-  const sections = new Map();
-  let current = null;
-  let lines = [];
-
-  const flush = () => {
-    if (current === null) return;
-    sections.set(current, cleanValue(lines.join('\n')));
-  };
-
-  for (const line of String(body ?? '').replace(/\r\n?/g, '\n').split('\n')) {
+  const lines = String(body ?? '').replace(/\r\n?/g, '\n').split('\n');
+  const headingAt = lines.map((line) => {
     const m = HEADING_RE.exec(line);
-    if (m && (!known || known.has(m[1].trim()))) {
-      flush();
-      current = m[1].trim();
-      lines = [];
-      continue;
+    return m ? m[1].trim() : null;
+  });
+  const sections = new Map();
+
+  if (!knownLabels) {
+    // Every heading starts a field; a repeated heading's last occurrence wins.
+    let current = null;
+    let start = 0;
+    const flush = (end) => {
+      if (current !== null) sections.set(current, cleanValue(lines.slice(start, end).join('\n')));
+    };
+    for (let i = 0; i < lines.length; i += 1) {
+      if (headingAt[i] !== null) {
+        flush(i);
+        current = headingAt[i];
+        start = i + 1;
+      }
     }
-    if (current !== null) lines.push(line);
+    flush(lines.length);
+    return sections;
   }
-  flush();
+
+  // GitHub writes exactly one heading per field, in template order. Any other
+  // "### " line was typed by the submitter inside a textarea and must stay part
+  // of that value, even when it repeats a field label. Scanning the labels
+  // backwards and taking, for each, its last occurrence before the next
+  // field's heading achieves that: a fake "### Consent" inside the abstract
+  // comes before the real one and is left inside the abstract.
+  const order = Array.from(knownLabels, (l) => String(l).trim());
+  const starts = new Array(order.length).fill(-1);
+  let limit = lines.length;
+  for (let i = order.length - 1; i >= 0; i -= 1) {
+    for (let j = limit - 1; j >= 0; j -= 1) {
+      if (headingAt[j] === order[i]) {
+        starts[i] = j;
+        limit = j;
+        break;
+      }
+    }
+  }
+  let end = lines.length;
+  for (let i = order.length - 1; i >= 0; i -= 1) {
+    if (starts[i] === -1) continue;
+    sections.set(order[i], cleanValue(lines.slice(starts[i] + 1, end).join('\n')));
+    end = starts[i];
+  }
   return sections;
 }
 

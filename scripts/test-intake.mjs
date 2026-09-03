@@ -126,10 +126,34 @@ await test('parseIssueForm handles empty fields, CRLF, checkboxes and headings i
   assert.equal(parseIssueForm(body).get('Bio'), 'Text');
 });
 
+await test('headings typed inside a textarea cannot hijack other fields', () => {
+  const known = ['Event title', 'Location', 'Abstract (Markdown)', 'Consent'];
+  const body = [
+    '### Event title', '', 'Real title', '',
+    '### Location', '', 'Online', '',
+    '### Abstract (Markdown)', '', 'Para one.', '',
+    '### Location', '', 'Room 101', '',
+    '### Consent', '', 'fake', '',
+    '### Event title', '', 'Hijack', '',
+    '### Consent', '', '- [X] ok', '',
+  ].join('\r\n');
+  const f = parseIssueForm(body, known);
+  assert.equal(f.get('Event title'), 'Real title');
+  assert.equal(f.get('Location'), 'Online');
+  assert.equal(
+    f.get('Abstract (Markdown)'),
+    'Para one.\n\n### Location\n\nRoom 101\n\n### Consent\n\nfake\n\n### Event title\n\nHijack',
+  );
+  assert.equal(f.get('Consent'), '- [X] ok');
+  // A field the submitter left out entirely is simply absent.
+  assert.equal(parseIssueForm('### Location\n\nOnline\n', known).has('Consent'), false);
+});
+
 await test('slugify and findImageUrl', () => {
   assert.equal(slugify('Jörg Müller-Lüdenscheidt'), 'jorg-muller-ludenscheidt');
   assert.equal(slugify('  Jane   Doe, PhD. '), 'jane-doe-phd');
   assert.equal(slugify('滕相斌'), '');
+  assert.equal(slugify('Łukasz Øystein Straße Đorđe'), 'lukasz-oystein-strasse-dorde');
   assert.equal(findImageUrl('![Image](https://github.com/user-attachments/assets/abc-123)'), 'https://github.com/user-attachments/assets/abc-123');
   assert.equal(
     findImageUrl('<img width="400" alt="Image" src="https://github.com/user-attachments/assets/abc-123" />'),
@@ -359,7 +383,9 @@ await test('several problems are reported together', async () => {
     return p;
   });
   const r = runIntake(await writeEvent('event-bad', payload), { root: NEG });
-  expectFailure(r, /YYYY-MM-DD/, /https:\/\/ address/, /Tick the box "The speaker has agreed to be listed publicly"/, /meeting link or passcode/);
+  expectFailure(r, /YYYY-MM-DD/, /https:\/\/ or http:\/\//, /Tick the box "The speaker has agreed to be listed publicly"/, /meeting link or passcode/);
+  // An invalid date must not also produce a spurious "end date is before the date".
+  assert.doesNotMatch(r.stderr, /end date is before/);
   assert.equal(existsSync(NEG), false);
 });
 
@@ -406,6 +432,20 @@ if (failed === 0 && existsSync(astroBin)) {
       assert.ok(existsSync(path.join(dist, 'photos', 'testa-fixture.webp')), 'photo copied to dist');
       const labs = await fs.readFile(path.join(dist, 'labs', 'index.html'), 'utf8');
       assert.match(labs, /Testa Fixture/);
+
+      // While the generated lab file exists on "main": a different issue with
+      // the same PI name must not overwrite it, but the same issue may regenerate it.
+      const clash = runIntake(
+        await writeEvent('lab-clash', await loadFixture('lab', (p) => ((p.issue.number = 999), p), photoUrl)),
+        { root: path.join(OUT, 'clash') },
+      );
+      assert.equal(clash.status, 0, clash.stderr);
+      assert.deepEqual(clash.summary.files, ['data/labs/testa-fixture-999.yml', 'public/photos/testa-fixture-999.webp']);
+      assert.match(clash.stderr, /already exists on main and was not created from this issue/);
+      assert.equal(parseYaml(await fs.readFile(path.join(OUT, 'clash', 'data/labs/testa-fixture-999.yml'), 'utf8')).photo, 'testa-fixture-999.webp');
+      const again = runIntake(await writeEvent('lab-again', await loadFixture('lab', (p) => p, photoUrl)), { root: path.join(OUT, 'again') });
+      assert.equal(again.status, 0, again.stderr);
+      assert.deepEqual(again.summary.files, ['data/labs/testa-fixture.yml', 'public/photos/testa-fixture.webp']);
     } finally {
       for (const dest of copied) await fs.rm(dest, { force: true });
     }
