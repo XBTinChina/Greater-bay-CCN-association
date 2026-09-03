@@ -126,6 +126,23 @@ function isWebUrl(text) {
   }
 }
 
+const ORCID_RE = /^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/;
+
+/** A bare iD or an orcid.org address, normalised to the full https address. */
+function normaliseOrcid(text, problems) {
+  if (!text) return undefined;
+  const id = String(text)
+    .trim()
+    .replace(/^https?:\/\/(?:www\.)?orcid\.org\//i, '')
+    .replace(/\/+$/, '')
+    .toUpperCase();
+  if (!ORCID_RE.test(id)) {
+    problems.push(`"ORCID iD" must look like 0000-0002-1825-0097 (got "${text}").`);
+    return undefined;
+  }
+  return `https://orcid.org/${id}`;
+}
+
 function normaliseDate(text) {
   const m = /^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/.exec(text.trim());
   if (!m) return null;
@@ -360,6 +377,8 @@ function buildLab(v, ctx) {
     email: v.email,
     scholar: v.scholar,
     github: v.github,
+    orcid: normaliseOrcid(v.orcid, problems),
+    profile: v.profile,
     photo: v.photo ? `${slug}.webp` : undefined,
     keywords: v.keywords,
     description: v.description,

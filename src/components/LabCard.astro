@@ -45,9 +45,11 @@ const topics = compact ? d.keywords.slice(0, 3) : d.keywords;
         <strong>Looking for:</strong> {d.looking_for}
       </p>
     )}
-    {!compact && (d.website || d.scholar || d.github || d.email) && (
+    {!compact && (d.website || d.orcid || d.profile || d.scholar || d.github || d.email) && (
       <div class="links">
         {d.website && <a href={d.website}>Website</a>}
+        {d.orcid && <a href={d.orcid}>ORCID</a>}
+        {d.profile && <a href={d.profile}>Profile</a>}
         {d.scholar && <a href={d.scholar}>Scholar</a>}
         {d.github && <a href={d.github}>GitHub</a>}
         {d.email && <a href={`mailto:${d.email}`}>Email</a>}

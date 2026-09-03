@@ -38,6 +38,11 @@ const labs = defineCollection({
       email: z.string().email().optional(),
       scholar: httpUrl.optional(),
       github: httpUrl.optional(),
+      orcid: z
+        .string()
+        .regex(/^https:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/, 'Use the full ORCID address, https://orcid.org/0000-0000-0000-0000')
+        .optional(),
+      profile: httpUrl.optional(),
       photo: slugFile.optional(),
       keywords: z.array(z.string().min(1)).min(1).max(8),
       description: z.string().max(700).optional(),

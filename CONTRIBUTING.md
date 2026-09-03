@@ -67,5 +67,6 @@ Everyone taking part is bound by the [code of conduct](docs/code-of-conduct.md).
 
 ## Licences
 
-By contributing content you agree to publish it under CC BY 4.0, and code under
-MIT. See `LICENSE` and `LICENSE-CONTENT.md`.
+By contributing text content you agree to publish it under CC BY 4.0, and code
+under MIT. Photos are the exception: they are displayed with permission only and
+are not licensed for reuse. See `LICENSE` and `LICENSE-CONTENT.md`.

@@ -1,93 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import { forms } from '../../lib/network';
-import { url } from '../../lib/url';
-import { labName, publishedLab } from '../../lib/labs';
-
-const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
-  (a, b) => b.data.added.getTime() - a.data.added.getTime(),
-);
-const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await publishedLab(t.data.lab) })));
-const formats = [...new Set(entries.map((t) => t.data.format))].sort();
-const levels = ['introductory', 'intermediate', 'advanced'].filter((l) => entries.some((t) => t.data.level === l));
+// Training material moved to the Resources page. This stub keeps old links working.
+import { url, absolute } from '../../lib/url';
+const target = url('resources/#training');
 ---
 
-<Base title="Learning" description="Tutorials, courses, notebooks and lectures from labs of the network, curated as an index.">
-  <h1>Learning</h1>
-  <p class="lead">
-    Tutorials, courses and recordings from member labs, indexed here and hosted where their authors keep them.
-    Summer schools are listed under <a href={url('events/')}>seminars</a>.
-  </p>
-  <div class="actions" style="margin-top:0.5rem">
-    <a class="btn small" href={forms.tutorial}>Add a tutorial</a>
-  </div>
-
-  {entries.length > 0 && (
-    <form class="filters three" role="search" aria-label="Filter tutorials" onsubmit="return false">
-      <input type="search" id="t-text" aria-label="Search tutorials" placeholder="Search" autocomplete="off" />
-      <select id="t-format" aria-label="Format">
-        <option value="">All formats</option>
-        {formats.map((f) => <option value={f}>{f}</option>)}
-      </select>
-      <select id="t-level" aria-label="Level">
-        <option value="">All levels</option>
-        {levels.map((l) => <option value={l}>{l}</option>)}
-      </select>
-    </form>
-  )}
-
-  {entries.length === 0 ? (
-    <p class="quiet">Nothing indexed yet. A notebook, a course page or a lecture recording takes a minute to add.</p>
-  ) : (
-    <ul class="rows" id="tutorial-list">
-      {tutorials.map(({ t, lab }) => (
-        <li
-          class="row tutorial"
-          data-format={t.data.format}
-          data-level={t.data.level}
-          data-text={[t.data.title, ...t.data.authors, ...t.data.topics, t.data.description ?? ''].join(' ').toLowerCase()}
-        >
-          <div class="when">
-            <b>{t.data.format}</b>
-            <span>{t.data.level}</span>
-            {t.data.language !== 'English' && <span><br />{t.data.language}</span>}
-          </div>
-          <div>
-            <div class="title"><a href={t.data.url}>{t.data.title}</a></div>
-            <div class="sub">
-              {t.data.authors.join(', ')}
-              {lab && <> · {labName(lab)}, {lab.data.institution_short ?? lab.data.institution}</>}
-            </div>
-            {t.data.description && <p class="small" style="margin:0.4rem 0 0">{t.data.description}</p>}
-            <div class="sub">{t.data.topics.join(' · ')}</div>
-            {t.data.doi && (
-              <div class="links">
-                <a href={`https://doi.org/${t.data.doi.replace(/^https?:\/\/doi\.org\//, '')}`}>DOI</a>
-              </div>
-            )}
-          </div>
-        </li>
-      ))}
-    </ul>
-  )}
-</Base>
-
-<script>
-  const list = document.getElementById('tutorial-list');
-  const text = document.getElementById('t-text') as HTMLInputElement | null;
-  const format = document.getElementById('t-format') as HTMLSelectElement | null;
-  const level = document.getElementById('t-level') as HTMLSelectElement | null;
-  function apply() {
-    if (!list) return;
-    const q = (text?.value ?? '').trim().toLowerCase();
-    list.querySelectorAll<HTMLElement>('.tutorial').forEach((item) => {
-      item.hidden = !(
-        (!q || (item.dataset.text ?? '').includes(q)) &&
-        (!format?.value || item.dataset.format === format.value) &&
-        (!level?.value || item.dataset.level === level.value)
-      );
-    });
-  }
-  for (const el of [text, format, level]) el?.addEventListener('input', apply);
-</script>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={absolute('resources/')} />
+    <title>Moved</title>
+  </head>
+  <body>
+    <p>Training material is now under <a href={target}>Resources</a>.</p>
+  </body>
+</html>

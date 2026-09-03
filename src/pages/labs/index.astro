@@ -8,6 +8,8 @@ import { GBA_CITIES } from '../../lib/taxonomy';
 
 const labs = await publishedLabs();
 const institutions = institutionsOf(labs);
+// Filters earn their place only once there is something to filter.
+const showFilters = labs.length >= 8;
 const cities = [...new Set(labs.map((l) => l.data.city))].sort(
   (a, b) =>
     (GBA_CITIES as readonly string[]).indexOf(a) - (GBA_CITIES as readonly string[]).indexOf(b) || a.localeCompare(b, 'en'),
@@ -21,23 +23,27 @@ const cities = [...new Set(labs.map((l) => l.data.city))].sort(
     {institutions.length === 1 ? 'institution' : 'institutions'}. <a href={url('join/')}>Add yours.</a>
   </p>
 
-  <form class="filters" id="lab-filters" role="search" aria-label="Filter labs" onsubmit="return false">
-    <input type="search" id="f-text" aria-label="Search labs" placeholder="Search" autocomplete="off" />
-    <select id="f-city" aria-label="City">
-      <option value="">All cities</option>
-      {cities.map((c) => <option value={c}>{c}</option>)}
-    </select>
-    <select id="f-inst" aria-label="Institution">
-      <option value="">All institutions</option>
-      {institutions.map((i) => <option value={i.name}>{i.short}</option>)}
-    </select>
-    <select id="f-tier" aria-label="Membership tier">
-      <option value="">Members and affiliates</option>
-      <option value="member">Member labs</option>
-      <option value="affiliate">Affiliate labs</option>
-    </select>
-  </form>
-  <p class="filter-summary" id="filter-summary" aria-live="polite"></p>
+  {showFilters && (
+    <>
+      <form class="filters" id="lab-filters" role="search" aria-label="Filter labs" onsubmit="return false">
+        <input type="search" id="f-text" aria-label="Search labs" placeholder="Search" autocomplete="off" />
+        <select id="f-city" aria-label="City">
+          <option value="">All cities</option>
+          {cities.map((c) => <option value={c}>{c}</option>)}
+        </select>
+        <select id="f-inst" aria-label="Institution">
+          <option value="">All institutions</option>
+          {institutions.map((i) => <option value={i.name}>{i.short}</option>)}
+        </select>
+        <select id="f-tier" aria-label="Membership tier">
+          <option value="">Members and affiliates</option>
+          <option value="member">Member labs</option>
+          <option value="affiliate">Affiliate labs</option>
+        </select>
+      </form>
+      <p class="filter-summary" id="filter-summary" aria-live="polite"></p>
+    </>
+  )}
 
   {labs.length > 0 ? (
     <div class="lab-grid" id="lab-grid">

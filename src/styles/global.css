@@ -194,6 +194,15 @@ blockquote {
   max-width: var(--measure);
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 .skip {
   position: absolute;
   left: -999px;
@@ -260,6 +269,17 @@ blockquote {
   color: var(--ink);
   border-bottom-color: var(--ink);
 }
+.site-nav .follow {
+  color: var(--muted);
+}
+.site-nav .btn {
+  margin-left: 0.3rem;
+  border-bottom-width: 1px;
+}
+.site-nav .btn.primary[aria-current="page"] {
+  color: var(--paper);
+  border-color: var(--ink);
+}
 
 .notice {
   border-top: 1px solid var(--line);
@@ -315,8 +335,32 @@ main {
   align-items: center;
   margin-bottom: 3.5rem;
 }
-.hero h1 {
-  max-width: 14ch;
+.hero .identity .acronym {
+  display: block;
+  font-size: clamp(2.8rem, 6.5vw, 4.4rem);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.hero .identity .fullname {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--muted);
+  margin-top: 0.7rem;
+  max-width: 32ch;
+}
+.hero .pitch {
+  max-width: var(--measure);
+}
+.hero .native {
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin: 0 0 0.5rem;
+}
+.commitments {
+  margin-top: 1.1rem;
+  font-size: 0.88rem;
 }
 .hero .kicker {
   font-size: 0.78rem;
@@ -340,7 +384,6 @@ main {
   }
   .hero .raster {
     max-height: 140px;
-    order: -1;
   }
 }
 
@@ -418,7 +461,10 @@ main {
   color: var(--muted);
   font-size: 0.95rem;
 }
-.inline-list li + li::before {
+.inline-list li {
+  white-space: nowrap;
+}
+.inline-list li:not(:last-child)::after {
   content: "·";
   margin: 0 0.6rem;
   color: var(--faint);
@@ -656,7 +702,7 @@ main {
 
 .facts {
   display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
+  grid-template-columns: fit-content(15rem) minmax(0, 1fr);
   gap: 0.45rem 1.6rem;
   margin: 1.6rem 0;
   font-size: 0.98rem;

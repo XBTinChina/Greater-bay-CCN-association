@@ -4,8 +4,8 @@ import Base from '../layouts/Base.astro';
 import Raster from '../components/Raster.astro';
 import LabCard from '../components/LabCard.astro';
 import EventRow from '../components/EventRow.astro';
-import { network, forms } from '../lib/network';
-import { url } from '../lib/url';
+import { network, forms, routes, founding, slotLine } from '../lib/network';
+import { url, absolute } from '../lib/url';
 import { publishedLabs, institutionsOf } from '../lib/labs';
 import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
 
@@ -26,31 +26,55 @@ const news = (await getCollection('news', (n) => !n.data.draft))
   .slice(0, 3);
 
 const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: network.name,
+  alternateName: [network.acronym, network.short_name, network.name_native].filter(Boolean),
+  url: absolute(''),
+  logo: absolute('logo.svg'),
+  description: network.tagline,
+  areaServed: 'Guangdong-Hong Kong-Macao Greater Bay Area',
+  sameAs: [network.repo_url],
+  ...(network.contact_email ? { email: network.contact_email } : {}),
+};
 ---
 
-<Base>
+<Base hideBanner jsonld={jsonld}>
   <section class="hero">
     <div>
       <div class="kicker">Hong Kong · Shenzhen · Guangzhou · Macau</div>
-      <h1>{network.name}</h1>
-      {network.name_native && <div class="native" lang="zh">{network.name_native}</div>}
+      <h1 class="identity">
+        <span class="acronym">{network.acronym}</span>
+        <span class="fullname">{network.name}</span>
+      </h1>
       <p class="lead">{network.tagline}</p>
+      {network.pitch && <p class="pitch">{network.pitch}</p>}
+      {network.tagline_native && <p class="native" lang="zh">{network.tagline_native}</p>}
       <div class="actions">
-        <a class="btn primary" href={url('join/')}>Join as a lab</a>
-        <a class="btn" href={url('events/')}>Seminars</a>
+        <a class="btn primary" href={url('join/')}>{founding ? 'Join the founding cohort' : 'Join as a lab'}</a>
+        <a class="btn" href={routes.follow}>Follow the seminars</a>
       </div>
+      <ul class="inline-list commitments" aria-label="Terms of membership">
+        <li>No fees</li>
+        <li>Membership by lab</li>
+        <li>Open to students and postdocs</li>
+      </ul>
     </div>
     <Raster class="raster" />
   </section>
 
-  <section class="stats" aria-label="Network at a glance">
-    <div class="stat"><div class="n">{members.length}</div><div class="l">{plural(members.length, 'member lab', 'member labs')}</div></div>
-    <div class="stat"><div class="n">{institutions.length}</div><div class="l">{plural(institutions.length, 'institution', 'institutions')}</div></div>
-    <div class="stat"><div class="n">{cities.size}</div><div class="l">{plural(cities.size, 'city', 'cities')}</div></div>
-    <div class="stat"><div class="n">{talksHeld}</div><div class="l">{plural(talksHeld, 'seminar held', 'seminars held')}</div></div>
-  </section>
+  {!founding && (
+    <section class="stats" aria-label="Network at a glance">
+      <div class="stat"><div class="n">{members.length}</div><div class="l">{plural(members.length, 'member lab', 'member labs')}</div></div>
+      <div class="stat"><div class="n">{institutions.length}</div><div class="l">{plural(institutions.length, 'institution', 'institutions')}</div></div>
+      <div class="stat"><div class="n">{cities.size}</div><div class="l">{plural(cities.size, 'city', 'cities')}</div></div>
+      <div class="stat"><div class="n">{talksHeld}</div><div class="l">{plural(talksHeld, 'seminar held', 'seminars held')}</div></div>
+    </section>
+  )}
 
-  {institutions.length > 0 && (
+  {!founding && institutions.length > 0 && (
     <ul class="inline-list" aria-label="Participating institutions">
       {institutions.map((i) => (
         <li title={`${i.name} · ${i.count} ${plural(i.count, 'lab', 'labs')}`}>{i.short}</li>
@@ -58,9 +82,24 @@ const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
     </ul>
   )}
 
+  <section class="trio" aria-label="What member labs get">
+    <div>
+      <strong>A wider audience</strong>
+      <p>Invite speakers on behalf of a regional community rather than a single lab or department.</p>
+    </div>
+    <div>
+      <strong>Easier regional connections</strong>
+      <p>Find labs, methods, facilities, collaborators, students and expertise across nearby cities.</p>
+    </div>
+    <div>
+      <strong>Shared training and opportunities</strong>
+      <p>Circulate tutorials, summer schools, positions, datasets and practical know-how across institutions.</p>
+    </div>
+  </section>
+
   <div class="section-head">
-    <h2>Next seminar</h2>
-    <a href={url('events/')}>All seminars</a>
+    <h2>{upcoming.length > 0 ? 'Next event' : 'Seminars'}</h2>
+    <a href={url('events/')}>All events</a>
   </div>
   {upcoming.length > 0 ? (
     <ul class="rows">
@@ -68,8 +107,11 @@ const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
     </ul>
   ) : (
     <p class="quiet">
-      To be announced. {network.seminar.slot}. <a href={url('calendar.ics')}>Subscribe to the calendar</a> or{' '}
-      <a href={forms.nomination}>nominate a speaker</a>.
+      {founding
+        ? 'The first event will be a founding roundtable, where each founding lab introduces itself and the seminar format is agreed. '
+        : 'To be announced. '}
+      {slotLine}. <a href={routes.follow}>Follow the seminars</a> or{' '}
+      <a href={routes.nominateEmail || forms.nomination}>nominate a speaker</a>.
     </p>
   )}
 
@@ -91,7 +133,7 @@ const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
   )}
 
   <div class="section-head">
-    <h2>Labs</h2>
+    <h2>{founding ? 'Founding labs' : 'Labs'}</h2>
     <a href={url('labs/')}>All labs</a>
   </div>
   {newest.length > 0 ? (
@@ -99,23 +141,13 @@ const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
       {newest.map((lab) => <LabCard lab={lab} compact />)}
     </div>
   ) : (
-    <p class="quiet">No labs listed yet. <a href={url('join/')}>Be the first.</a></p>
+    <p class="quiet">The first labs are joining now. <a href={url('join/')}>Be one of them.</a></p>
   )}
-
-  <section class="trio" aria-label="What the network does">
-    <div>
-      <strong>Seminars in rotation</strong>
-      <p>{network.seminar.slot}. Each talk hosted by one member lab, for all.</p>
-    </div>
-    <div>
-      <strong>A curated roster</strong>
-      <p>Member labs in the region, affiliates beyond it. Every entry reviewed before it appears.</p>
-    </div>
-    <div>
-      <strong>Teaching and positions</strong>
-      <p>An index of tutorials and one board for openings across the region.</p>
-    </div>
-  </section>
+  {founding && newest.length > 0 && (
+    <p class="small muted" style="margin-top:1.2rem">
+      Founding labs are being confirmed across Hong Kong, Shenzhen, Guangzhou and Macau; the roster grows as they join.
+    </p>
+  )}
 
   {news.length > 0 && (
     <>

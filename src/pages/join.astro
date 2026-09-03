@@ -1,17 +1,39 @@
 ---
 import Base from '../layouts/Base.astro';
-import { network, forms } from '../lib/network';
+import { network, forms, routes, founding } from '../lib/network';
 import { url } from '../lib/url';
+
+const hasEmail = Boolean(network.contact_email);
 ---
 
-<Base title="Join" description="How a lab joins the network and how the review works.">
-  <h1>Join</h1>
-  <p class="lead">Membership is by lab. A PI submits one form; a coordinator reviews it; the lab appears on the roster.</p>
+<Base
+  title={founding ? 'Join the founding cohort' : 'Join'}
+  description="How a lab joins the network, how to follow the seminars, and how to nominate a speaker."
+>
+  <h1>{founding ? 'Join the founding cohort' : 'Join'}</h1>
+  <p class="lead">
+    {founding
+      ? 'Labs across the Greater Bay Area are invited to establish a shared seminar and collaboration network. Membership is by lab, there are no fees, and the founding labs shape the rules.'
+      : 'Membership is by lab. A PI submits one entry; a coordinator reviews it; the lab appears on the roster.'}
+  </p>
 
   <div class="actions" style="margin-top:0">
-    <a class="btn primary" href={forms.lab}>Submit a lab</a>
-    <a class="btn" href={url('calendar.ics')}>Follow the seminars</a>
+    {hasEmail ? (
+      <>
+        <a class="btn primary" href={routes.joinEmail}>Join by email</a>
+        <a class="btn" href={forms.lab}>Join via GitHub</a>
+      </>
+    ) : (
+      <a class="btn primary" href={forms.lab}>Submit your lab</a>
+    )}
+    <a class="btn" href={routes.follow}>Follow the seminars</a>
   </div>
+  {!hasEmail && (
+    <p class="small muted">
+      The form needs a free GitHub account. If that is a problem, ask any member PI to submit for you; an email route
+      will appear here once the network's address is set up.
+    </p>
+  )}
 
   <h2>Who</h2>
   <dl class="facts">
@@ -19,30 +41,45 @@ import { url } from '../lib/url';
     <dd>A PI-led group at an institution in the Greater Bay Area. Listed, hosts seminars in turn, invites speakers on behalf of all.</dd>
     <dt>Affiliate lab</dt>
     <dd>A lab elsewhere that takes part regularly. Listed with a badge.</dd>
-    <dt>Everyone else</dt>
+    <dt>Students, postdocs, research staff and other participants</dt>
     <dd>
-      Students, postdocs, anyone: subscribe to the <a href={url('calendar.ics')}>calendar</a>. For the announcement list,
-      which carries meeting links,{' '}
-      {network.contact_email ? (
-        <a href={`mailto:${network.contact_email}`}>email us</a>
+      No application. <a href={routes.follow}>Follow the seminars</a>
+      {hasEmail ? (
+        <> and <a href={routes.followEmail}>ask to join the announcement list</a>, which carries the meeting links.</>
       ) : (
-        <>ask any member PI or <a href={forms.issues}>open an issue</a></>
-      )}.
+        <>. The announcement list, which carries the meeting links, is passed on by any member PI.</>
+      )}
     </dd>
   </dl>
 
   <h2>How</h2>
   <ol class="steps">
-    <li>Open the <a href={forms.lab}>lab form</a>. It needs a free GitHub account; a colleague can submit for you.</li>
-    <li>Name, institution, city, up to eight keywords, two sentences on the lab. A photo is optional.</li>
-    <li>Tick the consent box. Name, photo and affiliation are published under CC BY 4.0.</li>
-    <li>A pull request is opened for you. A coordinator merges it, usually within days, and the lab is live.</li>
+    <li>
+      {hasEmail ? (
+        <>Send the <a href={routes.joinEmail}>pre-filled email</a>, or open the <a href={forms.lab}>GitHub form</a> if you prefer.</>
+      ) : (
+        <>Open the <a href={forms.lab}>lab form</a>.</>
+      )}
+    </li>
+    <li>Name, institution, city, up to eight keywords, two sentences on the lab. A photo is optional; initials are shown otherwise.</li>
+    <li>
+      Give consent. The entry's text is published under CC BY 4.0. A photo, if given, is displayed with your permission
+      only and is not licensed for reuse.
+    </li>
+    <li>A coordinator reviews the entry, usually within days, and the lab appears on the roster.</li>
   </ol>
 
   <h2>Also</h2>
   <dl class="facts">
-    <dt><a href={forms.nomination}>Nominate a speaker</a></dt>
-    <dd>Anyone may. Nominations go to the coordinators and are not published on the site.</dd>
+    <dt><a href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a></dt>
+    <dd>
+      Anyone may.
+      {hasEmail ? (
+        <> Nominations by email stay with the coordinators. The <a href={forms.nomination}>GitHub route</a> is public.</>
+      ) : (
+        <> Nominations are read by the coordinators and never published on the site; the form is a public GitHub issue, so write only what the nominee could read.</>
+      )}
+    </dd>
     <dt><a href={forms.event}>Propose an event</a></dt>
     <dd>Seminars, workshops, summer schools. See the <a href={url('docs/speaker-kit/')}>speaker kit</a> for the format.</dd>
     <dt><a href={forms.tutorial}>Share a tutorial</a></dt>
@@ -52,7 +89,8 @@ import { url } from '../lib/url';
   </dl>
 
   <p class="small muted" style="margin-top:2.5rem">
-    To change or remove an entry, edit its file by pull request or open an issue. The rules are in the{' '}
-    <a href={url('docs/charter/')}>charter</a> and the <a href={url('docs/privacy-and-consent/')}>privacy statement</a>.
+    To change or remove an entry, write to the coordinators or edit its file by pull request. The rules are in the{' '}
+    <a href={url('docs/charter/')}>charter</a>, a draft for ratification by the founding labs, and the{' '}
+    <a href={url('docs/privacy-and-consent/')}>privacy statement</a>.
   </p>
 </Base>

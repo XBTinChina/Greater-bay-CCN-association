@@ -7,4 +7,6 @@ The intake workflow writes these automatically from the photo attached to
 the submission form: resized to 400 × 400, converted to WebP, all metadata
 stripped. If you add one by hand, keep it under 100 KB.
 
-Photos are published under CC BY 4.0 with the PI's consent, given on the form.
+Photos are displayed with the PI's permission, given on the form. They are not
+covered by the CC BY licence and may not be reused; permission can be withdrawn
+at any time.

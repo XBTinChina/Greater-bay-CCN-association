@@ -13,7 +13,7 @@ This is the founding document of the network: what it is, who belongs to it, who
 - Short name: GBA-CCN Network. Acronym: GBA-CCN.
 - Chinese name, for posters and institutional paperwork only: 粤港澳大湾区计算与认知神经科学网络.
 
-The working language is English. Labs in the region work in Cantonese, Mandarin and English, and English is the one language that belongs to nobody here. Names may be listed in native script beside the Latin form. Teaching material may be in any language and is labelled with it.
+English is the default working language, so that researchers across institutions can take part in the same events. Names may be listed in Chinese and English. Teaching material may be contributed in either language when clearly labelled.
 
 ## 2. Purpose
 
@@ -38,7 +38,7 @@ The unit of membership is the lab: a group led by a principal investigator at a 
 
 "Computational and cognitive neuroscience" is read broadly: computational modelling of brain and behaviour; systems and cognitive neuroscience using computational methods; neuroAI and brain-inspired computing; and neural data science.
 
-Labs apply through the "[Lab]" issue form, linked from the [join page](../../join/). Intake is automatic; approval is human. A coordinator reviews every application, and nothing appears on the site until the pull request is merged, because the roster is only a credential if it is curated. The entry lists the PI, lab name, institution and city, keywords, a website link and, with consent, a photo.
+Labs apply through the "[Lab]" issue form, linked from the [join page](../../join/). Intake is automatic; approval is human. A coordinator reviews every application, and nothing appears on the site until the pull request is merged, because the roster is only a credential if it is curated. The entry lists the PI, lab name, institution and city, keywords, links and, with permission, a photo that is displayed on the network's channels only.
 
 ## 5. Coordinators
 
@@ -73,7 +73,7 @@ A lab is removed when its PI asks or leaves the region; in the second case affil
 
 ## 9. Data, consent and openness
 
-Everything the network publishes is a file in a public repository, and every change is a pull request anyone can read. Data is hosted on GitHub, outside mainland China. Labs publish their entries voluntarily, through a consent box on the form. Content is CC BY 4.0; code is MIT. What is collected, how photos are processed and how a lab withdraws are described in [Privacy and consent](../privacy-and-consent/), which reads Hong Kong PDPO and mainland PIPL in plain terms. Neither that document nor this one is legal advice.
+Everything the network publishes is a file in a public repository, and every change is a pull request anyone can read. Data is hosted on GitHub, outside mainland China. Labs publish their entries voluntarily, through a consent box on the form. Text content is CC BY 4.0; code is MIT; photographs are displayed with permission and are not licensed for reuse. What is collected, how photos are processed and how a lab withdraws are described in [Privacy and consent](../privacy-and-consent/), which reads Hong Kong PDPO and mainland PIPL in plain terms. Neither that document nor this one is legal advice.
 
 ## 10. Amendments
 

@@ -105,6 +105,18 @@ body:
       label: GitHub organisation or profile
       placeholder: https://github.com/doelab
   - type: input
+    id: orcid
+    attributes:
+      label: ORCID iD
+      description: Optional. Reachable from everywhere in the region.
+      placeholder: 0000-0002-1825-0097
+  - type: input
+    id: profile
+    attributes:
+      label: Research profile (any other page)
+      description: Optional. A university profile page, ResearchGate, or similar.
+      placeholder: https://www.example.edu/people/jane-doe
+  - type: input
     id: keywords
     attributes:
       label: Research keywords (1 to 8, comma-separated)
@@ -137,7 +149,7 @@ body:
       label: Consent
       description: Both boxes are needed before an entry can be published.
       options:
-        - label: I consent to the publication of the name, photo and affiliation given here on the network website and in this public repository under the CC BY 4.0 licence
+        - label: I consent to the publication of this lab entry (name, affiliation, keywords, description and links) under the CC BY 4.0 licence, and to the display of the photo, if provided, on the network's website and channels; the photo itself is not licensed for reuse
           required: true
         - label: I have read the [privacy and consent statement](https://xbtinchina.github.io/Greater-bay-CCN-association/docs/privacy-and-consent/)
           required: true

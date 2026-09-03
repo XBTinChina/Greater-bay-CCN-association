@@ -32,17 +32,19 @@ is a file here, and every change is a pull request anyone can read.
    with a badge. Every entry is reviewed by a coordinator before it appears.
    Students and postdocs need no application; they subscribe to the calendar
    feed and the announcement list.
-3. **A joint seminar series with rotating hosts.** Alternate Thursdays,
-   16:00–17:00 Hong Kong Time, online on Zoom with Tencent Meeting as fallback.
-   Each talk is hosted by one member lab, which invites the speaker on behalf
-   of the whole network. Anyone can nominate a speaker.
+3. **A joint seminar series with rotating hosts.** Proposed slot: alternate
+   Thursdays, 16:00–17:00 Hong Kong Time, online on Zoom with Tencent Meeting
+   as fallback, subject to confirmation by the founding labs. Each talk is
+   hosted by one member lab, which invites the speaker on behalf of the whole
+   network. Anyone can nominate a speaker.
 4. **English as the working language.** It is the one language that belongs to
    nobody in a region whose labs work in Cantonese, Mandarin and English.
    Names may appear in native script beside the Latin form; teaching material
    may be in any language and is labelled.
-5. **Built to be reachable from both sides of the border.** The site loads no
+5. **Designed to minimise cross-border dependencies.** The site loads no
    Google fonts, analytics or third-party scripts, and recordings are posted to
-   both Bilibili and YouTube.
+   both Bilibili and YouTube. GitHub Pages itself remains a single point of
+   failure, so the setup checklist below asks for tests from mainland networks.
 
 ## Take part
 
@@ -73,8 +75,8 @@ nominee could read.
 │   ├── network.yml        Name, mission, seminar slot, coordinators, contact
 │   ├── labs/              One YAML file per lab          → /labs/
 │   ├── events/            Seminars, workshops, schools   → /events/, /calendar.ics
-│   ├── tutorials/         Learning index (links only)    → /tutorials/
-│   ├── positions/         Openings; expire automatically → /positions/
+│   ├── tutorials/         Training index (links only)    → /resources/
+│   ├── positions/         Openings; expire automatically → /resources/
 │   └── news/              Announcements                  → /news/
 ├── docs/                  Charter, code of conduct, handbooks → /docs/
 ├── public/photos/         PI photos, 400×400 WebP, metadata stripped
@@ -112,6 +114,15 @@ The site is a static [Astro](https://astro.build) project deployed to GitHub
 Pages by GitHub Actions. There is no server and no database: the pages are
 generated from the files in `data/` and `docs/` at build time.
 
+- **A founding stage.** With `stage: founding` in `data/network.yml`, the home
+  page is a recruitment page: no counters, "founding labs", the seminar slot
+  marked as proposed. Switch to `active` once the numbers signal traction
+  rather than fragility. The Resources page appears in the navigation only
+  when it has content, and the lab filters only once eight labs are listed.
+- **Ordinary routes alongside GitHub.** Set `contact_email` and, if you run
+  one, `mailing_list_url`, and the site offers pre-filled email for joining,
+  following and nominating, with the GitHub forms as the open alternative.
+  Nominations by email stay private; the GitHub route is a public issue.
 - **Schemas catch mistakes.** Each collection has a schema in
   `src/content.config.ts`. A misspelt field, a missing date or a member lab in
   a city outside the region fails the build with a message naming the file and
@@ -177,29 +188,50 @@ Things that only a repository owner can do, in the order they matter:
    the next push to `main`, or a manual run of *Deploy site*, publishes the site.
 2. **Run the *Create labels* workflow** once from the Actions tab so the forms
    can label issues.
-3. **Set the contact address** in `data/network.yml` (`contact_email`).
-   Until then the site points people to GitHub issues.
-4. **Move the repository to a GitHub organisation** once there are two or
+3. **Allow Actions to open pull requests**: *Settings → Actions → General →
+   Workflow permissions*, tick *Allow GitHub Actions to create and approve
+   pull requests*. Without it every form submission fails at its last step.
+4. **Set a role address** in `data/network.yml` (`contact_email`), and a
+   subscription page for the announcement list (`mailing_list_url`) if you run
+   one. Email routes for joining, following and nominating appear on the site
+   as soon as the address exists; until then only the GitHub forms and the
+   calendar feed are offered.
+5. **Fix the repository description** in the repository's *About* box; it
+   still says "Great Bay Area".
+6. **Recruit the founding cohort and schedule a founding roundtable** before
+   any invited seminar: each founding lab introduces itself in three minutes,
+   then the seminar format and the charter are discussed. Add it as the first
+   event, and add conveners to `coordinators` in `data/network.yml` as they
+   confirm, with their permission.
+7. **Move the repository to a GitHub organisation** once there are two or
    more coordinators, so the site URL and ownership stop being personal. Give
    at least two people owner rights. GitHub redirects the old repository URL
    and the deploy workflow adapts to the new site URL automatically; only the
    `repo_url` in `data/network.yml` and the links in this file need updating.
-5. **Protect `main`** so that changes arrive by pull request. Do not make
+   A neutral custom domain lets the hosting change later without changing
+   the public identity.
+8. **Test from mainland networks.** Open the home page, the calendar feed and
+   a form from Shenzhen and Guangzhou campus networks and mobile carriers. If
+   GitHub Pages proves unreliable, mirror the built site to a second host.
+9. **Protect `main`** so that changes arrive by pull request. Do not make
    *Build check* a required status check: pull requests opened by the intake
    workflow cannot trigger it (GitHub's rule for bot tokens), which is why the
    intake workflow runs the same build itself before opening them.
-6. **Ratify the charter.** It is marked as a draft until the founding labs
-   have agreed it.
-7. Remove the "forming" banner in `data/network.yml` (`status_banner`) when the
-   first seminar is scheduled.
-8. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
-   from the founding chat rather than submitted through the form; the PI
-   should verify the department, keywords and description.
+10. **Ratify the charter.** It is marked as a draft until the founding labs
+    have agreed it.
+11. **Switch `stage` to `active`** in `data/network.yml` once roughly six to
+    ten labs across three or more institutions, on both sides of the border,
+    have joined and one event is scheduled; edit or remove `status_banner` at
+    the same time. The counters return and the "proposed" wording goes.
+12. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
+    from the founding chat rather than submitted through the form; the PI
+    should verify the department, keywords and description.
 
 ## Licences
 
-Code is MIT ([LICENSE](LICENSE)). Content, meaning everything under `data/`,
-`docs/`, `public/photos/` and the text of the site, is CC BY 4.0
-([LICENSE-CONTENT.md](LICENSE-CONTENT.md)). Personal data in the roster is
+Code is MIT ([LICENSE](LICENSE)). Text content, meaning everything under
+`data/` and `docs/` and the text of the site, is CC BY 4.0
+([LICENSE-CONTENT.md](LICENSE-CONTENT.md)). Photos are displayed with
+permission only and are not licensed for reuse. Personal data in the roster is
 published with the consent of the people concerned and can be corrected or
 removed on request; see [docs/privacy-and-consent.md](docs/privacy-and-consent.md).

@@ -6,9 +6,20 @@ name: Greater Bay Area Computational and Cognitive Neuroscience Network
 short_name: GBA-CCN Network
 acronym: GBA-CCN
 name_native: 粤港澳大湾区计算与认知神经科学网络
+
+# founding: the home page is a recruitment page (no counters, "proposed"
+#           wording, "founding labs"). Switch to active once a handful of labs
+#           across several institutions have joined and one event is scheduled.
+# active:   the home page is a directory with counters.
+stage: founding
+
 tagline: >-
-  A network of computational and cognitive neuroscience labs across Hong Kong,
-  Shenzhen, Guangzhou, Macau and the wider Greater Bay Area.
+  A shared seminar and collaboration network for labs studying brain,
+  behaviour and computation across the Greater Bay Area.
+tagline_native: 连接粤港澳大湾区计算神经科学与认知神经科学实验室，共享讲座、培训资源与区域合作机会。
+pitch: >-
+  Member labs pool audiences, host seminars in rotation, share training
+  resources, and make regional collaborators and opportunities easier to find.
 mission: >-
   We connect labs across the Greater Bay Area that study the brain with
   computational and cognitive methods. Together we run a joint seminar series,
@@ -16,19 +27,28 @@ mission: >-
   the audience that no single department has on its own, so that any member can
   invite a speaker on behalf of all.
 
-# Shown as a banner on every page until removed. Plain HTML allowed.
+# Shown as a thin line under the header on every page except the home page.
+# Plain HTML allowed; site-relative links such as href="join/" are fixed up.
 status_banner: >-
-  Forming now. Labs in the Greater Bay Area are invited to <a href="join/">join</a>.
+  Founding cohort now forming. <a href="join/">Join</a> or
+  <a href="calendar.ics">follow the seminars</a>.
 
 founded: 2026
 
-# Public contact address. Leave empty to fall back to GitHub issues.
+# Role address for joining, nominations and the announcement list. When set,
+# the site offers email as the first route and GitHub as the open alternative.
 contact_email: ""
+
+# One-step subscription page for the announcement list, when one exists.
+# Until then "Follow the seminars" points at the calendar feed.
+mailing_list_url: ""
 
 repo_url: https://github.com/XBTinChina/Greater-bay-CCN-association
 
 seminar:
   slot: Alternate Thursdays, 16:00–17:00 Hong Kong Time (UTC+8)
+  # true while the slot and format await confirmation by the founding labs
+  proposed: true
   platform: Zoom
   fallback_platform: Tencent Meeting (VooV)
   recording_note: >-
@@ -36,6 +56,8 @@ seminar:
     speaker's written consent, given before the talk.
 
 # Coordinators rotate. One per participating institution where possible.
+# During the founding stage this list is the interim coordinator(s); founding
+# conveners are added here as they confirm.
 coordinators:
   - name: Xiangbin Teng
     name_native: 滕相斌

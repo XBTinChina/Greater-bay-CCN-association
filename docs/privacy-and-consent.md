@@ -39,7 +39,7 @@ Hong Kong's Personal Data (Privacy) Ordinance requires that personal data be col
 
 ## Photos
 
-Photos are optional. Before publication a photo is resized to 400 by 400 pixels, converted to WebP, and stripped of all metadata, including EXIF location. Like the rest of the site, photos are published under CC BY 4.0, so submit only a photo you may share under that licence.
+Photos are optional; without one the roster shows initials. Before publication a photo is resized to 400 by 400 pixels, converted to WebP, and stripped of all metadata, including EXIF location. Photos are not covered by the CC BY licence. By submitting one you give the network permission to display it on its website and channels, nothing more, and you can withdraw that permission at any time.
 
 ## Correcting or removing an entry
 
@@ -49,7 +49,7 @@ You can change or remove your entry at any time, without giving a reason:
 - open an issue in the repository asking for the change;
 - write to the contact address on the [About page](../../about/).
 
-Coordinators act on removal requests within a reasonable time. Two limits apply. Git history, forks and public mirrors may keep earlier versions of a file after it leaves the live site. And because content is published under CC BY 4.0, copies made while the entry was public remain lawful; removal stops the network distributing the entry but does not recall existing copies.
+Coordinators act on removal requests within a reasonable time. Two limits apply. Git history, forks and public mirrors may keep earlier versions of a file after it leaves the live site. And because the text of an entry is published under CC BY 4.0, copies of that text made while it was public remain lawful; removal stops the network distributing the entry but does not recall existing copies. Photos are not licensed for reuse, so that limit does not extend to them.
 
 ## Speakers and recordings
 

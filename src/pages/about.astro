@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { network, forms } from '../lib/network';
+import { network, forms, routes, founding, slotLine } from '../lib/network';
 import { url } from '../lib/url';
 import { publishedLabs, institutionsOf } from '../lib/labs';
 
@@ -32,16 +32,25 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
 
     <h2>Language</h2>
     <p>
-      English, the one language that belongs to nobody in a region whose labs work in Cantonese, Mandarin and
-      English. Names may appear in native script beside the Latin form; teaching material may be in any language.
+      English is the default working language, so that researchers across institutions can take part in the same
+      events. Names may appear in Chinese and English, and training material may be contributed in either language
+      when clearly labelled.
     </p>
 
     <h2>How it runs</h2>
+    {founding && (
+      <p class="small muted">
+        Proposed arrangements, subject to confirmation by the founding labs. The{' '}
+        <a href={url('docs/charter/')}>charter</a> is a draft for their ratification.
+      </p>
+    )}
     <dl class="facts">
-      <dt>Coordinators</dt>
-      <dd>A small group, one per institution where possible, on rotating terms. They keep the calendar, review submissions and hold the repository.</dd>
+      <dt>Seminars</dt>
+      <dd>{slotLine}. Online on {network.seminar.platform}{network.seminar.fallback_platform ? `, ${network.seminar.fallback_platform} as fallback` : ''}.</dd>
       <dt>Hosts</dt>
       <dd>Each seminar is hosted by one member lab in turn: it invites, chairs and circulates the link.</dd>
+      <dt>Coordinators</dt>
+      <dd>A small group, one per institution where possible, on rotating terms. They keep the calendar, review submissions and hold the repository.</dd>
       <dt>Tiers</dt>
       <dd>Member labs are in the region; affiliates take part from elsewhere. Both reviewed before listing.</dd>
       <dt>Delisting</dt>
@@ -51,7 +60,7 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
     </dl>
   </div>
 
-  <h2>Coordinators</h2>
+  <h2>{founding ? 'Conveners' : 'Coordinators'}</h2>
   {network.coordinators.length === 0 ? (
     <p class="muted">To be announced.</p>
   ) : (
@@ -66,6 +75,9 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
         </>
       ))}
     </dl>
+  )}
+  {founding && (
+    <p class="small muted">Founding conveners from several institutions and cities are named here as they confirm.</p>
   )}
 
   {institutions.length > 0 && (
@@ -98,11 +110,15 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
   <h2>Contact</h2>
   <p>
     {network.contact_email ? (
-      <><a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>, or </>
+      <>
+        <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>. To join the announcement list, which
+        carries the meeting links, <a href={routes.followEmail}>send a short email</a>.
+      </>
     ) : (
-      <>A contact address is being set up. Meanwhile, </>
+      <>
+        A role address is being set up. Meanwhile, <a href={forms.issues}>open an issue</a> or ask any member PI.
+        The announcement list, which carries the meeting links, is passed on the same way.
+      </>
     )}
-    <a href={forms.issues}>open an issue</a>. To join the announcement list, which carries the meeting links, ask any
-    member PI or open an issue titled "Announcement list".
   </p>
 </Base>

@@ -46,7 +46,7 @@ export const PLATFORMS = Object.freeze(['Zoom', 'Tencent Meeting (VooV)', 'Other
 const SITE = 'https://xbtinchina.github.io/Greater-bay-CCN-association';
 
 export const CONSENT_PUBLISH =
-  'I consent to the publication of the name, photo and affiliation given here on the network website and in this public repository under the CC BY 4.0 licence';
+  "I consent to the publication of this lab entry (name, affiliation, keywords, description and links) under the CC BY 4.0 licence, and to the display of the photo, if provided, on the network's website and channels; the photo itself is not licensed for reuse";
 export const CONSENT_PRIVACY = `I have read the [privacy and consent statement](${SITE}/docs/privacy-and-consent/)`;
 
 /**
@@ -93,6 +93,8 @@ export const FORMS = Object.freeze({
       f('email', 'Contact email (public if given)', 'email', 'email'),
       f('scholar', 'Google Scholar profile', 'scholar', 'url'),
       f('github', 'GitHub organisation or profile', 'github', 'url'),
+      f('orcid', 'ORCID iD', null, 'text'),
+      f('profile', 'Research profile (any other page)', 'profile', 'url'),
       f('keywords', 'Research keywords (1 to 8, comma-separated)', 'keywords', 'list', { required: true, min: 1, max: 8 }),
       f('description', 'Description (one or two sentences, max 700 characters)', 'description', 'sentence', { required: true, max: 700 }),
       f('looking_for', 'Looking for', 'looking_for', 'sentence', { max: 300 }),

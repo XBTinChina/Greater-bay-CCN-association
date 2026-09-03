@@ -2,8 +2,8 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import { network } from '../../../lib/network';
-import { url } from '../../../lib/url';
-import { formatWhen, speakerLine, isUpcoming, type EventEntry } from '../../../lib/events';
+import { url, absolute } from '../../../lib/url';
+import { formatWhen, speakerLine, isUpcoming, eventStart, eventEnd, type EventEntry } from '../../../lib/events';
 import { labName, publishedLab } from '../../../lib/labs';
 import { EVENT_TYPE_LABELS } from '../../../lib/taxonomy';
 
@@ -23,9 +23,38 @@ const host = hostLab ? `${labName(hostLab)}, ${hostLab.data.institution}` : d.ho
 const upcoming = isUpcoming(event);
 const description = [EVENT_TYPE_LABELS[d.type], speakerLine(event), formatWhen(event)].filter(Boolean).join(' · ');
 const rec = d.recording;
+
+const online = d.location.toLowerCase().includes('online');
+const pageUrl = absolute(`events/${event.id}/`);
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: d.title,
+  startDate: eventStart(event).toISOString(),
+  endDate: eventEnd(event).toISOString(),
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: online ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/MixedEventAttendanceMode',
+  location: online
+    ? { '@type': 'VirtualLocation', url: pageUrl }
+    : { '@type': 'Place', name: d.location },
+  organizer: { '@type': 'Organization', name: network.name, url: absolute('') },
+  ...(d.speaker
+    ? {
+        performer: {
+          '@type': 'Person',
+          name: d.speaker,
+          ...(d.speaker_affiliation ? { affiliation: { '@type': 'Organization', name: d.speaker_affiliation } } : {}),
+          ...(d.speaker_url ? { url: d.speaker_url } : {}),
+        },
+      }
+    : {}),
+  description: (event.body ?? '').trim().slice(0, 500),
+  url: pageUrl,
+  isAccessibleForFree: true,
+};
 ---
 
-<Base title={d.title} description={description}>
+<Base title={d.title} description={description} jsonld={jsonld}>
   <article class="prose">
     <p class="small"><a href={url('events/')}>← Seminars</a></p>
     <span class="tag accent">{EVENT_TYPE_LABELS[d.type]}</span>

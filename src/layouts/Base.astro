@@ -1,7 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import Mark from '../components/Mark.astro';
-import { network, forms } from '../lib/network';
+import { network, forms, routes, founding } from '../lib/network';
 import { url, absolute } from '../lib/url';
 
 interface Props {
@@ -9,17 +10,24 @@ interface Props {
   description?: string;
   /** For pages that should not be indexed or given a canonical URL, such as the 404 page. */
   noindex?: boolean;
+  /** The home page carries the message itself, so it hides the notice line. */
+  hideBanner?: boolean;
+  /** Structured data (schema.org) for this page. */
+  jsonld?: Record<string, unknown>;
 }
 
-const { title, description = network.tagline, noindex = false } = Astro.props;
+const { title, description = network.tagline, noindex = false, hideBanner = false, jsonld } = Astro.props;
 const fullTitle = title ? `${title} · ${network.short_name}` : network.name;
+
+// Resources only appears in the navigation once there is something in it.
+const resourceCount =
+  (await getCollection('tutorials', (t) => !t.data.draft)).length +
+  (await getCollection('positions', (p) => !p.data.draft)).length;
 
 const nav: Array<[string, string]> = [
   ['Labs', 'labs/'],
-  ['Seminars', 'events/'],
-  ['Learning', 'tutorials/'],
-  ['Positions', 'positions/'],
-  ['Join', 'join/'],
+  ['Events', 'events/'],
+  ...(resourceCount > 0 ? ([['Resources', 'resources/']] as Array<[string, string]>) : []),
   ['About', 'about/'],
 ];
 
@@ -32,6 +40,7 @@ const banner = network.status_banner?.replace(
   /href="(?!https?:|mailto:|#)\/?([^"]*)"/g,
   (_m, path: string) => `href="${url(path)}"`,
 );
+const ogImage = absolute('og.png');
 ---
 
 <!doctype html>
@@ -44,11 +53,23 @@ const banner = network.status_banner?.replace(
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
     <link rel="alternate" type="text/calendar" title={`${network.short_name} events`} href={url('calendar.ics')} />
+    <link rel="alternate" type="application/rss+xml" title={`${network.short_name} news and events`} href={url('feed.xml')} />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
     <meta property="og:site_name" content={network.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${network.acronym}: ${network.name}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#15171c" />
+    {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -63,10 +84,14 @@ const banner = network.status_banner?.replace(
           {nav.map(([label, path]) => (
             <a href={url(path)} aria-current={isCurrent(path) ? 'page' : undefined}>{label}</a>
           ))}
+          <a class="follow" href={routes.follow} title="Follow the seminars">Follow</a>
+          <a class="btn small primary" href={url('join/')} aria-current={isCurrent('join/') ? 'page' : undefined}>
+            {founding ? 'Join the founding cohort' : 'Join'}
+          </a>
         </nav>
       </div>
     </header>
-    {banner && (
+    {banner && !hideBanner && (
       <div class="notice">
         <div class="container" set:html={banner} />
       </div>
@@ -83,8 +108,9 @@ const banner = network.status_banner?.replace(
           </div>
           <div class="links">
             <a href={url('join/')}>Join</a>
-            <a href={forms.nomination}>Nominate a speaker</a>
+            <a href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a>
             <a href={url('calendar.ics')}>Calendar</a>
+            <a href={url('feed.xml')}>Feed</a>
             <a href={url('docs/')}>Documents</a>
             <a href={network.repo_url}>GitHub</a>
             {network.contact_email ? (
@@ -95,7 +121,7 @@ const banner = network.status_banner?.replace(
           </div>
         </div>
         <div class="row" style="margin-top:0.6rem">
-          <span class="tiny">Code MIT · content CC BY 4.0 · built to load from both sides of the border</span>
+          <span class="tiny">Code MIT · text CC BY 4.0 · designed to minimise cross-border dependencies</span>
         </div>
       </div>
     </footer>
