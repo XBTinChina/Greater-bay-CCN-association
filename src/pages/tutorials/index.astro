@@ -4,35 +4,28 @@ import Base from '../../layouts/Base.astro';
 import { forms } from '../../lib/network';
 import { url } from '../../lib/url';
 import { labName, publishedLab } from '../../lib/labs';
-import { formatDate } from '../../lib/events';
 
 const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
   (a, b) => b.data.added.getTime() - a.data.added.getTime(),
 );
-const tutorials = await Promise.all(
-  entries.map(async (t) => ({
-    t,
-    lab: await publishedLab(t.data.lab),
-  })),
-);
+const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await publishedLab(t.data.lab) })));
 const formats = [...new Set(entries.map((t) => t.data.format))].sort();
 const levels = ['introductory', 'intermediate', 'advanced'].filter((l) => entries.some((t) => t.data.level === l));
 ---
 
-<Base title="Learning" description="Tutorials, courses, notebooks and lectures from labs of the network, curated as an index rather than a file store.">
+<Base title="Learning" description="Tutorials, courses, notebooks and lectures from labs of the network, curated as an index.">
   <h1>Learning</h1>
-  <p class="lead muted">
-    Tutorials, courses and lecture recordings contributed by member labs. This page is an index: each item lives
-    where its authors keep it, and the network links to it. Summer schools and workshops are listed under
-    <a href={url('events/')}>events</a>.
+  <p class="lead">
+    Tutorials, courses and recordings from member labs, indexed here and hosted where their authors keep them.
+    Summer schools are listed under <a href={url('events/')}>seminars</a>.
   </p>
-  <div class="actions" style="margin-top:0">
-    <a class="btn small primary" href={forms.tutorial}>Add a tutorial</a>
+  <div class="actions" style="margin-top:0.5rem">
+    <a class="btn small" href={forms.tutorial}>Add a tutorial</a>
   </div>
 
   {entries.length > 0 && (
-    <form class="filters" role="search" aria-label="Filter tutorials" onsubmit="return false" style="grid-template-columns: 2fr 1fr 1fr">
-      <input type="search" id="t-text" aria-label="Search tutorials" placeholder="Search titles, topics, authors…" autocomplete="off" />
+    <form class="filters three" role="search" aria-label="Filter tutorials" onsubmit="return false">
+      <input type="search" id="t-text" aria-label="Search tutorials" placeholder="Search" autocomplete="off" />
       <select id="t-format" aria-label="Format">
         <option value="">All formats</option>
         {formats.map((f) => <option value={f}>{f}</option>)}
@@ -45,56 +38,54 @@ const levels = ['introductory', 'intermediate', 'advanced'].filter((l) => entrie
   )}
 
   {entries.length === 0 ? (
-    <div class="card placeholder">
-      <p>No tutorials indexed yet. Members can add a notebook, a course page or a lecture recording in a minute.</p>
-    </div>
+    <p class="quiet">Nothing indexed yet. A notebook, a course page or a lecture recording takes a minute to add.</p>
   ) : (
-    <div class="grid wide" id="tutorial-grid">
+    <ul class="rows" id="tutorial-list">
       {tutorials.map(({ t, lab }) => (
-        <article
-          class="card tutorial-card"
+        <li
+          class="row tutorial"
           data-format={t.data.format}
           data-level={t.data.level}
           data-text={[t.data.title, ...t.data.authors, ...t.data.topics, t.data.description ?? ''].join(' ').toLowerCase()}
         >
+          <div class="when">
+            <b>{t.data.format}</b>
+            <span>{t.data.level}</span>
+            {t.data.language !== 'English' && <span><br />{t.data.language}</span>}
+          </div>
           <div>
-            <span class="badge">{t.data.format}</span>
-            <span class="badge neutral">{t.data.level}</span>
-            {t.data.language !== 'English' && <span class="badge neutral">{t.data.language}</span>}
+            <div class="title"><a href={t.data.url}>{t.data.title}</a></div>
+            <div class="sub">
+              {t.data.authors.join(', ')}
+              {lab && <> · {labName(lab)}, {lab.data.institution_short ?? lab.data.institution}</>}
+            </div>
+            {t.data.description && <p class="small" style="margin:0.4rem 0 0">{t.data.description}</p>}
+            <div class="sub">{t.data.topics.join(' · ')}</div>
+            {t.data.doi && (
+              <div class="links">
+                <a href={`https://doi.org/${t.data.doi.replace(/^https?:\/\/doi\.org\//, '')}`}>DOI</a>
+              </div>
+            )}
           </div>
-          <h2 class="card-title"><a href={t.data.url}>{t.data.title}</a></h2>
-          <div class="meta">
-            {t.data.authors.join(', ')}
-            {lab && <span> · {labName(lab)}, {lab.data.institution_short ?? lab.data.institution}</span>}
-          </div>
-          {t.data.description && <p class="small">{t.data.description}</p>}
-          <ul class="chips">
-            {t.data.topics.map((k) => <li class="chip">{k}</li>)}
-          </ul>
-          <div class="links">
-            <a href={t.data.url}>Open</a>
-            {t.data.doi && <a href={`https://doi.org/${t.data.doi.replace(/^https?:\/\/doi\.org\//, '')}`}>DOI</a>}
-            <span class="muted">added {formatDate(t.data.added, { weekday: undefined })}</span>
-          </div>
-        </article>
+        </li>
       ))}
-    </div>
+    </ul>
   )}
 </Base>
 
 <script>
-  const grid = document.getElementById('tutorial-grid');
+  const list = document.getElementById('tutorial-list');
   const text = document.getElementById('t-text') as HTMLInputElement | null;
   const format = document.getElementById('t-format') as HTMLSelectElement | null;
   const level = document.getElementById('t-level') as HTMLSelectElement | null;
   function apply() {
-    if (!grid) return;
+    if (!list) return;
     const q = (text?.value ?? '').trim().toLowerCase();
-    grid.querySelectorAll<HTMLElement>('.tutorial-card').forEach((card) => {
-      card.hidden = !(
-        (!q || (card.dataset.text ?? '').includes(q)) &&
-        (!format?.value || card.dataset.format === format.value) &&
-        (!level?.value || card.dataset.level === level.value)
+    list.querySelectorAll<HTMLElement>('.tutorial').forEach((item) => {
+      item.hidden = !(
+        (!q || (item.dataset.text ?? '').includes(q)) &&
+        (!format?.value || item.dataset.format === format.value) &&
+        (!level?.value || item.dataset.level === level.value)
       );
     });
   }

@@ -18,8 +18,7 @@ mission: >-
 
 # Shown as a banner on every page until removed. Plain HTML allowed.
 status_banner: >-
-  The network is forming. Labs in the Greater Bay Area are invited to
-  <a href="join/">join</a>; the first seminar will be announced here.
+  Forming now. Labs in the Greater Bay Area are invited to <a href="join/">join</a>.
 
 founded: 2026
 

@@ -1,0 +1,41 @@
+---
+import type { EventEntry } from '../lib/events';
+import { formatDate, speakerLine } from '../lib/events';
+import { EVENT_TYPE_LABELS } from '../lib/taxonomy';
+import { url } from '../lib/url';
+
+interface Props {
+  event: EventEntry;
+  featured?: boolean;
+}
+const { event, featured = false } = Astro.props;
+const d = event.data;
+const speaker = speakerLine(event);
+const day = formatDate(d.date, { year: undefined });
+const span = d.end_date ? `to ${formatDate(d.end_date, { year: undefined })}` : '';
+const time = d.start ? `${d.start}${d.end ? `–${d.end}` : ''} HKT` : '';
+const rec = d.recording;
+const recorded = rec && (rec.bilibili || rec.youtube || rec.other);
+---
+
+<li class:list={['row', { featured }]}>
+  <div class="when">
+    <b>{day}</b>
+    {span && <span>{span}<br /></span>}
+    {time && <span>{time}<br /></span>}
+    <span>{d.location}{d.platform && d.location.toLowerCase().includes('online') ? ` · ${d.platform}` : ''}</span>
+  </div>
+  <div>
+    <span class="tag accent">{EVENT_TYPE_LABELS[d.type]}</span>
+    {recorded && <span class="tag"> · Recorded</span>}
+    <div class="title"><a href={url(`events/${event.id}/`)}>{d.title}</a></div>
+    {speaker && <div class="sub">{speaker}</div>}
+    {(d.registration_url || rec?.bilibili || rec?.youtube) && (
+      <div class="links">
+        {d.registration_url && <a href={d.registration_url}>Register</a>}
+        {rec?.bilibili && <a href={rec.bilibili}>Bilibili</a>}
+        {rec?.youtube && <a href={rec.youtube}>YouTube</a>}
+      </div>
+    )}
+  </div>
+</li>

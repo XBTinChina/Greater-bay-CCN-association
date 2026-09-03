@@ -12,11 +12,13 @@ const items = await Promise.all(entries.map(async (n) => ({ n, Content: (await r
 <Base title="News" description="Announcements from the network.">
   <h1>News</h1>
   {items.length === 0 && <p class="muted">Nothing yet.</p>}
-  {items.map(({ n, Content }) => (
-    <article class="card" style="margin-bottom:1rem" id={n.id}>
-      <h2 style="margin-top:0;font-size:1.3rem">{n.data.title}</h2>
-      <div class="meta">{formatDate(n.data.date, { weekday: undefined })}</div>
-      <div class="prose"><Content /></div>
-    </article>
-  ))}
+  <div>
+    {items.map(({ n, Content }) => (
+      <article class="entry" id={n.id}>
+        <h2>{n.data.title}</h2>
+        <div class="meta">{formatDate(n.data.date, { weekday: undefined })}</div>
+        <div class="prose"><Content /></div>
+      </article>
+    ))}
+  </div>
 </Base>

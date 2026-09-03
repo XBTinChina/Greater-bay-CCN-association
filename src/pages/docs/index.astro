@@ -13,33 +13,33 @@ const coord = all.filter((d) => d.data.audience === 'coordinators');
 
 <Base title="Documents" description="Charter, code of conduct, speaker kit and coordinator handbooks of the network.">
   <h1>Documents</h1>
-  <p class="lead muted">
-    The rules the network runs by. Every document is a Markdown file in the
-    <a href={`${network.repo_url}/tree/main/docs`}>docs folder</a> of the public repository; changes are pull requests.
+  <p class="lead">
+    The rules the network runs by. Each is a Markdown file in the
+    <a href={`${network.repo_url}/tree/main/docs`}>repository</a>; changes are pull requests.
   </p>
 
   <h2>For everyone</h2>
   {pub.length === 0 && <p class="muted">Being drafted.</p>}
-  <div class="grid">
+  <dl class="facts">
     {pub.map((d) => (
-      <article class="card">
-        <h3><a href={url(`docs/${d.id}/`)}>{d.data.title}</a></h3>
-        {d.data.summary && <p class="small muted">{d.data.summary}</p>}
-      </article>
+      <>
+        <dt><a href={url(`docs/${d.id}/`)}>{d.data.title}</a></dt>
+        <dd>{d.data.summary ?? ''}</dd>
+      </>
     ))}
-  </div>
+  </dl>
 
   {coord.length > 0 && (
     <>
       <h2>For coordinators and hosts</h2>
-      <div class="grid">
+      <dl class="facts">
         {coord.map((d) => (
-          <article class="card">
-            <h3><a href={url(`docs/${d.id}/`)}>{d.data.title}</a></h3>
-            {d.data.summary && <p class="small muted">{d.data.summary}</p>}
-          </article>
+          <>
+            <dt><a href={url(`docs/${d.id}/`)}>{d.data.title}</a></dt>
+            <dd>{d.data.summary ?? ''}</dd>
+          </>
         ))}
-      </div>
+      </dl>
     </>
   )}
 </Base>

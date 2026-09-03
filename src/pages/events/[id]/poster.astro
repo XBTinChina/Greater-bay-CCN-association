@@ -2,7 +2,9 @@
 // A fixed-size poster (1080 × 1350, the portrait format WeChat and Instagram
 // prefer) rendered from the event record. The poster workflow screenshots
 // this route with Playwright; coordinators can also print it from a browser.
+// Self-contained on purpose: inline styles and inline SVG only.
 import { getCollection } from 'astro:content';
+import Raster from '../../../components/Raster.astro';
 import { network } from '../../../lib/network';
 import { absolute } from '../../../lib/url';
 import { formatDate, type EventEntry } from '../../../lib/events';
@@ -26,7 +28,7 @@ const dateLine = d.end_date
   : formatDate(d.date, { weekday: 'long', month: 'long' });
 const timeLine = d.start ? `${d.start}${d.end ? `–${d.end}` : ''} Hong Kong Time` : '';
 const link = absolute(`events/${event.id}/`);
-const titleSize = d.title.length > 90 ? 44 : d.title.length > 60 ? 52 : 60;
+const titleSize = d.title.length > 90 ? 46 : d.title.length > 60 ? 54 : 64;
 ---
 
 <!doctype html>
@@ -39,107 +41,114 @@ const titleSize = d.title.length > 90 ? 44 : d.title.length > 60 ? 52 : 60;
       html,
       body {
         margin: 0;
-        background: #e9ecef;
+        background: #e9e8e3;
       }
       .poster {
         width: 1080px;
         height: 1350px;
         margin: 0 auto;
-        background: linear-gradient(160deg, #0a3f47 0%, #0e6f7c 55%, #1a8a97 100%);
-        color: #fff;
+        background: #15171c;
+        color: #f4f3ee;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
           "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
         display: flex;
         flex-direction: column;
-        padding: 72px 80px;
+        padding: 0 88px 80px;
         box-sizing: border-box;
         position: relative;
         overflow: hidden;
       }
-      .poster::after {
-        content: "";
-        position: absolute;
-        right: -180px;
-        bottom: -220px;
-        width: 620px;
-        height: 620px;
-        border-radius: 50%;
-        border: 90px solid rgba(255, 255, 255, 0.08);
+      .band {
+        height: 10px;
+        margin: 0 -88px 72px;
+        background: linear-gradient(90deg, #440154, #414487, #2a788e, #22a884, #7ad151, #fde725);
       }
       .net {
-        font-size: 26px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 28px;
         font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .net svg {
+        width: 44px;
+        height: 44px;
       }
       .net small {
         display: block;
-        text-transform: none;
-        letter-spacing: 0;
-        font-size: 22px;
-        opacity: 0.85;
+        font-size: 20px;
         font-weight: 400;
-        margin-top: 6px;
+        color: #b9bcc4;
+        margin-top: 4px;
       }
       .type {
-        margin-top: 110px;
-        display: inline-block;
-        align-self: flex-start;
-        font-size: 24px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
+        margin-top: 120px;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        border-radius: 999px;
-        padding: 8px 22px;
+        color: #8ccfc8;
       }
       h1 {
         font-size: var(--titleSize);
-        line-height: 1.12;
-        margin: 36px 0 0;
-        font-weight: 750;
-        letter-spacing: -0.01em;
-        max-width: 900px;
+        line-height: 1.1;
+        margin: 22px 0 0;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        max-width: 880px;
       }
       .speaker {
-        margin-top: 44px;
+        margin-top: 48px;
         font-size: 40px;
-        font-weight: 600;
+        font-weight: 500;
       }
       .aff {
-        font-size: 30px;
-        opacity: 0.9;
+        font-size: 28px;
+        color: #b9bcc4;
         margin-top: 6px;
       }
       .junior {
-        margin-top: 28px;
-        font-size: 26px;
-        opacity: 0.9;
+        margin-top: 26px;
+        font-size: 24px;
+        color: #b9bcc4;
+      }
+      .raster {
+        position: absolute;
+        right: 0;
+        bottom: 310px;
+        width: 520px;
+        height: auto;
+        opacity: 0.5;
+        pointer-events: none;
       }
       .when {
         margin-top: auto;
-        font-size: 36px;
-        font-weight: 650;
+        font-size: 34px;
+        font-weight: 600;
+        position: relative;
       }
       .when div + div {
         margin-top: 6px;
-        font-size: 30px;
-        font-weight: 500;
-        opacity: 0.95;
+        font-size: 28px;
+        font-weight: 400;
+        color: #d6d8dd;
       }
       .foot {
-        margin-top: 40px;
+        margin-top: 44px;
+        padding-top: 24px;
+        border-top: 1px solid #2a2e36;
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
-        font-size: 24px;
-        opacity: 0.92;
+        align-items: baseline;
+        font-size: 22px;
+        color: #b9bcc4;
         gap: 40px;
+        position: relative;
       }
       .foot .link {
         font-family: ui-monospace, Menlo, Consolas, monospace;
-        font-size: 22px;
+        font-size: 20px;
         word-break: break-all;
       }
       @media print {
@@ -156,9 +165,20 @@ const titleSize = d.title.length > 90 ? 44 : d.title.length > 60 ? 52 : 60;
   </head>
   <body>
     <div class="poster">
+      <div class="band"></div>
       <div class="net">
-        {network.short_name}
-        <small>{network.name}{network.name_native ? ` · ${network.name_native}` : ''}</small>
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#f4f3ee" />
+          <g stroke-width="3" stroke-linecap="round">
+            <line x1="9.5" y1="21" x2="9.5" y2="13" stroke="#5b3a8c" />
+            <line x1="16" y1="24" x2="16" y2="8" stroke="#21918c" />
+            <line x1="22.5" y1="21" x2="22.5" y2="15.5" stroke="#9ad83b" />
+          </g>
+        </svg>
+        <span>
+          {network.short_name}
+          <small>{network.name}{network.name_native ? ` · ${network.name_native}` : ''}</small>
+        </span>
       </div>
       <div class="type">{EVENT_TYPE_LABELS[d.type]}</div>
       <h1>{d.title}</h1>
@@ -175,6 +195,7 @@ const titleSize = d.title.length > 90 ? 44 : d.title.length > 60 ? 52 : 60;
           {d.junior_speaker.affiliation && `, ${d.junior_speaker.affiliation}`}
         </div>
       )}
+      <Raster class="raster" rows={8} width={520} height={200} />
       <div class="when">
         <div>{dateLine}</div>
         {timeLine && <div>{timeLine}</div>}

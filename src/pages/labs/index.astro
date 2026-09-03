@@ -9,20 +9,20 @@ import { GBA_CITIES } from '../../lib/taxonomy';
 const labs = await publishedLabs();
 const institutions = institutionsOf(labs);
 const cities = [...new Set(labs.map((l) => l.data.city))].sort(
-  (a, b) => (GBA_CITIES as readonly string[]).indexOf(a) - (GBA_CITIES as readonly string[]).indexOf(b) || a.localeCompare(b, 'en'),
+  (a, b) =>
+    (GBA_CITIES as readonly string[]).indexOf(a) - (GBA_CITIES as readonly string[]).indexOf(b) || a.localeCompare(b, 'en'),
 );
 ---
 
 <Base title="Labs" description="Computational and cognitive neuroscience labs in the Greater Bay Area, filterable by city, institution and research keyword.">
   <h1>Labs</h1>
-  <p class="lead muted">
-    {labs.length} lab{labs.length === 1 ? '' : 's'} across {institutions.length} institution{institutions.length === 1 ? '' : 's'}.
-    Member labs are based in the Greater Bay Area; affiliates take part from elsewhere.
-    <a href={url('join/')}>Add your lab.</a>
+  <p class="lead">
+    {labs.length} {labs.length === 1 ? 'lab' : 'labs'} across {institutions.length}{' '}
+    {institutions.length === 1 ? 'institution' : 'institutions'}. <a href={url('join/')}>Add yours.</a>
   </p>
 
   <form class="filters" id="lab-filters" role="search" aria-label="Filter labs" onsubmit="return false">
-    <input type="search" id="f-text" aria-label="Search labs" placeholder="Search names, topics, institutions…" autocomplete="off" />
+    <input type="search" id="f-text" aria-label="Search labs" placeholder="Search" autocomplete="off" />
     <select id="f-city" aria-label="City">
       <option value="">All cities</option>
       {cities.map((c) => <option value={c}>{c}</option>)}
@@ -40,13 +40,13 @@ const cities = [...new Set(labs.map((l) => l.data.city))].sort(
   <p class="filter-summary" id="filter-summary" aria-live="polite"></p>
 
   {labs.length > 0 ? (
-    <div class="grid" id="lab-grid">
+    <div class="lab-grid" id="lab-grid">
       {labs.map((lab) => <LabCard lab={lab} />)}
     </div>
   ) : (
-    <div class="card placeholder"><p>No labs listed yet. <a href={forms.lab}>Submit the first one.</a></p></div>
+    <p class="quiet">No labs listed yet. <a href={forms.lab}>Submit the first one.</a></p>
   )}
-  <p class="card placeholder" id="no-results" hidden>No labs match these filters.</p>
+  <p class="quiet" id="no-results" hidden>No labs match these filters.</p>
 </Base>
 
 <script>
@@ -65,7 +65,7 @@ const cities = [...new Set(labs.map((l) => l.data.city))].sort(
     const i = inst?.value ?? '';
     const t = tier?.value ?? '';
     let shown = 0;
-    const cards = grid.querySelectorAll<HTMLElement>('.lab-card');
+    const cards = grid.querySelectorAll<HTMLElement>('.lab');
     cards.forEach((card) => {
       const ok =
         (!q || (card.dataset.text ?? '').includes(q)) &&

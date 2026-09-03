@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Mark from '../components/Mark.astro';
 import { network, forms } from '../lib/network';
 import { url, absolute } from '../lib/url';
 
@@ -24,13 +25,13 @@ const nav: Array<[string, string]> = [
 
 const current = Astro.url.pathname.replace(/\/?$/, '/');
 const isCurrent = (path: string) => current.startsWith(url(path));
+const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${url('').replace(/^\//, '')}`), ''));
 // The banner is authored in data/network.yml with site-relative links like
 // href="join/"; prefix them with the base so they work on every page.
 const banner = network.status_banner?.replace(
   /href="(?!https?:|mailto:|#)\/?([^"]*)"/g,
   (_m, path: string) => `href="${url(path)}"`,
 );
-const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${url('').replace(/^\//, '')}`), ''));
 ---
 
 <!doctype html>
@@ -47,18 +48,16 @@ const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${ur
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#0e6f7c" />
+    <meta name="theme-color" content="#15171c" />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
+    <div class="band" aria-hidden="true"></div>
     <header class="site-header">
       <div class="container">
         <a class="brand" href={url('')}>
-          <img src={url('logo.svg')} alt="" width="34" height="34" />
-          <span>
-            {network.short_name}
-            <span class="brand-sub">{network.name.replace(network.short_name, '').trim() || network.tagline}</span>
-          </span>
+          <Mark />
+          <span>{network.short_name}</span>
         </a>
         <nav class="site-nav" aria-label="Main">
           {nav.map(([label, path]) => (
@@ -68,7 +67,7 @@ const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${ur
       </div>
     </header>
     {banner && (
-      <div class="banner">
+      <div class="notice">
         <div class="container" set:html={banner} />
       </div>
     )}
@@ -77,35 +76,26 @@ const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${ur
     </main>
     <footer class="site-footer">
       <div class="container">
-        <div>
-          <p class="footer-heading">{network.short_name}</p>
-          <p>
+        <div class="row">
+          <div>
             {network.name}
             {network.name_native && <> · <span lang="zh">{network.name_native}</span></>}
-          </p>
-          <p class="small">
-            {network.contact_email
-              ? <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>
-              : <a href={forms.issues}>Contact via GitHub</a>}
-          </p>
+          </div>
+          <div class="links">
+            <a href={url('join/')}>Join</a>
+            <a href={forms.nomination}>Nominate a speaker</a>
+            <a href={url('calendar.ics')}>Calendar</a>
+            <a href={url('docs/')}>Documents</a>
+            <a href={network.repo_url}>GitHub</a>
+            {network.contact_email ? (
+              <a href={`mailto:${network.contact_email}`}>Email</a>
+            ) : (
+              <a href={forms.issues}>Contact</a>
+            )}
+          </div>
         </div>
-        <div>
-          <p class="footer-heading">Take part</p>
-          <ul>
-            <li><a href={url('join/')}>Join as a lab</a></li>
-            <li><a href={forms.nomination}>Nominate a speaker</a></li>
-            <li><a href={forms.tutorial}>Share a tutorial</a></li>
-            <li><a href={forms.position}>Post a position</a></li>
-            <li><a href={url('calendar.ics')}>Calendar feed (.ics)</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-heading">Open</p>
-          <ul>
-            <li><a href={network.repo_url}>Source and data on GitHub</a></li>
-            <li><a href={url('docs/')}>Charter and documents</a></li>
-            <li class="small">Code MIT · content CC BY 4.0</li>
-          </ul>
+        <div class="row" style="margin-top:0.6rem">
+          <span class="tiny">Code MIT · content CC BY 4.0 · built to load from both sides of the border</span>
         </div>
       </div>
     </footer>

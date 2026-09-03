@@ -22,34 +22,31 @@ const hostLab = await publishedLab(d.host_lab);
 const host = hostLab ? `${labName(hostLab)}, ${hostLab.data.institution}` : d.host_institution;
 const upcoming = isUpcoming(event);
 const description = [EVENT_TYPE_LABELS[d.type], speakerLine(event), formatWhen(event)].filter(Boolean).join(' · ');
+const rec = d.recording;
 ---
 
 <Base title={d.title} description={description}>
-  <article>
-    <header class="event-head">
-      <p>
-        <a href={url('events/')}>← All events</a>
+  <article class="prose">
+    <p class="small"><a href={url('events/')}>← Seminars</a></p>
+    <span class="tag accent">{EVENT_TYPE_LABELS[d.type]}</span>
+    {!upcoming && <span class="tag"> · Past</span>}
+    <h1>{d.title}</h1>
+    {speakerLine(event) && (
+      <p class="lead" style="margin-bottom:0.4rem">
+        {d.speaker_url ? <a href={d.speaker_url}>{d.speaker}</a> : d.speaker}
+        {d.speaker_native && <span> {d.speaker_native}</span>}
+        {d.speaker_affiliation && <span>, {d.speaker_affiliation}</span>}
       </p>
-      <span class="badge">{EVENT_TYPE_LABELS[d.type]}</span>
-      {!upcoming && <span class="badge neutral">Past</span>}
-      <h1>{d.title}</h1>
-      {speakerLine(event) && (
-        <p style="font-size:1.1rem">
-          {d.speaker_url ? <a href={d.speaker_url}>{d.speaker}</a> : d.speaker}
-          {d.speaker_native && <span class="muted"> {d.speaker_native}</span>}
-          {d.speaker_affiliation && <span class="muted">, {d.speaker_affiliation}</span>}
-        </p>
-      )}
-      <p class="when">{formatWhen(event)}</p>
-    </header>
+    )}
+    <p style="font-weight:600">{formatWhen(event)}</p>
 
-    <dl class="kv">
+    <dl class="facts">
       <dt>Where</dt>
       <dd>
         {d.location}
         {d.platform && ` · ${d.platform}`}
         {upcoming && d.location.toLowerCase().includes('online') && (
-          <span class="muted small"> · the meeting link is sent to the announcement list</span>
+          <span class="muted small"> · link on the announcement list</span>
         )}
       </dd>
       {host && (
@@ -70,19 +67,26 @@ const description = [EVENT_TYPE_LABELS[d.type], speakerLine(event), formatWhen(e
       )}
       {d.registration_url && (
         <>
-          <dt>Registration</dt>
+          <dt>Register</dt>
           <dd><a href={d.registration_url}>{d.registration_url}</a></dd>
         </>
       )}
-      {(d.recording?.bilibili || d.recording?.youtube || d.recording?.other) && (
+      {(rec?.bilibili || rec?.youtube || rec?.other) && (
         <>
           <dt>Recording</dt>
           <dd>
-            {d.recording?.bilibili && <a href={d.recording.bilibili}>Bilibili</a>}
-            {d.recording?.bilibili && d.recording?.youtube && ' · '}
-            {d.recording?.youtube && <a href={d.recording.youtube}>YouTube</a>}
-            {(d.recording?.bilibili || d.recording?.youtube) && d.recording?.other && ' · '}
-            {d.recording?.other && <a href={d.recording.other}>Recording</a>}
+            {[
+              rec?.bilibili && { href: rec.bilibili, label: 'Bilibili' },
+              rec?.youtube && { href: rec.youtube, label: 'YouTube' },
+              rec?.other && { href: rec.other, label: 'Recording' },
+            ]
+              .filter((x): x is { href: string; label: string } => Boolean(x))
+              .map((x, i) => (
+                <>
+                  {i > 0 && ' · '}
+                  <a href={x.href}>{x.label}</a>
+                </>
+              ))}
           </dd>
         </>
       )}
@@ -98,14 +102,12 @@ const description = [EVENT_TYPE_LABELS[d.type], speakerLine(event), formatWhen(e
       )}
     </dl>
 
-    <div class="prose">
-      <Content />
-    </div>
+    <Content />
 
     <div class="actions">
       <a class="btn small" href={url('calendar.ics')}>Add the series to your calendar</a>
-      <a class="btn small" href={url(`events/${event.id}/poster/`)}>Poster view</a>
+      <a class="btn small" href={url(`events/${event.id}/poster/`)}>Poster</a>
     </div>
-    {network.seminar.recording_note && <p class="small muted">{network.seminar.recording_note}</p>}
+    {network.seminar.recording_note && <p class="small muted" style="margin-top:1.5rem">{network.seminar.recording_note}</p>}
   </article>
 </Base>

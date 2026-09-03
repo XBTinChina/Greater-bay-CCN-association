@@ -22,40 +22,37 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
 
 <Base title="Positions" description="PhD, postdoc and research assistant openings in computational and cognitive neuroscience labs across the Greater Bay Area.">
   <h1>Positions</h1>
-  <p class="lead muted">
-    Openings in member and affiliate labs. Listings disappear automatically after their deadline. The site is
-    rebuilt weekly, so a listing may linger a few days past it.
-  </p>
-  <div class="actions" style="margin-top:0">
-    <a class="btn small primary" href={forms.position}>Post a position</a>
+  <p class="lead">Openings in member and affiliate labs. Listings leave on their deadline.</p>
+  <div class="actions" style="margin-top:0.5rem">
+    <a class="btn small" href={forms.position}>Post a position</a>
   </div>
 
   {rendered.length === 0 ? (
-    <div class="card placeholder"><p>No open positions right now.</p></div>
+    <p class="quiet">No open positions right now.</p>
   ) : (
-    <div class="grid wide">
+    <ul class="rows">
       {rendered.map(({ p, Content }) => (
-        <article class="card">
+        <li class="row">
+          <div class="when">
+            <b>{POSITION_TYPE_LABELS[p.data.type]}</b>
+            <span>{p.data.deadline ? `Deadline ${formatDate(p.data.deadline, { weekday: undefined })}` : 'Open until filled'}</span>
+          </div>
           <div>
-            <span class="badge">{POSITION_TYPE_LABELS[p.data.type]}</span>
+            <div class="title">{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</div>
+            <div class="sub">
+              {p.data.pi && `${p.data.pi} · `}
+              {p.data.institution} · {p.data.city}
+            </div>
+            <div class="prose small" style="margin-top:0.5rem"><Content /></div>
+            {(p.data.url || p.data.contact_email) && (
+              <div class="links">
+                {p.data.url && <a href={p.data.url}>How to apply</a>}
+                {p.data.contact_email && <a href={`mailto:${p.data.contact_email}`}>Contact</a>}
+              </div>
+            )}
           </div>
-          <h2 class="card-title">{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</h2>
-          <div class="meta">
-            {p.data.pi && `${p.data.pi} · `}
-            {p.data.institution} · {p.data.city}
-          </div>
-          <div class="meta">
-            {p.data.deadline ? `Deadline ${formatDate(p.data.deadline, { weekday: undefined })}` : 'Open until filled'}
-            {' · posted '}
-            {formatDate(p.data.posted, { weekday: undefined })}
-          </div>
-          <div class="prose small"><Content /></div>
-          <div class="links">
-            {p.data.url && <a href={p.data.url}>Details and how to apply</a>}
-            {p.data.contact_email && <a href={`mailto:${p.data.contact_email}`}>Contact</a>}
-          </div>
-        </article>
+        </li>
       ))}
-    </div>
+    </ul>
   )}
 </Base>
