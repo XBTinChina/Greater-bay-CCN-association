@@ -253,8 +253,8 @@ select:focus-visible {
 .brand picture,
 .brand .brand-mark {
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   flex: none;
 }
 .lockup {

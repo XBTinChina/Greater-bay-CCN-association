@@ -98,17 +98,27 @@ for (let y = 0; y < iconEnd; y += 1) {
     }
   }
 }
-const iconW = right - left + 1;
-const iconH = bottom - top + 1;
-const side = Math.round(Math.max(iconW, iconH) * 1.12);
-const cx = Math.round((left + right) / 2);
-const cy = Math.round((top + bottom) / 2);
-const squareLeft = Math.max(0, Math.min(gi.width - side, cx - Math.round(side / 2)));
-const squareTop = Math.max(0, Math.min(gi.height - side, cy - Math.round(side / 2)));
-const sideClamped = Math.min(side, gi.width - squareLeft, gi.height - squareTop);
-
+// Cut the icon's own box (never reaching into the wordmark below it), then
+// pad it to a square on white canvas so the mark is centred whatever its aspect.
+const margin = Math.round(Math.max(right - left, bottom - top) * 0.04);
+const cutLeft = Math.max(0, left - margin);
+const cutTop = Math.max(0, top - margin);
+const cutRight = Math.min(gi.width - 1, right + margin);
+const cutBottom = Math.min(iconEnd - 1, bottom + margin);
+const cutW = cutRight - cutLeft + 1;
+const cutH = cutBottom - cutTop + 1;
+const side = Math.max(cutW, cutH);
+const padX = side - cutW;
+const padY = side - cutH;
 const iconSquare = await sharp(trimmed)
-  .extract({ left: squareLeft, top: squareTop, width: sideClamped, height: sideClamped })
+  .extract({ left: cutLeft, top: cutTop, width: cutW, height: cutH })
+  .extend({
+    left: Math.floor(padX / 2),
+    right: Math.ceil(padX / 2),
+    top: Math.floor(padY / 2),
+    bottom: Math.ceil(padY / 2),
+    background: '#ffffff',
+  })
   .png()
   .toBuffer();
 
