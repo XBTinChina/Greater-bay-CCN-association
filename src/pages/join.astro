@@ -48,7 +48,10 @@ import { GBA_CITIES } from '../lib/taxonomy';
       city, website, up to eight research keywords, a two-sentence description, and, if you like, what the lab is
       looking for: students, collaborators, data, equipment.
     </li>
-    <li>Drag a square head-and-shoulders photo into the photo field. It is resized to 400 px and stripped of metadata.</li>
+    <li>
+      Optionally, drag a square head-and-shoulders photo into the photo field. It is resized to 400 px, converted to
+      WebP and stripped of metadata. Without a photo the card shows the PI's initials.
+    </li>
     <li>
       Tick the consent box. It confirms that the PI agrees to the name, photo and affiliation being published on this
       site and in the public repository under CC BY 4.0.
@@ -64,7 +67,7 @@ import { GBA_CITIES } from '../lib/taxonomy';
   <div class="grid">
     <div class="card">
       <h3>Nominate a speaker</h3>
-      <p class="small">Anyone in a member lab can propose a speaker. Nominations go to the coordinators' queue and are not published.</p>
+      <p class="small">Anyone can propose a speaker. Nominations go to the coordinators' queue and are not published on the site.</p>
       <div class="links"><a href={forms.nomination}>Nomination form</a></div>
     </div>
     <div class="card">
