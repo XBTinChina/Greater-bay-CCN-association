@@ -1,0 +1,28 @@
+# EXAMPLE — copy this file, rename it to <pi-name>.yml (lowercase, hyphens),
+# fill it in and delete the `draft: true` line. Drafts are validated at build
+# time but never published. Most people should use the form instead:
+# https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=lab.yml
+draft: true
+
+pi: Jane Doe                      # Latin-script name, as it should appear
+pi_native: 杜珍                    # optional, any script
+lab: Doe Lab for Neural Computation   # optional; defaults to "<PI> Lab"
+institution: Southern University of Science and Technology
+institution_short: SUSTech        # optional; used in chips and filters
+department: Department of Biomedical Engineering   # optional
+city: Shenzhen                    # member labs: a Greater Bay Area city
+tier: member                      # member | affiliate
+website: https://example.org/doelab
+email: jane.doe@example.org       # optional, public
+scholar: https://scholar.google.com/citations?user=XXXXXXXX
+github: https://github.com/doelab
+photo: jane-doe.webp              # optional; file in public/photos/
+keywords:                         # 1–8 short topics, used for filtering
+  - recurrent neural networks
+  - working memory
+  - decision making
+description: >-
+  One or two sentences on what the lab does, in plain English. This is what a
+  visitor reads before deciding whether to click through.
+looking_for: PhD students with a computational background; collaborators with primate electrophysiology data.
+joined: 2026-09-03                # date the entry was approved

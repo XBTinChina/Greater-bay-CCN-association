@@ -1,0 +1,60 @@
+---
+import type { LabEntry } from '../lib/labs';
+import { labName, initials, institutionShort } from '../lib/labs';
+import { TIER_LABELS } from '../lib/taxonomy';
+import { url } from '../lib/url';
+
+interface Props {
+  lab: LabEntry;
+}
+const { lab } = Astro.props;
+const d = lab.data;
+const name = labName(lab);
+---
+
+<article
+  class="card lab-card"
+  data-city={d.city}
+  data-institution={d.institution}
+  data-tier={d.tier}
+  data-keywords={d.keywords.join('|').toLowerCase()}
+  data-text={[d.pi, d.pi_native ?? '', name, d.institution, d.department ?? '', d.description ?? '', ...d.keywords]
+    .join(' ')
+    .toLowerCase()}
+>
+  <div class="top">
+    {d.photo ? (
+      <img class="avatar" src={url(`photos/${d.photo}`)} alt={`Photo of ${d.pi}`} width="64" height="64" loading="lazy" />
+    ) : (
+      <div class="avatar" aria-hidden="true">{initials(d.pi)}</div>
+    )}
+    <div>
+      <div class="name">
+        {d.website ? <a href={d.website}>{d.pi}</a> : d.pi}
+        {d.pi_native && <span class="native">{d.pi_native}</span>}
+      </div>
+      <div class="meta">
+        {name !== `${d.pi} Lab` && <span>{name} · </span>}
+        <span title={d.institution}>{institutionShort(lab)}</span>
+        {d.department && <span> · {d.department}</span>}
+        <span> · {d.city}</span>
+      </div>
+      {d.tier === 'affiliate' && <span class="badge neutral">{TIER_LABELS.affiliate}</span>}
+    </div>
+  </div>
+  {d.description && <p class="small">{d.description}</p>}
+  <ul class="chips" aria-label="Research keywords">
+    {d.keywords.map((k) => <li class="chip">{k}</li>)}
+  </ul>
+  {d.looking_for && (
+    <p class="small muted">
+      <strong>Looking for:</strong> {d.looking_for}
+    </p>
+  )}
+  <div class="links">
+    {d.website && <a href={d.website}>Website</a>}
+    {d.scholar && <a href={d.scholar}>Scholar</a>}
+    {d.github && <a href={d.github}>GitHub</a>}
+    {d.email && <a href={`mailto:${d.email}`}>Email</a>}
+  </div>
+</article>

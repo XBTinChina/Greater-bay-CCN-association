@@ -1,0 +1,47 @@
+# Network-wide settings. Edited by coordinators; validated at build time by
+# src/lib/network.ts. Everything on the site that is not a lab, event,
+# tutorial, position, news item or document comes from here.
+
+name: Greater Bay Area Computational and Cognitive Neuroscience Network
+short_name: GBA-CCN Network
+acronym: GBA-CCN
+name_native: 粤港澳大湾区计算与认知神经科学网络
+tagline: >-
+  A network of computational and cognitive neuroscience labs across Hong Kong,
+  Shenzhen, Guangzhou, Macau and the wider Greater Bay Area.
+mission: >-
+  We connect labs across the Greater Bay Area that study the brain with
+  computational and cognitive methods. Together we run a joint seminar series,
+  keep a public roster of participating labs, share teaching material, and pool
+  the audience that no single department has on its own, so that any member can
+  invite a speaker on behalf of all.
+
+# Shown as a banner on every page until removed. Plain HTML allowed.
+status_banner: >-
+  The network is forming. Labs in the Greater Bay Area are invited to
+  <a href="join/">join</a>; the first seminar will be announced here.
+
+founded: 2026
+
+# Public contact address. Leave empty to fall back to GitHub issues.
+contact_email: ""
+
+repo_url: https://github.com/XBTinChina/Great-bay-CCN-association
+
+seminar:
+  slot: Alternate Thursdays, 16:00–17:00 Hong Kong Time (UTC+8)
+  platform: Zoom
+  fallback_platform: Tencent Meeting (VooV)
+  recording_note: >-
+    Talks are recorded and posted to Bilibili and YouTube only with the
+    speaker's written consent, given before the talk.
+
+# Coordinators rotate. One per participating institution where possible.
+coordinators:
+  - name: Xiangbin Teng
+    name_native: 滕相斌
+    institution: The Chinese University of Hong Kong
+    role: Interim coordinator; website and repository maintainer
+
+# Universities that formally co-host the seminar series. Add as agreed.
+host_institutions: []

@@ -1,0 +1,32 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { network } from '../../lib/network';
+import { url } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs', (d) => !d.data.draft);
+  return docs.map((doc) => ({ params: { id: doc.id }, props: { doc } }));
+}
+
+interface Props {
+  doc: CollectionEntry<'docs'>;
+}
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+---
+
+<Base title={doc.data.title} description={doc.data.summary ?? `${doc.data.title} of the ${network.short_name}`}>
+  <p><a href={url('docs/')}>← All documents</a></p>
+  {doc.data.audience === 'coordinators' && <span class="badge neutral">For coordinators and hosts</span>}
+  <article class="prose">
+    <h1>{doc.data.title}</h1>
+    {doc.data.summary && <p class="lead muted">{doc.data.summary}</p>}
+    <Content />
+  </article>
+  <hr />
+  <p class="small muted">
+    Source: <a href={`${network.repo_url}/blob/main/docs/${doc.id}.md`}>docs/{doc.id}.md</a>. Propose a change by
+    pull request.
+  </p>
+</Base>

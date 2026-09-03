@@ -1,0 +1,102 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { forms } from '../../lib/network';
+import { url } from '../../lib/url';
+import { labName } from '../../lib/labs';
+import { formatDate } from '../../lib/events';
+
+const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
+  (a, b) => b.data.added.getTime() - a.data.added.getTime(),
+);
+const tutorials = await Promise.all(
+  entries.map(async (t) => ({
+    t,
+    lab: t.data.lab ? await getEntry('labs', t.data.lab) : undefined,
+  })),
+);
+const formats = [...new Set(entries.map((t) => t.data.format))].sort();
+const levels = ['introductory', 'intermediate', 'advanced'].filter((l) => entries.some((t) => t.data.level === l));
+---
+
+<Base title="Learning" description="Tutorials, courses, notebooks and lectures from labs of the network, curated as an index rather than a file store.">
+  <h1>Learning</h1>
+  <p class="lead muted">
+    Tutorials, courses and lecture recordings contributed by member labs. This page is an index: each item lives
+    where its authors keep it, and the network links to it. Summer schools and workshops are listed under
+    <a href={url('events/')}>events</a>.
+  </p>
+  <div class="actions" style="margin-top:0">
+    <a class="btn small primary" href={forms.tutorial}>Add a tutorial</a>
+  </div>
+
+  {entries.length > 0 && (
+    <form class="filters" role="search" aria-label="Filter tutorials" onsubmit="return false" style="grid-template-columns: 2fr 1fr 1fr">
+      <input type="search" id="t-text" placeholder="Search titles, topics, authors…" autocomplete="off" />
+      <select id="t-format" aria-label="Format">
+        <option value="">All formats</option>
+        {formats.map((f) => <option value={f}>{f}</option>)}
+      </select>
+      <select id="t-level" aria-label="Level">
+        <option value="">All levels</option>
+        {levels.map((l) => <option value={l}>{l}</option>)}
+      </select>
+    </form>
+  )}
+
+  {entries.length === 0 ? (
+    <div class="card placeholder">
+      <p>No tutorials indexed yet. Members can add a notebook, a course page or a lecture recording in a minute.</p>
+    </div>
+  ) : (
+    <div class="grid wide" id="tutorial-grid">
+      {tutorials.map(({ t, lab }) => (
+        <article
+          class="card tutorial-card"
+          data-format={t.data.format}
+          data-level={t.data.level}
+          data-text={[t.data.title, ...t.data.authors, ...t.data.topics, t.data.description ?? ''].join(' ').toLowerCase()}
+        >
+          <div>
+            <span class="badge">{t.data.format}</span>
+            <span class="badge neutral">{t.data.level}</span>
+            {t.data.language !== 'English' && <span class="badge neutral">{t.data.language}</span>}
+          </div>
+          <h3><a href={t.data.url}>{t.data.title}</a></h3>
+          <div class="meta">
+            {t.data.authors.join(', ')}
+            {lab && <span> · {labName(lab)}, {lab.data.institution_short ?? lab.data.institution}</span>}
+          </div>
+          {t.data.description && <p class="small">{t.data.description}</p>}
+          <ul class="chips">
+            {t.data.topics.map((k) => <li class="chip">{k}</li>)}
+          </ul>
+          <div class="links">
+            <a href={t.data.url}>Open</a>
+            {t.data.doi && <a href={`https://doi.org/${t.data.doi.replace(/^https?:\/\/doi\.org\//, '')}`}>DOI</a>}
+            <span class="muted">added {formatDate(t.data.added, { weekday: undefined })}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  )}
+</Base>
+
+<script>
+  const grid = document.getElementById('tutorial-grid');
+  const text = document.getElementById('t-text') as HTMLInputElement | null;
+  const format = document.getElementById('t-format') as HTMLSelectElement | null;
+  const level = document.getElementById('t-level') as HTMLSelectElement | null;
+  function apply() {
+    if (!grid) return;
+    const q = (text?.value ?? '').trim().toLowerCase();
+    grid.querySelectorAll<HTMLElement>('.tutorial-card').forEach((card) => {
+      card.hidden = !(
+        (!q || (card.dataset.text ?? '').includes(q)) &&
+        (!format?.value || card.dataset.format === format.value) &&
+        (!level?.value || card.dataset.level === level.value)
+      );
+    });
+  }
+  for (const el of [text, format, level]) el?.addEventListener('input', apply);
+</script>

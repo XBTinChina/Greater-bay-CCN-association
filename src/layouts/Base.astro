@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+import { network, forms } from '../lib/network';
+import { url, absolute } from '../lib/url';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = network.tagline } = Astro.props;
+const fullTitle = title ? `${title} · ${network.short_name}` : network.name;
+
+const nav: Array<[string, string]> = [
+  ['Labs', 'labs/'],
+  ['Seminars', 'events/'],
+  ['Learning', 'tutorials/'],
+  ['Positions', 'positions/'],
+  ['Join', 'join/'],
+  ['About', 'about/'],
+];
+
+const current = Astro.url.pathname.replace(/\/?$/, '/');
+const isCurrent = (path: string) => current.startsWith(url(path));
+// The banner is authored in data/network.yml with site-relative links like
+// href="join/"; prefix them with the base so they work on every page.
+const banner = network.status_banner?.replace(
+  /href="(?!https?:|mailto:|#)\/?([^"]*)"/g,
+  (_m, path: string) => `href="${url(path)}"`,
+);
+const canonical = absolute(current.replace(/^\/+/, '').replace(new RegExp(`^${url('').replace(/^\//, '')}`), ''));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="alternate" type="text/calendar" title={`${network.short_name} events`} href={url('calendar.ics')} />
+    <meta property="og:site_name" content={network.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0e6f7c" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href={url('')}>
+          <img src={url('logo.svg')} alt="" width="34" height="34" />
+          <span>
+            {network.short_name}
+            <span class="brand-sub">{network.name.replace(network.short_name, '').trim() || network.tagline}</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          {nav.map(([label, path]) => (
+            <a href={url(path)} aria-current={isCurrent(path) ? 'page' : undefined}>{label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    {banner && (
+      <div class="banner">
+        <div class="container" set:html={banner} />
+      </div>
+    )}
+    <main id="main" class="container">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <div>
+          <h4>{network.short_name}</h4>
+          <p>{network.name}{network.name_native ? ` · ${network.name_native}` : ''}</p>
+          <p class="small">
+            {network.contact_email
+              ? <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>
+              : <a href={forms.issues}>Contact via GitHub</a>}
+          </p>
+        </div>
+        <div>
+          <h4>Take part</h4>
+          <ul>
+            <li><a href={url('join/')}>Join as a lab</a></li>
+            <li><a href={forms.nomination}>Nominate a speaker</a></li>
+            <li><a href={forms.tutorial}>Share a tutorial</a></li>
+            <li><a href={forms.position}>Post a position</a></li>
+            <li><a href={url('calendar.ics')}>Calendar feed (.ics)</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Open</h4>
+          <ul>
+            <li><a href={network.repo_url}>Source and data on GitHub</a></li>
+            <li><a href={url('docs/')}>Charter and documents</a></li>
+            <li class="small">Code MIT · content CC BY 4.0</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

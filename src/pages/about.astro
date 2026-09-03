@@ -1,0 +1,125 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { network, forms } from '../lib/network';
+import { url } from '../lib/url';
+import { publishedLabs, institutionsOf } from '../lib/labs';
+
+const labs = await publishedLabs();
+const institutions = institutionsOf(labs.filter((l) => l.data.tier === 'member'));
+const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audience === 'public')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title, 'en'),
+);
+---
+
+<Base title="About" description={network.mission}>
+  <h1>About the network</h1>
+  {network.name_native && <p class="muted">{network.name_native}</p>}
+  <div class="prose">
+    <p class="lead">{network.mission}</p>
+    <p>
+      It is a network, not a registered society. There is no membership fee, no legal entity and no president. What
+      exists is an agreement among labs to host seminars together, keep a public roster, share teaching material and
+      let any member invite a speaker on behalf of all. If the network ever needs a legal form, that decision will be
+      taken openly and recorded in the charter.
+    </p>
+
+    <h2>Why it exists</h2>
+    <p>
+      Computational and cognitive neuroscience in the Greater Bay Area is spread across many campuses, each with a
+      handful of labs. No single department has the audience to justify inviting the speakers its members want to
+      hear, and no existing society spans the border between Hong Kong, Macau and Guangdong. Pooling the audience and
+      the invitations solves both problems at once. The site is the network's public face; the day-to-day
+      conversation happens in a group chat and on the announcement list.
+    </p>
+
+    <h2>Working language</h2>
+    <p>
+      The site and the seminars are in English, the one language that belongs to nobody in a region whose labs work in
+      Cantonese, Mandarin and English. Names may be listed in native script beside the Latin form. Teaching material
+      may be in any language and is labelled.
+    </p>
+
+    <h2>How it is run</h2>
+    <ul>
+      <li>
+        <strong>Coordinators.</strong> A small group, one per participating institution where possible, keeps the
+        seminar calendar, reviews submissions and holds the keys to this repository. Coordinators rotate; the current
+        list is below.
+      </li>
+      <li>
+        <strong>Rotating hosts.</strong> Each seminar is hosted by one member lab in turn. The host invites the speaker,
+        chairs the session and circulates the link.
+      </li>
+      <li>
+        <strong>Two tiers.</strong> Member labs are based in the Greater Bay Area. Affiliate labs elsewhere take part
+        and are listed with a badge. Both are reviewed before listing.
+      </li>
+      <li>
+        <strong>Delisting.</strong> A lab is removed when its PI asks or leaves the region, and the roster is refreshed
+        annually.
+      </li>
+      <li>
+        <strong>Everything in the open.</strong> The roster, the calendar, the charter and this site are files in a
+        public repository. Changes are pull requests anyone can read.
+      </li>
+    </ul>
+  </div>
+
+  <h2>Coordinators</h2>
+  {network.coordinators.length === 0 ? (
+    <p class="muted">To be announced.</p>
+  ) : (
+    <ul class="speaker-list">
+      {network.coordinators.map((c) => (
+        <li>
+          <strong>{c.url ? <a href={c.url}>{c.name}</a> : c.name}</strong>
+          {c.name_native && <span class="muted"> {c.name_native}</span>}
+          <span class="muted"> · {c.institution} · {c.role}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {institutions.length > 0 && (
+    <>
+      <h2>Participating institutions</h2>
+      <ul class="chips">
+        {institutions.map((i) => (
+          <li class="chip accent" title={i.city}>{i.name}</li>
+        ))}
+      </ul>
+    </>
+  )}
+  {network.host_institutions.length > 0 && (
+    <p class="small muted" style="margin-top:0.75rem">
+      Hosting institutions for the seminar series: {network.host_institutions.join(', ')}.
+    </p>
+  )}
+
+  <h2>Documents</h2>
+  {docs.length === 0 ? (
+    <p class="muted">The charter and other documents are being drafted.</p>
+  ) : (
+    <ul>
+      {docs.map((d) => (
+        <li>
+          <a href={url(`docs/${d.id}/`)}>{d.data.title}</a>
+          {d.data.summary && <span class="muted"> · {d.data.summary}</span>}
+        </li>
+      ))}
+    </ul>
+  )}
+  <p class="small"><a href={url('docs/')}>All documents, including coordinator handbooks</a></p>
+
+  <h2>Contact</h2>
+  <p>
+    {network.contact_email ? (
+      <>Email <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>, or </>
+    ) : (
+      <>The contact address is being set up. Meanwhile, </>
+    )}
+    open an issue in the <a href={forms.issues}>repository</a>. Seminar announcements go out on the calendar
+    feed and the announcement list.
+  </p>
+</Base>

@@ -1,0 +1,154 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import LabCard from '../components/LabCard.astro';
+import EventCard from '../components/EventCard.astro';
+import { network, forms } from '../lib/network';
+import { url } from '../lib/url';
+import { publishedLabs, institutionsOf } from '../lib/labs';
+import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
+
+const labs = await publishedLabs();
+const members = labs.filter((l) => l.data.tier === 'member');
+const affiliates = labs.filter((l) => l.data.tier === 'affiliate');
+const institutions = institutionsOf(members);
+const cities = new Set(members.map((l) => l.data.city));
+
+const events = await publishedEvents();
+const upcoming = events.filter((e) => isUpcoming(e)).sort(byDateAsc);
+const past = events.filter((e) => !isUpcoming(e)).sort(byDateDesc);
+const next = upcoming[0];
+const talksHeld = past.filter((e) => e.data.type === 'seminar').length;
+const recentSpeakers = past.filter((e) => e.data.speaker).slice(0, 8);
+
+const newest = [...labs].sort((a, b) => b.data.joined.getTime() - a.data.joined.getTime()).slice(0, 6);
+
+// Titles only: news bodies contain links relative to /news/, so they render there.
+const news = (await getCollection('news', (n) => !n.data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<Base>
+  <section class="hero">
+    <div class="kicker">Hong Kong · Shenzhen · Guangzhou · Macau and the wider Greater Bay Area</div>
+    <h1>{network.name}</h1>
+    {network.name_native && <div class="native">{network.name_native}</div>}
+    <p class="lead">{network.mission}</p>
+    <div class="actions">
+      <a class="btn primary" href={url('join/')}>Join as a lab</a>
+      <a class="btn" href={url('events/')}>Seminar series</a>
+      <a class="btn" href={forms.nomination}>Nominate a speaker</a>
+    </div>
+  </section>
+
+  <div class="stats" aria-label="Network at a glance">
+    <div class="stat"><div class="n">{members.length}</div><div class="l">member labs</div></div>
+    <div class="stat"><div class="n">{institutions.length}</div><div class="l">institutions</div></div>
+    <div class="stat"><div class="n">{cities.size}</div><div class="l">cities</div></div>
+    <div class="stat"><div class="n">{talksHeld}</div><div class="l">seminars held</div></div>
+    {affiliates.length > 0 && (
+      <div class="stat"><div class="n">{affiliates.length}</div><div class="l">affiliate labs</div></div>
+    )}
+  </div>
+
+  {institutions.length > 0 && (
+    <section aria-label="Participating institutions">
+      <ul class="chips">
+        {institutions.map((i) => (
+          <li class="chip accent" title={`${i.name} · ${i.count} lab${i.count === 1 ? '' : 's'}`}>{i.short}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <div class="section-head">
+    <h2>Next seminar</h2>
+    <a href={url('events/')}>All events</a>
+  </div>
+  {next ? (
+    <div class="grid wide">
+      <EventCard event={next} highlight />
+      {upcoming[1] && <EventCard event={upcoming[1]} />}
+    </div>
+  ) : (
+    <div class="card placeholder">
+      <p>
+        The first seminar of the series will be announced here. {network.seminar.slot}, on {network.seminar.platform}.
+        Subscribe to the <a href={url('calendar.ics')}>calendar feed</a> and it will appear in your calendar automatically.
+      </p>
+      <div class="links"><a href={forms.nomination}>Nominate a speaker</a></div>
+    </div>
+  )}
+
+  {recentSpeakers.length > 0 && (
+    <section>
+      <div class="section-head">
+        <h2>Recent speakers</h2>
+        <a href={url('events/#past')}>Past seminars and recordings</a>
+      </div>
+      <ul class="speaker-list">
+        {recentSpeakers.map((e) => (
+          <li>
+            <a href={url(`events/${e.id}/`)}>{speakerLine(e)}</a>
+            <span class="muted small"> · {formatDate(e.data.date, { weekday: undefined })}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <div class="section-head">
+    <h2>Labs</h2>
+    <a href={url('labs/')}>Browse and filter all labs</a>
+  </div>
+  {newest.length > 0 ? (
+    <div class="grid">
+      {newest.map((lab) => <LabCard lab={lab} />)}
+    </div>
+  ) : (
+    <div class="card placeholder"><p>No labs listed yet. <a href={url('join/')}>Be the first.</a></p></div>
+  )}
+
+  <h2>How the network works</h2>
+  <div class="three">
+    <div class="card">
+      <h3>A joint seminar series</h3>
+      <p class="small">
+        {network.seminar.slot}. Each talk is hosted by one member lab in turn, which invites the speaker on behalf of
+        the whole network and pools an audience no single department has.
+      </p>
+    </div>
+    <div class="card">
+      <h3>A public roster of labs</h3>
+      <p class="small">
+        Member labs are based in the Greater Bay Area; affiliates take part from elsewhere. Every entry is reviewed
+        by a coordinator before it appears, so the list stays a credential rather than a directory.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Shared teaching and positions</h3>
+      <p class="small">
+        A curated index of tutorials and courses from member labs, and one board for PhD, postdoc and RA openings
+        across the region. Summer schools and workshops are announced as events.
+      </p>
+    </div>
+  </div>
+
+  {news.length > 0 && (
+    <section>
+      <div class="section-head">
+        <h2>News</h2>
+        <a href={url('news/')}>All news</a>
+      </div>
+      <ul class="speaker-list">
+        {news.map((entry) => (
+          <li>
+            <a href={url(`news/#${entry.id}`)}>{entry.data.title}</a>
+            <span class="muted small"> · {formatDate(entry.data.date, { weekday: undefined })}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

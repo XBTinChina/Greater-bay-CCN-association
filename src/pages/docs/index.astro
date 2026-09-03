@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { network } from '../../lib/network';
+import { url } from '../../lib/url';
+
+const all = (await getCollection('docs', (d) => !d.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title, 'en'),
+);
+const pub = all.filter((d) => d.data.audience === 'public');
+const coord = all.filter((d) => d.data.audience === 'coordinators');
+---
+
+<Base title="Documents" description="Charter, code of conduct, speaker kit and coordinator handbooks of the network.">
+  <h1>Documents</h1>
+  <p class="lead muted">
+    The rules the network runs by. Every document is a Markdown file in the
+    <a href={`${network.repo_url}/tree/main/docs`}>docs folder</a> of the public repository; changes are pull requests.
+  </p>
+
+  <h2>For everyone</h2>
+  {pub.length === 0 && <p class="muted">Being drafted.</p>}
+  <div class="grid">
+    {pub.map((d) => (
+      <article class="card">
+        <h3><a href={url(`docs/${d.id}/`)}>{d.data.title}</a></h3>
+        {d.data.summary && <p class="small muted">{d.data.summary}</p>}
+      </article>
+    ))}
+  </div>
+
+  {coord.length > 0 && (
+    <>
+      <h2>For coordinators and hosts</h2>
+      <div class="grid">
+        {coord.map((d) => (
+          <article class="card">
+            <h3><a href={url(`docs/${d.id}/`)}>{d.data.title}</a></h3>
+            {d.data.summary && <p class="small muted">{d.data.summary}</p>}
+          </article>
+        ))}
+      </div>
+    </>
+  )}
+</Base>

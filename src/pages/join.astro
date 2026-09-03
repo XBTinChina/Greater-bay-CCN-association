@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import { network, forms } from '../lib/network';
+import { url } from '../lib/url';
+import { GBA_CITIES } from '../lib/taxonomy';
+---
+
+<Base title="Join" description="How a lab joins the network, what is listed, and how the review works.">
+  <h1>Join the network</h1>
+  <p class="lead muted">
+    Membership is by lab, not by individual. A principal investigator submits one entry; students and postdocs join
+    the audience through the announcement list and the seminars.
+  </p>
+
+  <div class="three">
+    <div class="card">
+      <h3>Member lab</h3>
+      <p class="small">
+        A PI-led group at an institution in the Greater Bay Area: {GBA_CITIES.join(', ')}. Member labs are listed on
+        the roster, take turns hosting seminars, and can invite speakers on behalf of the network.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Affiliate lab</h3>
+      <p class="small">
+        A lab elsewhere that takes part regularly, for instance a collaborator in Beijing, Shanghai or abroad.
+        Affiliates are listed with a distinct badge and receive all announcements.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Audience</h3>
+      <p class="small">
+        Anyone. Subscribe to the <a href={url('calendar.ics')}>calendar feed</a>
+        {network.contact_email ? <> or <a href={`mailto:${network.contact_email}`}>email us</a> to be added to the announcement list</> : ''}.
+        Students and postdocs need no application.
+      </p>
+    </div>
+  </div>
+
+  <h2>How to submit a lab</h2>
+  <ol>
+    <li>
+      Open the <a href={forms.lab}>lab submission form</a>. It is a GitHub issue form, so it needs a free GitHub
+      account. If that is a problem, ask a colleague to submit for you{network.contact_email ? <> or email <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a></> : ''}.
+    </li>
+    <li>
+      Fill in the PI's name (in Latin script, with the native-script name optional beside it), institution,
+      city, website, up to eight research keywords, a two-sentence description, and, if you like, what the lab is
+      looking for: students, collaborators, data, equipment.
+    </li>
+    <li>Drag a square head-and-shoulders photo into the photo field. It is resized to 400 px and stripped of metadata.</li>
+    <li>
+      Tick the consent box. It confirms that the PI agrees to the name, photo and affiliation being published on this
+      site and in the public repository under CC BY 4.0.
+    </li>
+  </ol>
+  <p>
+    An automated check turns the form into a data file and opens a pull request. A coordinator reviews it, usually
+    within a few days, and the lab appears on the roster as soon as it is merged. Nothing is published without that
+    review; the roster is only worth something as a credential because every entry has been looked at.
+  </p>
+
+  <h2>Other ways to take part</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Nominate a speaker</h3>
+      <p class="small">Anyone in a member lab can propose a speaker. Nominations go to the coordinators' queue and are not published.</p>
+      <div class="links"><a href={forms.nomination}>Nomination form</a></div>
+    </div>
+    <div class="card">
+      <h3>Host a seminar</h3>
+      <p class="small">Member labs take turns. The host invites the speaker, chairs the talk and posts the link. See the speaker kit for the format.</p>
+      <div class="links"><a href={url('docs/speaker-kit/')}>Speaker kit</a> <a href={forms.event}>Propose an event</a></div>
+    </div>
+    <div class="card">
+      <h3>Share teaching material</h3>
+      <p class="small">Add a tutorial, course or lecture recording to the learning index. The material stays where you host it.</p>
+      <div class="links"><a href={forms.tutorial}>Tutorial form</a></div>
+    </div>
+    <div class="card">
+      <h3>Post a position</h3>
+      <p class="small">PhD, postdoc, RA and faculty openings in member and affiliate labs. Listings expire automatically.</p>
+      <div class="links"><a href={forms.position}>Position form</a></div>
+    </div>
+  </div>
+
+  <h2>Updating or removing an entry</h2>
+  <p>
+    Edit your lab's file directly in the repository and open a pull request, or open an issue asking for the change.
+    A lab is removed when the PI asks, or when the PI leaves the region, in which case affiliate status is offered.
+    The roster is refreshed once a year. The full rules are in the <a href={url('docs/charter/')}>charter</a>.
+  </p>
+</Base>

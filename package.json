@@ -1,0 +1,24 @@
+{
+  "name": "gba-ccn-network",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Website and shared materials of the Greater Bay Area Computational and Cognitive Neuroscience Network",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "sync": "astro sync",
+    "intake": "node scripts/intake.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.2.10",
+    "yaml": "^2.8.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.4"
+  }
+}
