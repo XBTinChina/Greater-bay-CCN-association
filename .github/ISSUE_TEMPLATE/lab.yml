@@ -1,0 +1,143 @@
+# Lab submission form. Field ids and labels are mirrored in scripts/lib/forms.mjs;
+# scripts/test-intake.mjs fails if the two drift apart.
+name: Lab submission
+description: List a PI-led lab on the network roster (member labs in the Greater Bay Area, affiliate labs elsewhere).
+title: "[Lab] "
+labels: ["intake", "intake:lab"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for listing your lab. **What happens next:** an automated check turns this form into a data file and opens a pull request; a coordinator reviews it, usually within a few days; when it is merged, the lab appears on the roster. If the check finds a problem it comments here. Edit this issue to fix it and the check runs again.
+
+        Fields in Latin script are required. Native-script names are welcome beside them and are shown on the site.
+  - type: input
+    id: pi
+    attributes:
+      label: PI name (Latin script)
+      description: The principal investigator, as the name should appear on the roster.
+      placeholder: Jane Doe
+    validations:
+      required: true
+  - type: input
+    id: pi_native
+    attributes:
+      label: PI name (native script)
+      placeholder: 杜珍
+  - type: input
+    id: lab
+    attributes:
+      label: Lab name
+      description: Leave empty to use "<PI name> Lab".
+      placeholder: Doe Lab for Neural Computation
+  - type: input
+    id: institution
+    attributes:
+      label: Institution
+      placeholder: Southern University of Science and Technology
+    validations:
+      required: true
+  - type: input
+    id: institution_short
+    attributes:
+      label: Institution, short form
+      description: Used in chips and filters.
+      placeholder: SUSTech
+  - type: input
+    id: department
+    attributes:
+      label: Department
+      placeholder: Department of Biomedical Engineering
+  - type: dropdown
+    id: city
+    attributes:
+      label: City
+      description: Member labs are in one of the Greater Bay Area cities. Labs elsewhere choose Other and the affiliate tier.
+      options:
+        - Hong Kong
+        - Shenzhen
+        - Guangzhou
+        - Macau
+        - Zhuhai
+        - Foshan
+        - Dongguan
+        - Huizhou
+        - Zhongshan
+        - Jiangmen
+        - Zhaoqing
+        - Other (affiliate lab, outside the Greater Bay Area)
+    validations:
+      required: true
+  - type: input
+    id: city_other
+    attributes:
+      label: If Other, which city?
+      placeholder: Beijing
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Tier
+      description: "member: a PI-led lab at an institution in a Greater Bay Area city. affiliate: a lab elsewhere that takes part regularly."
+      options:
+        - member
+        - affiliate
+    validations:
+      required: true
+  - type: input
+    id: website
+    attributes:
+      label: Lab website
+      placeholder: https://example.org/doelab
+  - type: input
+    id: email
+    attributes:
+      label: Contact email (public if given)
+      description: Leave empty if you do not want an address published.
+      placeholder: jane.doe@example.org
+  - type: input
+    id: scholar
+    attributes:
+      label: Google Scholar profile
+      placeholder: https://scholar.google.com/citations?user=XXXXXXXX
+  - type: input
+    id: github
+    attributes:
+      label: GitHub organisation or profile
+      placeholder: https://github.com/doelab
+  - type: input
+    id: keywords
+    attributes:
+      label: Research keywords (1 to 8, comma-separated)
+      description: Short topics used for filtering the roster.
+      placeholder: recurrent neural networks, working memory, decision making
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description (one or two sentences, max 700 characters)
+      description: What the lab does, in plain English. No rankings or superlatives; a visitor reads this before deciding whether to click through.
+    validations:
+      required: true
+  - type: input
+    id: looking_for
+    attributes:
+      label: Looking for
+      description: Optional. Students, collaborators, data, equipment.
+      placeholder: PhD students with a computational background; collaborators with primate electrophysiology data.
+  - type: textarea
+    id: photo
+    attributes:
+      label: PI photo
+      description: Optional. Drag a square head-and-shoulders photo of the PI here. It will be resized to 400x400 and stripped of metadata. Without a photo the roster shows the PI's initials.
+      placeholder: Drop the image file here, or paste it. Leave empty for no photo.
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Consent
+      description: Both boxes are needed before an entry can be published.
+      options:
+        - label: I consent to the publication of the name, photo and affiliation given here on the network website and in this public repository under the CC BY 4.0 licence
+          required: true
+        - label: I have read the [privacy and consent statement](https://xbtinchina.github.io/Great-bay-CCN-association/docs/privacy-and-consent/)
+          required: true

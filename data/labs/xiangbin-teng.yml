@@ -1,0 +1,19 @@
+# First entry, created by the maintainer. Details were filled in from the
+# founding group chat and public sources; the PI should verify and edit.
+pi: Xiangbin Teng
+pi_native: 滕相斌
+lab: Teng Lab
+institution: The Chinese University of Hong Kong
+institution_short: CUHK
+department: Department of Psychology
+city: Hong Kong
+tier: member
+keywords:
+  - auditory neuroscience
+  - speech and music
+  - neural oscillations
+  - MEG/EEG
+description: >-
+  We study how the human brain tracks and predicts the temporal structure of
+  speech and music, using MEG, EEG and computational models.
+joined: 2026-09-03

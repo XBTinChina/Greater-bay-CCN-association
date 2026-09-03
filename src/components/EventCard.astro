@@ -1,0 +1,36 @@
+---
+import type { EventEntry } from '../lib/events';
+import { formatWhen, speakerLine } from '../lib/events';
+import { EVENT_TYPE_LABELS } from '../lib/taxonomy';
+import { url } from '../lib/url';
+
+interface Props {
+  event: EventEntry;
+  highlight?: boolean;
+}
+const { event, highlight = false } = Astro.props;
+const d = event.data;
+const speaker = speakerLine(event);
+const hasRecording = d.recording && (d.recording.bilibili || d.recording.youtube || d.recording.other);
+---
+
+<article class:list={['card', { highlight }]}>
+  <div>
+    <span class="badge">{EVENT_TYPE_LABELS[d.type]}</span>
+    {hasRecording && <span class="badge neutral">Recorded</span>}
+  </div>
+  <h3><a href={url(`events/${event.id}/`)}>{d.title}</a></h3>
+  {speaker && <div>{speaker}</div>}
+  <div class="meta">{formatWhen(event)}</div>
+  <div class="meta">
+    {d.location}
+    {d.platform && d.location.toLowerCase().includes('online') && ` · ${d.platform}`}
+    {d.host_institution && ` · hosted by ${d.host_institution}`}
+  </div>
+  <div class="links">
+    <a href={url(`events/${event.id}/`)}>Details</a>
+    {d.registration_url && <a href={d.registration_url}>Register</a>}
+    {d.recording?.bilibili && <a href={d.recording.bilibili}>Bilibili</a>}
+    {d.recording?.youtube && <a href={d.recording.youtube}>YouTube</a>}
+  </div>
+</article>

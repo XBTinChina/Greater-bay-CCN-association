@@ -1,0 +1,82 @@
+# Position form. Field ids and labels are mirrored in scripts/lib/forms.mjs;
+# scripts/test-intake.mjs fails if the two drift apart.
+name: Position
+description: Post a PhD, postdoc, research assistant, faculty or internship opening in a member or affiliate lab.
+title: "[Position] "
+labels: ["intake", "intake:position"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        An automated check turns this form into a listing and a pull request; a coordinator reviews it, usually within a few days. Listings disappear from the site automatically after the removal date, or after the deadline if no removal date is given, so please fill in at least one of the two.
+  - type: input
+    id: title
+    attributes:
+      label: Position title
+      placeholder: Postdoctoral fellow in computational models of working memory
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Position type
+      options:
+        - phd
+        - postdoc
+        - research-assistant
+        - faculty
+        - internship
+        - other
+  - type: input
+    id: lab
+    attributes:
+      label: Lab id
+      description: Optional. The file name in data/labs without .yml, for example xiangbin-teng.
+      placeholder: jane-doe
+  - type: input
+    id: pi
+    attributes:
+      label: PI
+      placeholder: Jane Doe
+  - type: input
+    id: institution
+    attributes:
+      label: Institution
+      placeholder: Southern University of Science and Technology
+    validations:
+      required: true
+  - type: input
+    id: city
+    attributes:
+      label: City
+      placeholder: Shenzhen
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Link to the full advertisement
+      placeholder: https://example.org/doelab/jobs/postdoc-2026
+  - type: input
+    id: contact_email
+    attributes:
+      label: Contact email
+      placeholder: jane.doe@example.org
+  - type: input
+    id: deadline
+    attributes:
+      label: Application deadline (YYYY-MM-DD)
+      placeholder: "2026-12-31"
+  - type: input
+    id: expires
+    attributes:
+      label: Remove the listing after (YYYY-MM-DD)
+      description: Optional; defaults to the deadline.
+      placeholder: "2027-01-15"
+  - type: textarea
+    id: body
+    attributes:
+      label: Description (Markdown)
+      description: "Two or three sentences: the project, the skills wanted, the funding term, and how to apply."
+    validations:
+      required: true

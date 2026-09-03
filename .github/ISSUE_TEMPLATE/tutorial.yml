@@ -1,0 +1,93 @@
+# Tutorial form. Field ids and labels are mirrored in scripts/lib/forms.mjs;
+# scripts/test-intake.mjs fails if the two drift apart.
+name: Tutorial
+description: Add a tutorial, course, notebook, recording, book, software package or dataset to the learning index.
+title: "[Tutorial] "
+labels: ["intake", "intake:tutorial"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The material stays where you host it; this creates an index entry that links to it. An automated check turns the form into a pull request and a coordinator reviews it, usually within a few days.
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      placeholder: Fitting drift-diffusion models to choice and reaction-time data
+    validations:
+      required: true
+  - type: input
+    id: authors
+    attributes:
+      label: Authors (comma-separated)
+      placeholder: Jane Doe, Wei Zhang
+    validations:
+      required: true
+  - type: input
+    id: lab
+    attributes:
+      label: Lab id
+      description: Optional. The file name in data/labs without .yml, for example xiangbin-teng.
+      placeholder: jane-doe
+  - type: dropdown
+    id: format
+    attributes:
+      label: Format
+      options:
+        - notebook
+        - slides
+        - video
+        - course
+        - book
+        - software
+        - dataset
+        - other
+  - type: dropdown
+    id: level
+    attributes:
+      label: Level
+      options:
+        - introductory
+        - intermediate
+        - advanced
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - English
+        - Chinese
+        - Bilingual
+        - Other
+  - type: input
+    id: url
+    attributes:
+      label: Link to the material
+      placeholder: https://github.com/doelab/ddm-tutorial
+    validations:
+      required: true
+  - type: input
+    id: doi
+    attributes:
+      label: DOI
+      description: Optional. Zenodo mints one per GitHub release.
+      placeholder: 10.5281/zenodo.0000000
+  - type: input
+    id: topics
+    attributes:
+      label: Topics (1 to 8, comma-separated)
+      placeholder: decision making, Bayesian inference, Python
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description (max 700 characters)
+      description: What it covers, how long it takes, what a reader should know beforehand.
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Confirmation
+      options:
+        - label: The material is openly accessible at the link and I am an author or have the authors' permission
+          required: true

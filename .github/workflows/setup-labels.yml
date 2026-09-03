@@ -1,0 +1,34 @@
+name: Create labels
+
+# Run once by hand (Actions tab) so that the forms can label issues. Safe to
+# run again: --force updates colours and descriptions of existing labels.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create or update the labels
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          create() { gh label create "$1" --color "$2" --description "$3" --force; }
+          create intake 0e6f7c "Submitted through a form"
+          create "intake:lab" 1a8a97 "Lab submission"
+          create "intake:event" 2a9aa6 "Event submission"
+          create "intake:tutorial" 3aa9b4 "Tutorial submission"
+          create "intake:position" 4bb8c2 "Position submission"
+          create speaker-nomination 7057ff "Proposed speaker, coordinators only"
+          create needs-changes e4b429 "The submission needs a fix; edit the issue"
+          create weekly-digest bfdadc "Automated weekly digest"
+          create automation ededed "Opened by a workflow"

@@ -1,0 +1,65 @@
+name: Deploy site
+
+# Builds the site and publishes it to GitHub Pages: on every push to main,
+# every Monday at 00:00 UTC (08:00 Hong Kong Time, so that upcoming/past
+# events and expired positions refresh), and by hand.
+#
+# The site origin and base path come from actions/configure-pages, so renaming
+# the repository or moving it to an organisation needs no change here;
+# astro.config.mjs reads ASTRO_SITE and ASTRO_BASE.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read # configure-pages reads the Pages settings for origin and base path
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Read the Pages origin and base path
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Build
+        env:
+          ASTRO_SITE: ${{ steps.pages.outputs.origin }}
+          ASTRO_BASE: ${{ steps.pages.outputs.base_path }}
+        run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

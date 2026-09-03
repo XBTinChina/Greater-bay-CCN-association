@@ -1,0 +1,111 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { network } from '../../../lib/network';
+import { url } from '../../../lib/url';
+import { formatWhen, speakerLine, isUpcoming, type EventEntry } from '../../../lib/events';
+import { labName, publishedLab } from '../../../lib/labs';
+import { EVENT_TYPE_LABELS } from '../../../lib/taxonomy';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events', (e) => !e.data.draft);
+  return events.map((event) => ({ params: { id: event.id }, props: { event } }));
+}
+
+interface Props {
+  event: EventEntry;
+}
+const { event } = Astro.props;
+const d = event.data;
+const { Content } = await render(event);
+const hostLab = await publishedLab(d.host_lab);
+const host = hostLab ? `${labName(hostLab)}, ${hostLab.data.institution}` : d.host_institution;
+const upcoming = isUpcoming(event);
+const description = [EVENT_TYPE_LABELS[d.type], speakerLine(event), formatWhen(event)].filter(Boolean).join(' · ');
+---
+
+<Base title={d.title} description={description}>
+  <article>
+    <header class="event-head">
+      <p>
+        <a href={url('events/')}>← All events</a>
+      </p>
+      <span class="badge">{EVENT_TYPE_LABELS[d.type]}</span>
+      {!upcoming && <span class="badge neutral">Past</span>}
+      <h1>{d.title}</h1>
+      {speakerLine(event) && (
+        <p style="font-size:1.1rem">
+          {d.speaker_url ? <a href={d.speaker_url}>{d.speaker}</a> : d.speaker}
+          {d.speaker_native && <span class="muted"> {d.speaker_native}</span>}
+          {d.speaker_affiliation && <span class="muted">, {d.speaker_affiliation}</span>}
+        </p>
+      )}
+      <p class="when">{formatWhen(event)}</p>
+    </header>
+
+    <dl class="kv">
+      <dt>Where</dt>
+      <dd>
+        {d.location}
+        {d.platform && ` · ${d.platform}`}
+        {upcoming && d.location.toLowerCase().includes('online') && (
+          <span class="muted small"> · the meeting link is sent to the announcement list</span>
+        )}
+      </dd>
+      {host && (
+        <>
+          <dt>Host</dt>
+          <dd>{host}</dd>
+        </>
+      )}
+      {d.junior_speaker && (
+        <>
+          <dt>Junior talk</dt>
+          <dd>
+            {d.junior_speaker.name}
+            {d.junior_speaker.affiliation && `, ${d.junior_speaker.affiliation}`}
+            {d.junior_speaker.title && <span class="muted"> · {d.junior_speaker.title}</span>}
+          </dd>
+        </>
+      )}
+      {d.registration_url && (
+        <>
+          <dt>Registration</dt>
+          <dd><a href={d.registration_url}>{d.registration_url}</a></dd>
+        </>
+      )}
+      {(d.recording?.bilibili || d.recording?.youtube || d.recording?.other) && (
+        <>
+          <dt>Recording</dt>
+          <dd>
+            {d.recording?.bilibili && <a href={d.recording.bilibili}>Bilibili</a>}
+            {d.recording?.bilibili && d.recording?.youtube && ' · '}
+            {d.recording?.youtube && <a href={d.recording.youtube}>YouTube</a>}
+            {(d.recording?.bilibili || d.recording?.youtube) && d.recording?.other && ' · '}
+            {d.recording?.other && <a href={d.recording.other}>Recording</a>}
+          </dd>
+        </>
+      )}
+      {(d.slides_url || d.materials_url) && (
+        <>
+          <dt>Materials</dt>
+          <dd>
+            {d.slides_url && <a href={d.slides_url}>Slides</a>}
+            {d.slides_url && d.materials_url && ' · '}
+            {d.materials_url && <a href={d.materials_url}>Materials</a>}
+          </dd>
+        </>
+      )}
+    </dl>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <div class="actions">
+      <a class="btn small" href={url('calendar.ics')}>Add the series to your calendar</a>
+      <a class="btn small" href={url(`events/${event.id}/poster/`)}>Poster view</a>
+    </div>
+    {network.seminar.recording_note && <p class="small muted">{network.seminar.recording_note}</p>}
+  </article>
+</Base>

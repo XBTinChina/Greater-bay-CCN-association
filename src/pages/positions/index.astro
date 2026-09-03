@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { forms } from '../../lib/network';
+import { formatDate } from '../../lib/events';
+import { POSITION_TYPE_LABELS } from '../../lib/taxonomy';
+
+const now = new Date();
+const all = await getCollection('positions', (p) => !p.data.draft);
+const open = all
+  .filter((p) => {
+    const until = p.data.expires ?? p.data.deadline;
+    return !until || until.getTime() + 24 * 60 * 60 * 1000 >= now.getTime();
+  })
+  .sort((a, b) => {
+    const da = a.data.deadline?.getTime() ?? Number.POSITIVE_INFINITY;
+    const db = b.data.deadline?.getTime() ?? Number.POSITIVE_INFINITY;
+    return da - db || b.data.posted.getTime() - a.data.posted.getTime();
+  });
+const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await render(p)).Content })));
+---
+
+<Base title="Positions" description="PhD, postdoc and research assistant openings in computational and cognitive neuroscience labs across the Greater Bay Area.">
+  <h1>Positions</h1>
+  <p class="lead muted">
+    Openings in member and affiliate labs. Listings disappear automatically after their deadline. The site is
+    rebuilt weekly, so a listing may linger a few days past it.
+  </p>
+  <div class="actions" style="margin-top:0">
+    <a class="btn small primary" href={forms.position}>Post a position</a>
+  </div>
+
+  {rendered.length === 0 ? (
+    <div class="card placeholder"><p>No open positions right now.</p></div>
+  ) : (
+    <div class="grid wide">
+      {rendered.map(({ p, Content }) => (
+        <article class="card">
+          <div>
+            <span class="badge">{POSITION_TYPE_LABELS[p.data.type]}</span>
+          </div>
+          <h2 class="card-title">{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</h2>
+          <div class="meta">
+            {p.data.pi && `${p.data.pi} · `}
+            {p.data.institution} · {p.data.city}
+          </div>
+          <div class="meta">
+            {p.data.deadline ? `Deadline ${formatDate(p.data.deadline, { weekday: undefined })}` : 'Open until filled'}
+            {' · posted '}
+            {formatDate(p.data.posted, { weekday: undefined })}
+          </div>
+          <div class="prose small"><Content /></div>
+          <div class="links">
+            {p.data.url && <a href={p.data.url}>Details and how to apply</a>}
+            {p.data.contact_email && <a href={`mailto:${p.data.contact_email}`}>Contact</a>}
+          </div>
+        </article>
+      ))}
+    </div>
+  )}
+</Base>

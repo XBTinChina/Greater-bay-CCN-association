@@ -1,0 +1,23 @@
+# EXAMPLE — copy, rename to a short slug, fill in, delete `draft: true`.
+# The material itself stays where its authors host it; this is an index entry.
+# Form: https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=tutorial.yml
+draft: true
+
+title: Fitting drift-diffusion models to choice and reaction-time data
+authors:
+  - Jane Doe
+  - Wei Zhang
+lab: example-lab                  # optional; id of a file in data/labs/
+format: notebook                  # notebook | slides | video | course | book | software | dataset | other
+level: introductory               # introductory | intermediate | advanced
+language: English                 # English | Chinese | Bilingual | Other
+url: https://github.com/doelab/ddm-tutorial
+doi: 10.5281/zenodo.0000000       # optional; Zenodo mints one per GitHub release
+topics:
+  - decision making
+  - Bayesian inference
+  - Python
+description: >-
+  A two-hour notebook that builds a drift-diffusion model from scratch, fits it
+  with hierarchical Bayesian methods, and checks it against simulated data.
+added: 2026-09-03

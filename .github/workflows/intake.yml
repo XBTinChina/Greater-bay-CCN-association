@@ -1,0 +1,265 @@
+name: Intake submissions
+
+# Turns a submitted issue form into a data file and a pull request on the
+# bot-owned branch intake/issue-<n>. Nothing is merged here: a coordinator
+# reviews the pull request, and only the merge publishes the entry.
+#
+# Safety rules followed throughout:
+# - user-controlled values (title, body, labels, login) reach shell steps
+#   only through environment variables, never through ${{ }} inside run:;
+# - scripts/intake.mjs reads the event payload file itself;
+# - the failure comment is gated on the outcome of the two validation steps,
+#   so it cannot fire when they succeed or when the job fails for another
+#   reason (a network error, a missing permission).
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: intake-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  decide:
+    name: Recognise the submission
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    outputs:
+      type: ${{ steps.decide.outputs.type }}
+      proceed: ${{ steps.decide.outputs.proceed }}
+    steps:
+      - name: Work out the submission type
+        id: decide
+        shell: bash
+        env:
+          EVENT_ACTION: ${{ github.event.action }}
+          ADDED_LABEL: ${{ github.event.label.name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_LABELS_JSON: ${{ toJSON(github.event.issue.labels.*.name) }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          type=""
+          # Labels first: intake:* wins over speaker-nomination.
+          while IFS= read -r label; do
+            case "$label" in
+              intake:lab) type=lab ;;
+              intake:event) type=event ;;
+              intake:tutorial) type=tutorial ;;
+              intake:position) type=position ;;
+              speaker-nomination) [ -n "$type" ] || type=nomination ;;
+            esac
+          done < <(jq -r '.[]' <<<"$ISSUE_LABELS_JSON")
+          # Then the title prefix, case-insensitively.
+          if [ -z "$type" ]; then
+            title="${ISSUE_TITLE,,}"
+            title="${title#"${title%%[![:space:]]*}"}"
+            case "$title" in
+              "[lab]"*) type=lab ;;
+              "[event]"*) type=event ;;
+              "[tutorial]"*) type=tutorial ;;
+              "[position]"*) type=position ;;
+              "[speaker]"*) type=nomination ;;
+            esac
+          fi
+
+          proceed=false
+          case "$type" in
+            nomination)
+              # One thank-you comment. It is posted on the opening event, or on
+              # the label event that GitHub fires at the same time (the two runs
+              # cancel each other); the marker keeps it to a single comment.
+              if [ "$EVENT_ACTION" = opened ] || { [ "$EVENT_ACTION" = labeled ] && [ "$ADDED_LABEL" = speaker-nomination ]; }; then
+                marker='<!-- gba-ccn:nomination-ack -->'
+                existing="$(gh issue view "$ISSUE_NUMBER" --json comments --jq "[.comments[] | select(.body | contains(\"$marker\"))] | length")"
+                if [ "${existing:-0}" = 0 ]; then
+                  gh issue comment "$ISSUE_NUMBER" --body-file - <<EOF
+          $marker
+          Thank you for the nomination. The coordinators read these when planning the seminar season and get in touch with a host lab if the talk goes ahead. Nominations are not published on the site; this issue is closed with a one-line note once the person has been invited or has declined.
+          EOF
+                fi
+              fi
+              echo "Speaker nomination: no data file is created."
+              ;;
+            "")
+              echo "Not a form submission (no intake label or known title prefix); nothing to do."
+              ;;
+            *)
+              if [ "$EVENT_ACTION" = labeled ] && [ "$ADDED_LABEL" = needs-changes ]; then
+                echo "The needs-changes label was added by the workflow itself; not running again."
+              else
+                proceed=true
+              fi
+              ;;
+          esac
+          echo "type=$type" >> "$GITHUB_OUTPUT"
+          echo "proceed=$proceed" >> "$GITHUB_OUTPUT"
+
+  intake:
+    name: Build the data file and open the pull request
+    needs: decide
+    # Closed issues (merged, declined or spam) never rebuild a branch.
+    if: needs.decide.outputs.proceed == 'true' && github.event.issue.state == 'open'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+
+      - name: Turn the issue into a data file
+        id: intake
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .intake
+          node scripts/intake.mjs 2>&1 | tee .intake/intake.log
+
+      - name: Validate by building the site
+        id: build
+        if: steps.intake.outcome == 'success' && steps.intake.outputs.files != ''
+        continue-on-error: true
+        run: npm run build 2>&1 | tee .intake/build.log
+
+      - name: Commit to the intake branch and open or update the pull request
+        if: steps.intake.outcome == 'success' && steps.build.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          TYPE: ${{ steps.intake.outputs.type }}
+          TITLE: ${{ steps.intake.outputs.title }}
+          FILES: ${{ steps.intake.outputs.files }}
+        run: |
+          set -euo pipefail
+          branch="intake/issue-${ISSUE_NUMBER}"
+          read -ra FILE_LIST <<<"$FILES"
+          bot_email="41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Never overwrite a branch that a coordinator has edited by hand.
+          if git rev-parse -q --verify "origin/$branch" >/dev/null \
+             && git log --format=%ae "origin/main..origin/$branch" | grep -qvF "$bot_email"; then
+            echo "::warning::$branch has commits not made by the intake workflow; leaving it alone."
+            gh issue comment "$ISSUE_NUMBER" --body "A coordinator has already edited the pull request branch for this issue by hand, so this edit was not applied automatically. Please describe the change in a comment on the pull request instead."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "$bot_email"
+          git checkout --no-track -B "$branch" origin/main
+          git add -- "${FILE_LIST[@]}"
+          if git diff --cached --quiet; then
+            echo "::notice::The generated files are identical to what is on main; nothing to propose."
+            stale="$(gh pr list --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+            if [ -n "$stale" ]; then
+              gh pr close "$stale" --comment "The regenerated files are now identical to main, so there is nothing left to propose." --delete-branch
+            fi
+            gh issue edit "$ISSUE_NUMBER" --remove-label needs-changes >/dev/null 2>&1 || true
+            exit 0
+          fi
+          git commit --quiet -m "${TYPE}: ${TITLE} (#${ISSUE_NUMBER})"
+          git push --force --set-upstream origin "$branch"
+
+          ensure_label() { gh label create "$1" --color "$2" --description "$3" --force >/dev/null 2>&1 || true; }
+          ensure_label intake 0e6f7c "Submitted through a form"
+          ensure_label automation ededed "Opened by a workflow"
+
+          {
+            printf 'Closes #%s\n\n' "$ISSUE_NUMBER"
+            printf 'Submitted by @%s through the %s form and generated by the intake workflow. If something needs to change, ask the submitter to edit the issue: every edit regenerates this branch. Small fixes can also be committed here directly; after that, edits to the issue no longer regenerate the branch.\n\n' "$ISSUE_AUTHOR" "$TYPE"
+            printf '## Changes\n\n'
+            git diff --name-status origin/main HEAD | sed -E 's/^M[[:space:]]+(.*)/- **Replaces an existing entry:** `\1`/; s/^A[[:space:]]+(.*)/- Adds `\1`/; s/^D[[:space:]]+(.*)/- Deletes `\1`/'
+            printf '\n## Review checklist\n\n'
+            case "$TYPE" in
+              lab) cat <<'EOF'
+          - [ ] A real, PI-led lab at an institution in a Greater Bay Area city, or a genuine affiliate elsewhere with `tier: affiliate`
+          - [ ] Both consent boxes are ticked in the issue
+          - [ ] If a photo was given, it is a head-and-shoulders photo of the PI, not a logo, group photo or stock image
+          - [ ] 1 to 8 sensible keywords
+          - [ ] A plain description: no marketing language, rankings or superlatives
+          EOF
+                ;;
+              event) cat <<'EOF'
+          - [ ] Hosted by a member or affiliate lab (`host_lab` or `host_institution`)
+          - [ ] Date and times are Hong Kong Time and the slot is free
+          - [ ] No meeting link or passcode anywhere in the file
+          - [ ] The speaker has agreed to be listed (ticked in the issue)
+          EOF
+                ;;
+              tutorial) cat <<'EOF'
+          - [ ] The link opens without a login and is what the entry says it is
+          - [ ] Authors, format, level and language are right
+          - [ ] 1 to 8 sensible topics
+          EOF
+                ;;
+              position) cat <<'EOF'
+          - [ ] A real opening in a member or affiliate lab
+          - [ ] There is a deadline or a removal date, so the listing expires
+          - [ ] The description says how to apply and links to the full advertisement
+          EOF
+                ;;
+            esac
+            printf -- '- [ ] No large binaries; the validation build passed when this pull request was opened\n'
+          } > .intake/pr-body.md
+
+          pr_title="${TYPE}: ${TITLE}"
+          existing="$(gh pr list --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --title "$pr_title" --body-file .intake/pr-body.md
+            echo "Updated pull request #$existing"
+          else
+            gh pr create --base main --head "$branch" --title "$pr_title" --body-file .intake/pr-body.md --label intake --label automation \
+              || { echo "::error::Could not open the pull request. In the repository settings, under Actions > General, turn on 'Allow GitHub Actions to create and approve pull requests'."; exit 1; }
+          fi
+          gh issue edit "$ISSUE_NUMBER" --remove-label needs-changes >/dev/null 2>&1 || true
+
+      - name: Tell the submitter what went wrong
+        if: steps.intake.outcome == 'failure' || steps.build.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+        run: |
+          set -euo pipefail
+          log=.intake/intake.log
+          if [ "$BUILD_OUTCOME" = failure ]; then log=.intake/build.log; fi
+          {
+            printf 'The automated intake could not turn this issue into a data file. The check said:\n\n~~~text\n'
+            # Escape any fence a field value might contain, so user text cannot break out of the code block.
+            { tail -n 60 "$log" 2>/dev/null || echo "(no log was written)"; } | sed -E 's/^([[:space:]]{0,3})([`~]{3,})/\1\\\2/'
+            printf '\n~~~\n\nPlease edit the issue (the three dots at the top right of the first comment, then Edit) to fix this; the check runs again on every edit. If the message makes no sense to you, leave a comment and a coordinator will help.\n'
+          } > .intake/comment.md
+          gh label create needs-changes --color e4b429 --description "The submission needs a fix; edit the issue" --force >/dev/null 2>&1 || true
+          gh issue comment "$ISSUE_NUMBER" --body-file .intake/comment.md
+          gh issue edit "$ISSUE_NUMBER" --add-label needs-changes
+
+      - name: Mark the run as failed
+        if: steps.intake.outcome == 'failure' || steps.build.outcome == 'failure'
+        run: |
+          echo "::error::The submission did not validate; see the comment on the issue."
+          exit 1

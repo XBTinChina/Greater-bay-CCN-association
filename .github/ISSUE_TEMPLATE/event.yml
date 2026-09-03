@@ -1,0 +1,139 @@
+# Event form. Field ids and labels are mirrored in scripts/lib/forms.mjs;
+# scripts/test-intake.mjs fails if the two drift apart.
+name: Event
+description: Announce a seminar, workshop, summer school, hackathon or journal club hosted by a member or affiliate lab.
+title: "[Event] "
+labels: ["intake", "intake:event"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        An automated check turns this form into an event page and a pull request; a coordinator reviews it and the event appears on the site and in the calendar feed when merged. All times are Hong Kong Time.
+
+        **Never paste the meeting link or passcode here.** This is a public repository; the link goes out to the announcement list and the group chat only.
+  - type: input
+    id: title
+    attributes:
+      label: Event title
+      placeholder: "How the cortex keeps time: predictive tracking of speech rhythm"
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Event type
+      options:
+        - seminar
+        - workshop
+        - summer-school
+        - hackathon
+        - journal-club
+        - other
+      default: 0
+  - type: input
+    id: date
+    attributes:
+      label: Date (YYYY-MM-DD)
+      placeholder: "2026-10-29"
+    validations:
+      required: true
+  - type: input
+    id: end_date
+    attributes:
+      label: End date (YYYY-MM-DD, multi-day events only)
+      placeholder: "2026-10-31"
+  - type: input
+    id: start
+    attributes:
+      label: Start time (HH:MM, Hong Kong Time)
+      placeholder: "16:00"
+  - type: input
+    id: end
+    attributes:
+      label: End time (HH:MM, Hong Kong Time)
+      placeholder: "17:00"
+  - type: input
+    id: speaker
+    attributes:
+      label: Speaker (Latin script)
+      placeholder: Jane Doe
+  - type: input
+    id: speaker_native
+    attributes:
+      label: Speaker (native script)
+      placeholder: 杜珍
+  - type: input
+    id: speaker_affiliation
+    attributes:
+      label: Speaker affiliation
+      placeholder: Southern University of Science and Technology
+  - type: input
+    id: speaker_url
+    attributes:
+      label: Speaker web page
+      placeholder: https://example.org/doelab
+  - type: input
+    id: junior_name
+    attributes:
+      label: Junior speaker name
+      description: Optional 15-minute student or postdoc talk before the main one.
+      placeholder: Wei Zhang
+  - type: input
+    id: junior_affiliation
+    attributes:
+      label: Junior speaker affiliation
+      placeholder: The University of Hong Kong
+  - type: input
+    id: junior_title
+    attributes:
+      label: Junior talk title
+      placeholder: A normative model of auditory prediction errors
+  - type: input
+    id: host_lab
+    attributes:
+      label: Host lab id
+      description: The lab id is the file name in data/labs without .yml, for example xiangbin-teng.
+      placeholder: jane-doe
+  - type: input
+    id: host_institution
+    attributes:
+      label: Host institution
+      description: Only needed if the host lab is not listed yet.
+      placeholder: The Chinese University of Hong Kong
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Keep "Online" or give a room and campus.
+      value: Online
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Zoom
+        - Tencent Meeting (VooV)
+        - Other
+        - In person only
+  - type: input
+    id: registration_url
+    attributes:
+      label: Registration link
+      description: Optional. A registration page, not the meeting link itself.
+      placeholder: https://example.org/register
+  - type: textarea
+    id: abstract
+    attributes:
+      label: Abstract (Markdown)
+      description: Two paragraphs is plenty. A short speaker biography can follow under its own heading.
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Consent
+      options:
+        - label: The speaker has agreed to be listed publicly
+          required: true
+        - label: Written recording consent has been obtained
+          required: false

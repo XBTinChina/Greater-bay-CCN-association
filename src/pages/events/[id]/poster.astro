@@ -1,0 +1,192 @@
+---
+// A fixed-size poster (1080 × 1350, the portrait format WeChat and Instagram
+// prefer) rendered from the event record. The poster workflow screenshots
+// this route with Playwright; coordinators can also print it from a browser.
+import { getCollection } from 'astro:content';
+import { network } from '../../../lib/network';
+import { absolute } from '../../../lib/url';
+import { formatDate, type EventEntry } from '../../../lib/events';
+import { labName, publishedLab } from '../../../lib/labs';
+import { EVENT_TYPE_LABELS } from '../../../lib/taxonomy';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events', (e) => !e.data.draft);
+  return events.map((event) => ({ params: { id: event.id }, props: { event } }));
+}
+
+interface Props {
+  event: EventEntry;
+}
+const { event } = Astro.props;
+const d = event.data;
+const hostLab = await publishedLab(d.host_lab);
+const host = hostLab ? `${labName(hostLab)} · ${hostLab.data.institution_short ?? hostLab.data.institution}` : d.host_institution;
+const dateLine = d.end_date
+  ? `${formatDate(d.date, { year: undefined })} – ${formatDate(d.end_date)}`
+  : formatDate(d.date, { weekday: 'long', month: 'long' });
+const timeLine = d.start ? `${d.start}${d.end ? `–${d.end}` : ''} Hong Kong Time` : '';
+const link = absolute(`events/${event.id}/`);
+const titleSize = d.title.length > 90 ? 44 : d.title.length > 60 ? 52 : 60;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Poster · {d.title}</title>
+    <style define:vars={{ titleSize: `${titleSize}px` }}>
+      html,
+      body {
+        margin: 0;
+        background: #e9ecef;
+      }
+      .poster {
+        width: 1080px;
+        height: 1350px;
+        margin: 0 auto;
+        background: linear-gradient(160deg, #0a3f47 0%, #0e6f7c 55%, #1a8a97 100%);
+        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+          "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+        display: flex;
+        flex-direction: column;
+        padding: 72px 80px;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+      }
+      .poster::after {
+        content: "";
+        position: absolute;
+        right: -180px;
+        bottom: -220px;
+        width: 620px;
+        height: 620px;
+        border-radius: 50%;
+        border: 90px solid rgba(255, 255, 255, 0.08);
+      }
+      .net {
+        font-size: 26px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.9;
+        font-weight: 600;
+      }
+      .net small {
+        display: block;
+        text-transform: none;
+        letter-spacing: 0;
+        font-size: 22px;
+        opacity: 0.85;
+        font-weight: 400;
+        margin-top: 6px;
+      }
+      .type {
+        margin-top: 110px;
+        display: inline-block;
+        align-self: flex-start;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        border-radius: 999px;
+        padding: 8px 22px;
+      }
+      h1 {
+        font-size: var(--titleSize);
+        line-height: 1.12;
+        margin: 36px 0 0;
+        font-weight: 750;
+        letter-spacing: -0.01em;
+        max-width: 900px;
+      }
+      .speaker {
+        margin-top: 44px;
+        font-size: 40px;
+        font-weight: 600;
+      }
+      .aff {
+        font-size: 30px;
+        opacity: 0.9;
+        margin-top: 6px;
+      }
+      .junior {
+        margin-top: 28px;
+        font-size: 26px;
+        opacity: 0.9;
+      }
+      .when {
+        margin-top: auto;
+        font-size: 36px;
+        font-weight: 650;
+      }
+      .when div + div {
+        margin-top: 6px;
+        font-size: 30px;
+        font-weight: 500;
+        opacity: 0.95;
+      }
+      .foot {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-size: 24px;
+        opacity: 0.92;
+        gap: 40px;
+      }
+      .foot .link {
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 22px;
+        word-break: break-all;
+      }
+      @media print {
+        html,
+        body {
+          background: #fff;
+        }
+        @page {
+          size: 1080px 1350px;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="poster">
+      <div class="net">
+        {network.short_name}
+        <small>{network.name}{network.name_native ? ` · ${network.name_native}` : ''}</small>
+      </div>
+      <div class="type">{EVENT_TYPE_LABELS[d.type]}</div>
+      <h1>{d.title}</h1>
+      {d.speaker && (
+        <div class="speaker">
+          {d.speaker}
+          {d.speaker_native && <span> {d.speaker_native}</span>}
+        </div>
+      )}
+      {d.speaker_affiliation && <div class="aff">{d.speaker_affiliation}</div>}
+      {d.junior_speaker && (
+        <div class="junior">
+          Junior talk: {d.junior_speaker.name}
+          {d.junior_speaker.affiliation && `, ${d.junior_speaker.affiliation}`}
+        </div>
+      )}
+      <div class="when">
+        <div>{dateLine}</div>
+        {timeLine && <div>{timeLine}</div>}
+        <div>
+          {d.location}
+          {d.platform && ` · ${d.platform}`}
+        </div>
+      </div>
+      <div class="foot">
+        <div>{host ? `Hosted by ${host}` : network.short_name}</div>
+        <div class="link">{link.replace(/^https?:\/\//, '')}</div>
+      </div>
+    </div>
+  </body>
+</html>

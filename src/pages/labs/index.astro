@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import LabCard from '../../components/LabCard.astro';
+import { forms } from '../../lib/network';
+import { url } from '../../lib/url';
+import { publishedLabs, institutionsOf } from '../../lib/labs';
+import { GBA_CITIES } from '../../lib/taxonomy';
+
+const labs = await publishedLabs();
+const institutions = institutionsOf(labs);
+const cities = [...new Set(labs.map((l) => l.data.city))].sort(
+  (a, b) => (GBA_CITIES as readonly string[]).indexOf(a) - (GBA_CITIES as readonly string[]).indexOf(b) || a.localeCompare(b, 'en'),
+);
+---
+
+<Base title="Labs" description="Computational and cognitive neuroscience labs in the Greater Bay Area, filterable by city, institution and research keyword.">
+  <h1>Labs</h1>
+  <p class="lead muted">
+    {labs.length} lab{labs.length === 1 ? '' : 's'} across {institutions.length} institution{institutions.length === 1 ? '' : 's'}.
+    Member labs are based in the Greater Bay Area; affiliates take part from elsewhere.
+    <a href={url('join/')}>Add your lab.</a>
+  </p>
+
+  <form class="filters" id="lab-filters" role="search" aria-label="Filter labs" onsubmit="return false">
+    <input type="search" id="f-text" aria-label="Search labs" placeholder="Search names, topics, institutions…" autocomplete="off" />
+    <select id="f-city" aria-label="City">
+      <option value="">All cities</option>
+      {cities.map((c) => <option value={c}>{c}</option>)}
+    </select>
+    <select id="f-inst" aria-label="Institution">
+      <option value="">All institutions</option>
+      {institutions.map((i) => <option value={i.name}>{i.short}</option>)}
+    </select>
+    <select id="f-tier" aria-label="Membership tier">
+      <option value="">Members and affiliates</option>
+      <option value="member">Member labs</option>
+      <option value="affiliate">Affiliate labs</option>
+    </select>
+  </form>
+  <p class="filter-summary" id="filter-summary" aria-live="polite"></p>
+
+  {labs.length > 0 ? (
+    <div class="grid" id="lab-grid">
+      {labs.map((lab) => <LabCard lab={lab} />)}
+    </div>
+  ) : (
+    <div class="card placeholder"><p>No labs listed yet. <a href={forms.lab}>Submit the first one.</a></p></div>
+  )}
+  <p class="card placeholder" id="no-results" hidden>No labs match these filters.</p>
+</Base>
+
+<script>
+  const grid = document.getElementById('lab-grid');
+  const summary = document.getElementById('filter-summary');
+  const empty = document.getElementById('no-results');
+  const text = document.getElementById('f-text') as HTMLInputElement | null;
+  const city = document.getElementById('f-city') as HTMLSelectElement | null;
+  const inst = document.getElementById('f-inst') as HTMLSelectElement | null;
+  const tier = document.getElementById('f-tier') as HTMLSelectElement | null;
+
+  function apply() {
+    if (!grid) return;
+    const q = (text?.value ?? '').trim().toLowerCase();
+    const c = city?.value ?? '';
+    const i = inst?.value ?? '';
+    const t = tier?.value ?? '';
+    let shown = 0;
+    const cards = grid.querySelectorAll<HTMLElement>('.lab-card');
+    cards.forEach((card) => {
+      const ok =
+        (!q || (card.dataset.text ?? '').includes(q)) &&
+        (!c || card.dataset.city === c) &&
+        (!i || card.dataset.institution === i) &&
+        (!t || card.dataset.tier === t);
+      card.hidden = !ok;
+      if (ok) shown += 1;
+    });
+    if (summary) summary.textContent = shown === cards.length ? '' : `${shown} of ${cards.length} labs shown`;
+    if (empty) empty.hidden = shown !== 0;
+  }
+
+  const params = new URLSearchParams(location.search);
+  if (text && params.get('q')) text.value = params.get('q') ?? '';
+  if (city && params.get('city')) city.value = params.get('city') ?? '';
+  if (inst && params.get('institution')) inst.value = params.get('institution') ?? '';
+  if (tier && params.get('tier')) tier.value = params.get('tier') ?? '';
+
+  for (const el of [text, city, inst, tier]) el?.addEventListener('input', apply);
+  apply();
+</script>

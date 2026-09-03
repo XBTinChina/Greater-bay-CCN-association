@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import EventCard from '../../components/EventCard.astro';
+import { network, forms } from '../../lib/network';
+import { url } from '../../lib/url';
+import { publishedEvents, isUpcoming, byDateAsc, byDateDesc } from '../../lib/events';
+
+const events = await publishedEvents();
+const upcoming = events.filter((e) => isUpcoming(e)).sort(byDateAsc);
+const past = events.filter((e) => !isUpcoming(e)).sort(byDateDesc);
+
+const byYear = new Map<number, typeof past>();
+for (const e of past) {
+  const y = e.data.date.getUTCFullYear();
+  byYear.set(y, [...(byYear.get(y) ?? []), e]);
+}
+---
+
+<Base title="Seminars and events" description="Upcoming and past seminars, workshops and summer schools of the network, with recordings.">
+  <h1>Seminars and events</h1>
+  <p class="lead muted">
+    {network.seminar.slot}, on {network.seminar.platform}{network.seminar.fallback_platform ? ` with ${network.seminar.fallback_platform} as fallback` : ''}.
+    Meeting links are sent to the announcement list rather than published here.
+  </p>
+  <div class="actions" style="margin-top:0">
+    <a class="btn small" href={url('calendar.ics')}>Subscribe to calendar (.ics)</a>
+    <a class="btn small" href={forms.nomination}>Nominate a speaker</a>
+    <a class="btn small" href={forms.event}>Propose an event</a>
+    <a class="btn small" href={url('docs/speaker-kit/')}>Information for speakers</a>
+  </div>
+
+  <h2 id="upcoming">Upcoming</h2>
+  {upcoming.length > 0 ? (
+    <div class="grid wide">
+      {upcoming.map((e, i) => <EventCard event={e} highlight={i === 0} />)}
+    </div>
+  ) : (
+    <div class="card placeholder">
+      <p>Nothing scheduled yet. The first talk will be announced here and in the calendar feed.</p>
+    </div>
+  )}
+
+  <h2 id="past">Past</h2>
+  {past.length === 0 && <p class="muted">No past events yet.</p>}
+  {[...byYear.entries()].map(([year, list]) => (
+    <section>
+      <h3>{year}</h3>
+      <div class="grid wide">
+        {list.map((e) => <EventCard event={e} />)}
+      </div>
+    </section>
+  ))}
+</Base>
