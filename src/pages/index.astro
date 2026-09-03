@@ -8,6 +8,7 @@ import { network, forms, routes, founding, slotLine } from '../lib/network';
 import { url, absolute } from '../lib/url';
 import { publishedLabs, institutionsOf } from '../lib/labs';
 import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
+import { brand, hasBrand } from '../lib/brand';
 
 const labs = await publishedLabs();
 const members = labs.filter((l) => l.data.tier === 'member');
@@ -62,7 +63,14 @@ const jsonld = {
         <li>Open to students and postdocs</li>
       </ul>
     </div>
-    <Raster class="raster" />
+    {hasBrand ? (
+      <picture class="hero-logo">
+        {brand.markLight && <source srcset={brand.markLight} media="(prefers-color-scheme: dark)" />}
+        <img src={brand.mark} alt="" width="512" height="512" />
+      </picture>
+    ) : (
+      <Raster class="raster" />
+    )}
   </section>
 
   {!founding && (

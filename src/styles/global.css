@@ -392,12 +392,27 @@ main {
   height: auto;
   display: block;
 }
+.hero .hero-logo {
+  display: block;
+  justify-self: center;
+  width: 100%;
+  max-width: 400px;
+}
+.hero .hero-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 @media (max-width: 760px) {
   .hero {
     grid-template-columns: 1fr;
   }
   .hero .raster {
     max-height: 140px;
+  }
+  .hero .hero-logo {
+    max-width: 240px;
+    justify-self: start;
   }
 }
 
