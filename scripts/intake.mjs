@@ -227,11 +227,20 @@ function readFields(form, body, problems) {
 function normalise(field, raw, problems) {
   const label = plainLabel(field.label);
   if (field.kind === 'checkboxes') {
-    const boxes = parseCheckboxes(raw);
-    field.options.forEach((option, i) => {
-      if (option.required && !boxes[i]?.checked) problems.push(`Tick the box "${plainLabel(option.label)}" under "${label}".`);
-    });
-    return boxes.map((b) => b.checked);
+    // Match by label, not by position: the author can edit the generated body,
+    // and two arbitrary ticked lines must not count as the consent statements.
+    const norm = (s) => collapse(plainLabel(s)).toLowerCase();
+    const ticked = new Set(
+      parseCheckboxes(raw)
+        .filter((b) => b.checked)
+        .map((b) => norm(b.label)),
+    );
+    for (const option of field.options) {
+      if (option.required && !ticked.has(norm(option.label))) {
+        problems.push(`Tick the box "${plainLabel(option.label)}" under "${label}".`);
+      }
+    }
+    return field.options.map((option) => ticked.has(norm(option.label)));
   }
   const text = raw.trim();
   if (!text) {
@@ -382,8 +391,12 @@ async function buildEvent(v, ctx) {
 
   if (v.end_date && v.date && v.end_date < v.date) problems.push('The end date is before the date.');
   if (v.end && !v.start) problems.push('An end time was given without a start time.');
-  if (v.start && v.end && !v.end_date && v.end <= v.start) problems.push('The end time must be after the start time.');
-  checkNoMeetingLinks([v.title, v.abstract, v.location, v.host_institution, v.speaker_affiliation, v.registration_url], problems);
+  const singleDay = !v.end_date || v.end_date === v.date;
+  if (v.start && v.end && singleDay && v.end <= v.start) problems.push('The end time must be after the start time.');
+  checkNoMeetingLinks(
+    [v.title, v.abstract, v.location, v.host_institution, v.speaker_affiliation, v.speaker_url, v.registration_url],
+    problems,
+  );
   await warnUnknownLab(v.host_lab, 'Host lab id', ctx);
 
   const data = {
@@ -411,7 +424,7 @@ async function buildTutorial(v, ctx) {
   const { problems, issue, created } = ctx;
   let slug = truncateSlug(slugify(v.title));
   if (asciiLetters(slug) < 2) slug = `tutorial-issue-${issue.number}`;
-  checkNoMeetingLinks([v.title, v.description], problems);
+  checkNoMeetingLinks([v.title, v.description, v.url], problems);
   await warnUnknownLab(v.lab, 'Lab id', ctx);
   const data = {
     title: v.title,
@@ -438,7 +451,7 @@ async function buildPosition(v, ctx) {
   if (v.deadline && v.deadline < today) problems.push(`The application deadline (${v.deadline}) is already past.`);
   if (v.expires && v.deadline && v.expires < v.deadline) problems.push('The removal date is before the application deadline.');
   if (!v.deadline && !v.expires) warnings.push('No deadline or removal date: the listing will stay up until someone removes it by hand.');
-  checkNoMeetingLinks([v.title, v.body], problems);
+  checkNoMeetingLinks([v.title, v.body, v.url], problems);
   await warnUnknownLab(v.lab, 'Lab id', ctx);
   const data = {
     title: v.title,

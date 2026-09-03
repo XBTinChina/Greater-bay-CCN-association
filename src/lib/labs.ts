@@ -1,6 +1,13 @@
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
 export type LabEntry = CollectionEntry<'labs'>;
+
+/** A lab by id, unless it is missing or a draft. Drafts are never published, not even by reference. */
+export async function publishedLab(id: string | undefined): Promise<LabEntry | undefined> {
+  if (!id) return undefined;
+  const lab = await getEntry('labs', id);
+  return lab && !lab.data.draft ? lab : undefined;
+}
 
 export function labName(lab: LabEntry): string {
   return lab.data.lab ?? `${lab.data.pi} Lab`;

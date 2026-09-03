@@ -100,6 +100,11 @@ const events = defineCollection({
       if (ev.end && !ev.start) {
         ctx.addIssue({ code: 'custom', path: ['end'], message: 'end time given without start time' });
       }
+      // On a single-day event the end must come after the start (HH:MM strings compare correctly).
+      const singleDay = !ev.end_date || ev.end_date.getTime() === ev.date.getTime();
+      if (ev.start && ev.end && singleDay && ev.end <= ev.start) {
+        ctx.addIssue({ code: 'custom', path: ['end'], message: `end time ${ev.end} is not after start time ${ev.start}` });
+      }
     }),
 });
 

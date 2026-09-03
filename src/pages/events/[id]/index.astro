@@ -1,10 +1,10 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import { network } from '../../../lib/network';
 import { url } from '../../../lib/url';
 import { formatWhen, speakerLine, isUpcoming, type EventEntry } from '../../../lib/events';
-import { labName } from '../../../lib/labs';
+import { labName, publishedLab } from '../../../lib/labs';
 import { EVENT_TYPE_LABELS } from '../../../lib/taxonomy';
 
 export async function getStaticPaths() {
@@ -18,7 +18,7 @@ interface Props {
 const { event } = Astro.props;
 const d = event.data;
 const { Content } = await render(event);
-const hostLab = d.host_lab ? await getEntry('labs', d.host_lab) : undefined;
+const hostLab = await publishedLab(d.host_lab);
 const host = hostLab ? `${labName(hostLab)}, ${hostLab.data.institution}` : d.host_institution;
 const upcoming = isUpcoming(event);
 const description = [EVENT_TYPE_LABELS[d.type], speakerLine(event), formatWhen(event)].filter(Boolean).join(' · ');

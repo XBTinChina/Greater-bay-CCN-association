@@ -1,9 +1,9 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { forms } from '../../lib/network';
 import { url } from '../../lib/url';
-import { labName } from '../../lib/labs';
+import { labName, publishedLab } from '../../lib/labs';
 import { formatDate } from '../../lib/events';
 
 const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
@@ -12,7 +12,7 @@ const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
 const tutorials = await Promise.all(
   entries.map(async (t) => ({
     t,
-    lab: t.data.lab ? await getEntry('labs', t.data.lab) : undefined,
+    lab: await publishedLab(t.data.lab),
   })),
 );
 const formats = [...new Set(entries.map((t) => t.data.format))].sort();

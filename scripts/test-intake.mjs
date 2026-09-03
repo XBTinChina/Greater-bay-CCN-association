@@ -389,6 +389,34 @@ await test('several problems are reported together', async () => {
   assert.equal(existsSync(NEG), false);
 });
 
+await test('consent boxes are matched by label, not position', async () => {
+  const payload = await loadFixture(
+    'lab',
+    (p) => {
+      // The author edits the generated body and ticks two unrelated lines instead.
+      p.issue.body = p.issue.body.replace(/- \[X\] [^\r\n]+/g, '- [X] something else entirely');
+      return p;
+    },
+    photoUrl,
+  );
+  const r = runIntake(await writeEvent('lab-consent-tamper', payload), { root: NEG });
+  expectFailure(r, /Tick the box "I consent to the publication/, /Tick the box "I have read the privacy and consent statement/);
+  assert.equal(existsSync(NEG), false);
+});
+
+await test('a meeting link in the speaker web page field is refused', async () => {
+  const payload = await loadFixture('event', (p) => {
+    p.issue.body = p.issue.body.replace(
+      '### Speaker web page\r\n\r\nhttps://example.org/fixture-lab',
+      '### Speaker web page\r\n\r\nhttps://zoom.us/j/1234567890',
+    );
+    return p;
+  });
+  const r = runIntake(await writeEvent('event-zoom-speaker-url', payload), { root: NEG });
+  expectFailure(r, /meeting link or passcode/);
+  assert.equal(existsSync(NEG), false);
+});
+
 await test('nominations and unrelated issues exit 0 without files', async () => {
   const nomination = {
     action: 'opened',

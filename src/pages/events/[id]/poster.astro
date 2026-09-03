@@ -2,11 +2,11 @@
 // A fixed-size poster (1080 × 1350, the portrait format WeChat and Instagram
 // prefer) rendered from the event record. The poster workflow screenshots
 // this route with Playwright; coordinators can also print it from a browser.
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { network } from '../../../lib/network';
 import { absolute } from '../../../lib/url';
 import { formatDate, type EventEntry } from '../../../lib/events';
-import { labName } from '../../../lib/labs';
+import { labName, publishedLab } from '../../../lib/labs';
 import { EVENT_TYPE_LABELS } from '../../../lib/taxonomy';
 
 export async function getStaticPaths() {
@@ -19,7 +19,7 @@ interface Props {
 }
 const { event } = Astro.props;
 const d = event.data;
-const hostLab = d.host_lab ? await getEntry('labs', d.host_lab) : undefined;
+const hostLab = await publishedLab(d.host_lab);
 const host = hostLab ? `${labName(hostLab)} · ${hostLab.data.institution_short ?? hostLab.data.institution}` : d.host_institution;
 const dateLine = d.end_date
   ? `${formatDate(d.date, { year: undefined })} – ${formatDate(d.end_date)}`
