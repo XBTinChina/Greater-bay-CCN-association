@@ -1,7 +1,7 @@
 # EXAMPLE — copy this file, rename it to <pi-name>.yml (lowercase, hyphens),
 # fill it in and delete the `draft: true` line. Drafts are validated at build
 # time but never published. Most people should use the form instead:
-# https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=lab.yml
+# https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml
 draft: true
 
 pi: Jane Doe                      # Latin-script name, as it should appear

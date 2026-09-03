@@ -2,7 +2,7 @@
 # EXAMPLE — copy this file, name it YYYY-MM-DD-short-slug.md, fill it in and
 # delete the `draft: true` line. Times are Hong Kong Time and must be quoted.
 # Coordinators usually create events from the form instead:
-# https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=event.yml
+# https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=event.yml
 draft: true
 
 title: "How the cortex keeps time: predictive tracking of speech rhythm"   # quote titles that contain a colon

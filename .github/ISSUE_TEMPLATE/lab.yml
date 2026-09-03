@@ -139,5 +139,5 @@ body:
       options:
         - label: I consent to the publication of the name, photo and affiliation given here on the network website and in this public repository under the CC BY 4.0 licence
           required: true
-        - label: I have read the [privacy and consent statement](https://xbtinchina.github.io/Great-bay-CCN-association/docs/privacy-and-consent/)
+        - label: I have read the [privacy and consent statement](https://xbtinchina.github.io/Greater-bay-CCN-association/docs/privacy-and-consent/)
           required: true

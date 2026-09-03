@@ -9,7 +9,7 @@ participating labs, share teaching material, and pool the audience that no
 single department has on its own, so that any member lab can invite a speaker
 on behalf of all.
 
-**Website:** <https://xbtinchina.github.io/Great-bay-CCN-association/>
+**Website:** <https://xbtinchina.github.io/Greater-bay-CCN-association/>
 
 **Status: forming.** The first labs are joining and the first seminar season
 is being planned. If you lead a lab in the region, [join now](#take-part).
@@ -51,12 +51,12 @@ automatically; a coordinator reviews it and the entry goes live when merged.
 
 | I want to… | Form |
 |---|---|
-| **List my lab** (PIs) | [Lab submission](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=lab.yml) |
-| **Suggest a speaker** | [Speaker nomination](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
-| Announce a seminar, workshop or summer school | [Event](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=event.yml) |
-| Add a tutorial or course to the learning index | [Tutorial](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=tutorial.yml) |
-| Post a PhD, postdoc or RA opening | [Position](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=position.yml) |
-| Follow the seminars | Subscribe to the [calendar feed](https://xbtinchina.github.io/Great-bay-CCN-association/calendar.ics) |
+| **List my lab** (PIs) | [Lab submission](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml) |
+| **Suggest a speaker** | [Speaker nomination](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
+| Announce a seminar, workshop or summer school | [Event](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=event.yml) |
+| Add a tutorial or course to the learning index | [Tutorial](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
+| Post a PhD, postdoc or RA opening | [Position](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml) |
+| Follow the seminars | Subscribe to the [calendar feed](https://xbtinchina.github.io/Greater-bay-CCN-association/calendar.ics) |
 
 The forms need a free GitHub account. If that is a problem, ask a colleague to
 submit on your behalf; a contact address will be added to the site's About page.
@@ -161,7 +161,7 @@ You need Node 22 or newer.
 
 ```bash
 npm ci
-npm run dev      # http://localhost:4321/Great-bay-CCN-association/
+npm run dev      # http://localhost:4321/Greater-bay-CCN-association/
 npm run build    # builds into dist/ and validates every data file
 ```
 
@@ -171,27 +171,28 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for conventions.
 
 Things that only a repository owner can do, in the order they matter:
 
-1. **Enable GitHub Pages** in *Settings → Pages* with *Source: GitHub Actions*.
-   The first push to `main` then publishes the site.
+1. **Set the GitHub Pages source to GitHub Actions** in *Settings → Pages*.
+   The other option, *Deploy from a branch*, runs GitHub's Jekyll build, which
+   cannot build this site and fails on every push. Once the source is right,
+   the next push to `main`, or a manual run of *Deploy site*, publishes the site.
 2. **Run the *Create labels* workflow** once from the Actions tab so the forms
    can label issues.
 3. **Set the contact address** in `data/network.yml` (`contact_email`).
    Until then the site points people to GitHub issues.
-4. **Fix the repository name.** The region is the *Greater* Bay Area. Renaming
-   the repository (for example to `greater-bay-ccn-network`) changes the site
-   URL; GitHub redirects the old one and the deploy workflow adapts automatically.
-5. **Move the repository to a GitHub organisation** once there are two or
+4. **Move the repository to a GitHub organisation** once there are two or
    more coordinators, so the site URL and ownership stop being personal. Give
-   at least two people owner rights.
-6. **Protect `main`** so that changes arrive by pull request. Do not make
+   at least two people owner rights. GitHub redirects the old repository URL
+   and the deploy workflow adapts to the new site URL automatically; only the
+   `repo_url` in `data/network.yml` and the links in this file need updating.
+5. **Protect `main`** so that changes arrive by pull request. Do not make
    *Build check* a required status check: pull requests opened by the intake
    workflow cannot trigger it (GitHub's rule for bot tokens), which is why the
    intake workflow runs the same build itself before opening them.
-7. **Ratify the charter.** It is marked as a draft until the founding labs
+6. **Ratify the charter.** It is marked as a draft until the founding labs
    have agreed it.
-8. Remove the "forming" banner in `data/network.yml` (`status_banner`) when the
+7. Remove the "forming" banner in `data/network.yml` (`status_banner`) when the
    first seminar is scheduled.
-9. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
+8. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
    from the founding chat rather than submitted through the form; the PI
    should verify the department, keywords and description.
 

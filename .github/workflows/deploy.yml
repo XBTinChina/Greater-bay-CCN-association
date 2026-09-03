@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: read # configure-pages reads the Pages settings for origin and base path
+      pages: write # configure-pages reads the Pages settings, and enables Pages (source: GitHub Actions) if it is off
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -41,6 +41,11 @@ jobs:
       - name: Read the Pages origin and base path
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # If Pages has never been enabled, enable it with GitHub Actions as
+          # the source. If it is enabled with "Deploy from a branch" instead,
+          # this cannot change it: switch the source in Settings > Pages.
+          enablement: true
       - name: Build
         env:
           ASTRO_SITE: ${{ steps.pages.outputs.origin }}

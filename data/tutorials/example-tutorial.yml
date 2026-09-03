@@ -1,6 +1,6 @@
 # EXAMPLE — copy, rename to a short slug, fill in, delete `draft: true`.
 # The material itself stays where its authors host it; this is an index entry.
-# Form: https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=tutorial.yml
+# Form: https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml
 draft: true
 
 title: Fitting drift-diffusion models to choice and reaction-time data

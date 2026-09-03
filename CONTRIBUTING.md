@@ -10,11 +10,11 @@ into a pull request automatically, and a coordinator reviews it.
 
 | I want to… | Form |
 |---|---|
-| List my lab | [Lab submission](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=lab.yml) |
-| Announce a seminar, workshop or summer school | [Event](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=event.yml) |
-| Add a tutorial or course to the learning index | [Tutorial](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=tutorial.yml) |
-| Post a PhD, postdoc or RA opening | [Position](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=position.yml) |
-| Suggest a speaker | [Speaker nomination](https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
+| List my lab | [Lab submission](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml) |
+| Announce a seminar, workshop or summer school | [Event](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=event.yml) |
+| Add a tutorial or course to the learning index | [Tutorial](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
+| Post a PhD, postdoc or RA opening | [Position](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml) |
+| Suggest a speaker | [Speaker nomination](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
 
 **Or edit the files directly.** Every entry is one file under `data/`, and
 every folder contains an `example-*` file to copy. The field reference is in
@@ -36,7 +36,7 @@ You need Node 22 or newer.
 
 ```bash
 npm ci          # install
-npm run dev     # local preview at http://localhost:4321/Great-bay-CCN-association/
+npm run dev     # local preview at http://localhost:4321/Greater-bay-CCN-association/
 npm run build   # full build and validation of all data files
 ```
 

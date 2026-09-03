@@ -43,7 +43,7 @@ export const OTHER_CITY = 'Other (affiliate lab, outside the Greater Bay Area)';
 export const IN_PERSON_ONLY = 'In person only';
 export const PLATFORMS = Object.freeze(['Zoom', 'Tencent Meeting (VooV)', 'Other', IN_PERSON_ONLY]);
 
-const SITE = 'https://xbtinchina.github.io/Great-bay-CCN-association';
+const SITE = 'https://xbtinchina.github.io/Greater-bay-CCN-association';
 
 export const CONSENT_PUBLISH =
   'I consent to the publication of the name, photo and affiliation given here on the network website and in this public repository under the CC BY 4.0 licence';

@@ -1,7 +1,7 @@
 ---
 # EXAMPLE — copy, rename to a short slug, fill in, delete `draft: true`.
 # Listings vanish automatically after `expires` (or `deadline` if no expiry).
-# Form: https://github.com/XBTinChina/Great-bay-CCN-association/issues/new?template=position.yml
+# Form: https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml
 draft: true
 
 title: Postdoctoral fellow in computational models of working memory

@@ -6,7 +6,7 @@ import { defineConfig } from 'astro/config';
 // organisation (where the base becomes "/") needs no code change here.
 // The defaults below match the repository's current location.
 const site = process.env.ASTRO_SITE ?? 'https://xbtinchina.github.io';
-const base = process.env.ASTRO_BASE ?? '/Great-bay-CCN-association';
+const base = process.env.ASTRO_BASE ?? '/Greater-bay-CCN-association';
 
 export default defineConfig({
   site,

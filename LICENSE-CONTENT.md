@@ -27,7 +27,7 @@ the licence, and indicate whether changes were made.
 A suitable credit line is:
 
 > Greater Bay Area Computational and Cognitive Neuroscience Network,
-> <https://github.com/XBTinChina/Great-bay-CCN-association>, CC BY 4.0.
+> <https://github.com/XBTinChina/Greater-bay-CCN-association>, CC BY 4.0.
 
 ## Personal data
 
