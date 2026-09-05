@@ -1,0 +1,28 @@
+# Created from issue #6 by the intake workflow. Edit this file by pull request.
+
+pi: Qihong Lu
+pi_native: 吕其鸿
+lab: Human & Machine Memory Lab
+institution: City University of Hong Kong
+institution_short: CityU HK
+department: Department of Neuroscience
+city: Hong Kong
+tier: member
+website: https://qlulab.github.io/website/
+email: qihong.lu@cityu.edu.hk
+scholar: https://scholar.google.com/citations?user=b9D0RmMAAAAJ&hl=en&oi=ao
+orcid: https://orcid.org/0000-0002-0730-5240
+profile: https://www.cityu.edu.hk/neuro/profile/qihonglu.htm
+photo: qihong-lu.webp
+keywords:
+  - neural networks
+  - episodic memory
+  - human cognition
+description: >-
+  Episodic memory (EM) lets us rapidly encode and later retrieve information from a single exposure,
+  yet how the brain uses EM to support cognition and what rational strategies exist for coordinating
+  different systems of learning and memory remains unclear. To answer these questions, we use neural
+  networks as model organisms to reverse-engineer the memory architecture of the human brain, and
+  test their predictions with human behavioral and neuroimaging experiments.
+looking_for: See lab website for the latest info.
+joined: 2026-09-04
