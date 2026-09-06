@@ -17,6 +17,8 @@
   --accent-strong: #2a3d6e;
   --accent-soft: #e9ecf5;
   --on-accent: #ffffff;
+  /* The one colour not in the palette: a wrong field has to read as wrong. */
+  --error: #a3231b;
   --band: linear-gradient(90deg, #440154, #414487, #2a788e, #22a884, #7ad151, #fde725);
   --radius: 6px;
   --font:
@@ -39,6 +41,7 @@
     --accent-strong: #b3e2dd;
     --accent-soft: #15292c;
     --on-accent: #0b1a1c;
+    --error: #f0a49c;
   }
 }
 
@@ -797,6 +800,169 @@ main {
   color: var(--muted);
   font-size: 0.85rem;
   margin-bottom: 0.6rem;
+}
+
+/* ----------------------------------------------------------- web forms */
+
+/* The forms under /forms/, for people who submit without a GitHub account.
+   Controls follow .filters above: a hairline underline, no box, no shadow. */
+
+/* --error is a palette token declared on :root: the summary box below is a
+   sibling of the form, not a descendant, and would not inherit it here. */
+.webform {
+  max-width: var(--measure);
+  margin: 2.5rem 0 0;
+}
+.webform[aria-busy="true"] {
+  opacity: 0.55;
+}
+
+.field {
+  margin: 0 0 1.7rem;
+  border: 0;
+  padding: 0;
+}
+.field > label,
+.field legend,
+.field .field-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 0.15rem;
+  padding: 0;
+}
+.req {
+  color: var(--accent);
+  margin-left: 0.2rem;
+}
+.field .hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  margin: 0 0 0.35rem;
+}
+
+.webform input:not([type="checkbox"]),
+.webform select,
+.webform textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.45rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+}
+.webform textarea {
+  line-height: 1.5;
+  resize: vertical;
+}
+.webform input:focus,
+.webform select:focus,
+.webform textarea:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+.webform input:focus-visible,
+.webform select:focus-visible,
+.webform textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.webform [aria-invalid="true"] {
+  border-bottom-color: var(--error);
+  border-bottom-width: 2px;
+}
+
+.check {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: start;
+  margin: 0.55rem 0;
+  font-size: 0.92rem;
+}
+.check input {
+  margin: 0.32rem 0 0;
+  accent-color: var(--accent);
+}
+.check label {
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.count {
+  display: block;
+  margin-top: 0.25rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.count.over {
+  color: var(--error);
+}
+
+.field-error {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin: 0.35rem 0 0;
+}
+
+/* The honeypot. Off screen rather than display:none, which some bots skip. */
+.trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2.2rem;
+}
+
+.form-problems,
+.form-done {
+  padding: 1.1rem 0;
+  margin: 2rem 0;
+}
+.form-problems {
+  border-top: 2px solid var(--error);
+  border-bottom: 1px solid var(--line);
+}
+.form-problems ul {
+  margin: 0.5rem 0;
+}
+.form-done {
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.form-problems:focus-visible,
+.form-done:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.form-alt {
+  max-width: var(--measure);
+  margin-top: 2.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  color: var(--muted);
 }
 
 @media print {

@@ -4,8 +4,8 @@
 // Reads the GitHub event payload (GITHUB_EVENT_PATH, or --event <file> for
 // local runs), works out the submission type from the issue's intake:* label
 // or its title prefix, parses the form body with the mapping in
-// scripts/lib/forms.mjs, validates every field, downloads and resizes the
-// photo for labs, and writes:
+// scripts/lib/forms.mjs, validates every field with scripts/lib/validate.mjs,
+// downloads and resizes the photo for labs, and writes:
 //
 //   labs       data/labs/<slug>.yml          + public/photos/<slug>.webp
 //   events     data/events/<date>-<slug>.md   (frontmatter + abstract)
@@ -33,29 +33,29 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { Document, Pair, Scalar, visit } from 'yaml';
 import sharp from 'sharp';
-import { FORMS, GBA_CITIES, IN_PERSON_ONLY, OTHER_CITY, TIME_ZONE, detectType } from './lib/forms.mjs';
-import { parseCheckboxes, parseIssueForm } from './lib/issue-form.mjs';
+import { FORMS, IN_PERSON_ONLY, OTHER_CITY, detectType } from './lib/forms.mjs';
+import {
+  asciiLetters,
+  crossChecks,
+  dateInHongKong,
+  readFields,
+  slugify,
+  truncateSlug,
+} from './lib/validate.mjs';
+
+// The field rules and the rules across fields live in lib/validate.mjs so that
+// the web-form worker can run them too; these two are re-exported because
+// other scripts import them here.
+export { dateInHongKong, slugify };
 
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 const PHOTO_SIZE = 400;
-const SLUG_MAX = 60;
-const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
-// The same rule as z.string().email() in the site schema, so a bad address is
-// caught here with a clear message rather than in the build log.
-const EMAIL_RE = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9-]*\.)+[A-Za-z]{2,}$/;
 // Strings that js-yaml (used by Astro to read the files) would turn into Date
 // objects unless quoted. Real date fields are written unquoted on purpose.
 const DATE_KEYS = new Set(['date', 'end_date', 'joined', 'added', 'posted', 'deadline', 'expires']);
 const DATE_LIKE_RE = /^\d{4}-\d{1,2}-\d{1,2}(?:$|[Tt ])/;
-// Letters that NFKD does not decompose to ASCII.
-const SPECIAL_LETTERS = { ł: 'l', ø: 'o', æ: 'ae', œ: 'oe', ß: 'ss', đ: 'd', þ: 'th', ð: 'd', ı: 'i', ŧ: 't', ħ: 'h' };
-const DOI_RE = /^10\.\d{4,9}\/\S+$/i;
-// Meeting links and passcodes must never reach a public data file.
-const MEETING_LINK_RE =
-  /(zoom\.(?:us|com)\/(?:j|my|s|w)\/|voovmeeting\.com\/|meeting\.tencent\.com\/|teams\.microsoft\.com\/l\/meetup|meet\.google\.com\/[a-z]{3}-|webex\.com\/meet\/|\bpasscode\s*[:：])/i;
 const IMAGE_FORMATS = new Set(['jpeg', 'png', 'webp', 'gif', 'tiff', 'avif', 'heif']);
 
 /** A problem the submitter can fix by editing the issue. */
@@ -69,27 +69,6 @@ export class SubmissionError extends Error {
 }
 
 // ---------------------------------------------------------------- helpers
-
-export function slugify(text) {
-  return String(text ?? '')
-    .toLowerCase()
-    .replace(/[łøæœßđþðıŧħ]/g, (ch) => SPECIAL_LETTERS[ch] ?? ch)
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-function truncateSlug(slug, max = SLUG_MAX) {
-  if (slug.length <= max) return slug;
-  const cut = slug.slice(0, max);
-  return cut.includes('-') ? cut.replace(/-[^-]*$/, '') : cut;
-}
-
-function asciiLetters(text) {
-  return (String(text).match(/[a-z]/gi) ?? []).length;
-}
 
 /** First candidate whose slug has at least two Latin letters; warns when it is not the first. */
 function pickSlug(candidates, fallback, warnings) {
@@ -107,79 +86,6 @@ function pickSlug(candidates, fallback, warnings) {
   }
   warnings.push(`No field yields a usable file name; using "${fallback}". Rename the file in the pull request.`);
   return fallback;
-}
-
-const collapse = (text) => String(text).replace(/\s+/g, ' ').trim();
-
-function plainLabel(label) {
-  return String(label).replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
-}
-
-// http:// is accepted because many mainland lab and department pages still
-// have no TLS, and the site schema accepts any URL with a scheme.
-function isWebUrl(text) {
-  try {
-    const u = new URL(text);
-    return (u.protocol === 'https:' || u.protocol === 'http:') && u.hostname.includes('.');
-  } catch {
-    return false;
-  }
-}
-
-const ORCID_RE = /^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/;
-
-/** A bare iD or an orcid.org address, normalised to the full https address. */
-function normaliseOrcid(text, problems) {
-  if (!text) return undefined;
-  const id = String(text)
-    .trim()
-    .replace(/^https?:\/\/(?:www\.)?orcid\.org\//i, '')
-    .replace(/\/+$/, '')
-    .toUpperCase();
-  if (!ORCID_RE.test(id)) {
-    problems.push(`"ORCID iD" must look like 0000-0002-1825-0097 (got "${text}").`);
-    return undefined;
-  }
-  return `https://orcid.org/${id}`;
-}
-
-function normaliseDate(text) {
-  const m = /^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/.exec(text.trim());
-  if (!m) return null;
-  const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
-  const date = new Date(Date.UTC(y, mo - 1, d));
-  if (date.getUTCFullYear() !== y || date.getUTCMonth() !== mo - 1 || date.getUTCDate() !== d) return null;
-  return `${m[1]}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-}
-
-function normaliseTime(text) {
-  const cleaned = text
-    .replace(/\s*(hkt|hong kong time|\(hkt\))\s*$/i, '')
-    .replace(/[：.]/g, ':')
-    .trim();
-  const m = /^(\d{1,2}):(\d{2})$/.exec(cleaned);
-  if (!m) return null;
-  const value = `${m[1].padStart(2, '0')}:${m[2]}`;
-  return TIME_RE.test(value) ? value : null;
-}
-
-function splitList(text) {
-  const seen = new Set();
-  const items = [];
-  for (const raw of String(text).split(/[,，、;；\n]+/)) {
-    const item = collapse(raw);
-    if (!item || seen.has(item.toLowerCase())) continue;
-    seen.add(item.toLowerCase());
-    items.push(item);
-  }
-  return items;
-}
-
-/** The calendar date of an ISO timestamp in Hong Kong Time, as YYYY-MM-DD. */
-export function dateInHongKong(iso) {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) throw new Error(`The payload has no valid issue.created_at (got ${JSON.stringify(iso)}).`);
-  return new Intl.DateTimeFormat('en-CA', { timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
 }
 
 /** Remove empty values so optional fields are simply absent from the file. */
@@ -232,99 +138,6 @@ function toMarkdownFile(data, body, options) {
   return `---\n${toYaml(data, options)}---\n\n${String(body).trim()}\n`;
 }
 
-// ---------------------------------------------------------- field reading
-
-function readFields(form, body, problems) {
-  const parsed = parseIssueForm(body, form.fields.map((f) => f.label));
-  const values = {};
-  for (const field of form.fields) values[field.id] = normalise(field, parsed.get(field.label) ?? '', problems);
-  return values;
-}
-
-function normalise(field, raw, problems) {
-  const label = plainLabel(field.label);
-  if (field.kind === 'checkboxes') {
-    // Match by label, not by position: the author can edit the generated body,
-    // and two arbitrary ticked lines must not count as the consent statements.
-    const norm = (s) => collapse(plainLabel(s)).toLowerCase();
-    const ticked = new Set(
-      parseCheckboxes(raw)
-        .filter((b) => b.checked)
-        .map((b) => norm(b.label)),
-    );
-    for (const option of field.options) {
-      if (option.required && !ticked.has(norm(option.label))) {
-        problems.push(`Tick the box "${plainLabel(option.label)}" under "${label}".`);
-      }
-    }
-    return field.options.map((option) => ticked.has(norm(option.label)));
-  }
-  const text = raw.trim();
-  if (!text) {
-    if (field.default !== undefined) return field.default;
-    if (field.required) problems.push(`"${label}" is required.`);
-    return undefined;
-  }
-  switch (field.kind) {
-    case 'text':
-      return collapse(text);
-    case 'sentence': {
-      const value = collapse(text);
-      if (field.max && value.length > field.max) problems.push(`"${label}" is ${value.length} characters long; the maximum is ${field.max}.`);
-      return value;
-    }
-    case 'markdown':
-    case 'image':
-      return text;
-    case 'url':
-      if (!isWebUrl(text)) problems.push(`"${label}" must be a full web address starting with https:// or http:// (got "${text}").`);
-      return text;
-    case 'email': {
-      const value = text.replace(/^mailto:/i, '').replace(/\s+/g, '');
-      if (!EMAIL_RE.test(value)) problems.push(`"${label}" does not look like an email address (got "${text}").`);
-      return value;
-    }
-    case 'date': {
-      const value = normaliseDate(text);
-      if (!value) problems.push(`"${label}" must be a real date written YYYY-MM-DD (got "${text}").`);
-      // undefined, not the raw text: the problem is recorded, and returning the
-      // text would trigger spurious "end before start" comparisons downstream.
-      return value ?? undefined;
-    }
-    case 'time': {
-      const value = normaliseTime(text);
-      if (!value) problems.push(`"${label}" must be a 24-hour time written HH:MM, for example 16:00 (got "${text}").`);
-      return value ?? undefined;
-    }
-    case 'list': {
-      const items = splitList(text);
-      const min = field.min ?? 1;
-      const max = field.max ?? Infinity;
-      if (items.length < min || items.length > max) {
-        problems.push(`"${label}" needs between ${min} and ${max} entries separated by commas; it has ${items.length}.`);
-      }
-      return items;
-    }
-    case 'enum':
-      if (!field.options.includes(text)) problems.push(`"${label}" must be one of: ${field.options.join(', ')} (got "${text}").`);
-      return text;
-    case 'id': {
-      const value = text.toLowerCase().replace(/\.ya?ml$/, '');
-      if (!ID_RE.test(value)) {
-        problems.push(`"${label}" must be a lab id, the file name in data/labs without .yml: lowercase letters, digits and hyphens (got "${text}").`);
-      }
-      return value;
-    }
-    case 'doi': {
-      const value = text.replace(/^(?:https?:\/\/(?:dx\.)?doi\.org\/|doi:\s*)/i, '');
-      if (!DOI_RE.test(value)) problems.push(`"${label}" does not look like a DOI; expected something like 10.5281/zenodo.0000000 (got "${text}").`);
-      return value;
-    }
-    default:
-      throw new Error(`Unknown field kind "${field.kind}" for "${field.id}".`);
-  }
-}
-
 // ------------------------------------------------------------- builders
 
 function labExists(id, roots) {
@@ -340,21 +153,10 @@ async function warnUnknownLab(id, label, ctx) {
   }
 }
 
-function checkNoMeetingLinks(texts, problems) {
-  if (texts.some((t) => t && MEETING_LINK_RE.test(t))) {
-    problems.push('The text contains a meeting link or passcode. Remove it: meeting details go to the announcement list, never into a public file.');
-  }
-}
-
 function buildLab(v, ctx) {
   const { problems, warnings, issue, created } = ctx;
+  crossChecks('lab', v, problems);
   const city = v.city === OTHER_CITY ? v.city_other : v.city;
-  if (v.city === OTHER_CITY && !v.city_other) problems.push('You chose "Other" as the city; fill in "If Other, which city?".');
-  if (v.tier === 'member' && city && !GBA_CITIES.includes(city)) {
-    problems.push(
-      `Member labs must be in a Greater Bay Area city (${GBA_CITIES.join(', ')}); "${city}" is not one. Choose the city from the list, or choose the tier "affiliate".`,
-    );
-  }
   const slug = pickSlug(
     [
       [v.pi, 'The PI name'],
@@ -377,7 +179,7 @@ function buildLab(v, ctx) {
     email: v.email,
     scholar: v.scholar,
     github: v.github,
-    orcid: normaliseOrcid(v.orcid, problems),
+    orcid: v.orcid,
     profile: v.profile,
     photo: v.photo ? `${slug}.webp` : undefined,
     keywords: v.keywords,
@@ -399,23 +201,15 @@ function buildLab(v, ctx) {
 
 async function buildEvent(v, ctx) {
   const { problems, issue } = ctx;
+  crossChecks('event', v, problems);
   let slug = truncateSlug(slugify(v.speaker || v.title));
   if (asciiLetters(slug) < 2) slug = truncateSlug(slugify(v.title));
   if (asciiLetters(slug) < 2) slug = `issue-${issue.number}`;
   const id = `${v.date}-${slug}`;
 
-  let junior;
-  if (v.junior_name) junior = { name: v.junior_name, affiliation: v.junior_affiliation, title: v.junior_title };
-  else if (v.junior_affiliation || v.junior_title) problems.push('A junior speaker affiliation or talk title was given without the junior speaker name.');
-
-  if (v.end_date && v.date && v.end_date < v.date) problems.push('The end date is before the date.');
-  if (v.end && !v.start) problems.push('An end time was given without a start time.');
-  const singleDay = !v.end_date || v.end_date === v.date;
-  if (v.start && v.end && singleDay && v.end <= v.start) problems.push('The end time must be after the start time.');
-  checkNoMeetingLinks(
-    [v.title, v.abstract, v.location, v.host_institution, v.speaker_affiliation, v.speaker_url, v.registration_url],
-    problems,
-  );
+  // An affiliation or talk title without a name is a problem crossChecks has
+  // already recorded; here it simply means there is no junior speaker.
+  const junior = v.junior_name ? { name: v.junior_name, affiliation: v.junior_affiliation, title: v.junior_title } : undefined;
   await warnUnknownLab(v.host_lab, 'Host lab id', ctx);
 
   const data = {
@@ -441,9 +235,9 @@ async function buildEvent(v, ctx) {
 
 async function buildTutorial(v, ctx) {
   const { problems, issue, created } = ctx;
+  crossChecks('tutorial', v, problems);
   let slug = truncateSlug(slugify(v.title));
   if (asciiLetters(slug) < 2) slug = `tutorial-issue-${issue.number}`;
-  checkNoMeetingLinks([v.title, v.description, v.url], problems);
   await warnUnknownLab(v.lab, 'Lab id', ctx);
   const data = {
     title: v.title,
@@ -462,15 +256,11 @@ async function buildTutorial(v, ctx) {
 }
 
 async function buildPosition(v, ctx) {
-  const { problems, warnings, issue, created } = ctx;
+  const { problems, warnings, issue, created, today } = ctx;
+  crossChecks('position', v, problems, today);
   let slug = truncateSlug(slugify(v.title));
   if (asciiLetters(slug) < 2) slug = `position-issue-${issue.number}`;
-  // Compare with today, not the issue's creation date: an edit may arrive months later.
-  const today = dateInHongKong(new Date().toISOString());
-  if (v.deadline && v.deadline < today) problems.push(`The application deadline (${v.deadline}) is already past.`);
-  if (v.expires && v.deadline && v.expires < v.deadline) problems.push('The removal date is before the application deadline.');
   if (!v.deadline && !v.expires) warnings.push('No deadline or removal date: the listing will stay up until someone removes it by hand.');
-  checkNoMeetingLinks([v.title, v.body, v.url], problems);
   await warnUnknownLab(v.lab, 'Lab id', ctx);
   const data = {
     title: v.title,
@@ -669,7 +459,10 @@ export async function runIntake({ eventPath, outRoot = REPO_ROOT }) {
   const warnings = [];
   const values = readFields(FORMS[type], issue.body ?? '', problems);
   const created = dateInHongKong(issue.created_at);
-  const entry = await BUILDERS[type](values, { problems, warnings, issue, created, outRoot });
+  // A deadline is compared with today, not with the issue's creation date: an
+  // edit may arrive months later.
+  const today = dateInHongKong(new Date().toISOString());
+  const entry = await BUILDERS[type](values, { problems, warnings, issue, created, today, outRoot });
   if (problems.length) throw new SubmissionError(problems);
 
   await avoidCollision(entry, issue, warnings);

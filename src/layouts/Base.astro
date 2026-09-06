@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import Mark from '../components/Mark.astro';
 import { network, forms, routes, founding } from '../lib/network';
+import { submitForm } from '../lib/submit';
 import { url, absolute } from '../lib/url';
 import { brand, hasBrand } from '../lib/brand';
 
@@ -123,7 +124,7 @@ const ogImage = absolute('og.png');
           </div>
           <div class="links">
             <a href={url('join/')}>Join</a>
-            <a href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a>
+            <a href={routes.nominateEmail || submitForm('nomination')}>Nominate a speaker</a>
             <a href={url('calendar.ics')}>Calendar</a>
             <a href={url('feed.xml')}>Feed</a>
             <a href={url('docs/')}>Documents</a>

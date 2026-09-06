@@ -4,7 +4,8 @@ import Base from '../layouts/Base.astro';
 import Raster from '../components/Raster.astro';
 import LabCard from '../components/LabCard.astro';
 import EventRow from '../components/EventRow.astro';
-import { network, forms, routes, founding, slotLine } from '../lib/network';
+import { network, routes, founding, slotLine } from '../lib/network';
+import { submitForm } from '../lib/submit';
 import { url, absolute } from '../lib/url';
 import { publishedLabs, institutionsOf } from '../lib/labs';
 import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
@@ -119,7 +120,7 @@ const jsonld = {
         ? 'The first event will be a founding roundtable, where each founding lab introduces itself and the seminar format is agreed. '
         : 'To be announced. '}
       {slotLine}. <a href={routes.follow}>Follow the seminars</a> or{' '}
-      <a href={routes.nominateEmail || forms.nomination}>nominate a speaker</a>.
+      <a href={routes.nominateEmail || submitForm('nomination')}>nominate a speaker</a>.
     </p>
   )}
 

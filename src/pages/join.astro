@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { network, forms, routes, founding } from '../lib/network';
+import { hasWebForm, submitForm, webForm } from '../lib/submit';
 import { url } from '../lib/url';
 
 const hasEmail = Boolean(network.contact_email);
@@ -18,7 +19,13 @@ const hasEmail = Boolean(network.contact_email);
   </p>
 
   <div class="actions" style="margin-top:0">
-    {hasEmail ? (
+    {hasWebForm ? (
+      <>
+        <a class="btn primary" href={webForm('lab')}>Submit your lab</a>
+        {hasEmail && <a class="btn" href={routes.joinEmail}>Join by email</a>}
+        <a class="btn" href={forms.lab}>Join via GitHub</a>
+      </>
+    ) : hasEmail ? (
       <>
         <a class="btn primary" href={routes.joinEmail}>Join by email</a>
         <a class="btn" href={forms.lab}>Join via GitHub</a>
@@ -28,11 +35,18 @@ const hasEmail = Boolean(network.contact_email);
     )}
     <a class="btn" href={routes.follow}>Follow the seminars</a>
   </div>
-  {!hasEmail && (
+  {hasWebForm ? (
     <p class="small muted">
-      The form needs a free GitHub account. If that is a problem, ask any member PI to submit for you; an email route
-      will appear here once the network's address is set up.
+      The form on this site needs no account. The GitHub route is the same form as an issue template, for people who
+      prefer it.
     </p>
+  ) : (
+    !hasEmail && (
+      <p class="small muted">
+        The form needs a free GitHub account. If that is a problem, ask any member PI to submit for you; an email route
+        will appear here once the network's address is set up.
+      </p>
+    )
   )}
 
   <h2>Who</h2>
@@ -55,7 +69,13 @@ const hasEmail = Boolean(network.contact_email);
   <h2>How</h2>
   <ol class="steps">
     <li>
-      {hasEmail ? (
+      {hasWebForm ? (
+        <>
+          Fill in the <a href={webForm('lab')}>lab form</a>, which needs no account
+          {hasEmail ? (<>, or send the <a href={routes.joinEmail}>pre-filled email</a></>) : null}. The{' '}
+          <a href={forms.lab}>GitHub form</a> does the same thing.
+        </>
+      ) : hasEmail ? (
         <>Send the <a href={routes.joinEmail}>pre-filled email</a>, or open the <a href={forms.lab}>GitHub form</a> if you prefer.</>
       ) : (
         <>Open the <a href={forms.lab}>lab form</a>.</>
@@ -71,22 +91,29 @@ const hasEmail = Boolean(network.contact_email);
 
   <h2>Also</h2>
   <dl class="facts">
-    <dt><a href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a></dt>
+    <dt><a href={routes.nominateEmail || submitForm('nomination')}>Nominate a speaker</a></dt>
     <dd>
       Anyone may.
       {hasEmail ? (
-        <> Nominations by email stay with the coordinators. The <a href={forms.nomination}>GitHub route</a> is public.</>
+        <> Nominations by email stay with the coordinators. The <a href={submitForm('nomination')}>open route</a> creates a public entry in the repository.</>
       ) : (
-        <> Nominations are read by the coordinators and never published on the site; the form is a public GitHub issue, so write only what the nominee could read.</>
+        <> Nominations are read by the coordinators and never published on the site; the form creates a public entry in the repository, so write only what the nominee could read.</>
       )}
     </dd>
-    <dt><a href={forms.event}>Propose an event</a></dt>
+    <dt><a href={submitForm('event')}>Propose an event</a></dt>
     <dd>Seminars, workshops, summer schools. See the <a href={url('docs/speaker-kit/')}>speaker kit</a> for the format.</dd>
-    <dt><a href={forms.tutorial}>Share a tutorial</a></dt>
+    <dt><a href={submitForm('tutorial')}>Share a tutorial</a></dt>
     <dd>Notebooks, courses, recordings. The material stays where you host it.</dd>
-    <dt><a href={forms.position}>Post a position</a></dt>
+    <dt><a href={submitForm('position')}>Post a position</a></dt>
     <dd>PhD, postdoc, RA, faculty. Listings expire on their deadline.</dd>
   </dl>
+  {hasWebForm && (
+    <p class="small muted">
+      These forms are on this site and need no account. Each one also exists as a GitHub issue template: the{' '}
+      <a href={forms.nomination}>nomination</a>, <a href={forms.event}>event</a>, <a href={forms.tutorial}>tutorial</a>
+      {' '}and <a href={forms.position}>position</a> templates.
+    </p>
+  )}
 
   <p class="small muted" style="margin-top:2.5rem">
     To change or remove an entry, write to the coordinators or edit its file by pull request. The rules are in the{' '}

@@ -20,12 +20,21 @@ Every data folder contains an `example-*` file marked `draft: true`. Drafts are 
 
 ## The intake pipeline
 
-1. Someone fills in a form on the [Join page](../../join/) or under Issues. The forms are lab (title prefix `[Lab]`), event (`[Event]`), tutorial (`[Tutorial]`), position (`[Position]`) and speaker nomination (`[Speaker]`). Each opens an issue labelled `intake` plus a type label such as `intake:lab`.
+1. Someone fills in a form on the [Join page](../../join/) or under Issues. The forms are lab (title prefix `[Lab]`), event (`[Event]`), tutorial (`[Tutorial]`), position (`[Position]`) and speaker nomination (`[Speaker]`). Each opens an issue labelled `intake` plus a type label such as `intake:lab`. There are two front doors to the same forms: the GitHub issue templates, which need a free account, and, when a coordinator has set `submit_url` in `data/network.yml`, the web forms under `/forms/` on the site, which need no account at all. A web-form submission is posted to a small endpoint that opens the identical issue, so from step 2 onwards the machinery is the same. The one thing that differs is who owns the issue, which matters only when a submission needs fixing; see below. Deploying and running that endpoint is described in [web forms](../web-forms/).
 2. The **Intake submissions** workflow runs when the issue is opened or edited. It parses the form, downloads and resizes the photo if there is one, writes the data file, and runs a validation build.
-3. If the build passes, it pushes a branch `intake/issue-<n>` and opens a pull request that closes the issue on merge. If it fails, it comments on the issue with the error and adds the label `needs-changes`. The submitter edits the issue, the workflow re-runs, and the same pull request is updated.
+3. If the build passes, it pushes a branch `intake/issue-<n>` and opens a pull request that closes the issue on merge. If it fails, it comments on the issue with the error and adds the label `needs-changes`. A submitter with a GitHub account edits the issue, the workflow re-runs, and the same pull request is updated. A submission that came through a web form has no author who can do that; the next section says who fixes it instead.
 4. A coordinator reviews the pull request and merges it. The **Deploy site** workflow then rebuilds and publishes the site.
 
 Pull requests opened by the workflow do not trigger the **Build check** (GitHub does not run checks on bot-created pull requests). That is why the intake workflow runs the validation build itself before opening the pull request.
+
+Review is identical whichever door a submission came through. The pull request looks the same, the checks below are the same, and a web-form submission carries no more authority than a GitHub one. If you doubt a submission, ask, exactly as you would with any other.
+
+Repair is not identical, and this is a standing task for coordinators. A web-form submission opens its issue under the network's GitHub App, so the issue's author is a name ending in `[bot]`, and a comment on the issue says it arrived through the web form. The person who filled the form in has no account: nobody notifies them, they cannot edit the issue, and they cannot reply to the workflow's comment. So when an App-authored issue is labelled `needs-changes`, that label is addressed to you, not to a submitter. Read the failure comment, then do one of two things:
+
+- fix the issue body yourself, using the edit pencil on the first comment. Every edit re-runs the intake workflow and updates the same pull request, so a corrected issue heals itself.
+- or, if the fix needs something only the submitter knows, write to the address in the submission's own contact field and ask for it. The form told them to keep their issue link and to check it in a day or two, but that is the only thread they have.
+
+The endpoint refuses most of these at the door: it runs the same per-field and cross-field checks as the intake workflow, so the common mistakes come back to the submitter in the browser while they can still act on them. What is left, a validation build that fails for a reason no field check can see, or a rule only the workflow can apply, arrives as one of these App-authored issues. There should be few, and each one waits for a person.
 
 ## Reviewing a lab submission
 
@@ -37,7 +46,7 @@ Open the pull request and read the file. Check that:
 - Keywords are sensible and few. Five or six is plenty; trim a long list rather than reject.
 - The description is plain. No marketing language, no rankings, no superlatives. Edit lightly if needed and say so in a comment.
 
-If all of that holds, merge. When in doubt, ask a second coordinator on the pull request. If changes are needed, ask the submitter to edit the issue rather than rewriting the entry silently.
+If all of that holds, merge. When in doubt, ask a second coordinator on the pull request. If changes are needed, ask the submitter to edit the issue rather than rewriting the entry silently. When the issue was opened by the App on behalf of a web-form submitter there is nobody to ask: edit the issue yourself and say in the pull request what you changed, or write to the contact address in the submission.
 
 ## Reviewing events, tutorials and positions
 
@@ -55,6 +64,8 @@ Two workflows run every Monday morning. **Deploy site** runs at 00:00 UTC (08:00
 
 One coordinator reads the digest that day or the next. Merge what is ready, reply to what is stuck, and fix broken links by pull request.
 
+Two things in that reading need a coordinator rather than a reply. Look for intake issues labelled `needs-changes` whose author ends in `[bot]`: those came through the web forms and their submitters cannot edit them, so each one waits for you to correct the issue body or to write to the contact address in it. An issue like that never resolves itself. And look for accepted submissions with no pull request behind them, which is the same situation seen from the other end.
+
 ### Optional assisted triage
 
 A scheduled AI assistant session may help with this routine: it can triage new submissions, fix formatting, draft the next announcement text and poster, and post a summary in the digest. It never merges. Approval is a human act, and the review checklist above applies to anything it prepared.
@@ -69,7 +80,7 @@ Record only with the speaker's written consent, given before the talk (see [priv
 
 ## Editing network.yml
 
-Coordinators, host institutions, the contact email, the status banner and the seminar slot all live in `data/network.yml`. Change them by pull request like any other file; Build check validates it, so a typo shows up before it reaches the site. Remove the status banner by leaving the field empty.
+Coordinators, host institutions, the contact email, the status banner, the seminar slot and the web-form endpoint (`submit_url`) all live in `data/network.yml`. Change them by pull request like any other file; Build check validates it, so a typo shows up before it reaches the site. Remove the status banner by leaving the field empty; the same goes for `submit_url`, which stops the site offering the web forms when it is empty. That is a change to the site, not to the endpoint: the endpoint keeps accepting posts from anyone who already has its address until you close it, which [web forms](../web-forms/) explains how to do.
 
 ## Adding or rotating a coordinator
 

@@ -1,0 +1,583 @@
+---
+// Ordinary web forms, one per submission type, for people without a GitHub
+// account. The fields come from scripts/lib/forms.mjs, the same list the
+// intake script reads, so a form here can never drift from the issue
+// template. Submitting posts JSON to network.submit_url; that endpoint holds
+// a GitHub App credential and opens exactly the issue the template would
+// have opened, after which the ordinary intake workflow takes over.
+//
+// The GitHub issue forms stay the open alternative and are linked from every
+// page here. When submit_url is empty the form is not rendered at all.
+import { parse } from 'yaml';
+import Base from '../../layouts/Base.astro';
+import { network, forms, routes } from '../../lib/network';
+import { url } from '../../lib/url';
+import { FORMS, OTHER_CITY } from '../../../scripts/lib/forms.mjs';
+
+// Help text is taken from the issue templates so the two say the same thing.
+import labYml from '../../../.github/ISSUE_TEMPLATE/lab.yml?raw';
+import eventYml from '../../../.github/ISSUE_TEMPLATE/event.yml?raw';
+import tutorialYml from '../../../.github/ISSUE_TEMPLATE/tutorial.yml?raw';
+import positionYml from '../../../.github/ISSUE_TEMPLATE/position.yml?raw';
+import nominationYml from '../../../.github/ISSUE_TEMPLATE/speaker-nomination.yml?raw';
+
+type Option = string | { label: string; required?: boolean };
+type Field = {
+  id: string;
+  label: string;
+  key: string | null;
+  kind: string;
+  required: boolean;
+  options?: Option[];
+  min?: number;
+  max?: number;
+  default?: string;
+};
+type Form = { type: string; template: string; label: string; prefix: string; fields: Field[] };
+
+const ALL = FORMS as Record<string, Form>;
+
+export function getStaticPaths() {
+  return Object.keys(FORMS).map((type) => ({ params: { type } }));
+}
+
+const type = String(Astro.params.type);
+const form = ALL[type];
+
+const RAW: Record<string, string> = {
+  'lab.yml': labYml,
+  'event.yml': eventYml,
+  'tutorial.yml': tutorialYml,
+  'position.yml': positionYml,
+  'speaker-nomination.yml': nominationYml,
+};
+
+type Template = {
+  description?: string;
+  body?: Array<{ id?: string; attributes?: { description?: string; placeholder?: string } }>;
+};
+const template = parse(RAW[form.template]) as Template;
+const help: Record<string, { description?: string; placeholder?: string }> = {};
+for (const block of template.body ?? []) {
+  if (block?.id) help[block.id] = { description: block.attributes?.description, placeholder: block.attributes?.placeholder };
+}
+
+// submit_url is an optional setting in data/network.yml. Until a coordinator
+// fills it in, the page explains itself and points at the GitHub form.
+const endpoint = String(network.submit_url ?? '').trim();
+
+const HEADING: Record<string, string> = {
+  lab: 'Submit your lab',
+  event: 'Propose an event',
+  tutorial: 'Share a tutorial',
+  position: 'Post a position',
+  nomination: 'Nominate a speaker',
+};
+
+// One warning per form, taken from the corresponding issue template.
+const WARNING: Record<string, string> = {
+  event:
+    'Never write the meeting link or passcode here. The repository is public; the link goes out to the announcement list and the group chat only.',
+  nomination:
+    'Nominations are read by the coordinators and are never published on the site. They do become an issue in the public repository, so write only what the nominee could read.',
+};
+
+const githubForm = (forms as Record<string, string>)[type];
+const emailRoute =
+  type === 'lab'
+    ? routes.joinEmail
+    : type === 'nomination'
+      ? routes.nominateEmail
+      : network.contact_email
+        ? `mailto:${network.contact_email}`
+        : '';
+
+const INPUT_TYPE: Record<string, string> = {
+  text: 'text',
+  url: 'url',
+  email: 'email',
+  date: 'date',
+  time: 'time',
+  id: 'text',
+  doi: 'text',
+  list: 'text',
+};
+const isTextarea = (f: Field) => f.kind === 'sentence' || f.kind === 'markdown';
+
+/** The part of the help text that comes from the kind rather than the template. */
+function kindHint(f: Field, described: boolean): string {
+  switch (f.kind) {
+    case 'date':
+      return 'Year, month and day.';
+    case 'time':
+      return '24-hour clock, Hong Kong Time.';
+    case 'list':
+      return `Separate with commas, ${f.min ?? 1} to ${f.max} items.`;
+    case 'id':
+      return described ? '' : 'Lowercase letters, digits and hyphens.';
+    case 'doi':
+      return described ? '' : 'The bare DOI, or a doi.org link.';
+    case 'url':
+      return described ? '' : 'A full address starting with https://.';
+    default:
+      return '';
+  }
+}
+
+const esc = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/** The consent labels carry Markdown links; render them as real links. */
+const labelHtml = (text: string) =>
+  esc(text).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2">$1</a>');
+
+const optionLabel = (o: Option) => (typeof o === 'string' ? o : o.label);
+
+// What the browser script needs: the field list with its kinds, so the JSON
+// payload carries an array for checkbox groups and a string for everything
+// else, and the labels, so a problem the endpoint reports can be shown next
+// to the field it names.
+const spec = {
+  type,
+  endpoint,
+  otherCity: OTHER_CITY,
+  // Whether the panel below the form offers an email route as well.
+  email: Boolean(emailRoute),
+  fields: form.fields.map((f) => ({ id: f.id, label: f.label, kind: f.kind })),
+};
+const specJson = JSON.stringify(spec).replace(/</g, '\\u003c');
+---
+
+{/* With no endpoint the page has nothing to offer a search engine: it only
+    says so and points at the GitHub form. astro.config.mjs keeps it out of
+    the sitemap in the same state. */}
+<Base title={HEADING[type]} description={template.description} noindex={!endpoint}>
+  <h1>{HEADING[type]}</h1>
+  <p class="lead">{template.description}</p>
+
+  {WARNING[type] && <p class="quiet">{WARNING[type]}</p>}
+
+  {endpoint ? (
+    <>
+      <p class="small muted">
+        No account is needed. What you send becomes an entry in the public repository, an automated check turns it into
+        a data file, and a coordinator reviews it, usually within a few days. Required fields are marked with an
+        asterisk <span class="req" aria-hidden="true">*</span>.
+      </p>
+      {type === 'lab' && (
+        <p class="small muted">
+          This form does not take a photo yet. The roster shows the PI's initials until one is added; send a square
+          head-and-shoulders photo to the coordinators later, or add it through the{' '}
+          <a href={githubForm}>GitHub form</a>.
+        </p>
+      )}
+
+      <noscript>
+        <p class="quiet">
+          This form needs JavaScript to send your entry. With JavaScript switched off, use the{' '}
+          <a href={githubForm}>GitHub form</a>{emailRoute ? (<> or <a href={emailRoute}>write to the coordinators</a></>) : null}.
+        </p>
+      </noscript>
+
+      <div id="form-problems" class="form-problems" role="alert" tabindex="-1" hidden>
+        <strong>The entry was not sent.</strong>
+        <ul id="form-problem-list"></ul>
+        <p class="small muted">
+          You can fix these and send again, or use the <a href={githubForm}>GitHub form</a>{emailRoute ? (<> or <a href={emailRoute}>email</a></>) : null}.
+        </p>
+      </div>
+
+      <div id="form-done" class="form-done" role="status" tabindex="-1" hidden>
+        <strong>Sent. Thank you.</strong>
+        <p class="small">
+          It is now <a id="form-done-link" href={forms.issues}>an entry in the repository</a>. An automated check reads
+          it within a minute or two and opens a pull request; a coordinator reviews it, usually within a few days. If
+          the check finds a problem it writes a comment on that entry.
+        </p>
+        <p class="small">
+          Keep that link. Sending needs no account, so nothing here can write to you: no email will arrive, and any
+          question about the entry appears as a comment on it. Look at the link again in a day or two.
+          {emailRoute ? (<> To be reachable another way, <a href={emailRoute}>write to the coordinators</a> and give
+          them the link.</>) : null}
+        </p>
+      </div>
+
+      <form class="webform" id="webform">
+        <div class="trap" aria-hidden="true">
+          <label for="f-trap">Leave this field empty</label>
+          <input id="f-trap" name="trap" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        {form.fields.map((f) => {
+          const described = Boolean(help[f.id]?.description);
+          const hint = [help[f.id]?.description, kindHint(f, described)].filter(Boolean).join(' ');
+          const hintId = hint ? `hint-${f.id}` : null;
+          const errId = `err-${f.id}`;
+          const describedBy = [hintId, errId].filter(Boolean).join(' ');
+
+          if (f.kind === 'image') {
+            // No file upload in this version: the intake script only fetches
+            // images from github.com, so an upload would need object storage.
+            return (
+              <div class="field">
+                <span class="field-label">{f.label}</span>
+                <p class="hint">Not on this form yet. A photo can be added later; the roster shows initials meanwhile.</p>
+              </div>
+            );
+          }
+
+          if (f.kind === 'checkboxes') {
+            return (
+              <fieldset class="field checks">
+                <legend>{f.label}</legend>
+                {hint && <p class="hint" id={hintId}>{hint}</p>}
+                {(f.options ?? []).map((o, i) => {
+                  const required = typeof o !== 'string' && o.required === true;
+                  return (
+                    <div class="check">
+                      {/* The description goes on each box: on the fieldset alone
+                          screen readers announce it inconsistently. */}
+                      <input
+                        type="checkbox"
+                        id={`f-${f.id}-${i}`}
+                        name={f.id}
+                        data-field={f.id}
+                        value={optionLabel(o)}
+                        required={required}
+                        aria-required={required ? 'true' : undefined}
+                        aria-describedby={describedBy}
+                      />
+                      <label for={`f-${f.id}-${i}`}>
+                        <span set:html={labelHtml(optionLabel(o))} />
+                        {required && <span class="req" aria-hidden="true">*</span>}
+                      </label>
+                    </div>
+                  );
+                })}
+                <p class="field-error" id={errId} hidden></p>
+              </fieldset>
+            );
+          }
+
+          return (
+            <div class="field">
+              <label for={`f-${f.id}`}>
+                {f.label}
+                {f.required && <span class="req" aria-hidden="true">*</span>}
+              </label>
+              {hint && <p class="hint" id={hintId}>{hint}</p>}
+
+              {f.kind === 'enum' ? (
+                <select
+                  id={`f-${f.id}`}
+                  name={f.id}
+                  required={f.required}
+                  aria-required={f.required ? 'true' : undefined}
+                  aria-describedby={describedBy}
+                >
+                  {!f.default && <option value="" selected>{f.required ? 'Choose one' : 'Not specified'}</option>}
+                  {(f.options ?? []).map((o) => (
+                    <option value={optionLabel(o)} selected={f.default === optionLabel(o)}>{optionLabel(o)}</option>
+                  ))}
+                </select>
+              ) : isTextarea(f) ? (
+                <>
+                  <textarea
+                    id={`f-${f.id}`}
+                    name={f.id}
+                    rows={f.kind === 'markdown' ? 8 : 4}
+                    required={f.required}
+                    aria-required={f.required ? 'true' : undefined}
+                    aria-describedby={describedBy}
+                    maxlength={f.kind === 'sentence' && f.max ? f.max : undefined}
+                    data-max={f.max ? String(f.max) : undefined}
+                    placeholder={help[f.id]?.placeholder}
+                  />
+                  {f.max && <span class="count" id={`count-${f.id}`} aria-hidden="true"></span>}
+                </>
+              ) : (
+                <input
+                  id={`f-${f.id}`}
+                  name={f.id}
+                  type={INPUT_TYPE[f.kind] ?? 'text'}
+                  value={f.default || undefined}
+                  required={f.required}
+                  aria-required={f.required ? 'true' : undefined}
+                  aria-describedby={describedBy}
+                  placeholder={f.kind === 'date' || f.kind === 'time' ? undefined : help[f.id]?.placeholder}
+                  inputmode={f.kind === 'url' ? 'url' : f.kind === 'email' ? 'email' : undefined}
+                  autocomplete={
+                    f.kind === 'email' ? 'email' : f.kind === 'url' ? 'url' : f.kind === 'id' || f.kind === 'doi' ? 'off' : undefined
+                  }
+                  pattern={f.kind === 'id' ? '[a-z0-9]+(-[a-z0-9]+)*' : undefined}
+                  spellcheck={f.kind === 'id' || f.kind === 'doi' ? 'false' : undefined}
+                  autocapitalize={f.kind === 'id' || f.kind === 'doi' ? 'none' : undefined}
+                />
+              )}
+              <p class="field-error" id={errId} hidden></p>
+            </div>
+          );
+        })}
+
+        <div class="form-actions">
+          <button class="btn primary" type="submit" disabled>Send</button>
+          <span class="small muted" id="form-status" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <script type="application/json" id="form-spec" set:html={specJson} />
+
+      <p class="form-alt">
+        Would you rather not use this form, or did something go wrong? The <a href={githubForm}>GitHub form</a>, which
+        needs a free account, reaches the same coordinators{emailRoute ? (<>, and so does <a href={emailRoute}>an email</a></>) : null}.
+        What happens to the entry afterwards is set out in the{' '}
+        <a href={url('docs/privacy-and-consent/')}>privacy statement</a>.
+      </p>
+    </>
+  ) : (
+    <>
+      <p class="quiet">
+        The web form is not switched on yet. For now the entry goes through the{' '}
+        <a href={githubForm}>GitHub form</a>, which needs a free account{emailRoute ? (<>, or by <a href={emailRoute}>email to the coordinators</a></>) : null}.
+      </p>
+      <p class="small muted">
+        <a href={url('join/')}>Back to Join</a>
+      </p>
+    </>
+  )}
+</Base>
+
+<script>
+  // Sends the form as JSON to the intake endpoint. Everything the script
+  // needs is in the #form-spec block written by the page above, so the
+  // markup and the payload cannot disagree about a field's kind.
+  type Spec = {
+    type: string;
+    endpoint: string;
+    otherCity: string;
+    email: boolean;
+    fields: Array<{ id: string; label: string; kind: string }>;
+  };
+
+  const form = document.getElementById('webform') as HTMLFormElement | null;
+  const specEl = document.getElementById('form-spec');
+
+  if (form && specEl) {
+    const spec = JSON.parse(specEl.textContent || '{}') as Spec;
+    const rendered = Date.now();
+    const button = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    const status = document.getElementById('form-status');
+    const problems = document.getElementById('form-problems');
+    const problemList = document.getElementById('form-problem-list');
+    const done = document.getElementById('form-done');
+    const doneLink = document.getElementById('form-done-link') as HTMLAnchorElement | null;
+
+    const GENERIC = 'The entry could not be sent just now. Please try again in a moment, or use one of the routes below.';
+    const TIMEOUT =
+      'The endpoint did not answer within twenty seconds, so the entry was not sent. It may be unreachable from this network. Try again, or use the GitHub form' +
+      (spec.email ? ' or the email route' : '') +
+      ' below.';
+    const NOT_FILED = 'The entry did not reach the repository. Send it again, or use one of the routes below.';
+    // The endpoint discards a submission sent less than this after the page
+    // loaded. Must match MIN_ELAPSED_MS in workers/submit/index.mjs.
+    const MIN_ELAPSED_MS = 3000;
+    const TIMEOUT_MS = 20000;
+    const byLabel = new Map(spec.fields.map((f) => [f.label, f.id]));
+
+    // Character counters on the fields that declare a maximum.
+    form.querySelectorAll<HTMLTextAreaElement>('textarea[data-max]').forEach((box) => {
+      const out = document.getElementById(`count-${box.name}`);
+      const max = Number(box.dataset.max);
+      const tick = () => {
+        if (!out) return;
+        out.textContent = `${box.value.length} / ${max}`;
+        out.classList.toggle('over', box.value.length > max);
+      };
+      box.addEventListener('input', tick);
+      tick();
+    });
+
+    function clearMarks() {
+      form!.querySelectorAll('[aria-invalid="true"]').forEach((el) => el.removeAttribute('aria-invalid'));
+      form!.querySelectorAll<HTMLElement>('.field-error').forEach((el) => {
+        el.textContent = '';
+        el.hidden = true;
+      });
+      if (problems) problems.hidden = true;
+    }
+
+    function collect(): Record<string, string | string[]> {
+      const out: Record<string, string | string[]> = {};
+      for (const field of spec.fields) {
+        if (field.kind === 'checkboxes') {
+          const boxes = form!.querySelectorAll<HTMLInputElement>(`input[data-field="${field.id}"]`);
+          out[field.id] = Array.from(boxes)
+            .filter((b) => b.checked)
+            .map((b) => b.value);
+        } else {
+          const el = form!.elements.namedItem(field.id) as HTMLInputElement | HTMLTextAreaElement | null;
+          out[field.id] = el ? String(el.value ?? '').trim() : '';
+        }
+      }
+      return out;
+    }
+
+    /**
+     * The few rules that hold between fields. The endpoint checks each field
+     * on its own; these are checked by scripts/intake.mjs after the issue
+     * exists, and a web submitter has no account to answer its comment with,
+     * so the two easiest to get wrong are caught here first, word for word as
+     * the intake script writes them.
+     */
+    function localProblems(values: Record<string, string | string[]>): string[] {
+      const list: string[] = [];
+      const text = (id: string) => (typeof values[id] === 'string' ? (values[id] as string) : '');
+      if (spec.type === 'lab' && text('city') === spec.otherCity && !text('city_other')) {
+        list.push('You chose "Other" as the city; fill in "If Other, which city?".');
+      }
+      if (spec.type === 'event') {
+        const date = text('date');
+        const endDate = text('end_date');
+        const start = text('start');
+        const end = text('end');
+        if (endDate && date && endDate < date) list.push('The end date is before the date.');
+        if (end && !start) list.push('An end time was given without a start time.');
+        const singleDay = !endDate || endDate === date;
+        if (start && end && singleDay && end <= start) list.push('The end time must be after the start time.');
+      }
+      return list;
+    }
+
+    /**
+     * The field a problem belongs to, or null. Most messages open with the
+     * field label in quotes ("Institution" is required.), but the consent
+     * ones name the group at the end (Tick the box "..." under "Consent".)
+     * and some, such as the rate limit, name no field at all.
+     */
+    function fieldOf(problem: string): string | null {
+      const under = /under\s+"([^"]+)"\.?\s*$/.exec(problem);
+      if (under && byLabel.has(under[1])) return byLabel.get(under[1])!;
+      for (const match of problem.matchAll(/"([^"]+)"/g)) {
+        const id = byLabel.get(match[1]);
+        if (id) return id;
+      }
+      return null;
+    }
+
+    function report(list: string[]) {
+      clearMarks();
+      let first: HTMLElement | null = null;
+      for (const problem of list) {
+        const id = fieldOf(problem);
+        const slot = id ? document.getElementById(`err-${id}`) : null;
+        // A problem that names no field of this form is still listed in the
+        // summary below; there is simply nowhere to mark it.
+        if (!id || !slot) continue;
+        slot.textContent = problem;
+        slot.hidden = false;
+        const control = form!.querySelector<HTMLElement>(`[name="${id}"]`);
+        if (control) {
+          control.setAttribute('aria-invalid', 'true');
+          first = first ?? control;
+        }
+      }
+      if (problemList) {
+        problemList.replaceChildren(
+          ...list.map((problem) => {
+            const li = document.createElement('li');
+            li.textContent = problem;
+            return li;
+          }),
+        );
+      }
+      if (problems) {
+        problems.hidden = false;
+        (first ?? problems).focus();
+        if (!first) problems.scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    function succeed(issue: string, number: number) {
+      // The endpoint answers a discarded submission exactly like a real one,
+      // so that a bot learns nothing from the reply. Claim an entry only when
+      // the reply carries one.
+      if (!Number.isFinite(number) || number <= 0 || !/^https:\/\/github\.com\//.test(issue)) {
+        report([NOT_FILED]);
+        return;
+      }
+      form!.hidden = true;
+      if (doneLink) doneLink.href = issue;
+      if (done) {
+        done.hidden = false;
+        done.focus();
+      }
+    }
+
+    function busy(on: boolean) {
+      form!.setAttribute('aria-busy', on ? 'true' : 'false');
+      if (button) {
+        button.disabled = on;
+        button.textContent = on ? 'Sending' : 'Send';
+      }
+      if (status) status.textContent = on ? 'Sending your entry.' : '';
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearMarks();
+      const values = collect();
+      const local = localProblems(values);
+      if (local.length) {
+        report(local);
+        return;
+      }
+      const trap = form.elements.namedItem('trap') as HTMLInputElement | null;
+      const payload: Record<string, unknown> = {
+        type: spec.type,
+        trap: String(trap?.value ?? ''),
+        fields: values,
+      };
+
+      busy(true);
+      // A reload restores the typed values but restarts this clock, so a
+      // person who then sends at once would be discarded as a bot. Wait the
+      // rest of the window out rather than lose the entry.
+      const wait = MIN_ELAPSED_MS - (Date.now() - rendered);
+      if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
+      payload.elapsed = Date.now() - rendered;
+
+      // A blackholed endpoint hangs rather than fails, which would leave the
+      // form disabled for as long as the browser waits.
+      const abort = new AbortController();
+      const timer = setTimeout(() => abort.abort(), TIMEOUT_MS);
+      try {
+        const response = await fetch(spec.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: abort.signal,
+        });
+        const data = (await response.json().catch(() => ({}))) as {
+          ok?: boolean;
+          issue?: string;
+          number?: number;
+          problems?: unknown;
+        };
+        if (response.ok && data && data.ok) {
+          succeed(String(data.issue ?? ''), Number(data.number));
+          return;
+        }
+        const listed = Array.isArray(data?.problems) ? data.problems.map(String).filter(Boolean) : [];
+        report(listed.length ? listed : [GENERIC]);
+      } catch (error) {
+        report([(error as Error | undefined)?.name === 'AbortError' ? TIMEOUT : GENERIC]);
+      } finally {
+        clearTimeout(timer);
+        busy(false);
+      }
+    });
+
+    // Only now is the form usable; without the script the page offers the
+    // GitHub form instead.
+    if (button) button.disabled = false;
+  }
+</script>

@@ -14,8 +14,9 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import sharp from 'sharp';
 import { parse as parseYaml } from 'yaml';
-import { DATA_TYPES, FORMS, OTHER_CITY, detectType } from './lib/forms.mjs';
+import { CONSENT_PRIVACY, CONSENT_PUBLISH, DATA_TYPES, FORMS, OTHER_CITY, detectType } from './lib/forms.mjs';
 import { parseCheckboxes, parseIssueForm } from './lib/issue-form.mjs';
+import { checkNoMeetingLinks, crossChecks, readFields, readValues } from './lib/validate.mjs';
 import { REPO_ROOT, findImageUrl, slugify } from './intake.mjs';
 
 const OUT = path.join(REPO_ROOT, '.intake', 'test-out');
@@ -196,6 +197,339 @@ await test('issue templates agree with the field mapping', async () => {
       }
     }
   }
+});
+
+// --------------------------------------------- the web form: readValues
+//
+// The web form posts {fieldId: value} instead of a Markdown body. readValues
+// applies the same ladder as readFields, so the two must agree field by field.
+
+/** The labels of the boxes a submitter has to tick, from the mapping itself. */
+const requiredBoxes = (type, id) =>
+  FORMS[type].fields.find((f) => f.id === id).options.filter((o) => o.required).map((o) => o.label);
+
+/** The issue body the worker will build from a payload: what GitHub would write. */
+function renderBody(form, values) {
+  return form.fields
+    .map((field) => {
+      let text;
+      if (field.kind === 'checkboxes') {
+        const ticked = new Set(values[field.id] ?? []);
+        text = field.options.map((o) => `- [${ticked.has(o.label) ? 'X' : ' '}] ${o.label}`).join('\n');
+      } else {
+        text = String(values[field.id] ?? '').trim() || '_No response_';
+      }
+      return `### ${field.label}\n\n${text}\n\n`;
+    })
+    .join('');
+}
+
+const SAMPLES = {
+  lab: {
+    pi: 'Testa Fixture',
+    pi_native: '測試 菲克',
+    lab: 'Fixture Lab',
+    institution: 'Fixture University of Science and Technology',
+    institution_short: 'FUST',
+    department: 'Department of Test Engineering',
+    city: 'Shenzhen',
+    city_other: '',
+    tier: 'member',
+    website: 'https://example.org/fixture-lab',
+    email: 'testa.fixture@example.org',
+    scholar: '',
+    github: '',
+    orcid: '0000-0002-1825-0097',
+    profile: '',
+    keywords: 'working memory, decision making',
+    description: 'A synthetic lab used by the web-form tests.',
+    looking_for: '',
+    photo: '',
+    consent: [CONSENT_PUBLISH, CONSENT_PRIVACY],
+  },
+  event: {
+    title: 'Fixture seminar: keeping time in cortex',
+    type: 'seminar',
+    date: '2027-03-04',
+    end_date: '',
+    start: '16:00',
+    end: '17:00',
+    speaker: 'Testa Fixture',
+    speaker_native: '',
+    speaker_affiliation: 'Fixture University of Science and Technology',
+    speaker_url: 'https://example.org/fixture-lab',
+    junior_name: '',
+    junior_affiliation: '',
+    junior_title: '',
+    host_lab: 'xiangbin-teng',
+    host_institution: '',
+    location: 'Online',
+    platform: 'Zoom',
+    registration_url: '',
+    abstract: 'First paragraph of the abstract.\n\nSecond paragraph.',
+    consent: requiredBoxes('event', 'consent'),
+  },
+  tutorial: {
+    title: 'Fitting fixture models to choice data',
+    authors: 'Testa Fixture, Wei Fixture',
+    lab: 'example-lab',
+    format: 'notebook',
+    level: 'introductory',
+    language: 'English',
+    url: 'https://github.com/example/fixture-tutorial',
+    doi: 'https://doi.org/10.5281/zenodo.0000000',
+    topics: 'decision making, Python',
+    description: 'A short description of the material.',
+    consent: requiredBoxes('tutorial', 'consent'),
+  },
+  position: {
+    title: 'Fixture postdoc in computational models of testing',
+    type: 'postdoc',
+    lab: 'example-lab',
+    pi: 'Testa Fixture',
+    institution: 'Fixture University of Science and Technology',
+    city: 'Shenzhen',
+    url: 'https://example.org/fixture-lab/jobs/postdoc',
+    contact_email: 'testa.fixture@example.org',
+    deadline: '2027-06-30',
+    expires: '',
+    body: 'Two or three sentences about the position.',
+  },
+  nomination: {
+    name: 'Testa Fixture',
+    affiliation: 'Fixture University of Science and Technology',
+    url: 'https://example.org/fixture-lab',
+    why: 'Works on the timing of speech perception.',
+    suggested_host: '',
+    willing_to_host: [],
+    note: '',
+  },
+};
+
+await test('readValues accepts a complete submission of every type', () => {
+  for (const [type, values] of Object.entries(SAMPLES)) {
+    const problems = [];
+    const read = readValues(FORMS[type], values, problems);
+    assert.deepEqual(problems, [], `${type}: ${problems.join(' ')}`);
+    assert.deepEqual(Object.keys(read), FORMS[type].fields.map((f) => f.id), `${type}: keys`);
+  }
+  const problems = [];
+  const lab = readValues(FORMS.lab, SAMPLES.lab, problems);
+  assert.deepEqual(lab.keywords, ['working memory', 'decision making']);
+  assert.deepEqual(lab.consent, [true, true]);
+  assert.equal(lab.photo, undefined, 'the web form sends no photo');
+  const event = readValues(FORMS.event, SAMPLES.event, problems);
+  assert.equal(event.date, '2027-03-04');
+  assert.equal(event.start, '16:00');
+  assert.deepEqual(event.consent, [true, false]);
+  const tutorial = readValues(FORMS.tutorial, SAMPLES.tutorial, problems);
+  assert.equal(tutorial.doi, '10.5281/zenodo.0000000', 'the doi.org prefix is stripped');
+  assert.deepEqual(problems, []);
+});
+
+await test('readValues and readFields agree on the same submission', () => {
+  for (const [type, values] of Object.entries(SAMPLES)) {
+    const fromValues = [];
+    const fromBody = [];
+    assert.deepEqual(
+      readValues(FORMS[type], values, fromValues),
+      readFields(FORMS[type], renderBody(FORMS[type], values), fromBody),
+      `${type}: values and body disagree`,
+    );
+    assert.deepEqual(fromValues, fromBody, `${type}: problems disagree`);
+  }
+});
+
+await test('readValues refuses a missing required field, a bad email and an over-length description', () => {
+  const problems = [];
+  readValues(FORMS.lab, { ...SAMPLES.lab, institution: '', email: 'testa.fixture at example.org', description: 'x'.repeat(701) }, problems);
+  assert.deepEqual(problems, [
+    '"Institution" is required.',
+    '"Contact email (public if given)" does not look like an email address (got "testa.fixture at example.org").',
+    '"Description (one or two sentences, max 700 characters)" is 701 characters long; the maximum is 700.',
+  ]);
+  // A malformed payload is reported, not coerced into something plausible.
+  const wrongType = [];
+  readValues(FORMS.lab, { ...SAMPLES.lab, pi: ['Testa', 'Fixture'] }, wrongType);
+  assert.deepEqual(wrongType, ['"PI name (Latin script)" must be a single line of text.']);
+});
+
+await test('readValues refuses a bad date and a city that is not in the dropdown', () => {
+  const dates = [];
+  const event = readValues(FORMS.event, { ...SAMPLES.event, date: '2027-13-40' }, dates);
+  assert.deepEqual(dates, ['"Date (YYYY-MM-DD)" must be a real date written YYYY-MM-DD (got "2027-13-40").']);
+  assert.equal(event.date, undefined, 'a rejected date must not reach the builder');
+
+  const cities = [];
+  readValues(FORMS.lab, { ...SAMPLES.lab, city: 'Beijing' }, cities);
+  assert.equal(cities.length, 1);
+  assert.match(cities[0], /^"City" must be one of: Hong Kong, Shenzhen, /);
+  assert.match(cities[0], /\(got "Beijing"\)\.$/);
+
+  // A member lab outside the Greater Bay Area can only be written by choosing
+  // "Other" and typing the city. That combination passes the field ladder; it
+  // is buildLab in intake.mjs that refuses it, as the fixture test above shows.
+  const outside = [];
+  const values = readValues(FORMS.lab, { ...SAMPLES.lab, city: OTHER_CITY, city_other: 'Beijing' }, outside);
+  assert.deepEqual(outside, []);
+  assert.equal(values.city_other, 'Beijing');
+});
+
+await test('readValues refuses an unticked required consent box', () => {
+  const one = [];
+  const values = readValues(FORMS.lab, { ...SAMPLES.lab, consent: [CONSENT_PUBLISH] }, one);
+  assert.equal(one.length, 1);
+  assert.match(one[0], /^Tick the box "I have read the privacy and consent statement" under "Consent"\.$/);
+  assert.deepEqual(values.consent, [true, false]);
+
+  const none = [];
+  readValues(FORMS.lab, { ...SAMPLES.lab, consent: [] }, none);
+  assert.equal(none.length, 2);
+  // A ticked box that is not one of the declared labels counts for nothing.
+  const wrong = [];
+  readValues(FORMS.lab, { ...SAMPLES.lab, consent: ['I agree to everything'] }, wrong);
+  assert.equal(wrong.length, 2);
+});
+
+await test('a meeting link in a public field is refused', () => {
+  const problems = [];
+  const values = readValues(FORMS.event, { ...SAMPLES.event, abstract: 'Join at https://zoom.us/j/1234567890 passcode: 1234.' }, problems);
+  assert.deepEqual(problems, [], 'the field ladder does not judge the text itself');
+  // The same call buildEvent makes; the worker must make it too.
+  checkNoMeetingLinks([values.title, values.abstract, values.location, values.speaker_url], problems);
+  assert.equal(problems.length, 1);
+  assert.match(problems[0], /meeting link or passcode/);
+
+  const clean = [];
+  const ok = readValues(FORMS.event, SAMPLES.event, clean);
+  checkNoMeetingLinks([ok.title, ok.abstract, ok.location, ok.speaker_url], clean);
+  assert.deepEqual(clean, []);
+});
+
+// ------------------------------------------- the rules across fields
+//
+// crossChecks holds every rule that compares two fields. Both doors run it on
+// the value object readFields/readValues returns, so each rule is tested here
+// on that object, and the agreement with the intake script is tested on a
+// fixture further down.
+
+/** The values of a sample with a few fields changed, and its cross problems. */
+function crossOf(type, patch, today) {
+  const problems = [];
+  const values = readValues(FORMS[type], { ...SAMPLES[type], ...patch }, problems);
+  assert.deepEqual(problems, [], `${type}: the field ladder itself complained: ${problems.join(' ')}`);
+  crossChecks(type, values, problems, today);
+  return problems;
+}
+
+await test('crossChecks refuses "Other" as the city with no city typed', () => {
+  assert.deepEqual(crossOf('lab', { city: OTHER_CITY, city_other: '' }), [
+    'You chose "Other" as the city; fill in "If Other, which city?".',
+  ]);
+  assert.deepEqual(crossOf('lab', {}), []);
+});
+
+await test('crossChecks refuses a member lab outside the Greater Bay Area', () => {
+  const problems = crossOf('lab', { city: OTHER_CITY, city_other: 'Beijing' });
+  assert.equal(problems.length, 1);
+  assert.match(problems[0], /^Member labs must be in a Greater Bay Area city \(Hong Kong, Shenzhen, /);
+  assert.match(problems[0], /"Beijing" is not one\. Choose the city from the list, or choose the tier "affiliate"\.$/);
+  // The same lab as an affiliate is exactly what the tier is for.
+  assert.deepEqual(crossOf('lab', { city: OTHER_CITY, city_other: 'Beijing', tier: 'affiliate' }), []);
+});
+
+await test('crossChecks refuses an end date before the date', () => {
+  assert.deepEqual(crossOf('event', { end_date: '2027-03-03' }), ['The end date is before the date.']);
+  assert.deepEqual(crossOf('event', { end_date: '2027-03-05' }), []);
+});
+
+await test('crossChecks refuses an end time without a start time', () => {
+  assert.deepEqual(crossOf('event', { start: '', end: '17:00' }), ['An end time was given without a start time.']);
+});
+
+await test('crossChecks refuses an end time that is not after the start on one day', () => {
+  assert.deepEqual(crossOf('event', { start: '17:00', end: '16:00' }), ['The end time must be after the start time.']);
+  assert.deepEqual(crossOf('event', { start: '16:00', end: '16:00' }), ['The end time must be after the start time.']);
+  // On a multi-day event the times belong to different days.
+  assert.deepEqual(crossOf('event', { end_date: '2027-03-05', start: '17:00', end: '16:00' }), []);
+});
+
+await test('crossChecks refuses a junior speaker affiliation or talk title without a name', () => {
+  const message = 'A junior speaker affiliation or talk title was given without the junior speaker name.';
+  assert.deepEqual(crossOf('event', { junior_affiliation: 'The University of Hong Kong' }), [message]);
+  assert.deepEqual(crossOf('event', { junior_title: 'A normative model of test errors' }), [message]);
+  assert.deepEqual(crossOf('event', { junior_name: 'Wei Fixture', junior_title: 'A normative model of test errors' }), []);
+});
+
+await test('crossChecks refuses a deadline that is already past', () => {
+  assert.deepEqual(crossOf('position', { deadline: '2027-06-30' }, '2027-07-01'), [
+    'The application deadline (2027-06-30) is already past.',
+  ]);
+  // The deadline day itself still counts.
+  assert.deepEqual(crossOf('position', { deadline: '2027-06-30' }, '2027-06-30'), []);
+  // Forgetting to pass today is a caller bug, not a submission the door lets through.
+  assert.throws(() => crossChecks('position', {}, []), /needs today as YYYY-MM-DD/);
+});
+
+await test('crossChecks refuses a removal date before the deadline', () => {
+  assert.deepEqual(crossOf('position', { deadline: '2027-06-30', expires: '2027-06-01' }, '2026-09-06'), [
+    'The removal date is before the application deadline.',
+  ]);
+  assert.deepEqual(crossOf('position', { deadline: '2027-06-30', expires: '2027-07-31' }, '2026-09-06'), []);
+});
+
+await test('crossChecks refuses a meeting link in every type that carries one', () => {
+  const link = 'Join at https://meeting.tencent.com/dm/abcdef, passcode: 4242.';
+  const cases = [
+    ['event', { abstract: link }],
+    ['tutorial', { description: link }],
+    ['position', { body: link }],
+  ];
+  for (const [type, patch] of cases) {
+    const problems = crossOf(type, patch, '2026-09-06');
+    assert.equal(problems.length, 1, `${type}: ${problems.join(' ')}`);
+    assert.match(problems[0], /meeting link or passcode/, type);
+    assert.deepEqual(crossOf(type, {}, '2026-09-06'), [], `${type}: the clean sample must pass`);
+  }
+  // Titles and links are read too, not only the long free-text field.
+  assert.equal(crossOf('event', { registration_url: 'https://zoom.us/j/1234567890' }).length, 1);
+  assert.equal(crossOf('tutorial', { url: 'https://zoom.us/j/1234567890' }).length, 1);
+});
+
+await test('crossChecks reads every field that reaches a public file', () => {
+  const link = 'https://zoom.us/j/1234567890';
+  // A lab entry carries no meeting link of its own, but nothing stopped one
+  // being pasted into the description or the "looking for" line.
+  for (const field of ['lab', 'department', 'institution', 'description', 'looking_for']) {
+    const problems = crossOf('lab', { [field]: `Somewhere ${link}` });
+    assert.equal(problems.length, 1, `lab.${field}: ${problems.join(' ')}`);
+    assert.match(problems[0], /meeting link or passcode/, `lab.${field}`);
+  }
+  // An event's speaker and junior-talk fields are published as surely as its
+  // abstract. The junior fields need a name alongside them, or the rule about
+  // a nameless junior talk fires as well and the count is two.
+  for (const field of ['speaker', 'speaker_native', 'junior_name', 'junior_affiliation', 'junior_title']) {
+    const withName = field.startsWith('junior_') ? { junior_name: 'Wei Zhang' } : {};
+    const problems = crossOf('event', { ...withName, [field]: `Someone ${link}` });
+    assert.equal(problems.length, 1, `event.${field}: ${problems.join(' ')}`);
+    assert.match(problems[0], /meeting link or passcode/, `event.${field}`);
+  }
+});
+
+await test('an ORCID iD is validated at the door, whichever door it came through', () => {
+  const form = FORMS.lab;
+  const of = (orcid) => {
+    const problems = [];
+    const values = readValues(form, { ...SAMPLES.lab, orcid }, problems);
+    return { problems, orcid: values.orcid };
+  };
+  // A bare iD and a full address both normalise to the stored form.
+  assert.deepEqual(of('0000-0002-1825-0097'), { problems: [], orcid: 'https://orcid.org/0000-0002-1825-0097' });
+  assert.deepEqual(of('https://orcid.org/0000-0002-1825-0097').orcid, 'https://orcid.org/0000-0002-1825-0097');
+  assert.equal(of('000X-0002-1825-0097').problems.length, 1);
+  assert.match(of('000X-0002-1825-0097').problems[0], /ORCID iD/);
+  // Empty stays empty rather than becoming a problem: the field is optional.
+  assert.deepEqual(of(''), { problems: [], orcid: undefined });
 });
 
 // ------------------------------------------------------ fixtures: success
@@ -414,6 +748,29 @@ await test('a meeting link in the speaker web page field is refused', async () =
   });
   const r = runIntake(await writeEvent('event-zoom-speaker-url', payload), { root: NEG });
   expectFailure(r, /meeting link or passcode/);
+  assert.equal(existsSync(NEG), false);
+});
+
+await test('crossChecks and the intake script report the same problems', async () => {
+  const payload = await loadFixture('event', (p) => {
+    p.issue.body = p.issue.body
+      .replace('### End time (HH:MM, Hong Kong Time)\r\n\r\n17:00', '### End time (HH:MM, Hong Kong Time)\r\n\r\n15:00')
+      .replace('### Junior speaker name\r\n\r\nWei Fixture', '### Junior speaker name\r\n\r\n_No response_')
+      .replace('### Location\r\n\r\nOnline', '### Location\r\n\r\nhttps://zoom.us/j/1234567890');
+    return p;
+  });
+  // The door: what the worker would say about this body before filing anything.
+  const expected = [];
+  const values = readFields(FORMS.event, payload.issue.body, expected);
+  assert.deepEqual(expected, [], 'no field of this body is wrong on its own');
+  crossChecks('event', values, expected);
+  assert.equal(expected.length, 3, expected.join(' | '));
+
+  // The workflow: what the intake script says about the same body.
+  const r = runIntake(await writeEvent('event-cross-checks', payload), { root: NEG });
+  assert.notEqual(r.status, 0, r.stdout);
+  const reported = r.stderr.split('\n').filter((line) => line.startsWith('- ')).map((line) => line.slice(2));
+  assert.deepEqual(reported, expected, 'the two doors must report the same problems in the same order');
   assert.equal(existsSync(NEG), false);
 });
 

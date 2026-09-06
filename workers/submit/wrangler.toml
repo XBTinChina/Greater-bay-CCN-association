@@ -1,0 +1,90 @@
+# Cloudflare Workers configuration for the submit endpoint.
+#
+# Deploy from this folder, not from the repository root: index.mjs imports the
+# shared field descriptors and validation from ../../scripts/lib/, and wrangler
+# bundles them in.
+#
+#   npx wrangler login
+#   npx wrangler deploy
+#
+# The full guide is ../../docs/web-forms.md.
+
+name = "gba-ccn-submit"
+main = "index.mjs"
+compatibility_date = "2026-01-15"
+workers_dev = true
+
+# A custom hostname is better than the workers.dev address in the long run,
+# because it can be repointed at another host without touching the site. Add it
+# in the dashboard under the Worker's Triggers, or uncomment and edit this:
+# routes = [{ pattern = "forms.example.org/intake", custom_domain = true }]
+
+# Plain settings. None of these is a secret; they belong in the repository so
+# that the deployment is reproducible.
+[vars]
+# The site origin allowed to post here. A comma-separated list is accepted, for
+# a preview deployment or a mirror. Never "*": the worker ignores a wildcard.
+ALLOWED_ORIGIN = "https://xbtinchina.github.io"
+# The owner and repository exactly as they appear in this repository's address
+# bar (`git remote -v` prints them). A wrong name reaches the submitter only as
+# a generic 500, because GitHub answers 404 and the worker says nothing more.
+GITHUB_OWNER = "XBTinChina"
+# The repository was renamed to Greater-bay-CCN-association. A local git
+# remote may still show the old "Great-bay" name because GitHub redirects it;
+# the API does not, so this must be the current name.
+GITHUB_REPO = "Greater-bay-CCN-association"
+# From the App's settings page and from the installation URL. Fill both in
+# before deploying; without them the endpoint answers 500 and files nothing.
+GITHUB_APP_ID = ""
+GITHUB_INSTALLATION_ID = ""
+# Optional. TRUSTED_IP_HEADER names the header that carries the caller's
+# address on a host that is not Cloudflare, for example "x-forwarded-for". Only
+# set it if the host itself appends that header; the worker reads the last
+# entry, which is the one the host added. On Cloudflare leave it unset:
+# CF-Connecting-IP is used and cannot be forged.
+
+# Secrets. These never appear in this file or anywhere else in the repository.
+# Set each one from the command line, which stores it in Cloudflare's secret
+# store:
+#
+#   npx wrangler secret put GITHUB_APP_PRIVATE_KEY   # the whole .pem, BEGIN and END lines included
+#   npx wrangler secret put RATE_SALT                # optional; any string, see below
+#   npx wrangler secret put TURNSTILE_SECRET         # optional, and it needs a change to the form page first: see the README
+#
+# To remove one: npx wrangler secret delete TURNSTILE_SECRET
+#
+# RATE_SALT salts the rate-limit keys, which are digests of the caller's
+# address rather than the address itself. The built-in default is in
+# index.mjs and therefore public; setting your own makes the keyspace
+# unguessable to anyone who reads the store.
+
+# Rate limiting. Part of the deployment, not an extra.
+#
+# The native binding below counts inside the edge itself, so its counter is
+# atomic: two requests that arrive at the same moment cannot both pass. Its
+# period is 10 or 60 seconds, so it is a burst brake: 5 accepted submissions a
+# minute from one address. namespace_id is any number you choose, unique among
+# the limiters of this Worker; nothing needs to be created for it.
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+# OPTIONAL, and only worth it if you want the longer windows: a KV namespace
+# adds 5 accepted submissions an hour and 20 a day for one address. The worker
+# reserves the slot before it files anything, but KV is eventually consistent,
+# so a burst spread across several Cloudflare locations can overshoot. Treat it
+# as a brake rather than a hard limit; the real gate is a coordinator merging
+# the pull request.
+#
+# Only submissions that pass every check are counted, so somebody correcting a
+# typo is never locked out.
+#
+# To switch it on, create the namespace and paste the id it prints:
+#
+#   npx wrangler kv namespace create RATE_LIMIT
+#
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "paste-the-id-here"

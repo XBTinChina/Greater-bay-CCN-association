@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { forms } from '../../lib/network';
+import { hasWebForm, submitForm } from '../../lib/submit';
 import { url } from '../../lib/url';
 import { labName, publishedLab } from '../../lib/labs';
 
@@ -20,7 +21,8 @@ const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await pu
     Openings are on the <a href={url('positions/')}>positions page</a>; summer schools under <a href={url('events/')}>events</a>.
   </p>
   <div class="actions" style="margin-top:0.5rem">
-    <a class="btn small" href={forms.tutorial}>Add a tutorial</a>
+    <a class="btn small" href={submitForm('tutorial')}>Add a tutorial</a>
+    {hasWebForm && <a class="btn small" href={forms.tutorial}>Add via GitHub</a>}
   </div>
 
   <h2 id="training">Training</h2>

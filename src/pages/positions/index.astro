@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { forms, network, routes } from '../../lib/network';
+import { hasWebForm, submitForm } from '../../lib/submit';
 import { url } from '../../lib/url';
 import { formatDate } from '../../lib/events';
 import { POSITION_TYPE_LABELS } from '../../lib/taxonomy';
@@ -28,11 +29,13 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
     listings leave on their deadline.
   </p>
   <div class="actions" style="margin-top:0.5rem">
-    <a class="btn primary" href={forms.position}>Post a position</a>
+    <a class="btn primary" href={submitForm('position')}>Post a position</a>
+    {hasWebForm && <a class="btn" href={forms.position}>Post via GitHub</a>}
     <a class="btn" href={routes.follow}>Follow the seminars</a>
   </div>
   <p class="small muted">
-    Any member or affiliate lab may post. The form needs a free GitHub account
+    Any member or affiliate lab may post.
+    {hasWebForm ? ' The form on this site needs no account; the GitHub route is the same form as an issue template' : ' The form needs a free GitHub account'}
     {network.contact_email ? <>, or <a href={`mailto:${network.contact_email}?subject=${encodeURIComponent('[Position] New opening')}`}>email the listing</a> to the coordinators</> : ''}.
     A coordinator checks it and it appears within days.
   </p>

@@ -47,9 +47,16 @@ lab through the same form.
 Each form turns your answers into a pull request automatically. A coordinator
 reads it, usually within a few days, and the entry appears when it is merged.
 
-The forms need a free GitHub account. If that is a barrier, ask a colleague to
-submit for you; nobody should be excluded because of a tool. A plain email route
-is being set up and will appear on the site's About page.
+The forms linked above need a free GitHub account. Nobody should be excluded
+because of a tool, so the site also carries the same forms as ordinary web
+forms that need no account, under `/forms/`, once a coordinator has switched
+them on (see [docs/web-forms.md](docs/web-forms.md)). They ask the same
+questions and end in the same place: a public entry in this repository that a
+coordinator reads and merges. Sending one needs no account, so nothing can
+write back to you either; the page gives you a link to your entry, and that
+link is where any question about it appears. Until the forms are switched on,
+ask a colleague to submit for you; a plain email route is being set up as well
+and will appear on the site's About page.
 
 Speaker nominations are read by the coordinators and never published on the
 site. They are GitHub issues in a public repository, though, so write only what
@@ -84,6 +91,11 @@ ones. **You do not need to be a programmer.**
 - Accessibility: test with a screen reader or keyboard only and tell us what
   breaks.
 - The intake script, the workflows, the calendar feed, the poster renderer.
+- **Deploy the account-free web forms.** They are written and waiting; someone
+  needs to create the GitHub App, deploy the small endpoint behind them with its
+  rate limit, and set one line in `data/network.yml`. It is an afternoon's work
+  and it removes the last reason anyone needs a GitHub account to join.
+  [docs/web-forms.md](docs/web-forms.md) is the recipe, step by step.
 
 **New to git or GitHub?** That is fine, and it is not a reason to stay quiet.
 Every content file has an `example-*` template beside it to copy, GitHub can
@@ -156,6 +168,7 @@ The field-by-field reference is in [docs/data-model.md](docs/data-model.md).
 | [Hosting a seminar](docs/hosting-a-seminar.md) | The member lab hosting a talk. Checklist with a timeline. |
 | [Invitation letter template](docs/invitation-letter-template.md) | Hosts. Invitation, logistics and announcement templates. |
 | [Operations handbook](docs/operations.md) | Coordinators. How the machinery runs and what humans do. |
+| [Web forms](docs/web-forms.md) | Coordinators. The account-free forms: the GitHub App, the endpoint, switching them on and off. |
 | [Data model](docs/data-model.md) | Contributors. Every field of every file. |
 
 ## How the site works
@@ -177,7 +190,10 @@ Actions. No server, no database: the pages are generated from the files in
 - **Ordinary routes alongside GitHub.** Set `contact_email` and, if you run one,
   `mailing_list_url`, and the site offers pre-filled email for joining,
   following and nominating, with the GitHub forms as the open alternative.
-  Nominations by email stay private; the GitHub route is a public issue.
+  Nominations by email stay private; the GitHub route is a public issue. Set
+  `submit_url` as well and the site's own forms under `/forms/` come to life,
+  so that nobody needs an account at all; empty it and they go away again.
+  [docs/web-forms.md](docs/web-forms.md) has the deployment recipe.
 - **Schemas catch mistakes.** Each collection has a schema in
   `src/content.config.ts`. A misspelt field, a missing date or a member lab in a
   city outside the region fails the build with a message naming the file and the
@@ -250,33 +266,43 @@ Things only a repository owner can do, in the order they matter:
    subscription page for the announcement list (`mailing_list_url`) if you run
    one. Email routes for joining, following and nominating appear on the site as
    soon as the address exists.
-5. **Fix the repository description** in the repository's *About* box; it still
+5. **Switch on the web forms** so that joining needs no GitHub account: create
+   the network's GitHub App with Issues permission only, deploy the endpoint
+   with its rate limit, and set `submit_url` in `data/network.yml`. Clearing
+   that line stops the site offering the forms; closing the endpoint itself
+   takes one more step, which the guide gives. Submissions then arrive as
+   issues opened by the App rather than by a person, so when the automated
+   check rejects one, fixing it is a coordinator's job and not the submitter's.
+   Step by step in [docs/web-forms.md](docs/web-forms.md), including how to
+   test reachability from mainland networks before advertising them.
+6. **Fix the repository description** in the repository's *About* box; it still
    says "Great Bay Area".
-6. **Recruit the founding cohort and schedule a founding roundtable** before any
+7. **Recruit the founding cohort and schedule a founding roundtable** before any
    invited seminar: each founding lab introduces itself in three minutes, then
    the seminar format and the charter are discussed. Add it as the first event,
    and add conveners to `coordinators` in `data/network.yml` as they confirm,
    with their permission.
-7. **Move the repository to a GitHub organisation** once there are two or more
+8. **Move the repository to a GitHub organisation** once there are two or more
    coordinators, so the site URL and ownership stop being personal. Give at
    least two people owner rights. GitHub redirects the old repository URL and
    the deploy workflow adapts to the new site URL automatically; only the
    `repo_url` in `data/network.yml` and the links in this file need updating. A
    neutral custom domain lets the hosting change later without changing the
    public identity.
-8. **Test from mainland networks**, or ask members to (see above). If GitHub
+9. **Test from mainland networks**, or ask members to (see above). Test the web
+   forms and their endpoint the same way before advertising them. If GitHub
    Pages proves unreliable, mirror the built site to a second host.
-9. **Protect `main`** so that changes arrive by pull request. Do not make *Build
-   check* a required status check: pull requests opened by the intake workflow
-   cannot trigger it (GitHub's rule for bot tokens), which is why the intake
-   workflow runs the same build itself before opening them.
-10. **Ratify the charter.** It is marked as a draft until the founding labs have
+10. **Protect `main`** so that changes arrive by pull request. Do not make *Build
+    check* a required status check: pull requests opened by the intake workflow
+    cannot trigger it (GitHub's rule for bot tokens), which is why the intake
+    workflow runs the same build itself before opening them.
+11. **Ratify the charter.** It is marked as a draft until the founding labs have
     agreed it.
-11. **Switch `stage` to `active`** in `data/network.yml` once roughly six to ten
+12. **Switch `stage` to `active`** in `data/network.yml` once roughly six to ten
     labs across three or more institutions, on both sides of the border, have
     joined and one event is scheduled; edit or remove `status_banner` at the same
     time. The counters return and the "proposed" wording goes.
-12. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
+13. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
     from the founding chat rather than submitted through the form; the PI should
     verify the department, keywords and description.
 

@@ -43,6 +43,14 @@ contact_email: ""
 # Until then "Follow the seminars" points at the calendar feed.
 mailing_list_url: ""
 
+# Endpoint for the web forms, which let people submit without a GitHub account.
+# It receives the form, opens the same GitHub issue an issue template would,
+# and the usual intake workflow takes over from there. Must be an https
+# address. While it is empty the web forms are not offered and every route
+# falls back to the GitHub issue forms, exactly as before.
+# Deployment and operations: docs/web-forms.md.
+submit_url: ""
+
 repo_url: https://github.com/XBTinChina/Greater-bay-CCN-association
 
 seminar:

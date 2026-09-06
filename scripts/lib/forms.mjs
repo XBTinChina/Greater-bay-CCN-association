@@ -64,6 +64,7 @@ export const CONSENT_PRIVACY = `I have read the [privacy and consent statement](
  *   image       an attachment field; the first image in it is downloaded
  *   id          a lab id: the file name in data/labs without .yml
  *   doi         a DOI; a https://doi.org/ prefix is removed
+ *   orcid       an ORCID iD, bare or as an address; stored as the full address
  *
  * `key` is the data-file key the value goes to, or null when the intake
  * script consumes the field in some other way (consent, photo, the abstract
@@ -93,7 +94,7 @@ export const FORMS = Object.freeze({
       f('email', 'Contact email (public if given)', 'email', 'email'),
       f('scholar', 'Google Scholar profile', 'scholar', 'url'),
       f('github', 'GitHub organisation or profile', 'github', 'url'),
-      f('orcid', 'ORCID iD', null, 'text'),
+      f('orcid', 'ORCID iD', 'orcid', 'orcid'),
       f('profile', 'Research profile (any other page)', 'profile', 'url'),
       f('keywords', 'Research keywords (1 to 8, comma-separated)', 'keywords', 'list', { required: true, min: 1, max: 8 }),
       f('description', 'Description (one or two sentences, max 700 characters)', 'description', 'sentence', { required: true, max: 700 }),

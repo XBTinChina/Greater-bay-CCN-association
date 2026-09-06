@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import LabCard from '../../components/LabCard.astro';
-import { forms } from '../../lib/network';
+import { submitForm } from '../../lib/submit';
 import { url } from '../../lib/url';
 import { publishedLabs, institutionsOf } from '../../lib/labs';
 import { GBA_CITIES } from '../../lib/taxonomy';
@@ -50,7 +50,7 @@ const cities = [...new Set(labs.map((l) => l.data.city))].sort(
       {labs.map((lab) => <LabCard lab={lab} />)}
     </div>
   ) : (
-    <p class="quiet">No labs listed yet. <a href={forms.lab}>Submit the first one.</a></p>
+    <p class="quiet">No labs listed yet. <a href={submitForm('lab')}>Submit the first one.</a></p>
   )}
   <p class="quiet" id="no-results" hidden>No labs match these filters.</p>
 </Base>

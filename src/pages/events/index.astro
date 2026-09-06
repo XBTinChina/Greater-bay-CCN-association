@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import EventRow from '../../components/EventRow.astro';
 import { network, forms, routes, slotLine } from '../../lib/network';
+import { hasWebForm, submitForm } from '../../lib/submit';
 import { url } from '../../lib/url';
 import { publishedEvents, isUpcoming, byDateAsc, byDateDesc } from '../../lib/events';
 
@@ -25,10 +26,16 @@ for (const e of past) {
   <div class="actions" style="margin-top:0.5rem">
     <a class="btn small" href={routes.follow}>Follow the seminars</a>
     <a class="btn small" href={url('calendar.ics')}>Calendar feed</a>
-    <a class="btn small" href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a>
-    <a class="btn small" href={forms.event}>Propose an event</a>
+    <a class="btn small" href={routes.nominateEmail || submitForm('nomination')}>Nominate a speaker</a>
+    <a class="btn small" href={submitForm('event')}>Propose an event</a>
     <a class="btn small" href={url('docs/speaker-kit/')}>For speakers</a>
   </div>
+  {hasWebForm && (
+    <p class="small muted">
+      Proposing an event needs no account here. It also exists as a GitHub issue template, for the{' '}
+      <a href={forms.event}>event</a> and the <a href={forms.nomination}>nomination</a>.
+    </p>
+  )}
 
   <h2 id="upcoming">Upcoming</h2>
   {upcoming.length > 0 ? (
