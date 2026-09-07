@@ -1,0 +1,18 @@
+# Created from issue #2 by the intake workflow. Edit this file by pull request.
+
+pi: Shaonan Wang
+pi_native: 王少楠
+lab: Language Intelligence Neuroscience Cognition Lab
+institution: Hong Kong Polytechnic University
+institution_short: PolyU
+city: Hong Kong
+tier: member
+website: https://wangshaonan.github.io/LINCLab/
+keywords:
+  - Neurolinguistics
+  - Natural language processing
+description: >-
+  To understand human language comprehension in the brain through computable, testable models. To
+  develop reliable and useful language intelligence systems guided by brain-inspired principles and
+  interpretability, with applications in education, healthcare, and accessibility.
+joined: 2026-09-03
