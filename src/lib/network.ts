@@ -17,11 +17,6 @@ const Person = z.object({
 
 const optionalUrl = z.union([z.string().url(), z.literal('')]).default('');
 
-// The web-form endpoint. Empty until one is deployed, and https only, because
-// the browser posts personal data to it. See docs/web-forms.md.
-const optionalHttpsUrl = z
-  .union([z.string().url().startsWith('https://', 'submit_url must start with https://'), z.literal('')])
-  .default('');
 
 const Schema = z.object({
   name: z.string().min(1),
@@ -37,7 +32,6 @@ const Schema = z.object({
   founded: z.number().int(),
   contact_email: z.union([z.string().email(), z.literal('')]).default(''),
   mailing_list_url: optionalUrl,
-  submit_url: optionalHttpsUrl,
   repo_url: z.string().url(),
   seminar: z.object({
     slot: z.string().min(1),

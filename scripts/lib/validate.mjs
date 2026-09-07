@@ -1,9 +1,8 @@
-// The validation core shared by the intake script and the web-form worker.
+// The validation core for submitted forms.
 //
 // Everything here is pure and portable: no node: imports, no file system, no
-// yaml, no sharp. It runs unchanged under Node (scripts/intake.mjs), in a
-// worker runtime and in the browser, so a submission is judged by exactly the
-// same rules wherever it arrives from.
+// yaml, no sharp. That keeps the rules in one testable place, and means a
+// second front door could apply exactly the same ones if one is ever added.
 //
 // Two entry points read a whole form, both against the field descriptors in
 // scripts/lib/forms.mjs and both collecting their complaints into a `problems`
@@ -18,10 +17,9 @@
 // booleans, one per declared option in order.
 //
 // Rules that span several fields (a member lab must be in the Greater Bay
-// Area, an end time must follow a start time, a deadline must not be past)
-// live here too, in crossChecks, because both doors have to apply them: the
-// worker cannot file an issue the intake would then refuse, since a web
-// submitter has no account and cannot edit that issue afterwards.
+// Area, an end time must follow a start time, a deadline must not be past, no
+// meeting link may reach a public file) live here too, in crossChecks, so that
+// they sit beside the per-field ladder rather than inside the builders.
 
 import { GBA_CITIES, OTHER_CITY, TIME_ZONE } from './forms.mjs';
 import { parseCheckboxes, parseIssueForm } from './issue-form.mjs';
