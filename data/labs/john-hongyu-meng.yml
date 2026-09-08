@@ -1,0 +1,37 @@
+# Created from issue #15 by the intake workflow. Edit this file by pull request.
+
+pi: John Hongyu Meng
+pi_native: 孟洪宇
+lab: Meng lab for Predictive Coding
+institution: Guangdong Institute of Intelligence Science and Technology
+institution_short: GDIIST
+department: NA
+city: Zhuhai
+tier: member
+website: https://www.gdiist.cn/en/research/team_detail/170
+email: menghongyu@gdiist.cn
+scholar: https://scholar.google.com/citations?user=VfJmIsMAAAAJ&hl=en&oi=ao
+github: https://github.com/johnhongyumeng/
+orcid: https://orcid.org/0000-0001-5680-0195
+photo: john-hongyu-meng.webp
+keywords:
+  - Predictive Coding
+  - Computational Neuroscience
+  - Brain-Inspired Intelligence
+  - Spiking Neural Networks
+  - Neural Dynamics
+  - Neuromorphic Computing
+  - AI4Science
+description: >-
+  Our lab focuses on the mechanisms and technological applications of predictive coding in
+  neuroscience and brain-inspired intelligence. The ability to detect “surprise” is fundamental to
+  perception, learning, and adaptive behavior. In neuroscience, our lab investigates how the brain
+  forms and communicates internal representations, and how these representations influence
+  perception and prediction across different brain regions. In brain-inspired intelligence, we
+  explore how predictive coding mechanisms can be integrated with spiking neural networks to improve
+  the computational efficiency of large-scale neural models, while advancing their deployment on
+  neuromorphic hardware.
+looking_for: "Our group is continuously recruiting Postdoc, RA, and interns in the following areas:
+  (1) computational neuroscience, (2) AI for Science (AI4Science), and (3) neuroscience data
+  visualization and modeling. Interested candidates are encouraged to contact us by email."
+joined: 2026-09-08
