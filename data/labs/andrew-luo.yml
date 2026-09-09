@@ -1,0 +1,20 @@
+# Created from issue #17 by the intake workflow. Edit this file by pull request.
+
+pi: Andrew Luo
+lab: Computational Cognition Lab
+institution: University of Hong Kong
+institution_short: HKU
+city: Hong Kong
+tier: member
+email: aluo@hku.hk
+scholar: https://scholar.google.com/citations?hl=en&user=bWYvvkUAAAAJ&view_op=list_works&sortby=pubdate
+photo: andrew-luo.webp
+keywords:
+  - neural signal decoding
+  - brain-computer interface
+  - robotics
+description: >-
+  Our lab investigates the algorithms that enable brain-computer interfaces, in particular
+  approaches that can facilitate robust generalization of robotic control.
+looking_for: PhD students with a strong math background
+joined: 2026-09-09
