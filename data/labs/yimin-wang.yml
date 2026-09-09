@@ -1,0 +1,23 @@
+# Created from issue #19 by the intake workflow. Edit this file by pull request.
+
+pi: Yimin Wang
+pi_native: 王宜敏
+lab: METhODS Lab
+institution: Guangdong Institute of Intelligence Science and Technology
+city: Zhuhai
+tier: member
+website: https://metlab.site
+scholar: https://scholar.google.com/citations?user=MNuQBkMAAAAJ
+photo: yimin-wang.webp
+keywords:
+  - Bioimage analysis
+  - Neuroscience foundation models
+  - AI4Science
+  - Neuronal morphology computation
+description: >-
+  Our research group operates at the intersection of artificial intelligence and the brain/life
+  sciences. By leveraging techniques in artificial intelligence (AI), computer vision (CV), and
+  computer graphics (CG), we develop solutions ranging from neuroscience foundation models to
+  interactive visualization platforms.
+looking_for: Postdoc, Ph.D., and intern
+joined: 2026-09-09
