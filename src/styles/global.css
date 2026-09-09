@@ -50,6 +50,14 @@
   box-sizing: border-box;
 }
 
+/* The browser's own [hidden] rule has the same specificity as a class, so any
+   author rule that sets display — .lab { display: grid }, say — silently beats
+   it and el.hidden = true stops hiding anything. This makes the attribute mean
+   what it says, everywhere. */
+[hidden] {
+  display: none !important;
+}
+
 html {
   font-family: var(--font);
   font-size: 17px;
@@ -633,6 +641,13 @@ main {
   display: grid;
   gap: 2rem 2.5rem;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+/* The home page renders every lab and shows a window of six. Which six is
+   decided by the shuffle that follows the grid; without JavaScript it is the
+   first six alphabetically. Doing the cut in CSS rather than in the template is
+   what lets the shuffle choose from the whole roster. */
+.lab-grid.sample > :nth-child(n + 7) {
+  display: none;
 }
 .lab {
   display: grid;

@@ -1,0 +1,36 @@
+---
+/**
+ * Randomises the order of the element children of the container immediately
+ * before this component, once per page load.
+ *
+ * Why client-side: the site is statically generated, so shuffling at build time
+ * would fix one order until the next deploy. Only the browser can give every
+ * visitor a different one.
+ *
+ * The script is inline and unbundled (`is:inline`) so that it runs during
+ * parsing, while the container is in the DOM but before the browser has painted
+ * it. Deferred or bundled, it would run after first paint and the cards would
+ * visibly jump.
+ *
+ * Without JavaScript nothing happens and the server-rendered order stands, which
+ * is why that order is meaningful (alphabetical by PI) rather than arbitrary.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var host = document.currentScript && document.currentScript.previousElementSibling;
+    if (!host || host.children.length < 2) return;
+    var kids = Array.prototype.slice.call(host.children);
+    // Fisher-Yates: every permutation equally likely.
+    for (var i = kids.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var swap = kids[i];
+      kids[i] = kids[j];
+      kids[j] = swap;
+    }
+    var frag = document.createDocumentFragment();
+    for (var k = 0; k < kids.length; k++) frag.appendChild(kids[k]);
+    host.appendChild(frag);
+  })();
+</script>

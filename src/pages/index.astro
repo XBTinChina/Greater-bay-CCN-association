@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Raster from '../components/Raster.astro';
 import LabCard from '../components/LabCard.astro';
+import Shuffle from '../components/Shuffle.astro';
 import EventRow from '../components/EventRow.astro';
 import { network, forms, routes, founding, slotLine } from '../lib/network';
 import { url, absolute } from '../lib/url';
@@ -33,7 +34,13 @@ const past = events.filter((e) => !isUpcoming(e)).sort(byDateDesc);
 const talksHeld = past.filter((e) => e.data.type === 'seminar').length;
 const recentSpeakers = past.filter((e) => e.data.speaker).slice(0, 6);
 
-const newest = [...labs].sort((a, b) => b.data.joined.getTime() - a.data.joined.getTime()).slice(0, 6);
+// Every lab is rendered, and CSS shows only the first HOME_LABS of them. The
+// client-side shuffle then decides which those are, so front-page exposure
+// rotates on every visit instead of rewarding whoever joined most recently.
+// Cards beyond the cut cost a little markup and no images (they are lazy and
+// display:none), which is a fair trade at this size; revisit if the roster ever
+// reaches the hundreds.
+const showcase = [...labs].sort((a, b) => a.data.pi.localeCompare(b.data.pi, 'en'));
 const news = (await getCollection('news', (n) => !n.data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
@@ -153,19 +160,22 @@ const jsonld = {
   )}
 
   <div class="section-head">
-    <h2>{founding ? 'Founding labs' : 'Labs'}</h2>
+    <h2>Participating labs</h2>
     <a href={url('labs/')}>All labs</a>
   </div>
-  {newest.length > 0 ? (
-    <div class="lab-grid">
-      {newest.map((lab) => <LabCard lab={lab} compact />)}
-    </div>
+  {showcase.length > 0 ? (
+    <>
+      <div class="lab-grid sample">
+        {showcase.map((lab) => <LabCard lab={lab} compact />)}
+      </div>
+      <Shuffle />
+    </>
   ) : (
     <p class="quiet">The first labs are joining now. <a href={url('join/')}>Be one of them.</a></p>
   )}
-  {founding && newest.length > 0 && (
+  {founding && showcase.length > 0 && (
     <p class="small muted" style="margin-top:1.2rem">
-      Founding labs so far are in {citySentence}. Every city of the Greater Bay Area is welcome, and the roster
+      Participating labs are in {citySentence}. Every city of the Greater Bay Area is welcome, and the roster
       grows as labs join.
     </p>
   )}
