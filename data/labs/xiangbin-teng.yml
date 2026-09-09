@@ -1,19 +1,32 @@
-# First entry, created by the maintainer. Details were filled in from the
-# founding group chat and public sources; the PI should verify and edit.
+# Verified by the PI against the lab site, labsmrt.github.io, and PubMed.
+
 pi: Xiangbin Teng
 pi_native: 滕相斌
-lab: Teng Lab
+lab: SMRT Lab
 institution: The Chinese University of Hong Kong
 institution_short: CUHK
-department: Department of Psychology
+department: Department of Psychology; Brain and Mind Institute
 city: Hong Kong
 tier: member
+website: https://labsmrt.github.io/
+email: xiangbinteng@cuhk.edu.hk
+scholar: https://scholar.google.com/citations?user=Iocl3vsAAAAJ
+github: https://github.com/XBTinChina
+orcid: https://orcid.org/0000-0001-5360-4957
+profile: https://www.psy.cuhk.edu.hk/index.php/component/sppagebuilder/?view=page&id=558
+photo: xiangbin-teng.webp
 keywords:
-  - auditory neuroscience
-  - speech and music
+  - speech perception
+  - music perception
+  - rhythm and temporal processing
   - neural oscillations
   - MEG/EEG
+  - recurrent neural networks
 description: >-
-  We study how the human brain tracks and predicts the temporal structure of
-  speech and music, using MEG, EEG and computational models.
+  We study how the brain uses rhythmic and temporal cues to make sense of complex sounds: how
+  listeners segment speech and music into phrases, how they anticipate what comes next, and how the
+  auditory-motor pathway supports both. We work with MEG, EEG, psychophysics and recurrent neural
+  network models, and we are interested in what rhythm-based methods can offer speech and language
+  disorders.
+looking_for: PhD students, postdocs and research assistants interested in auditory neuroscience, music cognition or computational modelling
 joined: 2026-09-03
