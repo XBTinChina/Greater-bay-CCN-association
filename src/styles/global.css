@@ -357,20 +357,25 @@ main {
   align-items: center;
   margin-bottom: 3.5rem;
 }
-.hero .identity .acronym {
-  display: block;
-  font-size: clamp(2.8rem, 6.5vw, 4.4rem);
-  letter-spacing: -0.035em;
-  line-height: 1;
-}
+/* The full name leads and the acronym follows it as a label. "GBA-CCN" set
+   four inches tall told a first-time visitor nothing; the words it stands for
+   are the thing worth reading first. */
 .hero .identity .fullname {
   display: block;
-  font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: -0.005em;
+  font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.12;
+  text-wrap: balance;
+  max-width: 24ch;
+}
+.hero .identity .acronym {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   color: var(--muted);
-  margin-top: 0.7rem;
-  max-width: 32ch;
+  margin-top: 0.75rem;
 }
 .hero .pitch {
   max-width: var(--measure);
