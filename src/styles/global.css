@@ -371,11 +371,14 @@ main {
 }
 .hero .identity .acronym {
   display: block;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: var(--muted);
-  margin-top: 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  /* The site's one accent, so the short name is picked out by the same colour
+     the rest of the page uses for emphasis rather than a new one. The token is
+     defined per theme, viridis blue on light paper and a lifted teal on dark. */
+  color: var(--accent);
+  margin-top: 0.7rem;
 }
 .hero .pitch {
   max-width: var(--measure);
