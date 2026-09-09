@@ -6,14 +6,21 @@ import LabCard from '../components/LabCard.astro';
 import EventRow from '../components/EventRow.astro';
 import { network, forms, routes, founding, slotLine } from '../lib/network';
 import { url, absolute } from '../lib/url';
-import { publishedLabs, institutionsOf } from '../lib/labs';
+import { publishedLabs, institutionsOf, citiesOf } from '../lib/labs';
 import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
 import { brand, hasBrand } from '../lib/brand';
 
 const labs = await publishedLabs();
 const members = labs.filter((l) => l.data.tier === 'member');
 const institutions = institutionsOf(members);
-const cities = new Set(members.map((l) => l.data.city));
+// The cities the network is actually in, not the ones it hopes to be in. Both
+// the kicker and the founding note read off this, so neither can claim a city
+// with no lab in it or omit one that has joined.
+const cities = citiesOf(members);
+const cityLine = cities.length > 0 ? cities.join(' · ') : 'Guangdong · Hong Kong · Macao';
+// en-GB, not en: the rest of the site is British-spelled, and en would add a
+// serial comma ("Hong Kong, Macau, and Zhuhai").
+const citySentence = new Intl.ListFormat('en-GB', { style: 'long', type: 'conjunction' }).format(cities);
 
 const events = await publishedEvents();
 const upcoming = events.filter((e) => isUpcoming(e)).sort(byDateAsc);
@@ -45,7 +52,7 @@ const jsonld = {
 <Base hideBanner jsonld={jsonld}>
   <section class="hero">
     <div>
-      <div class="kicker">Hong Kong · Shenzhen · Guangzhou · Macau</div>
+      <div class="kicker">{cityLine}</div>
       <h1 class="identity">
         <span class="acronym">{network.acronym}</span>
         <span class="fullname">{network.name}</span>
@@ -77,7 +84,7 @@ const jsonld = {
     <section class="stats" aria-label="Network at a glance">
       <div class="stat"><div class="n">{members.length}</div><div class="l">{plural(members.length, 'member lab', 'member labs')}</div></div>
       <div class="stat"><div class="n">{institutions.length}</div><div class="l">{plural(institutions.length, 'institution', 'institutions')}</div></div>
-      <div class="stat"><div class="n">{cities.size}</div><div class="l">{plural(cities.size, 'city', 'cities')}</div></div>
+      <div class="stat"><div class="n">{cities.length}</div><div class="l">{plural(cities.length, 'city', 'cities')}</div></div>
       <div class="stat"><div class="n">{talksHeld}</div><div class="l">{plural(talksHeld, 'seminar held', 'seminars held')}</div></div>
     </section>
   )}
@@ -153,7 +160,8 @@ const jsonld = {
   )}
   {founding && newest.length > 0 && (
     <p class="small muted" style="margin-top:1.2rem">
-      Founding labs are being confirmed across Hong Kong, Shenzhen, Guangzhou and Macau; the roster grows as they join.
+      Founding labs so far are in {citySentence}. Every city of the Greater Bay Area is welcome, and the roster
+      grows as labs join.
     </p>
   )}
 

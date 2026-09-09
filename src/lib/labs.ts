@@ -1,4 +1,5 @@
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { GBA_CITIES } from './taxonomy';
 
 export type LabEntry = CollectionEntry<'labs'>;
 
@@ -27,6 +28,19 @@ export function initials(name: string): string {
 export async function publishedLabs(): Promise<LabEntry[]> {
   const labs = await getCollection('labs', (l) => !l.data.draft);
   return labs.sort((a, b) => a.data.pi.localeCompare(b.data.pi, 'en'));
+}
+
+/**
+ * Cities represented by the given labs, in Greater Bay Area order. Derived
+ * rather than declared: a hand-written list of cities goes stale the moment a
+ * lab joins from a city nobody thought to add, and worse, keeps naming cities
+ * the network has not actually reached.
+ */
+export function citiesOf(labs: LabEntry[]): string[] {
+  const order = GBA_CITIES as readonly string[];
+  return [...new Set(labs.map((l) => l.data.city))].sort(
+    (a, b) => order.indexOf(a) - order.indexOf(b) || a.localeCompare(b, 'en'),
+  );
 }
 
 export interface InstitutionSummary {

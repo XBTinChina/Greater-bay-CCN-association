@@ -2,17 +2,14 @@
 import Base from '../../layouts/Base.astro';
 import LabCard from '../../components/LabCard.astro';
 import { url } from '../../lib/url';
-import { publishedLabs, institutionsOf } from '../../lib/labs';
-import { GBA_CITIES } from '../../lib/taxonomy';
+import { forms } from '../../lib/network';
+import { publishedLabs, institutionsOf, citiesOf } from '../../lib/labs';
 
 const labs = await publishedLabs();
 const institutions = institutionsOf(labs);
 // Filters earn their place only once there is something to filter.
 const showFilters = labs.length >= 8;
-const cities = [...new Set(labs.map((l) => l.data.city))].sort(
-  (a, b) =>
-    (GBA_CITIES as readonly string[]).indexOf(a) - (GBA_CITIES as readonly string[]).indexOf(b) || a.localeCompare(b, 'en'),
-);
+const cities = citiesOf(labs);
 ---
 
 <Base title="Labs" description="Computational and cognitive neuroscience labs in the Greater Bay Area, filterable by city, institution and research keyword.">
