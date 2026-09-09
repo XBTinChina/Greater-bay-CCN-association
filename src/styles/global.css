@@ -377,11 +377,14 @@ main {
   font-size: 0.88rem;
 }
 .hero .kicker {
+  /* Spans both hero columns: the full list of Greater Bay Area cities needs the
+     whole width, and squeezed into the text column it wrapped to three lines. */
+  grid-column: 1 / -1;
   font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--muted);
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 .hero .native {
   color: var(--muted);
@@ -406,6 +409,12 @@ main {
 @media (max-width: 760px) {
   .hero {
     grid-template-columns: 1fr;
+  }
+  .hero .kicker {
+    /* Eleven cities need the tracking and size back on a phone, or the last one
+       is orphaned on a line of its own above the wordmark. */
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
   }
   .hero .raster {
     max-height: 140px;

@@ -7,17 +7,22 @@ import EventRow from '../components/EventRow.astro';
 import { network, forms, routes, founding, slotLine } from '../lib/network';
 import { url, absolute } from '../lib/url';
 import { publishedLabs, institutionsOf, citiesOf } from '../lib/labs';
+import { GBA_CITIES } from '../lib/taxonomy';
 import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
 import { brand, hasBrand } from '../lib/brand';
 
 const labs = await publishedLabs();
 const members = labs.filter((l) => l.data.tier === 'member');
 const institutions = institutionsOf(members);
-// The cities the network is actually in, not the ones it hopes to be in. Both
-// the kicker and the founding note read off this, so neither can claim a city
-// with no lab in it or omit one that has joined.
+// Two different claims, so two different lists. The kicker states the region
+// the network covers, which is every Greater Bay Area city whether or not a lab
+// has joined from it yet: a PI in Foshan should see Foshan and know they
+// qualify. The founding note below states where labs actually are, so it reads
+// off the roster and cannot name a city with no lab in it.
+// A no-break space before each separator keeps the "·" with the city it
+// follows, so a wrapped line never opens on a stray dot.
+const cityLine = (GBA_CITIES as readonly string[]).join('\u00A0· ');
 const cities = citiesOf(members);
-const cityLine = cities.length > 0 ? cities.join(' · ') : 'Guangdong · Hong Kong · Macao';
 // en-GB, not en: the rest of the site is British-spelled, and en would add a
 // serial comma ("Hong Kong, Macau, and Zhuhai").
 const citySentence = new Intl.ListFormat('en-GB', { style: 'long', type: 'conjunction' }).format(cities);
@@ -51,8 +56,8 @@ const jsonld = {
 
 <Base hideBanner jsonld={jsonld}>
   <section class="hero">
+    <div class="kicker">{cityLine}</div>
     <div>
-      <div class="kicker">{cityLine}</div>
       <h1 class="identity">
         <span class="acronym">{network.acronym}</span>
         <span class="fullname">{network.name}</span>
