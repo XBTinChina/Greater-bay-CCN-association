@@ -1,0 +1,16 @@
+# Created from issue #23 by the intake workflow. Edit this file by pull request.
+
+pi: Zeming Fang
+pi_native: 方泽鸣
+institution: Shenzhen University
+institution_short: SZU
+city: Shenzhen
+tier: member
+keywords:
+  - Decision making
+  - Computational modeling
+  - Plannning
+description: >-
+  Design game-based experiments and develop computational models to understand human decision-making
+  and planning.
+joined: 2026-09-10
