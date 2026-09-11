@@ -1,0 +1,25 @@
+# Created from issue #28 by the intake workflow. Edit this file by pull request.
+
+pi: Xiao-Jing Wang
+pi_native: 汪小京
+institution: Hong Kong University
+institution_short: HKU
+department: School of computing and data science & School of biomedical science
+city: Hong Kong
+tier: member
+website: https://www.cns.nyu.edu/wanglab/
+scholar: https://scholar.google.com/citations?user=cv-YgL0AAAAJ&hl=en&oi=ao
+github: https://github.com/xjwanglab
+photo: xiao-jing-wang.webp
+keywords:
+  - working memory
+  - decision making
+  - cognition
+  - neural circuit
+description: >-
+  Research in my group aims at understanding dynamical behavior and function of neural circuits.
+  Using theoretical and modeling approaches, in close collaboration with experimentalists, we
+  investigate the neural mechanisms and computational principles of cognitive processes, such as
+  decision-making (how we make a choice among multiple options) and working memory (how our brain
+  holds and manipulates information "online" in the absence of sensory stimulation).
+joined: 2026-09-12
