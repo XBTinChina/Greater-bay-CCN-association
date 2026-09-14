@@ -17,6 +17,12 @@
   --accent-strong: #2a3d6e;
   --accent-soft: #e9ecf5;
   --on-accent: #ffffff;
+  /* Controls that open something in place, as against links that navigate
+     away. Taken from the dark end of viridis and lifted until it is plainly
+     not body text: 8.8:1 on paper, and 1.95:1 against the ink so it does not
+     read as prose, while differing from the accent in lightness as well as
+     hue. */
+  --toggle: #6b2d7b;
   --band: linear-gradient(90deg, #440154, #414487, #2a788e, #22a884, #7ad151, #fde725);
   --radius: 6px;
   --font:
@@ -39,6 +45,10 @@
     --accent-strong: #b3e2dd;
     --accent-soft: #15292c;
     --on-accent: #0b1a1c;
+    /* The other end of viridis, softened. Purple would disappear against dark
+       paper, so the toggle keeps its distance from the teal accent by going
+       warm instead: 14:1 on paper, and the only warm colour on the page. */
+    --toggle: #f2e06b;
   }
 }
 
@@ -721,14 +731,41 @@ main {
   background: none;
   font: inherit;
   font-size: 0.85rem;
-  color: var(--accent);
+  /* Not the accent: the links beside it on the same card use that, and this
+     opens the card rather than leaving it. */
+  color: var(--toggle);
   cursor: pointer;
+}
+/* A disclosure triangle, drawn in CSS so no font has to carry the glyph. It
+   does the work colour cannot: simulated in Chromium, the plum and the accent
+   blue collapse to the same slate under deuteranopia and protanopia, so a
+   reader with the commonest colour blindness would see a control identical to
+   the links beside it. The shape stays visible to everyone, and it turns on
+   the aria-expanded the button already sets. */
+.lab .more::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 0.45em;
+  border-left: 0.36em solid currentColor;
+  border-top: 0.28em solid transparent;
+  border-bottom: 0.28em solid transparent;
+  transition: transform 0.15s ease;
+}
+.lab .more[aria-expanded='true']::before {
+  transform: rotate(90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab .more::before {
+    transition: none;
+  }
 }
 .lab .more:hover {
   text-decoration: underline;
 }
 .lab .more:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--toggle);
   outline-offset: 2px;
   border-radius: 2px;
 }
