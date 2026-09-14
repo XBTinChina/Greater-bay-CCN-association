@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import Mark from '../components/Mark.astro';
-import { network, forms, routes, founding } from '../lib/network';
+import { network, forms, routes } from '../lib/network';
 import { url, absolute } from '../lib/url';
 import { brand, hasBrand } from '../lib/brand';
 
@@ -101,7 +101,7 @@ const ogImage = absolute('og.png');
           ))}
           <a class="follow" href={routes.follow} title="Follow the seminars">Follow</a>
           <a class="btn small primary" href={url('join/')} aria-current={isCurrent('join/') ? 'page' : undefined}>
-            {founding ? 'Join the founding cohort' : 'Join'}
+            Join
           </a>
         </nav>
       </div>

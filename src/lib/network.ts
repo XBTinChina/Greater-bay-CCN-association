@@ -53,7 +53,7 @@ export const founding = network.stage === 'founding';
 
 /** The seminar slot, with the caveat while it awaits confirmation. */
 export const slotLine = network.seminar.proposed
-  ? `Proposed: ${network.seminar.slot}, subject to confirmation by the founding labs`
+  ? `Proposed: ${network.seminar.slot}, subject to confirmation by the member labs`
   : network.seminar.slot;
 
 /** Issue-form links. Template file names must match .github/ISSUE_TEMPLATE/. */

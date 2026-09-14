@@ -39,7 +39,7 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
   </p>
 
   {rendered.length === 0 ? (
-    <p class="quiet">No open positions right now. Labs joining the founding cohort will post theirs here.</p>
+    <p class="quiet">No open positions right now. Member labs post theirs here as they open.</p>
   ) : (
     <ul class="rows">
       {rendered.map(({ p, Content }) => (

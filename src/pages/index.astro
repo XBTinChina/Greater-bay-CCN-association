@@ -73,7 +73,7 @@ const jsonld = {
       {network.pitch && <p class="pitch">{network.pitch}</p>}
       {network.tagline_native && <p class="native" lang="zh">{network.tagline_native}</p>}
       <div class="actions">
-        <a class="btn primary" href={url('join/')}>{founding ? 'Join the founding cohort' : 'Join as a lab'}</a>
+        <a class="btn primary" href={url('join/')}>Join as a lab</a>
         <a class="btn" href={routes.follow}>Follow the seminars</a>
       </div>
       <ul class="inline-list commitments" aria-label="Terms of membership">
@@ -135,7 +135,7 @@ const jsonld = {
   ) : (
     <p class="quiet">
       {founding
-        ? 'The first event will be a founding roundtable, where each founding lab introduces itself and the seminar format is agreed. '
+        ? 'The first event will be a roundtable, where each lab introduces itself and the seminar format is agreed. '
         : 'To be announced. '}
       {slotLine}. <a href={routes.follow}>Follow the seminars</a> or{' '}
       <a href={routes.nominateEmail || forms.nomination}>nominate a speaker</a>.
