@@ -466,7 +466,7 @@ export async function runIntake({ eventPath, outRoot = REPO_ROOT }) {
 
   const problems = [];
   const warnings = [];
-  const values = readFields(FORMS[type], issue.body ?? '', problems);
+  const values = readFields(FORMS[type], issue.body ?? '', problems, warnings);
   const created = dateInHongKong(issue.created_at);
   // A deadline is compared with today, not with the issue's creation date: an
   // edit may arrive months later.

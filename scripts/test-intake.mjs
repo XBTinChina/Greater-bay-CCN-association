@@ -425,6 +425,62 @@ await test('a lab entry cannot be submitted without claiming the authority to su
   assert.match(bad[0], /PI's email/);
 });
 
+await test('a question the form never asked is a note to the coordinator, not a refusal', () => {
+  // A submitter with the page already open sends a body with no "Authority to
+  // submit" heading at all. That is not a refusal to answer, so it must not be
+  // treated as one: the roster lost a real PI to exactly this, two minutes
+  // after the field went live.
+  const full = renderBody(FORMS.lab, SAMPLES.lab);
+  const stale = full.replace(/### Authority to submit\n\n[\s\S]*?(?=### Consent)/, '');
+  assert.equal(stale.includes('Authority to submit'), false, 'the section must really be gone');
+
+  const problems = [];
+  const warnings = [];
+  const values = readFields(FORMS.lab, stale, problems, warnings);
+  assert.deepEqual(problems, [], 'a question never asked must not block the submission');
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /no "Authority to submit" section/);
+  assert.match(warnings[0], /Check it with the submitter before merging/);
+  assert.deepEqual(values.authority, [false]);
+
+  // Without a warnings channel the old strictness stands, so no caller can
+  // lose the check by forgetting the argument.
+  const strict = [];
+  readFields(FORMS.lab, stale, strict);
+  assert.equal(strict.length, 1);
+  assert.match(strict[0], /^Tick the box "I am the PI/);
+});
+
+await test('the grace is only for the question that was added, and only when absent', () => {
+  const full = renderBody(FORMS.lab, SAMPLES.lab);
+
+  // Present but unticked: the submitter saw it and did not answer. Still fails.
+  const unticked = full.replace(`- [X] ${AUTHORITY_CONFIRM}`, `- [ ] ${AUTHORITY_CONFIRM}`);
+  assert.notEqual(unticked, full, 'the fixture must render the box ticked');
+  const seen = [];
+  const seenWarnings = [];
+  readFields(FORMS.lab, unticked, seen, seenWarnings);
+  assert.equal(seen.length, 1);
+  assert.match(seen[0], /^Tick the box "I am the PI/);
+  assert.deepEqual(seenWarnings, [], 'a box on the form is not a stale form');
+
+  // Consent has been on the form since the first day, so a missing Consent
+  // section was deleted rather than never offered. No grace: publishing an
+  // entry whose consent cannot be shown is the one thing this must not do.
+  const noConsent = full.replace(/### Consent\n\n[\s\S]*$/, '');
+  assert.equal(noConsent.includes('### Consent'), false);
+  const consentProblems = [];
+  const consentWarnings = [];
+  readFields(FORMS.lab, noConsent, consentProblems, consentWarnings);
+  assert.equal(consentProblems.length, 2, 'both consent boxes must still be demanded');
+  assert.deepEqual(consentWarnings, []);
+  assert.equal(
+    FORMS.lab.fields.filter((f) => f.graceWhenAbsent).map((f) => f.id).join(),
+    'authority',
+    'exactly one field carries the grace',
+  );
+});
+
 await test("the PI's email is a coordinator's signal, never a published field", () => {
   const problems = [];
   const values = readValues(FORMS.lab, { ...SAMPLES.lab, pi_email: 'pi@university.edu' }, problems);

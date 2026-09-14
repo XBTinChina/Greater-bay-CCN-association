@@ -103,8 +103,15 @@ export const FORMS = Object.freeze({
       f('description', 'Description (one or two sentences, max 700 characters)', 'description', 'sentence', { required: true, max: 700 }),
       f('looking_for', 'Looking for', 'looking_for', 'sentence', { max: 300 }),
       f('photo', 'PI photo', null, 'image'),
+      // graceWhenAbsent: this field was added to the form after the network
+      // opened, and a submitter with the page already loaded sends a body with
+      // no such section at all. Refusing them for not answering a question they
+      // were never shown is wrong, so an absent section becomes a note to the
+      // coordinator instead. An unticked box that IS on the form still fails.
+      // Safe to drop once no stale form can still be open.
       f('authority', 'Authority to submit', null, 'checkboxes', {
         options: [{ label: AUTHORITY_CONFIRM, required: true }],
+        graceWhenAbsent: true,
       }),
       // key null: a third party's address is for a coordinator to check
       // against, never for the roster. It is deliberately not the same field

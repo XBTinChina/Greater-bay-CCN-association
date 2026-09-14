@@ -283,10 +283,27 @@ export function normaliseValue(field, value, problems) {
  * Read a submission from the Markdown body GitHub generates for an issue form.
  * @returns {Record<string, unknown>} values keyed by field id.
  */
-export function readFields(form, body, problems) {
+export function readFields(form, body, problems, warnings) {
   const parsed = parseIssueForm(body, form.fields.map((f) => f.label));
   const values = {};
-  for (const field of form.fields) values[field.id] = normalise(field, parsed.get(field.label) ?? '', problems);
+  for (const field of form.fields) {
+    const raw = parsed.get(field.label);
+    // Absent, not merely empty: the heading itself is missing, so this body
+    // came from a version of the form without the field. Only fields marked
+    // graceWhenAbsent get the benefit of that doubt; a missing Consent section
+    // has been deleted rather than never offered, and still fails.
+    if (raw === undefined && field.graceWhenAbsent && warnings) {
+      warnings.push(
+        `The issue has no "${plainLabel(field.label)}" section, so it was filled in on a version of the form that predates that question. Check it with the submitter before merging: ${field.options
+          .filter((option) => option.required)
+          .map((option) => `"${plainLabel(option.label)}"`)
+          .join('; ')}.`,
+      );
+      values[field.id] = field.options.map(() => false);
+      continue;
+    }
+    values[field.id] = normalise(field, raw ?? '', problems);
+  }
   return values;
 }
 
