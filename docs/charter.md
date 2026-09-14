@@ -38,6 +38,10 @@ The unit of membership is the lab: a group led by a principal investigator at a 
 
 "Computational and cognitive neuroscience" is read broadly: computational modelling of brain and behaviour; systems and cognitive neuroscience using computational methods; neuroAI and brain-inspired computing; and neural data science.
 
+Membership is light but not passive. A member lab is expected to take part in network activities and to take its turn in the seminar rotation, because the network has no staff and no budget: what it does, member labs do. There is no minimum attendance requirement, and a quiet year is not by itself grounds for removal, though the annual confirmation of an entry still has to be answered; a lab leaves the roster only as section 8 describes, or under the [code of conduct](../code-of-conduct/).
+
+No lab is expected to share unpublished data, research ideas, funding or other confidential material with the network or with another member lab. What the network asks for is time and attention. The [member lab guidelines](../member-guidelines/) set out what taking part looks like in practice.
+
 Labs apply through the "[Lab]" issue form, linked from the [join page](../../join/). Intake is automatic; approval is human. A coordinator reviews every application, and nothing appears on the site until the pull request is merged, because the roster is only a credential if it is curated. The entry lists the PI, lab name, institution and city, keywords, links and, with permission, a photo that is displayed on the network's channels only.
 
 ## 5. Coordinators
@@ -56,6 +60,7 @@ Until the founding labs confirm the first coordinators, one interim coordinator,
 
 - Slot: alternate Thursdays, 16:00 to 17:00 Hong Kong Time (UTC+8), on Zoom, with Tencent Meeting (VooV) as fallback.
 - Rotating hosts: each seminar is hosted by one member lab in turn. The host invites the speaker, chairs, and circulates the meeting link to the announcement list; links are never published on the site.
+- Swaps and deferrals: a lab may exchange its slot with another lab, or ask the coordinators to move it to a later round. A lab that swaps tells the coordinators the new order, because they keep the calendar and the rotation. A slot is never left empty without telling them.
 - Junior slot: the host may open with a 15-minute talk by a student or postdoc.
 - Speaker nominations: anyone may nominate through the "[Speaker]" issue form. The queue is read by the coordinators and never published on the site. Nominations are GitHub issues in a public repository, so they should say only what the nominee could read.
 - Recording: only with the speaker's written consent, given before the talk; recordings go to both Bilibili and YouTube.
@@ -63,9 +68,9 @@ Until the founding labs confirm the first coordinators, one interim coordinator,
 
 ## 7. Other activities
 
-- Learning index: the learning page is an index, not a file host. Tutorials stay where their authors host them. Larger material produced by the network, such as summer school recordings, goes in a separate materials repository using GitHub Releases, connected to Zenodo so each edition receives a DOI.
+- Learning index: the [resources page](../../resources/) is an index, not a file host. Tutorials stay where their authors host them. Larger material produced by the network, such as summer school recordings, goes in a separate materials repository using GitHub Releases, connected to Zenodo so each edition receives a DOI.
 - Positions: member and affiliate labs may list open positions; listings are removed when their closing date passes.
-- Events: everything with a date is an event, whether seminar, workshop, summer school, hackathon or journal club. A code of conduct must be adopted before the network's first multi-day event.
+- Events: everything with a date is an event, whether seminar, workshop, summer school, hackathon or journal club. The [code of conduct](../code-of-conduct/) applies to every one of them; coordinators will review it with member labs and add what an in-person event needs before the network's first multi-day event.
 
 ## 8. Delisting and annual refresh
 
