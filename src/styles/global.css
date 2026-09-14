@@ -703,10 +703,34 @@ main {
 .lab .desc {
   font-size: 0.92rem;
   margin: 0.5rem 0 0;
+}
+/* Only the script clamps, and only where the text really is too long, so that
+   without JavaScript a long description is shown in full rather than cut off
+   with no way to read the rest. */
+.lab .desc.clamp {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.lab .more {
+  display: block;
+  margin-top: 0.45rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--accent);
+  cursor: pointer;
+}
+.lab .more:hover {
+  text-decoration: underline;
+}
+.lab .more:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 .lab .links {
   margin-top: 0.5rem;

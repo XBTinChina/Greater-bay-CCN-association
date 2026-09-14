@@ -1,0 +1,58 @@
+---
+/**
+ * Gives every lab card whose text is too tall a "Show more" toggle.
+ *
+ * The stylesheet no longer clamps on its own. This script clamps, measures, and
+ * keeps the clamp only where the text really does overflow, which is why a
+ * reader without JavaScript sees the whole entry rather than three lines and no
+ * way to reach the rest. One toggle per card, controlling every clamped part of
+ * it, so a card with both a description and a "Looking for" line does not grow
+ * two buttons.
+ *
+ * Inline and unbundled so it runs during parsing, before the cards are painted:
+ * deferred, the clamp would appear as a visible collapse a moment after the
+ * page had already drawn the full text.
+ *
+ * Measurement is safe this early because the site uses system fonts, so line
+ * heights are settled at first layout; nothing here waits on a web font or on
+ * the lazily loaded portraits, which have their dimensions in the markup.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var cards = document.querySelectorAll('.lab');
+    for (var i = 0; i < cards.length; i++) attach(cards[i]);
+
+    function attach(card) {
+      var parts = card.querySelectorAll('.desc');
+      if (!parts.length) return;
+      var j;
+      for (j = 0; j < parts.length; j++) parts[j].classList.add('clamp');
+
+      var overflows = false;
+      // One extra pixel of slack: sub-pixel line heights make an exactly
+      // fitting paragraph look like it overflows.
+      for (j = 0; j < parts.length; j++) {
+        if (parts[j].scrollHeight > parts[j].clientHeight + 1) overflows = true;
+      }
+      if (!overflows) {
+        for (j = 0; j < parts.length; j++) parts[j].classList.remove('clamp');
+        return;
+      }
+
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'more';
+      button.setAttribute('aria-expanded', 'false');
+      button.textContent = 'Show more';
+      button.addEventListener('click', function () {
+        var open = button.getAttribute('aria-expanded') === 'true';
+        for (var k = 0; k < parts.length; k++) parts[k].classList.toggle('clamp', open);
+        button.setAttribute('aria-expanded', open ? 'false' : 'true');
+        button.textContent = open ? 'Show more' : 'Show less';
+      });
+      parts[parts.length - 1].insertAdjacentElement('afterend', button);
+    }
+  })();
+</script>
