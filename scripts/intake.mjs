@@ -156,6 +156,15 @@ async function warnUnknownLab(id, label, ctx) {
 function buildLab(v, ctx) {
   const { problems, warnings, issue, created } = ctx;
   crossChecks('lab', v, problems);
+  // An address here means the submitter is not the PI. The consent statements
+  // are first person, so a coordinator confirms with the PI before merging.
+  // The address itself is deliberately not repeated: it is already in the
+  // issue, which is public, and does not need a second public copy.
+  if (v.pi_email) {
+    warnings.push(
+      'Submitted by somebody other than the PI, who gave an address for confirmation in the issue. Write to the PI and wait for a reply before merging: the consent boxes are worded in the first person, so only the PI can tick them.',
+    );
+  }
   const city = v.city === OTHER_CITY ? v.city_other : v.city;
   const slug = pickSlug(
     [

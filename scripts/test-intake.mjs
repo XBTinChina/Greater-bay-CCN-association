@@ -14,7 +14,15 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import sharp from 'sharp';
 import { parse as parseYaml } from 'yaml';
-import { CONSENT_PRIVACY, CONSENT_PUBLISH, DATA_TYPES, FORMS, OTHER_CITY, detectType } from './lib/forms.mjs';
+import {
+  AUTHORITY_CONFIRM,
+  CONSENT_PRIVACY,
+  CONSENT_PUBLISH,
+  DATA_TYPES,
+  FORMS,
+  OTHER_CITY,
+  detectType,
+} from './lib/forms.mjs';
 import { parseCheckboxes, parseIssueForm } from './lib/issue-form.mjs';
 import { checkNoMeetingLinks, crossChecks, readFields, readValues } from './lib/validate.mjs';
 import { REPO_ROOT, findImageUrl, slugify } from './intake.mjs';
@@ -245,6 +253,8 @@ const SAMPLES = {
     description: 'A synthetic lab used by the web-form tests.',
     looking_for: '',
     photo: '',
+    authority: [AUTHORITY_CONFIRM],
+    pi_email: '',
     consent: [CONSENT_PUBLISH, CONSENT_PRIVACY],
   },
   event: {
@@ -389,6 +399,44 @@ await test('readValues refuses an unticked required consent box', () => {
   const wrong = [];
   readValues(FORMS.lab, { ...SAMPLES.lab, consent: ['I agree to everything'] }, wrong);
   assert.equal(wrong.length, 2);
+});
+
+await test('a lab entry cannot be submitted without claiming the authority to submit it', () => {
+  // The consent statements are first person. Somebody filling the form in for
+  // a colleague has to say so, or the entry does not pass the door.
+  const untickedmissing = [];
+  const values = readValues(FORMS.lab, { ...SAMPLES.lab, authority: [] }, untickedmissing);
+  assert.equal(untickedmissing.length, 1);
+  assert.match(
+    untickedmissing[0],
+    /^Tick the box "I am the PI, or I have the PI's agreement to submit this entry" under "Authority to submit"\.$/,
+  );
+  assert.deepEqual(values.authority, [false]);
+
+  // Ticking it is not the same as being the PI, so the address stays optional.
+  const asPi = [];
+  readValues(FORMS.lab, { ...SAMPLES.lab, pi_email: '' }, asPi);
+  assert.deepEqual(asPi, []);
+
+  // When it is given it must be a real address, checked like any other.
+  const bad = [];
+  readValues(FORMS.lab, { ...SAMPLES.lab, pi_email: 'not-an-address' }, bad);
+  assert.equal(bad.length, 1);
+  assert.match(bad[0], /PI's email/);
+});
+
+await test("the PI's email is a coordinator's signal, never a published field", () => {
+  const problems = [];
+  const values = readValues(FORMS.lab, { ...SAMPLES.lab, pi_email: 'pi@university.edu' }, problems);
+  assert.deepEqual(problems, []);
+  assert.equal(values.pi_email, 'pi@university.edu');
+
+  // No field descriptor routes it to a data-file key, so no builder can write
+  // it out however carelessly it spreads its values.
+  const field = FORMS.lab.fields.find((f) => f.id === 'pi_email');
+  assert.equal(field.key, null);
+  // And it is not the lab's own contact address, which the PI chooses to publish.
+  assert.equal(FORMS.lab.fields.find((f) => f.id === 'email').key, 'email');
 });
 
 await test('a meeting link in a public field is refused', () => {
@@ -576,6 +624,44 @@ await test('lab fixture produces a YAML entry and a 400x400 WebP photo', async (
   assert.match(output, /^type=lab$/m);
   assert.match(output, /^title=Testa Fixture \(FUST\)$/m);
   generated.push(...r.summary.files);
+});
+
+await test('a submission on the PI behalf warns the coordinator and publishes no address', async () => {
+  const fixture = await loadFixture(
+    'lab',
+    (payload) => {
+      payload.issue.body = payload.issue.body.replace(
+        "### PI's email, if you are not the PI\r\n\r\n_No response_",
+        "### PI's email, if you are not the PI\r\n\r\ntesta.fixture@university.example",
+      );
+      payload.issue.number = 102;
+      return payload;
+    },
+    photoUrl,
+  );
+  // Its own output root: this writes the same slug as the fixture test above,
+  // and the schema check later copies that file out of OUT and re-runs the
+  // intake against it, so clobbering it there would break a later test.
+  const root = path.join(OUT, 'on-behalf');
+  const r = runIntake(await writeEvent('lab-on-behalf', fixture), { root });
+  assert.equal(r.status, 0, r.stderr);
+
+  // The coordinator is told to write to the PI first.
+  assert.match(r.stderr, /Submitted by somebody other than the PI/);
+  assert.match(r.stderr, /before merging/);
+
+  // The address itself goes nowhere: not into the data file, and not repeated
+  // into the warning, because the issue that already holds it is public.
+  const text = await fs.readFile(path.join(root, 'data/labs/testa-fixture.yml'), 'utf8');
+  assert.equal(text.includes('university.example'), false, 'the address must not reach the data file');
+  assert.equal(r.stderr.includes('university.example'), false, 'the warning must not repeat the address');
+  const data = parseYaml(text);
+  assert.equal('pi_email' in data, false);
+  // The lab's own contact address is a different field and is still absent
+  // here, because this fixture leaves it empty.
+  assert.equal('email' in data, false);
+  // Not added to `generated`: this rewrites the same slug the fixture test
+  // above already registered for the schema check.
 });
 
 await test('event fixture produces Markdown with quoted times and the abstract as body', async () => {

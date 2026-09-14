@@ -48,6 +48,9 @@ const SITE = 'https://xbtinchina.github.io/Greater-bay-CCN-association';
 export const CONSENT_PUBLISH =
   "I consent to the publication of this lab entry (name, affiliation, keywords, description and links) under the CC BY 4.0 licence, and to the display of the photo, if provided, on the network's website and channels; the photo itself is not licensed for reuse";
 export const CONSENT_PRIVACY = `I have read the [privacy and consent statement](${SITE}/docs/privacy-and-consent/)`;
+// The consent statements above are written in the first person, so a lab entry
+// submitted by somebody other than the PI needs this said explicitly.
+export const AUTHORITY_CONFIRM = "I am the PI, or I have the PI's agreement to submit this entry";
 
 /**
  * Field kinds understood by scripts/intake.mjs:
@@ -100,6 +103,13 @@ export const FORMS = Object.freeze({
       f('description', 'Description (one or two sentences, max 700 characters)', 'description', 'sentence', { required: true, max: 700 }),
       f('looking_for', 'Looking for', 'looking_for', 'sentence', { max: 300 }),
       f('photo', 'PI photo', null, 'image'),
+      f('authority', 'Authority to submit', null, 'checkboxes', {
+        options: [{ label: AUTHORITY_CONFIRM, required: true }],
+      }),
+      // key null: a third party's address is for a coordinator to check
+      // against, never for the roster. It is deliberately not the same field
+      // as the lab's own contact email, which the PI chooses to publish.
+      f('pi_email', "PI's email, if you are not the PI", null, 'email'),
       f('consent', 'Consent', null, 'checkboxes', {
         options: [
           { label: CONSENT_PUBLISH, required: true },

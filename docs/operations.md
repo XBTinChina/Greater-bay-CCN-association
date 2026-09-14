@@ -35,6 +35,7 @@ Open the pull request and read the file. Check that:
 
 - It is a real lab led by a principal investigator at an institution in a Greater Bay Area city, or a genuine affiliate elsewhere with a stated connection to the region. A look at the institutional page or a recent paper is enough.
 - The consent box was ticked in the issue.
+- If the submitter is not the PI, they gave an address for the PI and the PI has replied. The pull request says so in a warning, because the consent statements are written in the first person and only the PI can tick them. Do not merge on the submitter's word alone: three of the first fifteen submissions came from someone other than the PI.
 - If a photo was given, it is a head-and-shoulders picture of the PI, not a logo, a group photo or a stock image. A photo is optional; the roster shows initials otherwise.
 - Keywords are sensible and few. Five or six is plenty; trim a long list rather than reject.
 - The description is plain. No marketing language, no rankings, no superlatives. Edit lightly if needed and say so in a comment.

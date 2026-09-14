@@ -144,6 +144,28 @@ body:
       description: Optional. Drag a square head-and-shoulders photo of the PI here. It will be resized to 400x400 and stripped of metadata. Without a photo the roster shows the PI's initials.
       placeholder: Drop the image file here, or paste it. Leave empty for no photo.
   - type: checkboxes
+    id: authority
+    attributes:
+      label: Authority to submit
+      description: >-
+        The consent below is written in the first person, so if you are filling
+        this in for someone else we need to know that they agreed to it.
+      options:
+        - label: I am the PI, or I have the PI's agreement to submit this entry
+          required: true
+  - type: input
+    id: pi_email
+    attributes:
+      label: PI's email, if you are not the PI
+      description: >-
+        A coordinator may write to confirm the entry before it is published.
+        Leave it empty if you are the PI. This issue is public, so an address
+        typed here is public too: if the PI would rather theirs stayed off a
+        public page, leave this empty and ask them to add a comment on the
+        issue instead. Either way the address is never published on the
+        website.
+      placeholder: jane.doe@university.edu
+  - type: checkboxes
     id: consent
     attributes:
       label: Consent

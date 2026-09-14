@@ -29,6 +29,8 @@ A lab entry can contain these fields and nothing else:
 - `looking_for`: who the lab seeks (optional)
 - `joined`: the date the entry was approved
 
+The lab form has one field that is never published on the site: the PI's address, asked for only when somebody else fills the form in on their behalf, so that a coordinator can confirm the entry before it appears. It is not written to any data file. It is, however, typed into a GitHub issue, and issues in this repository are public, so an address given there is readable by anyone. Nobody has to give it: a submitter may leave it empty and ask the PI to comment on the issue instead, which confirms the entry without publishing an address.
+
 The schema requires only name, institution, city, keywords and joining date; the form also asks for a short description. Leave any other field blank if you do not want it published.
 
 ## Where the data is stored
