@@ -1,0 +1,17 @@
+# Created from issue #30 by the intake workflow. Edit this file by pull request.
+
+pi: Chaoming Wang
+pi_native: 王超名
+lab: Large-scale brain simulation lab
+institution: Guangdong Institute of Intelligence Science and Technology
+institution_short: GDIIST
+city: Zhuhai
+tier: member
+website: http://chaobrain.com/
+email: wangchaoming@gdiist.cn
+scholar: https://scholar.google.com/citations?hl=zh-CN&user=aisZJdsAAAAJ&view_op=list_works&sortby=pubdate
+photo: chaoming-wang.webp
+keywords:
+  - brain simulation
+description: Multi-scale, full-stack, brain simulation.
+joined: 2026-09-14
