@@ -658,7 +658,20 @@ main {
 .lab-grid {
   display: grid;
   gap: 2rem 2.5rem;
+  /* Two per row. Three fitted the width, but only at about 290px a column,
+     which is why every full card's description ran past three lines and needed
+     its toggle. At two the column is nearer 440px and most entries fit. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+/* The home page strip is compact cards, a name and three keywords, so it keeps
+   filling the width rather than leaving half of it empty. */
+.lab-grid.sample {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+@media (max-width: 620px) {
+  .lab-grid {
+    grid-template-columns: 1fr;
+  }
 }
 /* The home page renders every lab and shows a window of six. Which six is
    decided by the shuffle that follows the grid; without JavaScript it is the
