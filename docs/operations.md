@@ -9,7 +9,7 @@ This page is for the people who keep the site running. Everything on the site co
 
 ## The repository in brief
 
-- `data/network.yml`: network-wide settings (name, mission, the status banner shown on every page, contact email, seminar slot and platform, coordinators, host institutions).
+- `data/network.yml`: network-wide settings (name, mission, the status banner shown on every page, contact email, the seminar slot, whether that slot is still marked proposed, the platform, coordinators, host institutions).
 - `data/labs/<pi-slug>.yml`, `data/events/<YYYY-MM-DD>-<slug>.md`, `data/tutorials/<slug>.yml`, `data/positions/<slug>.md`, `data/news/<YYYY-MM-DD>-<slug>.md`: one file per entry.
 - `docs/<slug>.md`: these documents.
 - `public/photos/<pi-slug>.webp`: PI photos, 400 by 400 pixels.
@@ -44,17 +44,17 @@ If all of that holds, merge. When in doubt, ask a second coordinator on the pull
 
 ## Reviewing events, tutorials and positions
 
-- Events: a member or affiliate lab is hosting, the date and time are in Hong Kong Time, and there is no meeting link in the file. Meeting links go out by email and the group chat only.
+- Events: a member or affiliate lab is hosting, the date and time are in Hong Kong Time, and there is no meeting link in the file. A seminar in the series sits on the second Friday of its month, 16:00 to 17:00, and on the host named in the rota; check the date against a calendar, because a date copied from an older file or an old template is likely to be a Thursday. Meeting links go out by email and the group chat only.
 - Tutorials: the linked material exists, is openly accessible without a login, and is what the entry says it is. Open the link yourself.
 - Positions: there is a real application deadline or an expiry date. The Monday build removes expired positions automatically; an entry without a date would sit there forever.
 
 ## Speaker nominations
 
-Nominations stay as issues labelled `speaker-nomination`; nothing is published. Hosts and coordinators pick from the list when planning a seminar. Close the issue with a one-line note when the person has been invited or has declined. Issues are publicly readable, so keep comments discreet: no remarks about someone's availability, funding or personal circumstances.
+Nominations stay as issues labelled `speaker-nomination`; nothing is published. Hosts and coordinators pick from the list when planning a seminar. The queue drains at twelve invitations a year, so a name can sit in it for a year or more: before inviting someone nominated long ago, check with the nominator that the suggestion still stands. Close the issue with a one-line note when the person has been invited or has declined. Issues are publicly readable, so keep comments discreet: no remarks about someone's availability, funding or personal circumstances.
 
 ## The weekly routine
 
-Two workflows run every Monday morning. **Deploy site** runs at 00:00 UTC (08:00 Hong Kong Time) and rebuilds the site, which refreshes the split between upcoming and past events and drops expired positions. **Weekly digest** runs an hour later, at 09:00 Hong Kong Time, and runs the lychee link checker over the built site and opens, or updates, an issue labelled `weekly-digest` listing pending intake issues, open intake pull requests and broken links.
+Two workflows run every Monday morning. **Deploy site** runs at 00:00 UTC (08:00 Hong Kong Time) and rebuilds the site, which refreshes the split between upcoming and past events and drops expired positions. **Weekly digest** runs an hour later, at 09:00 Hong Kong Time, and runs the lychee link checker over the built site and opens, or updates, an issue labelled `weekly-digest` listing pending intake issues, open intake pull requests and broken links. The seminar is on a Friday and the upcoming and past split is computed at build time, so a talk that has already happened stays under upcoming until the Monday rebuild. With one seminar a month, most Mondays carry no seminar work at all.
 
 One coordinator reads the digest that day or the next. Merge what is ready, reply to what is stuck, and fix broken links by pull request.
 
@@ -62,11 +62,11 @@ One thing in that reading needs a coordinator rather than a reply: an accepted s
 
 ### Optional assisted triage
 
-A scheduled AI assistant session may help with this routine: it can triage new submissions, fix formatting, draft the next announcement text and poster, and post a summary in the digest. It never merges. Approval is a human act, and the review checklist above applies to anything it prepared.
+A scheduled AI assistant session may help with this routine: it can triage new submissions, fix formatting, draft the next announcement text and poster, and post a summary in the digest. Announcement and poster work is live only in the fortnight before the second Friday, so in most weeks there is none. It never merges. Approval is a human act, and the review checklist above applies to anything it prepared.
 
 ### Monthly sweep
 
-Once a month, look at anything in the digest older than 30 days and give it a decision: merge, ask for changes, or close with a short note explaining why.
+Once a month, look at anything in the digest older than 30 days and give it a decision: merge, ask for changes, or close with a short note explaining why. The week after the second Friday suits it, because the seminar is done and the next host can be confirmed in the same sitting.
 
 ## Recordings
 
@@ -75,6 +75,8 @@ Record only with the speaker's written consent, given before the talk (see [priv
 ## Editing network.yml
 
 Coordinators, host institutions, the contact email, the status banner and the seminar slot all live in `data/network.yml`. Change them by pull request like any other file; Build check validates it, so a typo shows up before it reaches the site. Remove the status banner by leaving the field empty.
+
+The slot is two fields, not one. `seminar.slot` is the sentence the site prints. `seminar.proposed` decides whether that sentence is printed with "Proposed: ..., subject to confirmation by the member labs" in front of it on the home page, the events index and the About page. Set `proposed: false` once the coordinators have settled the slot, and correct the comment above the field at the same time, so the next coordinator can see the flag was decided rather than forgotten. One thing the flag does not reach: the slot sentences written out by hand in `README.md` and in the documents under `docs/`, which have to be edited in the same pull request. The "Proposed arrangements" note on the About page follows `seminar.proposed` too, so it clears itself.
 
 ## Adding or rotating a coordinator
 

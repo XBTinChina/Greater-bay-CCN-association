@@ -5,7 +5,7 @@ audience: public
 order: 10
 ---
 
-This is the founding document of the network: what it is, who belongs to it, who coordinates it, how the seminars run, and how the document is amended. It is a draft until the founding labs ratify it; see the note at the end.
+This is the founding document of the network: what it is, who belongs to it, who coordinates it, how the seminars run, and how the document is amended. It is a draft until the founding labs ratify it; see the note at the end. The seminar slot in section 6 is the exception: the coordinators settled it in September 2026, so it does not wait on ratification.
 
 ## 1. Name
 
@@ -38,7 +38,7 @@ The unit of membership is the lab: a group led by a principal investigator at a 
 
 "Computational and cognitive neuroscience" is read broadly: computational modelling of brain and behaviour; systems and cognitive neuroscience using computational methods; neuroAI and brain-inspired computing; and neural data science.
 
-Membership is light but not passive. A member lab is expected to take part in network activities and to take its turn in the seminar rotation, because the network has no staff and no budget: what it does, member labs do. There is no minimum attendance requirement, and a quiet year is not by itself grounds for removal, though the annual confirmation of an entry still has to be answered; a lab leaves the roster only as section 8 describes, or under the [code of conduct](../code-of-conduct/).
+Membership is light but not passive. A member lab is expected to take part in network activities and to take its turn in the seminar rotation, because the network has no staff and no budget: what it does, member labs do. There are twelve seminars a year, so a roster of more than twelve labs leaves some of them without a turn in a given calendar year; a year with no turn is the ordinary working of the rotation rather than a lapse. There is no minimum attendance requirement, and a quiet year is not by itself grounds for removal, though the annual confirmation of an entry still has to be answered; a lab leaves the roster only as section 8 describes, or under the [code of conduct](../code-of-conduct/).
 
 No lab is expected to share unpublished data, research ideas, funding or other confidential material with the network or with another member lab. What the network asks for is time and attention. The [member lab guidelines](../member-guidelines/) set out what taking part looks like in practice.
 
@@ -58,10 +58,10 @@ Until the founding labs confirm the first coordinators, one interim coordinator,
 
 ## 6. Seminar series
 
-- Slot: alternate Thursdays, 16:00 to 17:00 Hong Kong Time (UTC+8), on Zoom, with Tencent Meeting (VooV) as fallback.
-- Rotating hosts: each seminar is hosted by one member lab in turn. The host invites the speaker, chairs, and circulates the meeting link to the announcement list; links are never published on the site.
-- Swaps and deferrals: a lab may exchange its slot with another lab, or ask the coordinators to move it to a later round. A lab that swaps tells the coordinators the new order, because they keep the calendar and the rotation. A slot is never left empty without telling them.
-- Junior slot: the host may open with a 15-minute talk by a student or postdoc.
+- Slot: the second Friday of every month, 16:00 to 17:00 Hong Kong Time (UTC+8), on Zoom, with Tencent Meeting (VooV) as fallback. The first session is Friday 9 October 2026. The coordinators settled this slot in September 2026, so it is the one part of this charter that does not wait on ratification.
+- Rotating hosts: each seminar is hosted by one member lab in turn. There are twelve seminars a year and more member labs than there are slots, so a turn comes round rather less often than once a year and some labs have no turn in a given calendar year. The host invites the speaker, chairs, and circulates the meeting link to the announcement list; links are never published on the site.
+- Swaps and deferrals: a lab may exchange its slot with another lab, or ask the coordinators to move it to a later round. A swap moves a lab by a month; a deferral to a later round moves it by a full turn of the rotation, which is a year or more. A lab that swaps tells the coordinators the new order, because they keep the calendar and the rotation. A slot is never left empty without telling them, because an empty slot is a month with no seminar at all.
+- Junior slot: the host may open with a 15-minute talk by a student or postdoc, which extends that session to 17:15. The hour above is the session without one.
 - Speaker nominations: anyone may nominate through the "[Speaker]" issue form. The queue is read by the coordinators and never published on the site. Nominations are GitHub issues in a public repository, so they should say only what the nominee could read.
 - Recording: only with the speaker's written consent, given before the talk; recordings go to both Bilibili and YouTube.
 - Honorarium: none by default. A host institution may fund travel for an in-person visit.
@@ -86,7 +86,7 @@ Anyone may propose an amendment as a pull request against this file. It stays op
 
 ---
 
-Draft for ratification by the founding labs. Adopted: not yet.
+Draft for ratification by the founding labs, apart from the seminar slot in section 6, which the coordinators settled in September 2026. Adopted: not yet.
 
 ### Amendment log
 

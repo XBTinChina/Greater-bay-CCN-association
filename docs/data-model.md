@@ -85,7 +85,7 @@ Minimal complete example:
 ```markdown
 ---
 title: A normative model of auditory prediction errors
-date: 2026-10-29
+date: 2027-02-12
 start: "16:00"
 end: "17:00"
 ---
@@ -223,7 +223,7 @@ An entry with `draft: true` is validated like any other but never published, not
 
 ## How validation works
 
-The build checks every file against its schema. If one field fails, the build stops, the pull request check turns red and nothing is published. The error names the collection and entry, then the field path and a message; for an unquoted time it reads roughly: events, 2026-10-29-example-seminar, data does not match collection schema; start: Use 24-hour HH:MM, quoted, e.g. "16:00". A member lab outside the region fails on city with the allowed cities listed; a bad URL or email is reported as invalid; a missing required field as required. Fix the named field and push again. A mistake in `data/network.yml` stops the build the same way. Unknown fields are ignored. Defaults apply only when a field is absent, not when it is left empty.
+The build checks every file against its schema. If one field fails, the build stops, the pull request check turns red and nothing is published. The error names the collection and entry, then the field path and a message; for an unquoted time it reads roughly: events, 2027-02-12-example-seminar, data does not match collection schema; start: Use 24-hour HH:MM, quoted, e.g. "16:00". A member lab outside the region fails on city with the allowed cities listed; a bad URL or email is reported as invalid; a missing required field as required. Fix the named field and push again. A mistake in `data/network.yml` stops the build the same way. Unknown fields are ignored. Defaults apply only when a field is absent, not when it is left empty.
 
 ## Photos
 

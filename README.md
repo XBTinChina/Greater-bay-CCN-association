@@ -12,9 +12,10 @@ otherwise stay inside one building.
 **Website:** <https://xbtinchina.github.io/Greater-bay-CCN-association/>
 
 **The network is forming right now.** That is the best moment to arrive: the
-founding labs decide the seminar format, ratify the charter and set the tone.
-Nothing here is settled, and your name on the roster is worth more today than
-it will be once everything is already running.
+founding labs shape the programme, ratify the charter and set the tone. The
+seminar slot is settled, on the second Friday of each month; the charter, the
+roster and most of the rest are not, and your name on the roster is worth more
+today than it will be once everything is already running.
 
 This repository is the whole network in the open: the website, the roster, the
 rules and the automation. Every lab entry, every event and every rule is a file
@@ -103,10 +104,11 @@ It is short, and we mean it.
 2. **Membership is by lab.** *Member labs* are PI-led groups at institutions in
    the Greater Bay Area. *Affiliate labs* elsewhere take part and are listed
    with a badge. Every entry is reviewed by a coordinator before it appears.
-3. **A joint seminar series with rotating hosts.** Proposed slot: alternate
-   Thursdays, 16:00–17:00 Hong Kong Time, online on Zoom with Tencent Meeting as
-   fallback, subject to confirmation by the founding labs. Each talk is hosted
-   by one member lab, which invites the speaker on behalf of the whole network.
+3. **A joint seminar series with rotating hosts.** The slot is the second
+   Friday of each month, 16:00–17:00 Hong Kong Time, online on Zoom with
+   Tencent Meeting as fallback. That is twelve talks a year, each hosted by one
+   member lab, which invites the speaker on behalf of the whole network; at the
+   present roster size a lab's turn comes round about once a year.
 4. **English is the default working language,** so that researchers across
    institutions can take part in the same events. Names may appear in Chinese
    and English, and training material may be contributed in either language when
@@ -165,9 +167,12 @@ Actions. No server, no database: the pages are generated from the files in
 `data/` and `docs/` at build time.
 
 - **A founding stage.** With `stage: founding` in `data/network.yml`, the home
-  page is a recruitment page: no counters, "founding labs", the seminar slot
-  marked as proposed. Switch to `active` once the numbers signal traction rather
-  than fragility. The Resources page appears in the navigation only when it has
+  page is a recruitment page: no counters and "founding labs" wording. Whether
+  the slot is labelled proposed is a separate flag, `seminar.proposed`, now
+  false because the coordinators have settled the schedule. Switch `stage` to
+  `active` once the numbers signal traction rather than fragility, remembering
+  that twelve seminars a year fill the counter at half the rate a fortnightly
+  series would. The Resources page appears in the navigation only when it has
   content; Positions is always there so labs can post openings; the lab filters
   render only once eight labs are listed.
 - **The logo.** Replace `brand/logo.png` (dark artwork on white) and run
@@ -185,7 +190,9 @@ Actions. No server, no database: the pages are generated from the files in
   a reprimand.
 - **Time-based lists refresh weekly.** Upcoming versus past events and expired
   positions are computed at build time. The deploy workflow rebuilds the site
-  every Monday morning Hong Kong time as well as on every change.
+  every Monday morning Hong Kong time as well as on every change. A Friday
+  seminar therefore stays under upcoming over the weekend, and with one seminar
+  a month the upcoming list is empty for most of the cycle.
 - **The calendar feed** at `/calendar.ics` is generated from the events data.
   Subscribe once and every new talk appears in your calendar.
 - **Posters** are generated too. Every event has a `/events/<id>/poster/` view at
@@ -254,9 +261,11 @@ Things only a repository owner can do, in the order they matter:
    says "Great Bay Area".
 6. **Recruit the founding cohort and schedule a founding roundtable** before any
    invited seminar: each founding lab introduces itself in three minutes, then
-   the seminar format and the charter are discussed. Add it as the first event,
-   and add conveners to `coordinators` in `data/network.yml` as they confirm,
-   with their permission.
+   the charter is discussed. The slot is no longer open for discussion, so the
+   roundtable takes the first session, Friday 9 October 2026, and the first
+   invited seminar is the next one, Friday 13 November 2026. Add the roundtable
+   as the first event, and add conveners to `coordinators` in `data/network.yml`
+   as they confirm, with their permission.
 8. **Move the repository to a GitHub organisation** once there are two or more
    coordinators, so the site URL and ownership stop being personal. Give at
    least two people owner rights. GitHub redirects the old repository URL and
@@ -275,8 +284,12 @@ Things only a repository owner can do, in the order they matter:
     agreed it.
 12. **Switch `stage` to `active`** in `data/network.yml` once roughly six to ten
     labs across three or more institutions, on both sides of the border, have
-    joined and one event is scheduled; edit or remove `status_banner` at the same
-    time. The counters return and the "proposed" wording goes.
+    joined and two or three sessions are dated; edit or remove `status_banner` at
+    the same time. The counters return and the "founding labs" wording goes. Two
+    or three dated sessions rather than one, because at one seminar a month a
+    single scheduled talk leaves the upcoming list empty for weeks. The
+    "proposed" wording on the slot is not part of this switch: it went when
+    `seminar.proposed` was set to false.
 13. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
     from the founding chat rather than submitted through the form; the PI should
     verify the department, keywords and description.

@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       event_id:
-        description: "the event id, e.g. 2026-10-29-jane-doe"
+        description: "the event id, e.g. 2027-02-12-jane-doe"
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ ! "$EVENT_ID" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
-            printf '::error::event_id must be lowercase letters, digits and hyphens, for example 2026-10-29-jane-doe; got %q\n' "$EVENT_ID"
+            printf '::error::event_id must be lowercase letters, digits and hyphens, for example 2027-02-12-jane-doe; got %q\n' "$EVENT_ID"
             exit 1
           fi
           echo "id=$EVENT_ID" >> "$GITHUB_OUTPUT"

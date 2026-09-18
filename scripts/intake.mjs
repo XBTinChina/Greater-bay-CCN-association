@@ -119,7 +119,7 @@ export function toYaml(data, { quoted = [], folded = [], comment } = {}) {
     const node = doc.get(key, true);
     if (node instanceof Scalar && typeof node.value === 'string' && node.value.length > 72) node.type = Scalar.BLOCK_FOLDED;
   }
-  // The yaml package (YAML 1.2) leaves "2026-10-29" plain; js-yaml, which Astro
+  // The yaml package (YAML 1.2) leaves "2027-02-12" plain; js-yaml, which Astro
   // uses to read the file, would make it a Date. Quote such strings everywhere
   // except in the fields that really are dates.
   visit(doc, {

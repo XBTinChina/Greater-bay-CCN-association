@@ -46,10 +46,12 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
     </p>
 
     <h2>How it runs</h2>
+    {network.seminar.proposed && (
+      <p class="small muted">Proposed arrangements, subject to confirmation by the member labs.</p>
+    )}
     {founding && (
       <p class="small muted">
-        Proposed arrangements, subject to confirmation by the member labs. The{' '}
-        <a href={url('docs/charter/')}>charter</a> is a draft for their ratification.
+        The <a href={url('docs/charter/')}>charter</a> is a draft for ratification by the member labs.
       </p>
     )}
     <dl class="facts">

@@ -51,7 +51,7 @@ export const network: Network = Schema.parse(parse(raw));
 /** True while the network recruits its founding cohort. */
 export const founding = network.stage === 'founding';
 
-/** The seminar slot, with the caveat while it awaits confirmation. */
+/** The seminar slot, with the proposed caveat only while seminar.proposed is true. */
 export const slotLine = network.seminar.proposed
   ? `Proposed: ${network.seminar.slot}, subject to confirmation by the member labs`
   : network.seminar.slot;
@@ -91,7 +91,8 @@ Affiliation:
 Web page:
 Why this speaker, in one line:
 Suggested host lab (optional):
-Would you host the talk yourself? (yes/no)`;
+Would you host the talk yourself? (yes/no)
+If yes, the earliest month you could host (there are twelve slots a year, one a month):`;
 
 const FOLLOW_TEMPLATE = `Please add me to the announcement list.
 Name:

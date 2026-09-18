@@ -7,9 +7,13 @@ short_name: GBA-CCN Network
 acronym: GBA-CCN
 name_native: 粤港澳大湾区计算神经科学与认知神经科学网络
 
-# founding: the home page is a recruitment page (no counters, "proposed"
-#           wording, "founding labs"). Switch to active once a handful of labs
-#           across several institutions have joined and one event is scheduled.
+# founding: the home page is a recruitment page (no counters, "founding
+#           labs"). Whether the slot is shown as proposed is a separate flag,
+#           seminar.proposed below. Switch to active on the test in README
+#           step 12: a handful of labs across several institutions, and two
+#           or three sessions dated. One scheduled is no longer enough, since
+#           at one seminar a month a single dated talk leaves the upcoming
+#           list empty for weeks.
 # active:   the home page is a directory with counters.
 stage: founding
 
@@ -18,8 +22,9 @@ tagline: >-
   behaviour and computation across the Greater Bay Area.
 tagline_native: 连接粤港澳大湾区计算神经科学与认知神经科学实验室，共享讲座、培训资源与区域合作机会。
 pitch: >-
-  Member labs pool audiences, host seminars in rotation, share training
-  resources, and make regional collaborators and opportunities easier to find.
+  Member labs pool audiences, take turns hosting the monthly seminar, share
+  training resources, and make regional collaborators and opportunities easier
+  to find.
 mission: >-
   We connect labs across the Greater Bay Area that study the brain with
   computational and cognitive methods. Together we run a joint seminar series,
@@ -29,9 +34,10 @@ mission: >-
 
 # Shown as a thin line under the header on every page except the home page.
 # Plain HTML allowed; site-relative links such as href="join/" are fixed up.
+# Drop the first-session date once that seminar has been held.
 status_banner: >-
-  Founding cohort now forming. <a href="join/">Join</a> or
-  <a href="calendar.ics">follow the seminars</a>.
+  Founding cohort now forming. The series opens with a founding roundtable on Friday 9 October 2026.
+  <a href="join/">Join</a> or <a href="calendar.ics">follow the seminars</a>.
 
 founded: 2026
 
@@ -46,9 +52,15 @@ mailing_list_url: ""
 repo_url: https://github.com/XBTinChina/Greater-bay-CCN-association
 
 seminar:
-  slot: Alternate Thursdays, 16:00–17:00 Hong Kong Time (UTC+8)
-  # true while the slot and format await confirmation by the founding labs
-  proposed: true
+  # Interpolated raw by slotLine in src/lib/network.ts into the home page, the
+  # About page and the events index, so keep it a bare noun phrase with no
+  # trailing punctuation: the frames append "." and ", on Zoom".
+  slot: Second Friday of every month, 16:00–17:00 Hong Kong Time (UTC+8)
+  # true while the slot awaits confirmation, which makes slotLine print
+  # "Proposed: ..., subject to confirmation by the member labs". False since
+  # the coordinators settled the slot in September 2026; the format is still
+  # for the founding labs to agree.
+  proposed: false
   platform: Zoom
   fallback_platform: Tencent Meeting (VooV)
   recording_note: >-
@@ -64,5 +76,7 @@ coordinators:
     institution: The Chinese University of Hong Kong
     role: Interim coordinator; website and repository maintainer
 
-# Universities that formally co-host the seminar series. Add as agreed.
+# Universities that formally co-host the seminar series. Add as agreed. There
+# are twelve slots a year, so a list longer than twelve cannot give every
+# co-host a turn in the same year.
 host_institutions: []

@@ -17,13 +17,13 @@ Membership is by lab, not by person. Students, postdocs and research staff take 
 
 Member labs are expected to take part in the network's activities: the seminar series first of all, then workshops, summer schools and events for students and postdocs. Taking part means the lab appears, not that the PI does. A lab is present when its students and postdocs turn up.
 
-There is no minimum attendance requirement and nobody keeps a register. Teaching, fieldwork and grant deadlines fall unevenly across eleven cities, so a rule counting seminars would measure the calendar rather than the commitment. Attendance is not a condition of listing: a lab leaves the roster only in the ways the charter sets out under delisting and annual refresh, or under the code of conduct as a last resort for a conduct breach. The annual confirmation of each entry still has to be answered.
+There is no minimum attendance requirement and nobody keeps a register. Teaching, fieldwork and grant deadlines fall unevenly across eleven cities, and the seminar is on the same weekday every month, so one recurring Friday commitment can rule a lab out of the whole series rather than of the odd session. A rule counting seminars would measure that rather than the commitment. Attendance is not a condition of listing: a lab leaves the roster only in the ways the charter sets out under delisting and annual refresh, or under the code of conduct as a last resort for a conduct breach. The annual confirmation of each entry still has to be answered.
 
-Membership should still mean something. A lab that never appears, never hosts and never answers is not a member lab in any useful sense, and the network would rather keep a short roster that is true.
+Membership should still mean something. A lab that never appears, never hosts and never answers is not a member lab in any useful sense, and the network would rather keep a short roster that is true. Read that over a year or two rather than over a few months: with twelve seminars a year, a lab's turn to host may simply not have come round yet.
 
 ## Hosting a seminar in turn
 
-Member labs take turns hosting the seminar series, and how often a turn comes round depends on how many labs are listed. The slot and the format are proposals until the founding labs ratify the charter; the proposal as it stands is on the [events page](../../events/).
+Member labs take turns hosting the seminar series. There are twelve seminars a year and more member labs than there are slots, so a turn comes round rather less often than once a year and some labs have no turn in a given calendar year. The current roster is on the [labs page](../../labs/). The slot is settled: the coordinators fixed it in September 2026, and the first session is Friday 9 October 2026. The format is still a proposal until the founding labs ratify the charter. The slot and the platform are on the [events page](../../events/).
 
 When a lab's turn comes, it is normally responsible for:
 
@@ -32,9 +32,9 @@ When a lab's turn comes, it is normally responsible for:
 - chairing the session, normally the PI;
 - circulating the announcement and the poster in its department and its own academic networks.
 
-The meeting link is the one thing that does not circulate: it goes to the announcement list and the group chat, and never onto the site. Those four duties are the shape of the job rather than the whole of it. The full timeline, from eight weeks before the talk to a week after, is in [hosting a seminar](../hosting-a-seminar/).
+The meeting link is the one thing that does not circulate: it goes to the announcement list and the group chat, and never onto the site. Those four duties are the shape of the job rather than the whole of it. The full timeline, from picking the speaker to posting the recording, is in [hosting a seminar](../hosting-a-seminar/).
 
-Slots can be traded. If a date does not work, swap with another lab and tell the coordinators the new order; if no swap can be found, ask them to defer the lab to a later round. Do not let a slot go empty without telling anyone.
+Slots can be traded, and with one seminar a month a trade is usually the only way to offer a speaker a second date: the next slot belongs to another lab, so agree the swap before the date is offered rather than after the speaker picks it. If a date does not work, swap with another lab and tell the coordinators the new order; if no swap can be found, ask them to defer the lab to a later round, which moves the lab by a full turn of the rotation. Do not let a slot go empty without telling anyone, because an empty slot is a month with no seminar.
 
 ## Contributing to the network
 

@@ -1,22 +1,24 @@
 ---
 title: Hosting a seminar
-summary: A timeline checklist for the member lab hosting a GBA-CCN Network seminar, from picking the speaker eight weeks out to posting the recording a week after.
+summary: A timeline checklist for the member lab hosting a GBA-CCN Network seminar, from picking the speaker four months out to posting the recording a week after.
 audience: coordinators
 order: 40
 ---
 
-Every seminar is hosted by one member lab. The host picks the speaker, invites them, creates the event, announces it, chairs the session and posts the recording. This page is the checklist. Seminars run on alternate Thursdays at 16:00 Hong Kong Time, 45 minutes of talk plus 15 minutes of questions, on Zoom with Tencent Meeting (VooV) as the fallback. An optional 15-minute junior talk can go before the main talk, in which case the session runs 16:00 to 17:15.
+Every seminar is hosted by one member lab. The host picks the speaker, invites them, creates the event, announces it, chairs the session and posts the recording. This page is the checklist. Seminars run on the second Friday of each month at 16:00 Hong Kong Time, 45 minutes of talk plus 15 minutes of questions, on Zoom with Tencent Meeting (VooV) as the fallback. An optional 15-minute junior talk can go before the main talk, in which case the session runs 16:00 to 17:15.
 
 ## Rotation and swapping
 
-- Coordinators keep the roster of upcoming hosts. Check it at least two months ahead so you know your date.
-- If your date does not work, swap with another lab yourself and tell the coordinators the new order. Do not leave a slot empty without telling anyone.
+- Coordinators keep the roster of upcoming hosts and publish it at least six months ahead. Check it as soon as your name appears: there are twelve slots a year, the invitation goes out about four months before the talk, so two months' notice is already late.
+- If your date does not work, agree a swap with another lab and tell the coordinators the new order. A swap now moves both labs by a month or more, so raise it as early as you can rather than in the last fortnight. Never leave a slot empty: with twelve slots a year, an empty one is a month with no seminar.
 - One person in your lab owns the seminar end to end. Name them to the coordinators.
 
-## T-8 weeks: pick and invite the speaker
+## T-4 months: pick and invite the speaker
+
+Four months, not eight weeks: candidate dates are a month apart, so one refusal and a second invitation can use up the whole of a shorter run-up.
 
 - Look at the nomination queue first: open GitHub issues labelled `speaker-nomination` in the repository. You may also propose your own speaker.
-- Invite them with the [invitation letter template](../invitation-letter-template/). Offer your Thursday and, if possible, one alternative Thursday.
+- Invite them with the [invitation letter template](../invitation-letter-template/). Offer the second Friday your lab holds. A second date is the next month's slot and belongs to another lab, so agree the swap with that lab before you offer it.
 - Agree the date, the format (45 + 15) and whether a junior speaker goes first.
 - Send the [speaker kit](../speaker-kit/) once they accept.
 
@@ -34,7 +36,7 @@ Every seminar is hosted by one member lab. The host picks the speaker, invites t
 ## T-2 weeks: announce
 
 - Post the poster and the announcement text (template in the invitation letter document) in the WeChat group and your departmental lists. Ask the other member labs to forward it.
-- The calendar feed at `/calendar.ics` updates itself when the event is merged and the site rebuilds (on merge and every Monday). Nothing to do there.
+- The calendar feed at `/calendar.ics` updates itself when the event is merged and the site rebuilds (on merge and every Monday). Nothing to do there. A Friday seminar stays in the upcoming list over the weekend and moves to past at the Monday rebuild; that is the build schedule, not a fault.
 - Send the meeting link to the announcement list and the WeChat group only.
 
 ## T-1 week: rehearse
@@ -52,7 +54,7 @@ Every seminar is hosted by one member lab. The host picks the speaker, invites t
 - Introduce the network in one sentence. Introduce the speaker in three.
 - Keep time. Warn the speaker at 40 minutes. Stop the junior talk at 15.
 - Collect questions from the chat and from raised hands. Questions may be asked in Cantonese, Mandarin or English; the chair summarises in English if the speaker does not follow.
-- Thank the speaker and tell the audience the date of the next seminar.
+- Thank the speaker and give the audience the date of the next seminar, the second Friday of next month. It is a month away and this is the only spoken reminder they get, so check the rota beforehand and name the date and the host lab.
 
 ## T+1 week: wrap up
 
@@ -63,6 +65,6 @@ Every seminar is hosted by one member lab. The host picks the speaker, invites t
 
 ## If things go wrong
 
-- Speaker no-show. Message and call them at 16:00. If there is a junior talk it runs first as planned. If the main speaker has not appeared by 16:20 (16:10 when there is no junior talk), tell the audience the session is postponed and post a new date within a week.
+- Speaker no-show. Message and call them at 16:00. If there is a junior talk it runs first as planned. If the main speaker has not appeared by 16:20 (16:10 when there is no junior talk), tell the audience the session is postponed and tell the coordinators within a week. The next slot is a month away and already belongs to another lab, so the replacement date is a rota decision and may be months out.
 - Platform failure. Switch to the Tencent Meeting fallback and post the new link in the chat, the WeChat group and the announcement list. Keep the recording going on the new platform.
 - Disruption. Follow the [code of conduct](../code-of-conduct/): mute the person, remove them from the meeting if it continues, and report the incident to a coordinator or the contact address on the [About](../../about/) page.

@@ -7,8 +7,8 @@ draft: true
 
 title: "How the cortex keeps time: predictive tracking of speech rhythm"   # quote titles that contain a colon
 type: seminar                 # seminar | workshop | summer-school | hackathon | journal-club | other
-date: 2026-10-29
-# end_date: 2026-10-31        # multi-day events only
+date: 2027-02-12
+# end_date: 2027-02-14        # multi-day events only
 start: "16:00"                # HKT, quoted
 end: "17:15"                  # 17:00 when there is no junior talk
 speaker: Jane Doe

@@ -11,18 +11,20 @@ A host writes three things for each seminar. Copy the block you need, fill in th
 
 Send it from your institutional address, with {N} and {institutions} taken from the [roster](../../labs/) on the day you write, so the numbers are current. Keep it short: a busy person decides whether to reply within two lines.
 
+Offer the one date your lab holds. The series has twelve slots a year, one on the second Friday of each month, so the next date is another lab's turn: agree a swap with that lab before you name a second date, and do not offer a third. Send the invitation about four months ahead, because a refusal costs a month and a second invitation another.
+
 ```text
 Subject: Invitation to speak, GBA-CCN Network seminar series
 
 Dear {Title} {Surname},
 
-I am writing on behalf of the Greater Bay Area Computational and Cognitive Neuroscience Network (GBA-CCN Network), a network of {N} computational and cognitive neuroscience labs across {institutions} in the Greater Bay Area. We run a joint online seminar series, and we would be delighted if you would give a talk.
+I am writing on behalf of the Greater Bay Area Computational and Cognitive Neuroscience Network (GBA-CCN Network), a network of {N} computational and cognitive neuroscience labs across {institutions} in the Greater Bay Area. We run a joint online seminar series, one talk a month, and we would be delighted if you would give a talk.
 
 We are inviting you because {one sentence on their work and why it matters to labs here}.
 
-The format is a 45-minute talk followed by 15 minutes of questions, on a Thursday at 16:00 Hong Kong Time (UTC+8), on Zoom. If you would like to visit in person, we can host you at {Institution} and run the session as a hybrid event. Talks are recorded only with your written consent. We are a volunteer network and cannot offer an honorarium; if you visit, {Institution} may be able to cover travel.
+The format is a 45-minute talk followed by 15 minutes of questions, on the second Friday of the month at 16:00 Hong Kong Time (UTC+8), on Zoom. If you would like to visit in person, we can host you at {Institution} and run the session as a hybrid event. Talks are recorded only with your written consent. We are a volunteer network and cannot offer an honorarium; if you visit, {Institution} may be able to cover travel.
 
-Would any of these dates suit you: {Thursday 1}, {Thursday 2} or {Thursday 3}?
+Our date is Friday {date}, the second Friday of {month}. {If that does not suit you, we can also offer Friday {alternative date}, a month later.}
 
 Who we are: {site_url}labs/. What to expect: {site_url}docs/speaker-kit/.
 
@@ -35,16 +37,16 @@ on behalf of the coordinators of the GBA-CCN Network
 
 ## 2. Logistics follow-up once accepted
 
-Send this as soon as the speaker confirms a date. Give the deadline as a date, not "three weeks before". For a speaker outside UTC+8, the time-zone line is what prevents a no-show.
+Send this as soon as the speaker confirms a date. Give the deadline as a date, not "four weeks before". For a speaker outside UTC+8, the time-zone line is what prevents a no-show. If the date has to move after this point it moves by at least a month, and the next slot belongs to another lab, so ask the coordinators rather than arranging it yourself.
 
 ```text
 Subject: GBA-CCN seminar on {date}: what we need from you
 
 Dear {First name},
 
-Thank you for agreeing to speak on Thursday {date} at 16:00 Hong Kong Time (UTC+8). In your time zone that is {local date and time}; please tell me if that is not what you expected.
+Thank you for agreeing to speak on Friday {date} at 16:00 Hong Kong Time (UTC+8). In your time zone that is {local date and time}; please tell me if that is not what you expected.
 
-For the announcement and poster, please send by {date three weeks before the talk}:
+For the announcement and poster, please send by {date four weeks before the talk}:
 
 - a title
 - an abstract of 150 to 250 words
@@ -66,14 +68,14 @@ Best wishes,
 
 ## 3. Announcement for WeChat and mailing lists
 
-Post this to the announcement list, the WeChat group and your department list a week before the talk, and again that morning. Attach the poster PNG from the Render poster workflow (run it with the event id and download the PNG artifact). The Chinese header line is optional: keep it for WeChat, drop it for English-only lists. The meeting link never goes in the post.
+Post this to the announcement list, the WeChat group and your department list two weeks before the talk, again a week before, and again that morning. Three posts rather than two, because a month passes between seminars and a single reminder follows three weeks of silence. Attach the poster PNG from the Render poster workflow (run it with the event id and download the PNG artifact). The Chinese header line is optional: keep it for WeChat, drop it for English-only lists. The meeting link never goes in the post.
 
 ```text
 大湾区计算与认知神经科学网络 · 系列讲座
 GBA-CCN Network seminar
 {Speaker name}, {Affiliation}
 "{Talk title}"
-Thursday {date}, 16:00 Hong Kong Time (UTC+8), online
+Friday {date}, 16:00 Hong Kong Time (UTC+8), online
 Link goes to the announcement list; reply to this message to receive it.
 Abstract and poster: {site_url}events/{event-id}/
 ```

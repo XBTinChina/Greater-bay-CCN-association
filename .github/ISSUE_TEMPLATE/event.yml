@@ -34,7 +34,7 @@ body:
     id: date
     attributes:
       label: Date (YYYY-MM-DD)
-      placeholder: "2026-10-29"
+      placeholder: "2027-02-12"
     validations:
       required: true
   - type: input
