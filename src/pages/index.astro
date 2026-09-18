@@ -161,27 +161,6 @@ const jsonld = {
     </>
   )}
 
-  <div class="section-head">
-    <h2>Participating labs</h2>
-    <a href={url('labs/')}>All labs</a>
-  </div>
-  {showcase.length > 0 ? (
-    <>
-      <div class="lab-grid sample">
-        {showcase.map((lab) => <LabCard lab={lab} compact />)}
-      </div>
-      <Shuffle />
-    </>
-  ) : (
-    <p class="quiet">The first labs are joining now. <a href={url('join/')}>Be one of them.</a></p>
-  )}
-  {founding && showcase.length > 0 && (
-    <p class="small muted" style="margin-top:1.2rem">
-      Participating labs are in {citySentence}. Every city of the Greater Bay Area is welcome, and the roster
-      grows as labs join.
-    </p>
-  )}
-
   {news.length > 0 && (
     <>
       <div class="section-head">
@@ -197,5 +176,27 @@ const jsonld = {
         ))}
       </ul>
     </>
+  )}
+
+  <div class="section-head">
+    <h2>Participating labs</h2>
+    <a href={url('labs/')}>All labs</a>
+  </div>
+  {showcase.length > 0 ? (
+    <>
+      <div class="lab-grid sample">
+        {showcase.map((lab) => <LabCard lab={lab} compact />)}
+      </div>
+      {/* Shuffles the grid above it, so it has to stay the next sibling. */}
+      <Shuffle />
+    </>
+  ) : (
+    <p class="quiet">The first labs are joining now. <a href={url('join/')}>Be one of them.</a></p>
+  )}
+  {founding && showcase.length > 0 && (
+    <p class="small muted" style="margin-top:1.2rem">
+      Participating labs are in {citySentence}. Every city of the Greater Bay Area is welcome, and the roster
+      grows as labs join.
+    </p>
   )}
 </Base>
