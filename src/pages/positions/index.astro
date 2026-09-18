@@ -27,9 +27,11 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
 // no order between them is meaningful.
 const ranks = POSITION_TYPES.filter((t) => open.some((p) => p.data.type === t));
 const cities = [...new Set(open.map((p) => p.data.city))].sort((a, b) => a.localeCompare(b, 'en'));
-// Below this the filters are more furniture than help: a reader can see the
-// whole board at a glance and a dropdown of two only gets in the way.
-const showFilters = open.length >= 4;
+// Below this the filters are more furniture than help. Three is the point at
+// which the board stops fitting on one screen on a phone, and at which the
+// dropdowns stop being degenerate: with two listings a rank or a place filter
+// can only ever say "this one" or "the other one".
+const showFilters = open.length >= 3;
 ---
 
 <Base title="Positions" description="PhD, postdoc, research assistant and faculty openings in computational and cognitive neuroscience labs across the Greater Bay Area.">
