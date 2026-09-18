@@ -13,6 +13,10 @@ const Person = z.object({
   institution: z.string().min(1),
   role: z.string().min(1),
   url: z.string().url().optional(),
+  // Optional: a convener may prefer to be reached through the network address
+  // rather than personally. Validated here so a typo stops the build instead of
+  // printing a dead mailto on the one page that says who to write to.
+  email: z.string().email().optional(),
 });
 
 const optionalUrl = z.union([z.string().url(), z.literal('')]).default('');

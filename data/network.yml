@@ -75,6 +75,18 @@ coordinators:
     name_native: 滕相斌
     institution: The Chinese University of Hong Kong
     role: Interim coordinator; website and repository maintainer
+  - name: Qihong Lu
+    name_native: 吕其鸿
+    institution: City University of Hong Kong
+    role: Seminars; the programme, speakers and the hosting rotation
+    email: qihong.lu@cityu.edu.hk
+  - name: Jixing Li
+    name_native: 李吉星
+    institution: The Hong Kong Polytechnic University
+    role: Membership; lab applications, entries and the roster
+    # A CityU address while the lab moves to PolyU, which is where she is
+    # listed. Ask her to confirm which address to publish once the move is done.
+    email: jixingli@cityu.edu.hk
 
 # Universities that formally co-host the seminar series. Add as agreed. There
 # are twelve slots a year, so a list longer than twelve cannot give every

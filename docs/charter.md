@@ -54,7 +54,7 @@ The network is run by three to seven coordinators, one per participating institu
 - Decisions: by consensus, with a simple majority of coordinators as fallback, recorded in the repository.
 - Repository ownership: at least two coordinators hold owner rights at all times, so no single person can lock the network out of its own files.
 
-Until the founding labs confirm the first coordinators, one interim coordinator, Xiangbin Teng (滕相斌) of The Chinese University of Hong Kong, maintains the site and repository. The current list is on the About page.
+Until the founding labs confirm the first coordinators, interim conveners share the work: Xiangbin Teng (滕相斌) of The Chinese University of Hong Kong maintains the site and repository, Qihong Lu (吕其鸿) of City University of Hong Kong convenes the seminars, and Jixing Li (李吉星) of The Hong Kong Polytechnic University handles membership. That is three institutions, which meets the minimum above. The current list and how to reach each of them are on the About page.
 
 ## 6. Seminar series
 

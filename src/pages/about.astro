@@ -81,7 +81,10 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
             {c.url ? <a href={c.url}>{c.name}</a> : c.name}
             {c.name_native && <span class="muted"> {c.name_native}</span>}
           </dt>
-          <dd>{c.institution} · {c.role}</dd>
+          <dd>
+            {c.institution} · {c.role}
+            {c.email && <><br /><a href={`mailto:${c.email}`}>{c.email}</a></>}
+          </dd>
         </>
       ))}
     </dl>
