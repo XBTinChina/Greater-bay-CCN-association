@@ -36,7 +36,7 @@ mission: >-
 # Plain HTML allowed; site-relative links such as href="join/" are fixed up.
 # Drop the first-session date once that seminar has been held.
 status_banner: >-
-  Founding cohort now forming. The series opens with a founding roundtable on Friday 9 October 2026.
+  Founding cohort now forming. The series opens with a founding roundtable on Friday 16 October 2026.
   <a href="join/">Join</a> or <a href="calendar.ics">follow the seminars</a>.
 
 founded: 2026

@@ -23,7 +23,7 @@ Membership should still mean something. A lab that never appears, never hosts an
 
 ## Hosting a seminar in turn
 
-Member labs take turns hosting the seminar series. There are twelve seminars a year and more member labs than there are slots, so a turn comes round rather less often than once a year and some labs have no turn in a given calendar year. The current roster is on the [labs page](../../labs/). The slot is settled: the coordinators fixed it in September 2026, and the first session is Friday 9 October 2026. The format is still a proposal until the founding labs ratify the charter. The slot and the platform are on the [events page](../../events/).
+Member labs take turns hosting the seminar series. There are twelve seminars a year and more member labs than there are slots, so a turn comes round rather less often than once a year and some labs have no turn in a given calendar year. The current roster is on the [labs page](../../labs/). The slot is settled: the coordinators fixed it in September 2026, and the first seminar on it is Friday 13 November 2026, after a founding roundtable on Friday 16 October. The format is still a proposal until the founding labs ratify the charter. The slot and the platform are on the [events page](../../events/).
 
 When a lab's turn comes, it is normally responsible for:
 

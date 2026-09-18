@@ -1,14 +1,14 @@
 ---
 title: Founding roundtable
 type: other
-date: 2026-10-09
+date: 2026-10-16
 start: "16:00"
 end: "17:00"
 location: Online
 platform: Zoom
 ---
 
-The series opens with a roundtable rather than a talk. Each lab that attends
+The series opens with a roundtable rather than a talk. It sits a week off the regular slot, which is the second Friday of the month; the monthly seminars begin in November. Each lab that attends
 introduces itself in about three minutes, and the coordinators then set out the
 seminar slot, the hosting rotation and the points still open in the draft
 charter. There is no invited speaker and no host lab for this session, because

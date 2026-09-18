@@ -262,7 +262,7 @@ Things only a repository owner can do, in the order they matter:
 6. **Recruit the founding cohort and schedule a founding roundtable** before any
    invited seminar: each founding lab introduces itself in three minutes, then
    the charter is discussed. The slot is no longer open for discussion, so the
-   roundtable takes the first session, Friday 9 October 2026, and the first
+   roundtable opens the series on Friday 16 October 2026, off the regular slot, and the first
    invited seminar is the next one, Friday 13 November 2026. Add the roundtable
    as the first event, and add conveners to `coordinators` in `data/network.yml`
    as they confirm, with their permission.
