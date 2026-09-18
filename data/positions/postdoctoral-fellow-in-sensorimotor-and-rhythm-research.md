@@ -13,4 +13,16 @@ deadline: 2026-12-31
 expires: 2027-06-01
 ---
 
-The SMRT Lab, led by Dr Xiangbin Teng at The Chinese University of Hong Kong, is seeking a postdoctoral fellow to study sensorimotor coordination and rhythm perception and production, while developing AI-assisted workflows for hypothesis generation, experiment design, data analysis, and computational modelling. We welcome applicants with a PhD in neuroscience, psychology, computer science, or a related field, strong programming and quantitative skills, and an interest in combining experimental research with AI-driven automation. To apply, please email a CV and a brief statement of research interests to xiangbinteng@cuhk.edu.hk.
+The SMRT Lab studies sensorimotor coordination and the perception and production
+of rhythm. The post combines that work with building AI-assisted workflows for
+hypothesis generation, experimental design, analysis and computational
+modelling.
+
+We are looking for:
+
+- a PhD in neuroscience, psychology, computer science or a related field;
+- strong programming and quantitative skills;
+- an interest in combining experimental research with AI-driven automation.
+
+To apply, send a CV and a brief statement of research interests to the contact
+address below.
