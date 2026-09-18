@@ -850,6 +850,172 @@ main {
   margin: -1rem 0 1.5rem;
 }
 
+/* ----------------------------------------------------------- conveners */
+
+/* Affiliation and role are colour-coded so that two conveners at the same
+   institution, or holding the same brief, can be matched at a glance. Colour
+   is never the only cue: each chip says in words what it means, and the two
+   kinds differ in shape as well as hue — filled and round for where someone
+   is, outlined and square for what they do — because about one man in twelve
+   cannot separate hues reliably, as the Show more control on the labs page
+   taught us. */
+.conveners {
+  list-style: none;
+  padding: 0;
+  margin: 1.6rem 0;
+  display: grid;
+  gap: 1.1rem;
+}
+.conveners .who {
+  font-weight: 600;
+}
+.conveners .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+.conveners p {
+  margin: 0.35rem 0 0;
+}
+
+.chip {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.16rem 0.55rem;
+  border: 1px solid transparent;
+  color: var(--chip-ink);
+}
+.chip.aff {
+  background: var(--chip-soft);
+  border-radius: 999px;
+}
+.chip.role {
+  background: transparent;
+  border-color: var(--chip-line);
+  border-radius: 3px;
+}
+
+/* Six hues along viridis, darkened until the text clears 7:1 on its own tint.
+   Affiliations take them from the cool end, roles from the warm end, so the
+   two codings stay apart. Wrapping past six means two values share a colour,
+   so keep the coordinator list short enough that it does not happen. */
+.hue-0 {
+  --chip-ink: #5b2168;
+  --chip-soft: #efe4f2;
+  --chip-line: #a280ab;
+}
+.hue-1 {
+  --chip-ink: #3a4a86;
+  --chip-soft: #e6e9f4;
+  --chip-line: #7f8ab0;
+}
+.hue-2 {
+  --chip-ink: #1f6076;
+  --chip-soft: #e0eef2;
+  --chip-line: #66909d;
+}
+.hue-3 {
+  --chip-ink: #16704f;
+  --chip-soft: #e0f0e9;
+  --chip-line: #5a957e;
+}
+.hue-4 {
+  --chip-ink: #3f6b1b;
+  --chip-soft: #e9f1de;
+  --chip-line: #7a9362;
+}
+.hue-5 {
+  --chip-ink: #6b5a10;
+  --chip-soft: #f3eed9;
+  --chip-line: #978a52;
+}
+@media (prefers-color-scheme: dark) {
+  .hue-0 {
+    --chip-ink: #d3a4dd;
+    --chip-soft: #2a1630;
+    --chip-line: #82568e;
+  }
+  .hue-1 {
+    --chip-ink: #a8b4ee;
+    --chip-soft: #191d33;
+    --chip-line: #58639e;
+  }
+  .hue-2 {
+    --chip-ink: #7fc9de;
+    --chip-soft: #12242b;
+    --chip-line: #3f7789;
+  }
+  .hue-3 {
+    --chip-ink: #6fd3ab;
+    --chip-soft: #112620;
+    --chip-line: #3c7f66;
+  }
+  .hue-4 {
+    --chip-ink: #a9cf7e;
+    --chip-soft: #1c2414;
+    --chip-line: #5f7d42;
+  }
+  .hue-5 {
+    --chip-ink: #dcc95f;
+    --chip-soft: #242010;
+    --chip-line: #8a7a30;
+  }
+}
+
+/* The addresses fold away behind a disclosure, which is a <details> rather
+   than a script: it opens with no JavaScript, is a button to the keyboard and
+   to a screen reader for free, and keeps three mailto links from crowding the
+   list. It hides them from a reader, not from a harvester — the addresses are
+   in the HTML either way. */
+.contacts {
+  margin: 1.4rem 0 0;
+}
+.contacts > summary {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--toggle);
+  font-size: 0.9rem;
+  font-weight: 600;
+  list-style: none;
+}
+.contacts > summary::-webkit-details-marker {
+  display: none;
+}
+.contacts > summary::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 0.45em;
+  border-left: 0.36em solid currentColor;
+  border-top: 0.28em solid transparent;
+  border-bottom: 0.28em solid transparent;
+  transition: transform 0.15s ease;
+}
+.contacts[open] > summary::before {
+  transform: rotate(90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .contacts > summary::before {
+    transition: none;
+  }
+}
+.contacts > summary:hover {
+  text-decoration: underline;
+}
+.contacts > summary:focus-visible {
+  outline: 2px solid var(--toggle);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.contacts .facts {
+  margin: 0.9rem 0 0.4rem;
+}
+
 /* --------------------------------------------------------- definitions */
 
 .facts {

@@ -11,7 +11,10 @@ const Person = z.object({
   name: z.string().min(1),
   name_native: z.string().optional(),
   institution: z.string().min(1),
-  role: z.string().min(1),
+  // Two or three words: it is rendered as a chip on the About page, and a
+  // sentence there would wrap badly and lose the point of a chip.
+  role: z.string().min(1).max(30),
+  role_detail: z.string().optional(),
   url: z.string().url().optional(),
   // Optional: a convener may prefer to be reached through the network address
   // rather than personally. Validated here so a typo stops the build instead of

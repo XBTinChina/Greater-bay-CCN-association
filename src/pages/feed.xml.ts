@@ -6,6 +6,22 @@ import { url, absolute } from '../lib/url';
 import { publishedEvents, formatWhen, speakerLine } from '../lib/events';
 import { EVENT_TYPE_LABELS } from '../lib/taxonomy';
 
+/**
+ * News bodies are Markdown, and the feed element they go into is escaped, so
+ * a reader would otherwise display `[join now](../join/)` and any raw tag
+ * verbatim. Strip the markup down to the words: links keep their text, and
+ * relative links would be broken in a reader anyway.
+ */
+const plain = (md: string) =>
+  md
+    .replace(/<[^>]*>/g, '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[*_`>]/g, '')
+    .replace(/^#+\s*/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
 // News and events as one RSS feed, generated at build time.
 export async function GET(_context: APIContext) {
   const news = await getCollection('news', (n) => !n.data.draft);
@@ -16,7 +32,7 @@ export async function GET(_context: APIContext) {
       title: n.data.title,
       pubDate: n.data.date,
       link: url(`news/#${n.id}`),
-      description: n.body ?? '',
+      description: plain(n.body ?? ''),
     })),
     ...events.map((e) => ({
       title: `${EVENT_TYPE_LABELS[e.data.type]}: ${e.data.title}`,

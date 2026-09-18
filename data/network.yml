@@ -70,23 +70,27 @@ seminar:
 # Coordinators rotate. One per participating institution where possible.
 # During the founding stage this list is the interim coordinator(s); founding
 # conveners are added here as they confirm.
+#
+# role is the coloured chip on the About page, so keep it to two or three
+# words; role_detail is the sentence under it. email is optional: a convener
+# with none is reached through the issue tracker, which the page says.
 coordinators:
   - name: Xiangbin Teng
     name_native: 滕相斌
     institution: The Chinese University of Hong Kong
-    role: Interim coordinator; website and repository maintainer
-    # The institutional address already published on the SMRT Lab entry, not a
-    # personal one. Replace with the role address once it exists.
-    email: xiangbinteng@cuhk.edu.hk
+    role: Site and repository
+    role_detail: Interim coordinator; keeps this site, the data files and the repository
   - name: Qihong Lu
     name_native: 吕其鸿
     institution: City University of Hong Kong
-    role: Seminars; the programme, speakers and the hosting rotation
+    role: Seminars
+    role_detail: The programme, the speakers and the hosting rotation
     email: qihong.lu@cityu.edu.hk
   - name: Jixing Li
     name_native: 李吉星
     institution: The Hong Kong Polytechnic University
-    role: Membership; lab applications, entries and the roster
+    role: Membership
+    role_detail: Lab applications, entries and the roster
     # A CityU address while the lab moves to PolyU, which is where she is
     # listed. Ask her to confirm which address to publish once the move is done.
     email: jixingli@cityu.edu.hk

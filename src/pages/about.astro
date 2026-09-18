@@ -8,6 +8,21 @@ import { brand, hasBrand } from '../lib/brand';
 
 const labs = await publishedLabs();
 const institutions = institutionsOf(labs.filter((l) => l.data.tier === 'member'));
+
+// Colour-code affiliation and role. The hue is the value's position in the
+// list of distinct values, not a hash of its text, so two institutions can
+// never land on the same colour while there are six or fewer of them. Same
+// institution, same hue: that is the one thing colour says here that the words
+// do not. Roles start half a palette along, so the cool end of viridis reads
+// as where someone is and the warm end as what they do; with three of each
+// the two codings cannot be confused for one another.
+const HUES = 6;
+const distinct = (key: 'institution' | 'role') => [...new Set(network.coordinators.map((c) => c[key]))];
+const affs = distinct('institution');
+const roles = distinct('role');
+const hue = (list: string[], value: string, offset = 0) => (list.indexOf(value) + offset) % HUES;
+
+const reachable = network.coordinators.filter((c) => c.email);
 const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audience === 'public')).sort(
   (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title, 'en'),
 );
@@ -74,20 +89,41 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
   {network.coordinators.length === 0 ? (
     <p class="muted">To be announced.</p>
   ) : (
-    <dl class="facts">
-      {network.coordinators.map((c) => (
-        <>
-          <dt>
-            {c.url ? <a href={c.url}>{c.name}</a> : c.name}
-            {c.name_native && <span class="muted"> {c.name_native}</span>}
-          </dt>
-          <dd>
-            {c.institution} · {c.role}
-            {c.email && <><br /><a href={`mailto:${c.email}`}>{c.email}</a></>}
-          </dd>
-        </>
-      ))}
-    </dl>
+    <>
+      <ul class="conveners">
+        {network.coordinators.map((c) => (
+          <li>
+            <div class="who">
+              {c.url ? <a href={c.url}>{c.name}</a> : c.name}
+              {c.name_native && <span class="muted"> {c.name_native}</span>}
+            </div>
+            <div class="chips">
+              <span class={`chip aff hue-${hue(affs, c.institution)}`}>{c.institution}</span>
+              <span class={`chip role hue-${hue(roles, c.role, HUES / 2)}`}>{c.role}</span>
+            </div>
+            {c.role_detail && <p class="small muted">{c.role_detail}</p>}
+          </li>
+        ))}
+      </ul>
+      <details class="contacts">
+        <summary>Email addresses</summary>
+        {reachable.length > 0 && (
+          <dl class="facts">
+            {reachable.map((c) => (
+              <>
+                <dt>{c.name}</dt>
+                <dd><a href={`mailto:${c.email}`}>{c.email}</a></dd>
+              </>
+            ))}
+          </dl>
+        )}
+        <p class="small muted">
+          Anything that is not private — a suggestion, a correction, a lab entry, a speaker —
+          is better <a href={forms.issues}>raised as an issue</a>: it is public, it stays on the
+          record, and anyone in the network can answer it.
+        </p>
+      </details>
+    </>
   )}
   {founding && (
     <p class="small muted">Founding conveners from several institutions and cities are named here as they confirm.</p>
