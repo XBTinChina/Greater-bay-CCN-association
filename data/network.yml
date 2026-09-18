@@ -75,6 +75,9 @@ coordinators:
     name_native: 滕相斌
     institution: The Chinese University of Hong Kong
     role: Interim coordinator; website and repository maintainer
+    # The institutional address already published on the SMRT Lab entry, not a
+    # personal one. Replace with the role address once it exists.
+    email: xiangbinteng@cuhk.edu.hk
   - name: Qihong Lu
     name_native: 吕其鸿
     institution: City University of Hong Kong
