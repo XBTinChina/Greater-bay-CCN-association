@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { forms, network, routes } from '../../lib/network';
+import { forms, network } from '../../lib/network';
 import { url } from '../../lib/url';
 import { formatDate } from '../../lib/events';
 import { POSITION_TYPE_LABELS, POSITION_TYPES } from '../../lib/taxonomy';
@@ -42,7 +42,6 @@ const showFilters = open.length >= 3;
   </p>
   <div class="actions" style="margin-top:0.5rem">
     <a class="btn primary" href={forms.position}>Post a position</a>
-    <a class="btn" href={routes.follow}>Follow the seminars</a>
   </div>
   <p class="small muted">
     Any member or affiliate lab may post.
