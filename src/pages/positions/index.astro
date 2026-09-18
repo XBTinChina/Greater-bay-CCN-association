@@ -4,7 +4,8 @@ import Base from '../../layouts/Base.astro';
 import { forms, network, routes } from '../../lib/network';
 import { url } from '../../lib/url';
 import { formatDate } from '../../lib/events';
-import { POSITION_TYPE_LABELS } from '../../lib/taxonomy';
+import { POSITION_TYPE_LABELS, POSITION_TYPES } from '../../lib/taxonomy';
+import ExpandCards from '../../components/ExpandCards.astro';
 
 const now = new Date();
 const all = await getCollection('positions', (p) => !p.data.draft);
@@ -19,6 +20,16 @@ const open = all
     return da - db || b.data.posted.getTime() - a.data.posted.getTime();
   });
 const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await render(p)).Content })));
+
+// Filter options come from the listings on the page, so a rank or a city with
+// nothing behind it never appears. Ranks keep the taxonomy's order, which runs
+// from the most junior post to the most senior; cities are alphabetical because
+// no order between them is meaningful.
+const ranks = POSITION_TYPES.filter((t) => open.some((p) => p.data.type === t));
+const cities = [...new Set(open.map((p) => p.data.city))].sort((a, b) => a.localeCompare(b, 'en'));
+// Below this the filters are more furniture than help: a reader can see the
+// whole board at a glance and a dropdown of two only gets in the way.
+const showFilters = open.length >= 4;
 ---
 
 <Base title="Positions" description="PhD, postdoc, research assistant and faculty openings in computational and cognitive neuroscience labs across the Greater Bay Area.">
@@ -38,12 +49,37 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
     A coordinator checks it and it appears within days.
   </p>
 
+  {showFilters && (
+    <>
+      <form class="filters" id="position-filters" role="search" aria-label="Filter positions" onsubmit="return false">
+        <input type="search" id="f-text" aria-label="Search positions" placeholder="Search" autocomplete="off" />
+        <select id="f-rank" aria-label="Rank">
+          <option value="">All ranks</option>
+          {ranks.map((t) => <option value={t}>{POSITION_TYPE_LABELS[t]}</option>)}
+        </select>
+        <select id="f-city" aria-label="Place">
+          <option value="">All places</option>
+          {cities.map((c) => <option value={c}>{c}</option>)}
+        </select>
+      </form>
+      <p class="filter-summary" id="filter-summary" aria-live="polite"></p>
+    </>
+  )}
+
   {rendered.length === 0 ? (
     <p class="quiet">No open positions right now. Member labs post theirs here as they open.</p>
   ) : (
-    <ul class="rows">
+    <ul class="rows" id="position-list">
       {rendered.map(({ p, Content }) => (
-        <li class="row">
+        <li
+          class="row"
+          data-expandable
+          data-rank={p.data.type}
+          data-city={p.data.city}
+          data-text={[p.data.title, p.data.pi ?? '', p.data.institution, p.data.city, POSITION_TYPE_LABELS[p.data.type]]
+            .join(' ')
+            .toLowerCase()}
+        >
           <div class="when">
             <b>{POSITION_TYPE_LABELS[p.data.type]}</b>
             <span>{p.data.deadline ? `Deadline ${formatDate(p.data.deadline, { weekday: undefined })}` : 'Open until filled'}</span>
@@ -55,7 +91,7 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
               {p.data.pi && `${p.data.pi} · `}
               {p.data.institution} · {p.data.city}
             </div>
-            <div class="prose small" style="margin-top:0.5rem"><Content /></div>
+            <div class="prose small" style="margin-top:0.5rem" data-clampable><Content /></div>
             {(p.data.url || p.data.contact_email) && (
               <div class="links">
                 {p.data.url && <a href={p.data.url}>How to apply</a>}
@@ -67,8 +103,48 @@ const rendered = await Promise.all(open.map(async (p) => ({ p, Content: (await r
       ))}
     </ul>
   )}
+  <p class="quiet" id="no-results" hidden>No positions match these filters.</p>
+  <ExpandCards />
 
   <p class="small muted" style="margin-top:2.5rem">
     Looking for people rather than a post? Member labs list what they are looking for on the <a href={url('labs/')}>labs page</a>.
   </p>
 </Base>
+
+<script>
+  const list = document.getElementById('position-list');
+  const summary = document.getElementById('filter-summary');
+  const empty = document.getElementById('no-results');
+  const text = document.getElementById('f-text') as HTMLInputElement | null;
+  const rank = document.getElementById('f-rank') as HTMLSelectElement | null;
+  const city = document.getElementById('f-city') as HTMLSelectElement | null;
+
+  function apply() {
+    if (!list) return;
+    const q = (text?.value ?? '').trim().toLowerCase();
+    const r = rank?.value ?? '';
+    const c = city?.value ?? '';
+    let shown = 0;
+    const rows = list.querySelectorAll<HTMLElement>('.row');
+    rows.forEach((row) => {
+      const ok =
+        (!q || (row.dataset.text ?? '').includes(q)) &&
+        (!r || row.dataset.rank === r) &&
+        (!c || row.dataset.city === c);
+      row.hidden = !ok;
+      if (ok) shown += 1;
+    });
+    if (summary) summary.textContent = shown === rows.length ? '' : `${shown} of ${rows.length} positions shown`;
+    if (empty) empty.hidden = shown !== 0;
+  }
+
+  // Deep links: /positions/?rank=phd sends a candidate straight to their own
+  // kind of post, which is what a lab pastes into a WeChat announcement.
+  const params = new URLSearchParams(location.search);
+  if (text && params.get('q')) text.value = params.get('q') ?? '';
+  if (rank && params.get('rank')) rank.value = params.get('rank') ?? '';
+  if (city && params.get('city')) city.value = params.get('city') ?? '';
+
+  for (const el of [text, rank, city]) el?.addEventListener('input', apply);
+  apply();
+</script>

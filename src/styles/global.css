@@ -736,7 +736,24 @@ main {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.lab .more {
+/* A rendered Markdown body is many blocks, so -webkit-line-clamp cannot hold
+   it: clamp by height and fade the cut, so the break reads as "continues"
+   rather than as the end of the text. scrollHeight still answers the overflow
+   question, so the same script drives both. */
+.prose.clamp {
+  position: relative;
+  max-height: 7.5em;
+  overflow: hidden;
+}
+.prose.clamp::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2.2em;
+  background: linear-gradient(to bottom, transparent, var(--paper));
+  pointer-events: none;
+}
+.more {
   display: block;
   margin-top: 0.45rem;
   padding: 0;
@@ -755,7 +772,7 @@ main {
    reader with the commonest colour blindness would see a control identical to
    the links beside it. The shape stays visible to everyone, and it turns on
    the aria-expanded the button already sets. */
-.lab .more::before {
+.more::before {
   content: '';
   display: inline-block;
   width: 0;
@@ -766,18 +783,18 @@ main {
   border-bottom: 0.28em solid transparent;
   transition: transform 0.15s ease;
 }
-.lab .more[aria-expanded='true']::before {
+.more[aria-expanded='true']::before {
   transform: rotate(90deg);
 }
 @media (prefers-reduced-motion: reduce) {
-  .lab .more::before {
+  .more::before {
     transition: none;
   }
 }
-.lab .more:hover {
+.more:hover {
   text-decoration: underline;
 }
-.lab .more:focus-visible {
+.more:focus-visible {
   outline: 2px solid var(--toggle);
   outline-offset: 2px;
   border-radius: 2px;

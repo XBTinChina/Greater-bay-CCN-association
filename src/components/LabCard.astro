@@ -16,6 +16,7 @@ const topics = compact ? d.keywords.slice(0, 3) : d.keywords;
 
 <article
   class="lab"
+  data-expandable
   data-city={d.city}
   data-institution={d.institution}
   data-tier={d.tier}
@@ -39,9 +40,9 @@ const topics = compact ? d.keywords.slice(0, 3) : d.keywords;
       <span title={d.institution}>{institutionShort(lab)}</span> · {d.city}
     </div>
     <div class="topics">{topics.join(' · ')}</div>
-    {!compact && d.description && <p class="desc">{d.description}</p>}
+    {!compact && d.description && <p class="desc" data-clampable>{d.description}</p>}
     {!compact && d.looking_for && (
-      <p class="desc muted">
+      <p class="desc muted" data-clampable>
         <strong>Looking for:</strong> {d.looking_for}
       </p>
     )}

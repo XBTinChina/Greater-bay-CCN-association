@@ -1,31 +1,35 @@
 ---
 /**
- * Gives every lab card whose text is too tall a "Show more" toggle.
+ * Gives every card whose text is too tall a "Show more" toggle.
  *
- * The stylesheet no longer clamps on its own. This script clamps, measures, and
- * keeps the clamp only where the text really does overflow, which is why a
- * reader without JavaScript sees the whole entry rather than three lines and no
- * way to reach the rest. One toggle per card, controlling every clamped part of
- * it, so a card with both a description and a "Looking for" line does not grow
- * two buttons.
+ * Mark the card `data-expandable` and the parts of it that may be shortened
+ * `data-clampable`. The script adds the `clamp` class, measures, and keeps it
+ * only where the content really does overflow, so a short entry gets no button.
+ * How a part shortens is the stylesheet's business, not this script's: a lab's
+ * one-paragraph description clamps to three lines, a position's rendered
+ * Markdown clamps to a height, and both answer scrollHeight the same way.
+ *
+ * The stylesheet does not clamp on its own, which inverts the failure mode: a
+ * reader without JavaScript sees every entry in full rather than a fixed
+ * fragment with no way to reach the rest.
+ *
+ * One toggle per card, controlling every clamped part of it, so a card with
+ * both a description and a "Looking for" line does not grow two buttons.
  *
  * Inline and unbundled so it runs during parsing, before the cards are painted:
  * deferred, the clamp would appear as a visible collapse a moment after the
- * page had already drawn the full text.
- *
- * Measurement is safe this early because the site uses system fonts, so line
- * heights are settled at first layout; nothing here waits on a web font or on
- * the lazily loaded portraits, which have their dimensions in the markup.
+ * page had already drawn the full text. Measuring this early is safe because
+ * the site uses system fonts, so line heights are settled at first layout.
  */
 ---
 
 <script is:inline>
   (function () {
-    var cards = document.querySelectorAll('.lab');
+    var cards = document.querySelectorAll('[data-expandable]');
     for (var i = 0; i < cards.length; i++) attach(cards[i]);
 
     function attach(card) {
-      var parts = card.querySelectorAll('.desc');
+      var parts = card.querySelectorAll('[data-clampable]');
       if (!parts.length) return;
       var j;
       for (j = 0; j < parts.length; j++) parts[j].classList.add('clamp');
