@@ -3,6 +3,7 @@
 
 title: PhD and Postdoc in NeuroAI and Computational Neurolinguistics
 type: phd
+lab: jixing-li
 pi: Jixing Li
 institution: The Hong Kong Polytechnic University
 city: Hong Kong
@@ -12,15 +13,15 @@ deadline: 2027-04-01
 expires: 2027-06-01
 ---
 
-The **Languages, Machines and Brains Lab**, led by Dr. **Jixing Li,** is seeking motivated PhD students and postdoctoral researchers to join our research at the intersection of neuroimaging, computational modeling, and language. The lab will move to the **Division of AI in Humanities at The Hong Kong Polytechnic University** in late December 2026, with opportunities starting in 2027.
+The **Languages, Machines and Brains Lab**, led by Dr. **Jixing Li**, is seeking motivated PhD students and postdoctoral researchers to join our research at the intersection of neuroimaging, computational modeling, and language. The lab will move to the **Division of AI in Humanities at The Hong Kong Polytechnic University** in late December 2026, with opportunities starting in 2027.
 
 Our research combines naturalistic language paradigms, large language models, and human neuroscience to investigate the computational foundations of language. We work with complementary brain-recording methods, including fMRI, MEG, EEG, and intracranial recordings.
 
 **Research directions include:**
 
-Understanding how linguistic representations emerge in artificial neural networks and relate to human brain activity.
-Modeling language comprehension and production during naturalistic listening, reading, and conversation.
-Investigating language impairment and recovery in aphasia through computational models and neuroimaging.
+- Understanding how linguistic representations emerge in artificial neural networks and relate to human brain activity.
+- Modeling language comprehension and production during naturalistic listening, reading, and conversation.
+- Investigating language impairment and recovery in aphasia through computational models and neuroimaging.
 
 **Who we are looking for**
 
@@ -32,9 +33,9 @@ PhD applicants should demonstrate research potential and enthusiasm for interdis
 
 Please contact Dr. Jixing Li at **jixing.us@gmail.com** with:
 
-Your CV.
-A brief description of your research interests, relevant computational experience, and fit with the lab.
-Links to publications, research projects, or code repositories, if available.
-Your preferred position and anticipated start date.
+- Your CV.
+- A brief description of your research interests, relevant computational experience, and fit with the lab.
+- Links to publications, research projects, or code repositories, if available.
+- Your preferred position and anticipated start date.
 
 Join us in exploring the connections between languages, machines, and brains!
