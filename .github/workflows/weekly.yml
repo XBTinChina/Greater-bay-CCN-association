@@ -48,6 +48,14 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           # Form links need a login (excluded); example.invalid is the fake origin above.
+          #
+          # CUHK Psychology staff pages are excluded from 2026-09-22. Their CMS
+          # answers a checker with a timeout one week and a 404 the next, while
+          # the same URL serves a current page to a browser and is indexed by
+          # search engines. Every CUHK Psychology PI who joins will have one of
+          # these, so the pattern is excluded rather than the single URL. The
+          # cost is that a genuinely dead staff page now goes unreported: if one
+          # is suspected, open it in a browser.
           args: >-
             --no-progress
             --accept 200..299,403,429
@@ -56,6 +64,7 @@ jobs:
             --exclude localhost
             --exclude example.invalid
             --exclude '^https://github.com/.*/issues/new'
+            --exclude '^https://www\.psy\.cuhk\.edu\.hk/index\.php/component/sppagebuilder/'
             --exclude-path dist/calendar.ics
             'dist/**/*.html'
           format: markdown
