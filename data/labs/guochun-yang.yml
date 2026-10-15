@@ -1,0 +1,27 @@
+# Created from issue #39 by the intake workflow. Edit this file by pull request.
+
+pi: Guochun Yang
+pi_native: 杨国春
+lab: Laboratory of Cognitive Neural Representation and Regulation
+institution: Guangdong Institute of Intelligence Science and Technology
+institution_short: GDIIST
+city: Zhuhai
+tier: member
+website: https://www.gdiist.cn/en/research/team_detail/80
+email: yangguochun@gdiist.cn
+scholar: https://scholar.google.com/citations?user=_T5G8DsAAAAJ&hl=en
+github: https://github.com/guochun-yang
+orcid: https://orcid.org/0000-0002-0516-8772
+photo: guochun-yang.webp
+keywords:
+  - Cognitive Control
+  - Task Representation
+  - Attention
+  - Working Memory
+  - Learning and Memory
+description: >-
+  We seek to reveal how higher-order cognitive functions are represented at the behavioral,
+  neural and computational levels.
+looking_for: Postdoctoral researchers and interns with psychology/cognitive
+  neuroscience/computational neuroscience background
+joined: 2026-10-15
