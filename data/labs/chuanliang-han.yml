@@ -1,0 +1,27 @@
+# Created from issue #38 by the intake workflow. Edit this file by pull request.
+
+pi: Chuanliang Han
+pi_native: 韩传亮
+lab: Han Lab for Neural Oscillation
+institution: Shenzhen University
+institution_short: SZU
+department: School of Psychology
+city: Shenzhen
+tier: member
+website: https://sites.google.com/view/neural-oscillation-lab
+email: hanchuanliang2014@gmail.com
+scholar: https://scholar.google.com/citations?user=ozJDUmkAAAAJ
+photo: chuanliang-han.webp
+keywords:
+  - Neural Oscillation
+  - Cognitive Function
+description: >-
+  Our research investigates the origin and functional mechanisms of brain neural oscillations by
+  integrating neuroelectrophysiological techniques across spatial scales of the human brain
+  (single-cell recordings, local field potentials and scalp electroencephalographic activity). We
+  combine these techniques across species (human, non-human primates and rodents) with cognitive
+  behavioral analysis, clinical pathology and computational modeling, and apply our findings to the
+  early screening, diagnosis, therapeutic intervention and rehabilitation of neurological
+  (Alzheimer's disease) and psychiatric disorders (depression, bipolar disorder, schizophrenia,
+  ADHD).
+joined: 2026-09-19
