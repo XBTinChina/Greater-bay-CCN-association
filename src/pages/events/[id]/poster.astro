@@ -12,7 +12,7 @@ import { labName, publishedLab } from '../../../lib/labs';
 import { EVENT_TYPE_LABELS } from '../../../lib/taxonomy';
 
 export async function getStaticPaths() {
-  const events = await getCollection('events', (e) => !e.data.draft);
+  const events = await getCollection('events', (e) => !e.data.draft && e.data.poster);
   return events.map((event) => ({ params: { id: event.id }, props: { event } }));
 }
 

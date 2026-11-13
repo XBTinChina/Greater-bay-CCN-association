@@ -70,6 +70,7 @@ Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.m
 | speaker_native | text | No | |
 | speaker_affiliation | text | No | |
 | speaker_url | URL | No | |
+| speaker_photo | file name | No | Portrait in public/photos/; same filename rules as lab photos |
 | junior_speaker | object | No | Sub-fields: name (required), affiliation, title |
 | host_lab | text | No | Id of a file in data/labs/ |
 | host_institution | text | No | Fallback when host_lab is absent |
@@ -79,6 +80,7 @@ Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.m
 | recording | object | No | Optional URL sub-fields: bilibili, youtube, other |
 | slides_url | URL | No | |
 | materials_url | URL | No | |
+| poster | yes/no | No, default yes | Set false to omit the poster page and link |
 
 Minimal complete example:
 

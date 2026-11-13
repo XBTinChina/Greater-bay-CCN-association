@@ -75,6 +75,7 @@ const events = defineCollection({
       speaker_native: z.string().optional(),
       speaker_affiliation: z.string().optional(),
       speaker_url: httpUrl.optional(),
+      speaker_photo: slugFile.optional(),
       junior_speaker: z
         .object({
           name: z.string().min(1),
@@ -96,6 +97,7 @@ const events = defineCollection({
         .optional(),
       slides_url: httpUrl.optional(),
       materials_url: httpUrl.optional(),
+      poster: z.boolean().default(true),
       draft: z.boolean().default(false),
     })
     .superRefine((ev, ctx) => {

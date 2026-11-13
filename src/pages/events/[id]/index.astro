@@ -60,14 +60,21 @@ const jsonld = {
     <span class="tag accent">{EVENT_TYPE_LABELS[d.type]}</span>
     {!upcoming && <span class="tag"> · Past</span>}
     <h1>{d.title}</h1>
-    {speakerLine(event) && (
-      <p class="lead" style="margin-bottom:0.4rem">
-        {d.speaker_url ? <a href={d.speaker_url}>{d.speaker}</a> : d.speaker}
-        {d.speaker_native && <span> {d.speaker_native}</span>}
-        {d.speaker_affiliation && <span>, {d.speaker_affiliation}</span>}
-      </p>
-    )}
-    <p style="font-weight:600">{formatWhen(event)}</p>
+    <div class:list={['event-speaker', { 'with-photo': d.speaker_photo }]}>
+      {d.speaker_photo && (
+        <img class="speaker-photo" src={url(`photos/${d.speaker_photo}`)} alt={d.speaker ? `Photo of ${d.speaker}` : 'Speaker portrait'} width="128" height="128" />
+      )}
+      <div>
+        {speakerLine(event) && (
+          <p class="lead" style="margin-bottom:0.4rem">
+            {d.speaker_url ? <a href={d.speaker_url}>{d.speaker}</a> : d.speaker}
+            {d.speaker_native && <span> {d.speaker_native}</span>}
+            {d.speaker_affiliation && <span>, {d.speaker_affiliation}</span>}
+          </p>
+        )}
+        <p style="font-weight:600">{formatWhen(event)}</p>
+      </div>
+    </div>
 
     <dl class="facts">
       <dt>Where</dt>
@@ -133,10 +140,31 @@ const jsonld = {
 
     <Content />
 
-    <div class="actions">
-      <a class="btn small" href={url('calendar.ics')}>Add the series to your calendar</a>
-      <a class="btn small" href={url(`events/${event.id}/poster/`)}>Poster</a>
-    </div>
-    {network.seminar.recording_note && <p class="small muted" style="margin-top:1.5rem">{network.seminar.recording_note}</p>}
+    {d.poster && (
+      <div class="actions">
+        <a class="btn small" href={url(`events/${event.id}/poster/`)}>Poster</a>
+      </div>
+    )}
   </article>
 </Base>
+
+<style>
+  .event-speaker.with-photo {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin: 1.4rem 0 1.8rem;
+  }
+  .speaker-photo {
+    width: 128px;
+    height: 128px;
+    flex: 0 0 auto;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+  .with-photo p:last-child { margin-bottom: 0; }
+  @media (max-width: 480px) {
+    .event-speaker.with-photo { align-items: flex-start; gap: 1rem; }
+    .speaker-photo { width: 88px; height: 88px; }
+  }
+</style>
