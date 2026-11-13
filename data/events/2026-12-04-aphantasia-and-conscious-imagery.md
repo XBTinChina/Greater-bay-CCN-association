@@ -6,7 +6,8 @@ start: "16:00"
 speaker: Jianghao Liu
 speaker_url: https://jianghao-liu.github.io/
 speaker_photo: jianghao-liu.webp
-location: Venue to be announced
+location: Zoom
+location_url: https://cityu.zoom.us/j/85430985888
 poster: false
 ---
 

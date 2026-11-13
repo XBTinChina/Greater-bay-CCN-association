@@ -24,7 +24,7 @@ const upcoming = isUpcoming(event);
 const description = [EVENT_TYPE_LABELS[d.type], speakerLine(event), formatWhen(event)].filter(Boolean).join(' · ');
 const rec = d.recording;
 
-const online = d.location.toLowerCase().includes('online');
+const online = /online|zoom/i.test(d.location);
 const pageUrl = absolute(`events/${event.id}/`);
 const jsonld = {
   '@context': 'https://schema.org',
@@ -35,7 +35,7 @@ const jsonld = {
   eventStatus: 'https://schema.org/EventScheduled',
   eventAttendanceMode: online ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/MixedEventAttendanceMode',
   location: online
-    ? { '@type': 'VirtualLocation', url: pageUrl }
+    ? { '@type': 'VirtualLocation', url: d.location_url ?? pageUrl }
     : { '@type': 'Place', name: d.location },
   organizer: { '@type': 'Organization', name: network.name, url: absolute('') },
   ...(d.speaker
@@ -79,9 +79,9 @@ const jsonld = {
     <dl class="facts">
       <dt>Where</dt>
       <dd>
-        {d.location}
+        {d.location_url ? <a href={d.location_url}>{d.location}</a> : d.location}
         {d.platform && ` · ${d.platform}`}
-        {upcoming && d.location.toLowerCase().includes('online') && (
+        {upcoming && !d.location_url && d.location.toLowerCase().includes('online') && (
           <span class="muted small"> · link on the announcement list</span>
         )}
       </dd>

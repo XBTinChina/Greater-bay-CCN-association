@@ -23,7 +23,7 @@ const recorded = rec && (rec.bilibili || rec.youtube || rec.other);
     <b>{day}</b>
     {span && <span>{span}<br /></span>}
     {time && <span>{time}<br /></span>}
-    <span>{d.location}{d.platform && d.location.toLowerCase().includes('online') ? ` · ${d.platform}` : ''}</span>
+    <span>{d.location_url ? <a href={d.location_url}>{d.location}</a> : d.location}{d.platform && d.location.toLowerCase().includes('online') ? ` · ${d.platform}` : ''}</span>
   </div>
   <div>
     <span class="tag accent">{EVENT_TYPE_LABELS[d.type]}</span>

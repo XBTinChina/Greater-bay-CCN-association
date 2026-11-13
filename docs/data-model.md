@@ -56,7 +56,7 @@ joined: 2026-09-03
 
 ## Events
 
-Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.md`. The body is the abstract, optionally followed by a short biography. Never put the meeting link in the file.
+Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.md`. The body is the abstract, optionally followed by a short biography. Use `location_url` for a venue link the organizer has requested to make public.
 
 | Field | Type | Required | Notes |
 | --- | --- | --- | --- |
@@ -75,6 +75,7 @@ Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.m
 | host_lab | text | No | Id of a file in data/labs/ |
 | host_institution | text | No | Fallback when host_lab is absent |
 | location | text | No, default Online | Or a room and campus |
+| location_url | URL | No | Makes the venue name a link |
 | platform | text | No | |
 | registration_url | URL | No | |
 | recording | object | No | Optional URL sub-fields: bilibili, youtube, other |

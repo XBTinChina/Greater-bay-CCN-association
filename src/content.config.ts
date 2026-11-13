@@ -86,6 +86,7 @@ const events = defineCollection({
       host_lab: z.string().optional(),
       host_institution: z.string().optional(),
       location: z.string().default('Online'),
+      location_url: httpUrl.optional(),
       platform: z.string().optional(),
       registration_url: httpUrl.optional(),
       recording: z
