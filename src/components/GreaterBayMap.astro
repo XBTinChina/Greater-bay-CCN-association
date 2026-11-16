@@ -1,59 +1,27 @@
 ---
-// Original, north-up schematic. City centres and coast are deliberately
-// simplified for a small hero panel; this is not a boundary or transport map.
-// Regional coverage and relative positions checked against the HKSAR sources:
-// https://www.bayarea.gov.hk/en/about/overview.html
-// https://www.doj.gov.hk/images/map_bayarea.jpg
+import { Image } from 'astro:assets';
+import bayCartoon from '../assets/brand/bay-cartoon.png';
+
 interface Props {
   class?: string;
 }
 const { class: cls } = Astro.props;
-const cities = [
-  { name: 'Zhaoqing', x: 74, y: 81, tx: 45, ty: 64, anchor: 'start' },
-  { name: 'Guangzhou', x: 216, y: 66, tx: 216, ty: 48, anchor: 'middle' },
-  { name: 'Foshan', x: 188, y: 87, tx: 178, ty: 111, anchor: 'end' },
-  { name: 'Dongguan', x: 302, y: 85, tx: 313, ty: 108, anchor: 'start' },
-  { name: 'Huizhou', x: 423, y: 68, tx: 423, ty: 48, anchor: 'end' },
-  { name: 'Jiangmen', x: 181, y: 164, tx: 164, ty: 157, anchor: 'end' },
-  { name: 'Zhongshan', x: 237, y: 174, tx: 226, ty: 189, anchor: 'end' },
-  { name: 'Zhuhai', x: 270, y: 217, tx: 256, ty: 218, anchor: 'end' },
-  { name: 'Shenzhen', x: 357, y: 174, tx: 371, ty: 166, anchor: 'start' },
-  { name: 'Macao', x: 263, y: 231, tx: 290, ty: 251, anchor: 'start', sar: true },
-  { name: 'Hong Kong', x: 377, y: 214, tx: 386, ty: 232, anchor: 'start', sar: true },
-];
+// The user's original artwork remains intact. Show the complete square in the
+// thumbnail and link to the unchanged original for viewing its finer details.
 ---
 
-<svg class={cls} viewBox="0 0 480 274" role="img" aria-labelledby="bay-map-title bay-map-desc">
-  <title id="bay-map-title">The eleven cities of the Greater Bay Area</title>
-  <desc id="bay-map-desc">A north-up schematic of the Pearl River Delta. Guangzhou is at the head of the estuary; Dongguan, Shenzhen and Hong Kong lie to the east, with Zhongshan, Zhuhai and Macao to the west. Foshan, Zhaoqing and Jiangmen extend inland to the west, and Huizhou lies to the northeast.</desc>
-  <rect width="480" height="274" fill="#30286e" />
-  <text x="18" y="23" fill="#bdf4c9" font-size="13" font-weight="700" letter-spacing="1.6">GREATER BAY AREA</text>
-
-  {/* Land and the open estuary; intentionally no administrative boundaries. */}
-  <path d="M0 35H480V168L463 164 452 179 432 169 418 184 402 181 393 199 389 211 378 219 369 211 370 203 350 188 348 177 333 168 322 153 307 136 290 121 281 112 273 113 266 129 263 149 263 167 271 184 276 200 278 218 270 233 253 229 241 238 225 233 213 245 194 238 180 254 157 246 143 261 121 252 100 267 79 257 55 274H0Z" fill="#51458a" />
-  <path d="M480 168L463 164 452 179 432 169 418 184 402 181 393 199 389 211 378 219 369 211 370 203 350 188 348 177 333 168 322 153 307 136 290 121 281 112 273 113 266 129 263 149 263 167 271 184 276 200 278 218 270 233 253 229 241 238 225 233 213 245 194 238 180 254 157 246 143 261 121 252 100 267 79 257 55 274" fill="none" stroke="#958ac5" stroke-width="1.2" />
-  {/* A few islands make the bay legible without turning it into a survey map. */}
-  <path d="M330 207L341 202 352 212 346 218 332 215ZM362 225L373 222 384 228 375 233 365 231ZM292 231L298 228 304 233 300 239 294 237Z" fill="#51458a" stroke="#958ac5" stroke-width="1" />
-  <g fill="none" stroke="#b0a6df" stroke-width="1.1" opacity="0.55">
-    <path d="M77 100C128 92 155 127 204 122S253 109 274 117" />
-    <path d="M217 75C218 90 242 95 252 108S258 129 264 142" />
-    <path d="M204 122C213 146 235 145 259 160" />
-  </g>
-  <g fill="#aaa1d0" font-size="11.5" font-style="italic" text-anchor="middle">
-    <text x="300" y="177">Pearl River</text>
-    <text x="300" y="191">estuary</text>
-  </g>
-
-  <path d="M263 231L277 247H284" fill="none" stroke="#ffc4ad" stroke-width="1" />
-  {cities.map((city) => (
-    <g>
-      <circle cx={city.x} cy={city.y} r="4.5" fill={city.sar ? '#ffc4ad' : '#bdf4c9'} stroke="#30286e" stroke-width="1.8" />
-      <text x={city.tx} y={city.ty} text-anchor={city.anchor} fill={city.sar ? '#ffc4ad' : '#f1eeff'} font-size="15" font-weight="600">{city.name}</text>
-    </g>
-  ))}
-  <text x="18" y="259" fill="#c0b8df" font-size="11">Regional schematic</text>
-  <g transform="translate(453 250)" fill="#c0b8df">
-    <path d="M0-10 3-3 0-5-3-3Z" />
-    <text x="0" y="10" font-size="11" text-anchor="middle">N</text>
-  </g>
-</svg>
+<a class={cls} href={bayCartoon.src} aria-label="View the full Greater Bay Area illustration">
+  <Image
+    src={bayCartoon}
+    width={384}
+    height={384}
+    format="webp"
+    quality={90}
+    alt="A cartoon bay with green shores, bridges, cities, neuron trees and brain scientists"
+    loading="eager"
+  />
+  <span class="bay-caption">
+    Greater<br />Bay Area
+    <small>View full map ↗</small>
+  </span>
+</a>

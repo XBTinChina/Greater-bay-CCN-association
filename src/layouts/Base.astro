@@ -12,7 +12,7 @@ interface Props {
   noindex?: boolean;
   /** The home page carries the message itself, so it hides the notice line. */
   hideBanner?: boolean;
-  /** Enables the homepage's Blue Hour composition without changing its copy. */
+  /** Enables the homepage's visual composition without changing its copy. */
   home?: boolean;
   /** Structured data (schema.org) for this page. */
   jsonld?: Record<string, unknown>;
@@ -72,7 +72,7 @@ const ogImage = absolute('og.png');
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="theme-color" content="#30286e" />
+    <meta name="theme-color" content="#eee4ff" />
     {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
   </head>
   <body>

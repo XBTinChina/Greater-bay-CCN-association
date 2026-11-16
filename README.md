@@ -130,7 +130,7 @@ It is short, and we mean it.
 │   ├── positions/         Openings; expire automatically → /positions/
 │   └── news/              Announcements                  → /news/
 ├── docs/                  Charter, code of conduct, handbooks → /docs/
-├── public/logo.svg        Blue Hour Bay Graph identity
+├── public/logo.svg        Signal Commons Bay Graph identity
 ├── public/photos/         PI photos, 400×400 WebP, metadata stripped
 ├── src/                   The Astro site (MIT)
 │   ├── content.config.ts  Schemas: what each data file must contain
@@ -175,7 +175,7 @@ Actions. No server, no database: the pages are generated from the files in
   series would. The Resources page appears in the navigation only when it has
   content; Positions is always there so labs can post openings; the lab filters
   render only once eight labs are listed.
-- **The visual identity.** Blue Hour uses a fixed indigo, periwinkle and mint
+- **The visual identity.** Signal Commons uses a fixed lavender, violet, lime and coral
   palette in `src/styles/global.css`. The Bay Graph mark is in
   `src/components/Mark.astro` and `public/logo.svg`; keep their geometry in sync.
   `npm run build` runs `scripts/blue-hour-brand.mjs` to generate the favicon,

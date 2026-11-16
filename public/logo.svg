@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="title">
   <title id="title">GBA-CCN Network — Bay Graph</title>
-  <rect width="64" height="64" rx="14" fill="#30286e"/>
-  <g transform="translate(5 5) scale(.84)" fill="#bdf4c9">
-    <path d="M51 15 29 7 10 27 16 49 43 55M10 27 51 15" fill="none" stroke="#bdf4c9" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect width="64" height="64" rx="14" fill="#eee4ff"/>
+  <g transform="translate(5 5) scale(.84)" fill="#6a32ed">
+    <path d="M51 15 29 7 10 27 16 49 43 55M10 27 51 15" fill="none" stroke="#6a32ed" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="51" cy="15" r="5.5"/><circle cx="29" cy="7" r="5.5"/><circle cx="10" cy="27" r="5.5"/><circle cx="16" cy="49" r="5.5"/><circle cx="43" cy="55" r="5.5"/>
   </g>
 </svg>

@@ -1,24 +1,24 @@
-/* Blue Hour: indigo, periwinkle, mint and peach.
+/* Signal Commons: lavender, vivid violet, acid lime and coral.
    System fonts and local artwork keep the site independent of third-party
    font and image services on campuses across the Greater Bay Area. */
 
 :root {
   color-scheme: light;
-  --paper: #eeecff;
-  --ink: #30286e;
-  --muted: #5a5480;
-  --faint: #6b638a;
-  --line: #cbc5e5;
-  --soft: #e0dcf8;
-  --accent: #483b9c;
-  --accent-strong: #251b62;
-  --accent-soft: #e0dcfa;
-  --on-accent: #f1eeff;
-  --toggle: #713d64;
-  --indigo: #30286e;
-  --periwinkle: #8583f5;
-  --mint: #bdf4c9;
-  --peach: #ffc4ad;
+  --paper: #eee4ff;
+  --ink: #291333;
+  --muted: #62516e;
+  --faint: #776582;
+  --line: #cbb8df;
+  --soft: #e2d2fa;
+  --accent: #6a32ed;
+  --accent-strong: #4c17b8;
+  --accent-soft: #dfceff;
+  --on-accent: #ffffff;
+  --toggle: #963b57;
+  --indigo: #291333;
+  --periwinkle: #6a32ed;
+  --mint: #dafb50;
+  --peach: #ff7366;
   --radius: 8px;
   --font:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
@@ -76,7 +76,7 @@ a:hover {
 h1,
 h2,
 h3 {
-  font-weight: 750;
+  font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.035em;
   margin: 0 0 0.6rem;
@@ -217,16 +217,13 @@ summary:focus-visible {
 
 .band {
   height: 4px;
-  background: var(--mint);
+  background: var(--accent);
 }
 
 .site-header {
-  --ink: #f1eeff;
-  --muted: #ddd7ff;
-  --accent: #bdf4c9;
-  --accent-strong: #ffc4ad;
-  background: var(--indigo);
+  background: var(--paper);
   color: var(--ink);
+  border-bottom: 1px solid #ffffff;
 }
 .site-header .container {
   display: flex;
@@ -257,7 +254,7 @@ summary:focus-visible {
   display: block;
   width: 44px;
   height: 44px;
-  color: var(--mint);
+  color: var(--accent);
   flex: none;
 }
 .lockup {
@@ -322,27 +319,27 @@ summary:focus-visible {
   font-weight: 600;
 }
 .site-nav a {
-  color: var(--muted);
+  color: var(--ink);
   padding: 0.3rem 0;
   border-bottom: 2px solid transparent;
 }
 .site-nav a:hover {
-  color: var(--mint);
+  color: var(--accent);
   text-decoration: none;
 }
 .site-nav a[aria-current="page"] {
-  color: var(--mint);
-  border-bottom-color: var(--mint);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 .site-nav .follow {
-  color: var(--mint);
+  color: var(--accent);
 }
 .site-nav .btn {
   margin-left: 0.2rem;
 }
 
 .notice {
-  border-bottom: 1px solid #a9dcb4;
+  border-bottom: 1px solid #bfd13c;
   background: var(--mint);
   font-size: 0.85rem;
   color: var(--indigo);
@@ -367,10 +364,10 @@ main.home-page {
 /* -------------------------------------------------------------- footer */
 
 .site-footer {
-  --ink: #f1eeff;
-  --muted: #ddd7ff;
-  --accent: #bdf4c9;
-  --accent-strong: #ffc4ad;
+  --ink: #f8f2ff;
+  --muted: #e5d6ee;
+  --accent: #dafb50;
+  --accent-strong: #ff9b8f;
   border-top: 4px solid var(--periwinkle);
   background: var(--indigo);
   padding: 2.5rem 0 3rem;
@@ -403,13 +400,6 @@ main.home-page {
 /* ---------------------------------------------------------------- hero */
 
 .hero {
-  --paper: #30286e;
-  --ink: #f1eeff;
-  --muted: #ddd7ff;
-  --faint: #b8afd9;
-  --accent: #bdf4c9;
-  --accent-strong: #ffc4ad;
-  --line: #67609b;
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
@@ -417,11 +407,23 @@ main.home-page {
   align-items: center;
   margin: 0;
   padding: clamp(1.5rem, 3vw, 2.6rem);
-  background: var(--indigo);
+  background: var(--paper);
   color: var(--ink);
-  border-top: 1px solid var(--line);
+  border-top: 1px solid #ffffff;
   overflow: hidden;
   isolation: isolate;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -22rem;
+  right: 8rem;
+  width: 31rem;
+  height: 31rem;
+  border: 1.6rem solid var(--peach);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
 }
 .hero-copy {
   min-width: 0;
@@ -446,19 +448,23 @@ main.home-page {
   display: block;
 }
 .hero .identity-region {
-  color: var(--mint);
+  color: var(--accent);
   font-size: 0.77em;
   font-weight: 650;
   letter-spacing: -0.035em;
   margin-bottom: 0.24em;
 }
 .hero .identity-field {
-  color: #ded9ff;
-  font-weight: 800;
+  color: var(--ink);
+  font-weight: 900;
   line-height: 1.07;
 }
 .hero .identity-community {
-  color: var(--peach);
+  width: fit-content;
+  padding: 0.04em 0.16em 0.08em;
+  margin-left: -0.16em;
+  background: var(--mint);
+  color: #9b342e;
   font-family: var(--mono);
   font-size: 0.8em;
   font-weight: 550;
@@ -470,7 +476,7 @@ main.home-page {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.15em;
-  color: var(--mint);
+  color: var(--accent);
   margin-top: 1rem;
 }
 .hero .lead {
@@ -508,14 +514,14 @@ main.home-page {
   align-self: center;
   justify-self: center;
   overflow: hidden;
-  border: 1px solid #67609b;
+  border: 1px solid var(--accent);
   border-radius: 12px;
 }
 .hero-emblem {
   display: grid;
   place-items: center;
   min-height: 0;
-  background: #30286e;
+  background: var(--accent);
 }
 .hero-emblem img {
   display: block;
@@ -525,11 +531,43 @@ main.home-page {
   object-fit: contain;
 }
 .hero .hero-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-top: 1px solid var(--accent);
+  color: var(--ink);
+  background: var(--mint);
+}
+.hero-map img {
   display: block;
   width: 100%;
   height: 100%;
   min-height: 0;
-  border-top: 1px solid #67609b;
+  object-fit: contain;
+}
+.bay-caption {
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.bay-caption small {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.65rem;
+  font-weight: 650;
+  color: var(--accent-strong);
+}
+.hero .hero-map:hover {
+  color: var(--accent-strong);
+  text-decoration: none;
+  background: #e5ff82;
+}
+.hero .hero-map:focus-visible {
+  outline-offset: -4px;
 }
 .hero .actions + .small {
   margin-top: 0.8rem;
@@ -574,13 +612,13 @@ main.home-page {
   color: var(--indigo);
 }
 .btn.primary {
-  background: var(--indigo);
-  border-color: var(--indigo);
-  color: #f1eeff;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
 }
 .btn.primary:hover {
-  background: #483b9c;
-  border-color: #483b9c;
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
   color: #fff;
 }
 .btn.small {
@@ -589,31 +627,31 @@ main.home-page {
 }
 .site-header .btn.primary,
 .hero .btn.primary {
-  background: var(--mint);
-  border-color: var(--mint);
-  color: var(--indigo);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
 }
 .site-header .btn.primary:hover,
 .site-header .btn.primary[aria-current="page"],
 .hero .btn.primary:hover {
-  background: var(--peach);
-  border-color: var(--peach);
-  color: var(--indigo);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: #ffffff;
 }
 .hero .btn:not(.primary):hover {
-  background: #f1eeff;
-  border-color: #f1eeff;
-  color: var(--indigo);
+  background: var(--mint);
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 .home-events {
   background: var(--mint);
   color: var(--indigo);
   padding: 1.4rem clamp(1.5rem, 3vw, 2.6rem) 1.8rem;
-  --line: #8ebca1;
-  --muted: #3c5c52;
-  --accent: #30286e;
-  --accent-strong: #251b62;
+  --line: #8a9637;
+  --muted: #4c452b;
+  --accent: #5220bf;
+  --accent-strong: #3d128f;
 }
 .home-events .section-head {
   align-items: center;
@@ -818,7 +856,10 @@ main.home-page {
   margin-top: 0;
   padding: 2rem;
   border-bottom: 1px solid var(--line);
-  background: #dedaff;
+  background: var(--indigo);
+  color: #fff5ff;
+  --muted: #e7d9ed;
+  --line: #705b7c;
 }
 .trio strong {
   display: block;
@@ -890,8 +931,8 @@ main.home-page {
   padding: 1.4rem;
   border: 0;
   border-left: 4px solid var(--indigo);
-  --muted: #3c5c52;
-  --accent: #30286e;
+  --muted: #4c452b;
+  --accent: #5220bf;
 }
 @media (max-width: 560px) {
   .row {
@@ -951,7 +992,7 @@ main.home-page {
   align-items: start;
   padding: 1.35rem;
   border: 1px solid var(--line);
-  background: #f7f5ff;
+  background: #faf6ff;
   border-radius: var(--radius);
   min-width: 0;
   overflow-wrap: anywhere;
@@ -1106,7 +1147,7 @@ main.home-page {
   padding: 0.7rem;
   border: 1px solid #a49ac8;
   border-radius: 4px;
-  background: #f7f5ff;
+  background: #faf6ff;
   color: var(--ink);
 }
 .filters input:focus,
@@ -1169,7 +1210,7 @@ main.home-page {
   border-radius: 3px;
 }
 
-/* Related Blue Hour tints retain distinct, labelled affiliation and role
+/* Related palette tints retain distinct, labelled affiliation and role
    chips. Shape and text continue to carry the meaning without color. */
 .hue-0 {
   --chip-ink: #30286e;
@@ -1387,8 +1428,15 @@ main.home-page {
     padding: 0;
     border: 0;
   }
-  .hero .identity .acronym {
+  .hero .identity .acronym,
+  .hero .identity-region,
+  .hero .identity-field,
+  .hero .identity-community {
     color: #000;
+    background: none;
+  }
+  .hero::before {
+    display: none;
   }
   main.container {
     padding-top: 0;
