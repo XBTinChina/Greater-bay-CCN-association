@@ -160,14 +160,22 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
   <p>
     {network.contact_email ? (
       <>
-        <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>. To join the announcement list, which
-        carries the meeting links, <a href={routes.followEmail}>send a short email</a>.
+        <a href={`mailto:${network.contact_email}`}>{network.contact_email}</a>.
       </>
     ) : (
       <>
         A role address is being set up. Meanwhile, <a href={forms.issues}>open an issue</a> or ask any member PI.
-        The announcement list, which carries the meeting links, is passed on the same way.
       </>
+    )}
+  </p>
+  <p>
+    {network.mailing_list_url ? (
+      <><a href={network.mailing_list_url}>Subscribe to GBA-CCN Network Updates</a> for seminar announcements, research opportunities and network news.
+        Subscription is optional, needs no GitHub account, and you can unsubscribe from any newsletter email.</>
+    ) : network.contact_email ? (
+      <>To join the announcement list, which carries the meeting links, <a href={routes.followEmail}>send a short email</a>.</>
+    ) : (
+      <>The announcement list, which carries the meeting links, is passed on by any member PI.</>
     )}
   </p>
 </Base>

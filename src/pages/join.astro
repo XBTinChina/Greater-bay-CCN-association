@@ -26,11 +26,11 @@ const hasEmail = Boolean(network.contact_email);
     ) : (
       <a class="btn primary" href={forms.lab}>Submit your lab</a>
     )}
-    <a class="btn" href={routes.follow}>Follow the seminars</a>
+    <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Subscribe to updates' : 'Follow the seminars'}</a>
   </div>
   {!hasEmail && (
     <p class="small muted">
-      The form needs a free GitHub account. If that is a problem, ask any member PI to submit for you; an email route
+      The lab submission form needs a free GitHub account. If that is a problem, ask any member PI to submit for you; an email route
       will appear here once the network's address is set up.
     </p>
   )}
@@ -43,11 +43,17 @@ const hasEmail = Boolean(network.contact_email);
     <dd>A lab elsewhere that takes part regularly. Listed with a badge.</dd>
     <dt>Students, postdocs, research staff and other participants</dt>
     <dd>
-      No application. <a href={routes.follow}>Follow the seminars</a>
-      {hasEmail ? (
-        <> and <a href={routes.followEmail}>ask to join the announcement list</a>, which carries the meeting links.</>
+      {network.mailing_list_url ? (
+        <>No application. <a href={network.mailing_list_url}>Subscribe to email updates</a> on seminars, opportunities and network news.
+          Subscription is optional and needs no GitHub account. You can also <a href={url('calendar.ics')}>follow the seminar calendar</a>.</>
       ) : (
-        <>. The announcement list, which carries the meeting links, is passed on by any member PI.</>
+        <>No application. <a href={routes.follow}>Follow the seminars</a>
+          {hasEmail ? (
+            <> and <a href={routes.followEmail}>ask to join the announcement list</a>, which carries the meeting links.</>
+          ) : (
+            <>. The announcement list, which carries the meeting links, is passed on by any member PI.</>
+          )}
+        </>
       )}
     </dd>
   </dl>

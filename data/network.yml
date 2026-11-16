@@ -47,7 +47,7 @@ contact_email: ""
 
 # One-step subscription page for the announcement list, when one exists.
 # Until then "Follow the seminars" points at the calendar feed.
-mailing_list_url: ""
+mailing_list_url: https://buttondown.com/gba-ccn
 
 repo_url: https://github.com/XBTinChina/Greater-bay-CCN-association
 

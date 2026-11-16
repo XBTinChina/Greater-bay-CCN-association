@@ -72,6 +72,16 @@ Once a month, look at anything in the digest older than 30 days and give it a de
 
 Record only with the speaker's written consent, given before the talk (see [privacy and consent](../privacy-and-consent/)). Upload to both Bilibili and YouTube, then add both links to the event file by pull request. The host lab normally does this and a coordinator merges.
 
+## Sending the newsletter
+
+[GBA-CCN Network Updates](https://buttondown.com/gba-ccn) is the optional email newsletter. Its subscription address is set in `data/network.yml` as `mailing_list_url`; the site's Subscribe links use that address. Subscribers sign up through Buttondown, and subscriber lists and account credentials stay outside this public repository.
+
+Sending is manual. Publishing a website update or running the weekly digest workflow does not send an email; no RSS-to-email automation is enabled.
+
+1. Sign in to the network's Buttondown account and create a draft with seminar announcements, research opportunities or network news, linking to the relevant website pages.
+2. Have a coordinator review the text, dates and links, and preview the email. Check the issue's archive visibility before including any private meeting links.
+3. Once the issue is ready, send it manually from Buttondown to subscribers. Keep automatic publishing and RSS campaigns off unless the network later chooses to enable them.
+
 ## Editing network.yml
 
 Coordinators, host institutions, the contact email, the status banner and the seminar slot all live in `data/network.yml`. Change them by pull request like any other file; Build check validates it, so a typo shows up before it reaches the site. Remove the status banner by leaving the field empty.
