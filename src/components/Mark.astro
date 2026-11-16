@@ -1,5 +1,6 @@
 ---
-// Bay Graph: a sparse network around an open bay. One colour at every size.
+// The same compact network symbol is used in the header, About and posters.
+import { url } from '../lib/url';
 interface Props {
   size?: number;
   class?: string;
@@ -7,13 +8,4 @@ interface Props {
 const { size = 26, class: cls } = Astro.props;
 ---
 
-<svg class={cls} viewBox="0 0 64 64" width={size} height={size} aria-hidden="true" focusable="false">
-  <path d="M51 15 29 7 10 27 16 49 43 55M10 27 51 15" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" />
-  <g fill="currentColor">
-    <circle cx="51" cy="15" r="5.5" />
-    <circle cx="29" cy="7" r="5.5" />
-    <circle cx="10" cy="27" r="5.5" />
-    <circle cx="16" cy="49" r="5.5" />
-    <circle cx="43" cy="55" r="5.5" />
-  </g>
-</svg>
+<img class:list={['brand-mark', cls]} src={url('logo.png')} width={size} height={size} alt="" aria-hidden="true" decoding="async" />

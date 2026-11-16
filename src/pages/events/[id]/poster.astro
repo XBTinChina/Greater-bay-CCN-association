@@ -2,7 +2,7 @@
 // A fixed-size poster (1080 × 1350, the portrait format WeChat and Instagram
 // prefer) rendered from the event record. The poster workflow screenshots
 // this route with Playwright; coordinators can also print it from a browser.
-// Self-contained on purpose: inline styles and inline SVG only.
+// Local styles and artwork keep the poster independent of external services.
 import { getCollection } from 'astro:content';
 import Mark from '../../../components/Mark.astro';
 import BlueHourArt from '../../../components/BlueHourArt.astro';
@@ -72,9 +72,10 @@ const titleSize = d.title.length > 90 ? 46 : d.title.length > 60 ? 54 : 64;
         font-weight: 600;
         letter-spacing: -0.01em;
       }
-      .net :global(svg) {
+      .net :global(.brand-mark) {
         width: 44px;
         height: 44px;
+        flex: none;
         color: #6a32ed;
       }
       .net small {
