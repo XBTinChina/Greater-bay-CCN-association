@@ -61,7 +61,7 @@ export const founding = network.stage === 'founding';
 /** The seminar slot, with the proposed caveat only while seminar.proposed is true. */
 export const slotLine = network.seminar.proposed
   ? `Proposed: ${network.seminar.slot}, subject to confirmation by the member labs`
-  : network.seminar.slot;
+  : `Usual seminar time: ${network.seminar.slot}`;
 
 /** Issue-form links. Template file names must match .github/ISSUE_TEMPLATE/. */
 export const forms = {
@@ -109,12 +109,12 @@ Role (faculty, postdoc, student, other):`;
 /**
  * Ordinary routes that need no GitHub account. Empty strings until the role
  * address (contact_email) or a subscription page (mailing_list_url) exists;
- * pages fall back to the GitHub forms and the calendar feed.
+ * pages fall back to the GitHub forms and the event listings.
  */
 export const routes = {
   joinEmail: mailto(`[Lab] Joining the ${network.short_name}`, JOIN_TEMPLATE),
   nominateEmail: mailto(`[Speaker] Nomination for the ${network.short_name}`, NOMINATE_TEMPLATE),
   followEmail: mailto('Announcement list', FOLLOW_TEMPLATE),
-  /** Where "Follow the seminars" goes: a subscription page if there is one, else the calendar feed. */
-  follow: network.mailing_list_url || url('calendar.ics'),
+  /** Subscribe to the newsletter, contact the organisers, or browse events. */
+  follow: network.mailing_list_url || mailto('Announcement list', FOLLOW_TEMPLATE) || url('events/'),
 };

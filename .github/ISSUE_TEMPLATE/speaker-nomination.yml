@@ -1,14 +1,14 @@
-# Speaker nomination form. Nominations are issues for the coordinators only;
+# Speaker nomination form. Nominations are public issues reviewed by coordinators;
 # the intake workflow creates no data file from them.
 name: Speaker nomination
-description: Propose a speaker for the joint seminar series. Read by coordinators; nothing is published.
+description: Suggest a seminar speaker in a public issue. Coordinators review nominations; they do not become website listings.
 title: "[Speaker] "
 labels: ["speaker-nomination"]
 body:
   - type: markdown
     attributes:
       value: |
-        Nominations are read by the coordinators when planning the seminar season and are **not published on the site**. This is a public repository, though, so write only what you would be comfortable with the nominee reading.
+        Coordinators review nominations when planning seminars. Nominations are **public GitHub issues**, but are not displayed on the network website. Include only information you are comfortable sharing publicly.
   - type: input
     id: name
     attributes:

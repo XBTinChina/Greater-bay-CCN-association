@@ -56,8 +56,6 @@ const ogImage = absolute('og.png');
     <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
     <link rel="icon" href={url('favicon.png')} type="image/png" sizes="64x64" />
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
-    <link rel="alternate" type="text/calendar" title={`${network.short_name} events`} href={url('calendar.ics')} />
-    <link rel="alternate" type="application/rss+xml" title={`${network.short_name} news and events`} href={url('feed.xml')} />
     <link rel="sitemap" href={url('sitemap-index.xml')} />
     <meta property="og:site_name" content={network.name} />
     <meta property="og:title" content={fullTitle} />
@@ -113,8 +111,6 @@ const ogImage = absolute('og.png');
             <a href={url('join/')}>Join</a>
             <a href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a>
             {network.mailing_list_url && <a href={network.mailing_list_url}>Newsletter</a>}
-            <a href={url('calendar.ics')}>Calendar</a>
-            <a href={url('feed.xml')}>Feed</a>
             <a href={url('docs/')}>Documents</a>
             <a href={network.repo_url}>GitHub</a>
             {network.contact_email ? (
@@ -125,7 +121,7 @@ const ogImage = absolute('og.png');
           </div>
         </div>
         <div class="row" style="margin-top:0.6rem">
-          <span class="tiny">Code MIT · text CC BY 4.0 · designed to minimise cross-border dependencies</span>
+          <span class="tiny">Code: MIT · Text: CC BY 4.0 · Photos: by permission</span>
         </div>
       </div>
     </footer>

@@ -8,9 +8,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for listing your lab. **What happens next:** an automated check turns this form into a data file and opens a pull request; a coordinator reviews it, usually within a few days; when it is merged, the lab appears on the roster. If the check finds a problem it comments here. Edit this issue to fix it and the check runs again.
+        Thank you for submitting your lab. This form creates a pull request for a coordinator to review. The lab appears in the directory after approval, merge and the next build. If a check reports a problem, edit this issue to correct it; the check will run again.
 
-        Fields in Latin script are required. Native-script names are welcome beside them and are shown on the site.
+        Provide the PI's name in Latin script. Names in other scripts are welcome alongside it. Fields marked as required must be completed.
   - type: input
     id: pi
     attributes:
@@ -41,7 +41,7 @@ body:
     id: institution_short
     attributes:
       label: Institution, short form
-      description: Used in chips and filters.
+      description: A short institution name used in the directory and its filters.
       placeholder: SUSTech
   - type: input
     id: department
@@ -108,7 +108,7 @@ body:
     id: orcid
     attributes:
       label: ORCID iD
-      description: Optional. Reachable from everywhere in the region.
+      description: Optional. The PI's ORCID researcher identifier.
       placeholder: 0000-0002-1825-0097
   - type: input
     id: profile
@@ -128,7 +128,7 @@ body:
     id: description
     attributes:
       label: Description (one or two sentences, max 700 characters)
-      description: What the lab does, in plain English. No rankings or superlatives; a visitor reads this before deciding whether to click through.
+      description: Describe the lab's research in plain English. Focus on its topics and methods, without rankings or promotional claims.
     validations:
       required: true
   - type: input

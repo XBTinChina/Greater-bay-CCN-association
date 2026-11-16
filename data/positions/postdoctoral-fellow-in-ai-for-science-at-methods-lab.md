@@ -15,6 +15,4 @@ deadline: 2027-12-31
 
 We are recruiting Postdoctoral Fellows in the fields of AI for Neuroscience and Life Science. Prospective candidates should hold a Ph.D. and have strong research experience in Computer Science/Artificial Intelligence. A background in Neuroscience or Life Science is a plus.
 
-Our group publishes regularly in the main journals of the field, and a paper is expected in press at a Nature portfolio journal in September or October.
-
 Compensation: 420K CNY annual salary + 100K CNY housing allowance.

@@ -14,12 +14,12 @@ const coord = all.filter((d) => d.data.audience === 'coordinators');
 <Base title="Documents" description="Charter, code of conduct, speaker kit and coordinator handbooks of the network.">
   <h1>Documents</h1>
   <p class="lead">
-    The rules the network runs by. Each is a Markdown file in the
-    <a href={`${network.repo_url}/tree/main/docs`}>repository</a>; changes are pull requests.
+    Guidance on taking part, hosting events and running the network. Drafts are labelled in the documents.
+    You can suggest changes through the <a href={`${network.repo_url}/tree/main/docs`}>repository</a> or contact a coordinator.
   </p>
 
   <h2>For everyone</h2>
-  {pub.length === 0 && <p class="muted">Being drafted.</p>}
+  {pub.length === 0 && <p class="muted">No documents are listed yet.</p>}
   <dl class="facts">
     {pub.map((d) => (
       <>

@@ -2,313 +2,214 @@
 
 **GBA-CCN · 粤港澳大湾区计算神经科学与认知神经科学网络**
 
-Welcome. We are labs across Hong Kong, Shenzhen, Guangzhou, Macau and the wider
-Greater Bay Area that study the brain with computational and cognitive methods.
-Apart, each of us is a few people in one department. Together we can fill a
-seminar room, invite the speakers we all want to hear, find collaborators an
-hour's train ride away, and pass on training and opportunities that would
-otherwise stay inside one building.
+We connect labs studying brains, behaviour and computation across the Greater
+Bay Area. The network supports shared seminars, research collaboration,
+training resources and research opportunities. Students, research staff,
+postdocs, faculty and other interested participants are welcome.
 
 **Website:** <https://xbtinchina.github.io/Greater-bay-CCN-association/>
 
-**The network is forming right now.** That is the best moment to arrive: the
-founding labs shape the programme, ratify the charter and set the tone. The
-seminar slot is settled, on the second Friday of each month; the charter, the
-roster and most of the rest are not, and your name on the roster is worth more
-today than it will be once everything is already running.
+**The network is in its founding stage.** Participating labs can help develop
+the programme and review the draft charter. The usual seminar slot is the
+second Friday of each month. Check each event page for its confirmed date and time.
 
-This repository is the whole network in the open: the website, the roster, the
-rules and the automation. Every lab entry, every event and every rule is a file
-you can read, question and change by pull request. There is no hidden layer.
+This public repository contains the website, lab directory, event listings,
+documents and automation. Suggest corrections through an issue or a pull request.
+Charter changes follow the process described in the charter. Subscriber
+information and private correspondence are kept outside the repository.
 
----
+## Take part
 
-## Come in through any door
+**Lead a lab in the Greater Bay Area?** Use the
+[lab submission form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml)
+to apply for a member lab listing. Labs elsewhere can apply as affiliates through
+the same form.
 
-**Lead a lab in the region?** [List it](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml).
-That is the single most useful thing you can do, and it takes about five minutes.
-
-**Not a PI?** You are just as welcome. Students, postdocs and research staff
-need no application at all: subscribe to the
-[calendar feed](https://xbtinchina.github.io/Greater-bay-CCN-association/calendar.ics)
-and come to the talks. Nominating a speaker is open to anyone.
-
-**Elsewhere in the world but working with people here?** Join as an affiliate
-lab through the same form.
+**Want to attend or follow the network?** No membership application is needed.
+The optional [newsletter](https://buttondown.com/gba-ccn) shares seminars,
+events, open positions and network news. Anyone can suggest a speaker.
 
 | I want to… | How |
 |---|---|
-| **List my lab** (PIs) | [Lab submission form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml) |
-| **Suggest a speaker** | [Speaker nomination](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
-| **Follow the seminars** | Subscribe to the [calendar feed](https://xbtinchina.github.io/Greater-bay-CCN-association/calendar.ics) |
+| List my lab | [Lab submission form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml) |
+| Suggest a speaker | [Speaker nomination](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
+| Receive news and announcements | [Newsletter signup](https://buttondown.com/gba-ccn) |
 | Announce a seminar, workshop or summer school | [Event form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=event.yml) |
-| Share a tutorial or course | [Tutorial form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
-| Post a PhD, postdoc or RA opening | [Position form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml) |
+| Share a resource | [Resource submission form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
+| Post a research or teaching opening | [Position form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml) |
 
-Each form turns your answers into a pull request automatically. A coordinator
-reads it, usually within a few days, and the entry appears when it is merged.
+Lab, event, resource and position forms create a pull request for a coordinator
+to review. Approved entries appear after the pull request is merged and the
+site is rebuilt. Speaker nominations create an issue for the coordinators,
+not a website listing.
 
-The forms need a free GitHub account. Nobody should be excluded because of a
-tool, so if that is a barrier, ask a colleague to submit for you; a plain email
-route is being set up as well and will appear on the site's About page.
+The forms need a free GitHub account. If you cannot use GitHub, ask a colleague
+to submit with your permission, or contact a coordinator listed on the
+[About page](https://xbtinchina.github.io/Greater-bay-CCN-association/about/).
+GitHub issues are public, including speaker nominations. Include only information
+you are comfortable sharing publicly.
 
-Speaker nominations are read by the coordinators and never published on the
-site. They are GitHub issues in a public repository, though, so write only what
-the nominee could read.
+## Help improve the network
 
-## Help make this better
+Suggestions and corrections are welcome. You do not need programming experience.
 
-The site and this repository belong to the network, not to whoever happened to
-set them up. Improvements are wanted, and small ones are as welcome as large
-ones. **You do not need to be a programmer.**
+- Report unclear wording, missing information or access problems by
+  [opening an issue](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new).
+- Test the site and newsletter signup from different networks in the region.
+- Suggest translations or other language support. English is the site's default language.
+- Propose wording changes to the [charter](docs/charter.md) or other documents.
+- Suggest speakers, resources and events.
+- Help test keyboard access, screen readers, mobile layouts or print views.
+- Improve the site, submission tools or poster renderer.
 
-**Things that need no code at all**
+You can edit files in the GitHub website. The labs, events, tutorials and
+positions folders include example entries. Ask a coordinator if you need help
+with a form or pull request. The [code of conduct](docs/code-of-conduct.md)
+applies to everyone taking part.
 
-- Tell us what is confusing. If a page did not answer your question, that is a
-  bug in our writing. [Open an issue](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new)
-  and say so plainly.
-- **Test from a mainland network.** Open the site, the calendar feed and a form
-  from a campus network or mobile carrier in Shenzhen or Guangzhou and report
-  what loads and what does not. This is genuinely useful and nobody else can do
-  it for us.
-- **Translate.** The site is English by default so that everyone can attend the
-  same events. A Chinese version of the home page and the join page would help
-  recruitment; we have deliberately not decided between Simplified and
-  Traditional, and would rather hear from members than choose alone.
-- Improve the wording of the [charter](docs/charter.md) or any document. They
-  are Markdown files; propose a change like any other.
-- Suggest a speaker, a tutorial worth indexing, or an event we have missed.
+## How the network works
 
-**Things that need a little code**
+1. **An informal academic network.** There are no membership fees. A small group
+   of coordinators supports its activities, with one per participating institution
+   where possible. The network is not a separate legal entity. Any change to its
+   structure would be discussed and recorded in the [charter](docs/charter.md).
+2. **Membership is by lab.** Member labs are PI-led groups at institutions in the
+   Greater Bay Area. Affiliate labs elsewhere take part and are identified on the
+   directory. A coordinator reviews each entry before publication. Individuals
+   can attend events and receive announcements without joining a lab listing.
+3. **Seminars have rotating hosts.** The usual slot is the second Friday of each
+   month, 16:00–17:00 Hong Kong Time, online on Zoom with Tencent Meeting as a
+   fallback. The plan is one seminar a month. Member labs take turns as hosts;
+   the time between turns depends on the number of labs. Check individual event
+   pages for confirmed dates and details.
+4. **English is the default working language.** Names in other scripts are welcome
+   alongside Latin-script names. Resources can be in any language; each listing
+   identifies its language.
+5. **Access across the region matters.** The site loads no external fonts,
+   analytics or third-party scripts. With speaker consent, recordings are shared
+   through Bilibili and YouTube. Access to GitHub Pages and other services can
+   vary, so reports of access problems help us improve the site.
 
-- Design and front-end polish: typography, spacing, dark mode, print styles.
-- Accessibility: test with a screen reader or keyboard only and tell us what
-  breaks.
-- The intake script, the workflows, the calendar feed, the poster renderer.
+## Repository contents
 
-**New to git or GitHub?** That is fine, and it is not a reason to stay quiet.
-Every content file has an `example-*` template beside it to copy, GitHub can
-edit files in the browser, and an imperfect pull request is easy to fix
-together. Ask in an issue if you are stuck; explaining things is part of the
-work, not an interruption to it.
+| Location | Contents |
+|---|---|
+| `data/network.yml` | Network name, mission, usual seminar slot, coordinators and contact routes |
+| `data/labs/` | Lab listings, shown at `/labs/` |
+| `data/events/` | Events, shown at `/events/` |
+| `data/tutorials/` | Links to learning resources, shown at `/resources/` |
+| `data/positions/` | Openings, shown at `/positions/` until their removal date |
+| `data/news/` | Network announcements, shown at `/news/` |
+| `docs/` | Charter, code of conduct and guidance, shown at `/docs/` |
+| `public/photos/` | PI and speaker photos; the lab intake workflow produces 400 × 400 WebP images with metadata removed |
+| `src/` | Astro pages, components, styles and content schemas |
+| `scripts/` | Submission processing, validation and poster generation |
+| `.github/` | Submission forms, review template and workflows |
 
-Everyone taking part is covered by the [code of conduct](docs/code-of-conduct.md).
-It is short, and we mean it.
-
-## What the network is, in five points
-
-1. **A network, not a society.** No legal entity, no fees, no president. A small
-   group of coordinators, one per participating institution where possible,
-   keeps things running. If a legal form is ever needed, that will be decided
-   openly and recorded in the [charter](docs/charter.md).
-2. **Membership is by lab.** *Member labs* are PI-led groups at institutions in
-   the Greater Bay Area. *Affiliate labs* elsewhere take part and are listed
-   with a badge. Every entry is reviewed by a coordinator before it appears.
-3. **A joint seminar series with rotating hosts.** The slot is the second
-   Friday of each month, 16:00–17:00 Hong Kong Time, online on Zoom with
-   Tencent Meeting as fallback. That is twelve talks a year, each hosted by one
-   member lab, which invites the speaker on behalf of the whole network; at the
-   present roster size a lab's turn comes round about once a year.
-4. **English is the default working language,** so that researchers across
-   institutions can take part in the same events. Names may appear in Chinese
-   and English, and training material may be contributed in either language when
-   clearly labelled.
-5. **Designed to minimise cross-border dependencies.** No Google fonts,
-   analytics or third-party scripts, and recordings go to both Bilibili and
-   YouTube. GitHub Pages is still a single point of failure, which is why the
-   testing above matters.
-
-## What is in this repository
-
-```
-.
-├── data/                  All content, one file per entry (CC BY 4.0)
-│   ├── network.yml        Name, mission, seminar slot, coordinators, contact
-│   ├── labs/              One YAML file per lab          → /labs/
-│   ├── events/            Seminars, workshops, schools   → /events/, /calendar.ics
-│   ├── tutorials/         Training index (links only)    → /resources/
-│   ├── positions/         Openings; expire automatically → /positions/
-│   └── news/              Announcements                  → /news/
-├── docs/                  Charter, code of conduct, handbooks → /docs/
-├── public/logo.png        Cyberpunk neural-machine identity
-├── public/photos/         PI photos, 400×400 WebP, metadata stripped
-├── src/                   The Astro site (MIT)
-│   ├── content.config.ts  Schemas: what each data file must contain
-│   ├── lib/taxonomy.ts    Controlled vocabularies: cities, event types, …
-│   ├── pages/             One file per route, plus calendar.ics and posters
-│   └── ...
-├── scripts/               Intake: turns a submitted form into a data file
-└── .github/
-    ├── ISSUE_TEMPLATE/    The forms
-    └── workflows/         Deploy, build check, intake, weekly digest, poster, labels
-```
-
-Each `data/` folder contains an `example-*` file marked `draft: true`. Drafts are
-validated by the build but never published, so the examples double as templates.
-The field-by-field reference is in [docs/data-model.md](docs/data-model.md).
+The labs, events, tutorials and positions folders include an example marked
+`draft: true`. Drafts are validated but not published. See
+[the data model](docs/data-model.md) for the fields in each file.
 
 ### Documents
 
-| Document | For |
+| Document | Purpose |
 |---|---|
-| [Charter](docs/charter.md) | Everyone. Purpose, membership tiers, coordinators, delisting, amendments. A draft, for ratification by the founding labs. |
-| [Code of conduct](docs/code-of-conduct.md) | Everyone at any event or in any channel. |
-| [Privacy and consent](docs/privacy-and-consent.md) | Everyone. What is published, on what basis, how to remove it. |
-| [Speaker kit](docs/speaker-kit.md) | Invited speakers. Format, platform, recording, what we need and when. |
-| [Hosting a seminar](docs/hosting-a-seminar.md) | The member lab hosting a talk. Checklist with a timeline. |
-| [Invitation letter template](docs/invitation-letter-template.md) | Hosts. Invitation, logistics and announcement templates. |
-| [Operations handbook](docs/operations.md) | Coordinators. How the machinery runs and what humans do. |
-| [Data model](docs/data-model.md) | Contributors. Every field of every file. |
+| [Charter](docs/charter.md) | Purpose, membership, coordination and amendments. A draft awaiting approval by the founding labs. |
+| [Code of conduct](docs/code-of-conduct.md) | Expectations for events and network channels. |
+| [Privacy and consent](docs/privacy-and-consent.md) | What is published, consent and removal requests. |
+| [Member guidelines](docs/member-guidelines.md) | Participation, hosting and keeping entries current. |
+| [Speaker kit](docs/speaker-kit.md) | Format, platform, recording and preparation for speakers. |
+| [Hosting a seminar](docs/hosting-a-seminar.md) | A host's preparation checklist. |
+| [Invitation letter template](docs/invitation-letter-template.md) | Invitation, logistics and announcement templates. |
+| [Operations handbook](docs/operations.md) | Submission review, maintenance and announcements. |
+| [Data model](docs/data-model.md) | Field reference for contributors. |
 
 ## How the site works
 
-A static [Astro](https://astro.build) project deployed to GitHub Pages by GitHub
-Actions. No server, no database: the pages are generated from the files in
-`data/` and `docs/` at build time.
+The site uses [Astro](https://astro.build) and is published to GitHub Pages by
+GitHub Actions. Public pages are generated from `data/` and `docs/` at build time.
+The site has no application database or visitor accounts.
 
-- **A founding stage.** With `stage: founding` in `data/network.yml`, the home
-  page is a recruitment page: no counters and "founding labs" wording. Whether
-  the slot is labelled proposed is a separate flag, `seminar.proposed`, now
-  false because the coordinators have settled the schedule. Switch `stage` to
-  `active` once the numbers signal traction rather than fragility, remembering
-  that twelve seminars a year fill the counter at half the rate a fortnightly
-  series would. The Resources page appears in the navigation only when it has
-  content; Positions is always there so labs can post openings; the lab filters
-  render only once eight labs are listed.
-- **The visual identity.** Signal Commons uses a fixed lavender, violet, lime and coral
-  palette in `src/styles/global.css`. The cyberpunk neural-machine mark is in
-  `src/assets/brand/network-mark.png`; `src/components/Mark.astro` displays its
-  web-sized copy. The simplified bay illustration is in
-  `src/assets/brand/bay-illustration.png`.
-  `npm run build` runs `scripts/blue-hour-brand.mjs` to generate the favicon,
-  touch icon and sharing card. The original artwork remains in `brand/` as
-  an archive. No fonts or scripts are loaded from external services.
-- **Ordinary routes alongside GitHub.** Set `contact_email` and, if you run one,
-  `mailing_list_url`, and the site offers pre-filled email for joining,
-  following and nominating, with the GitHub forms as the open alternative.
-  Nominations by email stay private; the GitHub route is a public issue.
-- **Schemas catch mistakes.** Each collection has a schema in
-  `src/content.config.ts`. A misspelt field, a missing date or a member lab in a
-  city outside the region fails the build with a message naming the file and the
-  field, so nothing broken reaches the site. A failed check is information, not
-  a reprimand.
-- **Time-based lists refresh weekly.** Upcoming versus past events and expired
-  positions are computed at build time. The deploy workflow rebuilds the site
-  every Monday morning Hong Kong time as well as on every change. A Friday
-  seminar therefore stays under upcoming over the weekend, and with one seminar
-  a month the upcoming list is empty for most of the cycle.
-- **The calendar feed** at `/calendar.ics` is generated from the events data.
-  Subscribe once and every new talk appears in your calendar.
-- **Posters** are generated too. Every event has a `/events/<id>/poster/` view at
-  1080 × 1350 px; the *Render poster* workflow turns it into a PNG for WeChat
-  and mailing lists.
-- **Base path.** The deploy workflow passes the site origin and base path in from
-  GitHub, so renaming the repository or moving it to an organisation needs no
-  code change.
+- **Founding stage:** `stage: founding` in `data/network.yml` hides the homepage
+  counters. `seminar.proposed` separately controls whether the usual seminar
+  slot is described as proposed. Set the stage to `active` when the founding
+  labs agree that the network is ready, and review the status banner at the same time.
+- **Visual assets:** site colours are in `src/styles/global.css`. The header mark
+  is in `src/assets/brand/network-mark.png`, the homepage artwork is in
+  `src/assets/brand/neural-tides.webp`, and the regional map is in
+  `public/greater-bay-area.svg`. The map records its source attribution.
+  `npm run build` runs `scripts/blue-hour-brand.mjs` to generate icons and the sharing card.
+- **Contact routes:** `contact_email` enables pre-filled email links for lab
+  applications and speaker nominations. `mailing_list_url` supplies the newsletter
+  signup link. Email correspondence is separate from public GitHub issues.
+- **Validation:** schemas in `src/content.config.ts` check required fields, dates
+  and allowed values. Review the content as well; a successful build does not
+  establish that every statement or link is correct.
+- **Scheduled updates:** upcoming events and expired positions are evaluated at
+  build time. The site rebuilds on each change and every Monday morning in Hong
+  Kong. Listings can therefore remain visible until the next build.
+- **Newsletter:** coordinators send announcements manually through
+  [Buttondown](https://buttondown.com/gba-ccn). Publishing a website change does not send an email.
+- **Posters:** event poster views are available at `/events/<id>/poster/` unless
+  disabled for that event. The *Render poster* workflow produces a PNG for sharing.
+- **Site address:** the deployment workflow supplies the origin and base path.
+  Internal links use the `url()` helper.
 
-## How the automation works
+## Automation
 
-Automatic intake, human approval. Nothing is published without a coordinator
-merging a pull request, because the roster is only worth something as a
-credential if every entry has been looked at.
+Submission processing is automated; publication requires review and merge.
 
 | Workflow | Trigger | What it does |
 |---|---|---|
-| **Intake submissions** | An issue form is submitted or edited | Parses the form, processes the photo, writes the data file, validates it by building the site, and opens a pull request on branch `intake/issue-<n>` that closes the issue. On failure it comments on the issue with the error and adds the label `needs-changes`. |
-| **Build check** | Any pull request | Builds the site so a hand-edited file is validated before merge. |
-| **Deploy site** | Push to `main`, every Monday, or by hand | Builds and publishes to GitHub Pages. |
-| **Weekly digest** | Every Monday, or by hand | Checks every link on the site and opens or updates a digest issue listing pending submissions, open intake pull requests and broken links. |
-| **Render poster** | By hand, with an event id | Screenshots the poster view into a PNG artifact. |
-| **Create labels** | By hand, once | Creates the labels the forms and workflows rely on. |
+| Intake submissions | A supported issue form is submitted or edited | Validates the entry, processes any photo and opens or updates a pull request. Errors are reported on the issue. Speaker nominations do not create data files. |
+| Build check | A pull request | Builds the site and runs the submission tests. |
+| Deploy site | Push to `main`, every Monday, or manual run | Builds and publishes the site. |
+| Weekly digest | Every Monday, or manual run | Checks site links and reports submissions, open intake pull requests and link problems. |
+| Render poster | Manual run with an event id | Creates a PNG from the event's poster view. |
+| Create labels | Manual run during setup | Creates the labels used by forms and workflows. |
 
-Labels: `intake`, `intake:lab`, `intake:event`, `intake:tutorial`,
-`intake:position`, `speaker-nomination`, `needs-changes`, `weekly-digest`,
-`automation`.
-
-The workflows use only official GitHub actions plus the lychee link checker,
-never interpolate user-submitted text into shell commands, and cannot merge
-anything. The [operations handbook](docs/operations.md) describes the weekly
-routine around them.
+The intake workflows do not merge pull requests. The
+[operations handbook](docs/operations.md) describes the review process.
 
 ## Local development
 
-You need Node 22 or newer.
+Use Node 22.12.0 or a compatible newer version.
 
 ```bash
 npm ci
 npm run dev      # http://localhost:4321/Greater-bay-CCN-association/
-npm run build    # builds into dist/ and validates every data file
+npm run build    # build and validate content
+node scripts/test-intake.mjs
 ```
 
-`npm run build` is the same check that runs on every pull request, so if it
-passes locally you are almost certainly fine. See
-[CONTRIBUTING.md](CONTRIBUTING.md) for conventions.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for editing conventions.
 
-## Setup checklist for maintainers
+## Maintainer checklist
 
-Things only a repository owner can do, in the order they matter:
-
-1. **Set the GitHub Pages source to GitHub Actions** in *Settings → Pages*. The
-   other option, *Deploy from a branch*, runs GitHub's Jekyll build, which
-   cannot build this site and fails on every push. Once the source is right, the
-   next push to `main`, or a manual run of *Deploy site*, publishes the site.
-2. **Run the *Create labels* workflow** once from the Actions tab so the forms
-   can label issues.
-3. **Allow Actions to open pull requests**: *Settings → Actions → General →
-   Workflow permissions*, tick *Allow GitHub Actions to create and approve pull
-   requests*. Without it every form submission fails at its last step.
-4. **Set a role address** in `data/network.yml` (`contact_email`), and a
-   subscription page for the announcement list (`mailing_list_url`) if you run
-   one. Email routes for joining, following and nominating appear on the site as
-   soon as the address exists.
-5. **Fix the repository description** in the repository's *About* box; it still
-   says "Great Bay Area".
-6. **Recruit the founding cohort and schedule a founding roundtable** before any
-   invited seminar: each founding lab introduces itself in three minutes, then
-   the charter is discussed. The slot is no longer open for discussion, so the
-   roundtable opens the series on Friday 16 October 2026, off the regular slot, and the first
-   invited seminar is the next one, Friday 13 November 2026. Add the roundtable
-   as the first event, and add conveners to `coordinators` in `data/network.yml`
-   as they confirm, with their permission.
-8. **Move the repository to a GitHub organisation** once there are two or more
-   coordinators, so the site URL and ownership stop being personal. Give at
-   least two people owner rights. GitHub redirects the old repository URL and
-   the deploy workflow adapts to the new site URL automatically; only the
-   `repo_url` in `data/network.yml` and the links in this file need updating. A
-   neutral custom domain lets the hosting change later without changing the
-   public identity.
-9. **Test from mainland networks**, or ask members to (see above). Test the web
-   forms and their endpoint the same way before advertising them. If GitHub
-   Pages proves unreliable, mirror the built site to a second host.
-10. **Protect `main`** so that changes arrive by pull request. Do not make *Build
-    check* a required status check: pull requests opened by the intake workflow
-    cannot trigger it (GitHub's rule for bot tokens), which is why the intake
-    workflow runs the same build itself before opening them.
-11. **Ratify the charter.** It is marked as a draft until the founding labs have
-    agreed it.
-12. **Switch `stage` to `active`** in `data/network.yml` once roughly six to ten
-    labs across three or more institutions, on both sides of the border, have
-    joined and two or three sessions are dated; edit or remove `status_banner` at
-    the same time. The counters return and the "founding labs" wording goes. Two
-    or three dated sessions rather than one, because at one seminar a month a
-    single scheduled talk leaves the upcoming list empty for weeks. The
-    "proposed" wording on the slot is not part of this switch: it went when
-    `seminar.proposed` was set to false.
-13. **Check the seeded lab entry.** `data/labs/xiangbin-teng.yml` was drafted
-    from the founding chat rather than submitted through the form; the PI should
-    verify the department, keywords and description.
+1. Set the GitHub Pages source to **GitHub Actions** under *Settings → Pages*.
+2. Run **Create labels** once so the forms can label submissions.
+3. Under *Settings → Actions → General*, allow GitHub Actions to create pull
+   requests. The intake workflow needs this permission.
+4. Keep coordinator details, the newsletter signup address and any network contact
+   address current in `data/network.yml`. Review the repository description and site links.
+5. Confirm upcoming events with their hosts and add them to `data/events/`.
+   Add coordinators only with their agreement. Use the event pages for confirmed dates.
+6. Consider shared repository ownership as the network grows. If moving to an
+   organisation, update `repo_url` and repository links, then check the published site.
+7. Test access from different networks in the region. Consider a mirror if access
+   problems persist.
+8. Review branch protection with the workflow setup in mind. Intake pull requests
+   created with GitHub's workflow token do not trigger another workflow; the
+   intake workflow therefore runs the build before opening its pull request.
+9. Keep the charter marked as a draft until the founding labs approve it.
+10. Change `stage` to `active` when the founding labs agree. Review the banner,
+    event schedule and contact details at the same time.
+11. Ask labs to confirm that their entries remain accurate, following the
+    process in the charter and member guidelines.
 
 ## Licences
 
-Code is MIT ([LICENSE](LICENSE)). Text content, meaning everything under `data/`
-and `docs/` and the text of the site, is CC BY 4.0
+Code is MIT ([LICENSE](LICENSE)). Text content is CC BY 4.0
 ([LICENSE-CONTENT.md](LICENSE-CONTENT.md)). Photos are displayed with permission
-only and are not licensed for reuse. Personal data in the roster is published
-with the consent of the people concerned and can be corrected or removed on
-request; see [docs/privacy-and-consent.md](docs/privacy-and-consent.md).
-
----
-
-Thank you for reading this far. If you take one action today, make it
-[listing your lab](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml)
-or telling a colleague across the bay that this exists.
+and are not licensed for reuse. Third-party material retains its source terms.
+See [privacy and consent](docs/privacy-and-consent.md) for corrections and removal requests.

@@ -8,9 +8,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        An automated check turns this form into an event page and a pull request; a coordinator reviews it and the event appears on the site and in the calendar feed when merged. All times are Hong Kong Time.
+        This form creates a pull request for a coordinator to review. The event appears on the site after approval, merge and the next build. All times are Hong Kong Time.
 
-        **Never paste the meeting link or passcode here.** This is a public repository; the link goes out to the announcement list and the group chat only.
+        **Do not submit direct meeting links or passcodes through this form.** You may provide a public event or registration page. This issue is public; hosts share private joining details directly with participants.
   - type: input
     id: title
     attributes:
@@ -41,7 +41,7 @@ body:
     id: end_date
     attributes:
       label: End date (YYYY-MM-DD, multi-day events only)
-      placeholder: "2026-10-31"
+      placeholder: "2027-02-14"
   - type: input
     id: start
     attributes:
@@ -125,7 +125,7 @@ body:
     id: abstract
     attributes:
       label: Abstract (Markdown)
-      description: Two paragraphs is plenty. A short speaker biography can follow under its own heading.
+      description: Give a short summary of the event. A speaker biography can follow under its own heading.
     validations:
       required: true
   - type: checkboxes

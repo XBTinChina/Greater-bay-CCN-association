@@ -16,15 +16,15 @@ for (const e of past) {
 }
 ---
 
-<Base title="Events" description="The seminar series and other regional events: upcoming and past, with recordings.">
-  <h1>Events</h1>
+<Base title="Seminars and events" description="Upcoming and past seminars and regional events, with recordings where available.">
+  <h1>Seminars and events</h1>
   <p class="lead">
-    The seminar series and other regional events. {slotLine}, on {network.seminar.platform}. Meeting links go to
-    the announcement list, not this page.
+    Seminars and other regional events. {slotLine}, usually on {network.seminar.platform}.
+    Check each event page for its confirmed date, time and joining instructions.
+    Organisers share any private access details directly with participants.
   </p>
   <div class="actions" style="margin-top:0.5rem">
-    <a class="btn small" href={routes.follow}>Follow the seminars</a>
-    <a class="btn small" href={url('calendar.ics')}>Calendar feed</a>
+    <a class="btn small" href={routes.follow}>{network.mailing_list_url ? 'Subscribe to newsletter' : 'Follow the seminars'}</a>
     <a class="btn small" href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a>
     <a class="btn small" href={forms.event}>Propose an event</a>
     <a class="btn small" href={url('docs/speaker-kit/')}>For speakers</a>
@@ -36,7 +36,7 @@ for (const e of past) {
       {upcoming.map((e, i) => <EventRow event={e} featured={i === 0} />)}
     </ul>
   ) : (
-    <p class="quiet">Nothing scheduled yet. The first talk will appear here and in the calendar feed.</p>
+    <p class="quiet">No upcoming events are listed. New events will appear here when they are confirmed.</p>
   )}
 
   <h2 id="past">Past</h2>

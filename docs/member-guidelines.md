@@ -1,59 +1,59 @@
 ---
 title: Member lab guidelines
-summary: What joining asks of a lab, what hosting a seminar involves, what a lab may contribute, and what the network never asks for.
+summary: How member labs take part, host seminars and share opportunities and resources.
 audience: public
 order: 15
 ---
 
-Joining asks three things of a lab: that it takes part in the network's activities, that it takes its turn hosting a seminar, and that it passes on what is useful to the other labs. There is no fee, no minimum attendance, and nothing a lab must share that it would rather keep. What the network is, who coordinates it and how its rules change are in the [charter](../charter/), which governs wherever that document and this one differ.
+Member labs are asked to take part in network activities, take turns hosting seminars and share useful public resources and opportunities. There is no membership fee or minimum attendance requirement. The [charter](../charter/) sets out the network's proposed rules and remains a draft for the founding labs to ratify.
 
 ## Who this applies to
 
-These expectations are written for member labs: PI-led groups at institutions in the Greater Bay Area cities the charter lists. Affiliate labs, which take part from elsewhere, are welcome in every activity on the same terms, but they are not in the hosting rotation and carry no obligation beyond the [code of conduct](../code-of-conduct/).
+These guidelines apply to member labs: groups led by a principal investigator at an institution in one of the Greater Bay Area cities listed in the charter. Affiliate labs from elsewhere are welcome to take part. They are not in the hosting rotation and have no hosting obligation. The [code of conduct](../code-of-conduct/) applies to everyone.
 
-Membership is by lab, not by person. Students, postdocs and research staff take part as audience, with nothing to apply for.
+Membership is organised by lab. Individuals at all career stages are welcome to attend events and subscribe to the newsletter without lab membership or an application.
 
 ## Taking part
 
-Member labs are expected to take part in the network's activities: the seminar series first of all, then workshops, summer schools and events for students and postdocs. Taking part means the lab appears, not that the PI does. A lab is present when its students and postdocs turn up.
+A lab can take part through its students, postdocs, research staff or PI. Activities include seminars, workshops, summer schools and events for students and postdocs.
 
-There is no minimum attendance requirement and nobody keeps a register. Teaching, fieldwork and grant deadlines fall unevenly across eleven cities, and the seminar is on the same weekday every month, so one recurring Friday commitment can rule a lab out of the whole series rather than of the odd session. A rule counting seminars would measure that rather than the commitment. Attendance is not a condition of listing: a lab leaves the roster only in the ways the charter sets out under delisting and annual refresh, or under the code of conduct as a last resort for a conduct breach. The annual confirmation of each entry still has to be answered.
-
-Membership should still mean something. A lab that never appears, never hosts and never answers is not a member lab in any useful sense, and the network would rather keep a short roster that is true. Read that over a year or two rather than over a few months: with twelve seminars a year, a lab's turn to host may simply not have come round yet.
+There is no attendance register or minimum number of sessions to attend. Teaching, research and other commitments vary. Attendance alone does not determine whether a lab remains listed. Labs should respond to the annual request to confirm their entry and contact the coordinators if their circumstances change. The charter describes removal and annual refresh procedures.
 
 ## Hosting a seminar in turn
 
-Member labs take turns hosting the seminar series. There are twelve seminars a year and more member labs than there are slots, so a turn comes round rather less often than once a year and some labs have no turn in a given calendar year. The current roster is on the [labs page](../../labs/). The slot is settled: the coordinators fixed it in September 2026, and the first seminar on it is Friday 13 November 2026, after a founding roundtable on Friday 16 October. The format is still a proposal until the founding labs ratify the charter. The slot and the platform are on the [events page](../../events/).
+Member labs take turns hosting the monthly seminar series. The regular schedule provides twelve slots a year, so a lab may host less than once a year when more labs take part. The [labs page](../../labs/) lists participating groups.
 
-When a lab's turn comes, it is normally responsible for:
+The usual slot is the second Friday of the month, 16:00–17:00 Hong Kong Time (UTC+8). Individual events may use another date or time; check the [events page](../../events/) and confirm the arrangements with the coordinators.
 
-- proposing or inviting the speaker, from the nomination queue or from its own contacts;
-- agreeing the date and the format with the speaker, and telling the coordinators;
-- chairing the session, normally the PI;
-- circulating the announcement and the poster in its department and its own academic networks.
+When hosting, a lab normally:
 
-The meeting link is the one thing that does not circulate: it goes to the announcement list and the group chat, and never onto the site. Those four duties are the shape of the job rather than the whole of it. The full timeline, from picking the speaker to posting the recording, is in [hosting a seminar](../hosting-a-seminar/).
+- proposes or invites a speaker;
+- agrees the date and format with the speaker and coordinators;
+- provides a chair, usually the PI;
+- shares the announcement and poster through its department and academic networks.
 
-Slots can be traded, and with one seminar a month a trade is usually the only way to offer a speaker a second date: the next slot belongs to another lab, so agree the swap before the date is offered rather than after the speaker picks it. If a date does not work, swap with another lab and tell the coordinators the new order; if no swap can be found, ask them to defer the lab to a later round, which moves the lab by a full turn of the rotation. Do not let a slot go empty without telling anyone, because an empty slot is a month with no seminar.
+The event page provides public joining or registration details. Hosts share any private meeting links or passcodes directly with attendees; these details should not appear in public submissions or posts. The full checklist is in [Hosting a seminar](../hosting-a-seminar/).
+
+If the assigned slot does not work, agree a swap with another lab or ask the coordinators about a later turn. Confirm any change with the coordinators before offering it to a speaker, and tell them as soon as possible if your lab cannot host.
 
 ## Contributing to the network
 
-Beyond hosting, a member lab is asked to pass on what it already has:
+Labs can also share:
 
-- teaching material, whether notebooks, courses, recordings, datasets or tutorials;
-- open positions, from PhD places to faculty searches;
-- speaker nominations, including people outside the network;
-- encouragement to its students and postdocs to attend, and to take the junior slot;
-- proposals for joint activities across institutions, such as a workshop or a summer school.
+- public teaching materials, such as notebooks, courses, recordings, datasets and tutorials;
+- open positions, from student opportunities to faculty posts;
+- speaker suggestions, including researchers outside the network;
+- opportunities for students and postdocs to attend or give an early-career talk;
+- ideas for activities across institutions, such as workshops or summer schools.
 
-Tutorials, positions, events and speaker nominations each have a form on the [join page](../../join/), and the tutorial form takes courses and datasets as well as notebooks. Anything without a form goes to the coordinators as an issue or by email. Teaching material stays where its authors host it, because the [resources page](../../resources/) is an index and links to material rather than storing it.
+The [Join page](../../join/) links to forms for tutorials, positions, events and speaker nominations. For other suggestions, contact a coordinator. The [resources page](../../resources/) links to materials where their authors host them.
 
-There is no expectation that a lab shares unpublished data, research ideas, funding or other confidential material. Membership asks for what a lab can already say in public, and for its share of the hosting. Collaborations may grow out of the seminars, but they are agreements between labs, not obligations of membership.
+Labs are not expected to share unpublished data, research ideas, funding or confidential information. Any collaboration is agreed directly between the people or labs involved; it is not a condition of membership.
 
 ## Conduct
 
-The [code of conduct](../code-of-conduct/) covers every activity run under the network's name and everyone taking part, coordinators included: what is expected, what is not accepted, how to report a problem, and what coordinators do about it. Read it once, and point your students at it before their first seminar.
+The [code of conduct](../code-of-conduct/) applies to all network activities and everyone taking part, including coordinators. Please share it with people attending their first event.
 
 ## Questions and changes
 
-Anything unclear here goes to a coordinator, or to the contact address on the [about page](../../about/). This page changes the way the rest of the site does, as a pull request in the repository, open for anyone to comment on.
+Contact a coordinator listed on the [About page](../../about/) with questions. Anyone may suggest a wording change through an issue or pull request in the repository.

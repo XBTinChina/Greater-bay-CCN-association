@@ -10,16 +10,18 @@ The full legal text is at <https://creativecommons.org/licenses/by/4.0/legalcode
 - Everything under `docs/`: the charter, code of conduct, speaker kit and handbooks.
 - The text of the website as rendered from these files.
 
-Code (under `src/`, `scripts/`, `.github/`, `public/` except `public/photos/`,
-and the configuration files at the repository root) is licensed under the MIT
-licence in `LICENSE`.
+Original project code is licensed under the MIT licence in `LICENSE`. These
+repository licences do not apply to third-party assets or data. Those materials
+retain their source terms and attribution, including the geographic data
+identified in `public/greater-bay-area.svg`.
 
 ## Photographs are not licensed
 
 Photos under `public/photos/` are **not** covered by CC BY 4.0. Each was
 submitted by the person shown, or with their permission, for display on the
-network's website and channels only. They may not be copied or reused, and the
-person can withdraw permission at any time; see `docs/privacy-and-consent.md`.
+network's website and channels only. The repository licences do not grant
+permission to reuse these photos. The person can withdraw permission for
+display; see `docs/privacy-and-consent.md`.
 
 ## What CC BY 4.0 lets you do
 

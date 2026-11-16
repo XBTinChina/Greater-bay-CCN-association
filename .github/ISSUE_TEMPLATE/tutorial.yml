@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        The material stays where you host it; this creates an index entry that links to it. An automated check turns the form into a pull request and a coordinator reviews it, usually within a few days.
+        The resource stays on its original website. This form creates a pull request for a coordinator to review; the network lists a link after approval, merge and the next build.
   - type: input
     id: title
     attributes:
@@ -70,7 +70,7 @@ body:
     id: doi
     attributes:
       label: DOI
-      description: Optional. Zenodo mints one per GitHub release.
+      description: Optional. Include an existing DOI for the resource.
       placeholder: 10.5281/zenodo.0000000
   - type: input
     id: topics

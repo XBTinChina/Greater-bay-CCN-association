@@ -1,74 +1,75 @@
 ---
 title: Privacy and consent
-summary: What personal information the network publishes, where it is stored, and how to correct or remove it.
+summary: What information the network publishes, where it is stored and how to request changes.
 audience: public
 order: 25
 ---
 
-This page explains what personal information appears on this site, where it is kept, and how to change or remove it. The network is run by volunteer coordinators and is not a registered society, so this is a statement of practice, not a legal document. Membership rules are in the [charter](../charter/).
+This page describes the network's practices for publishing professional information, handling photos and recordings, and responding to correction or removal requests. The network is run by volunteer coordinators. Its proposed membership rules are in the draft [charter](../charter/).
 
-## What we publish and where it comes from
+## Lab entries
 
-Every lab entry is submitted by the lab's principal investigator (PI), or with the PI's agreement, through the form on the [Join page](../../join/). The form has a required consent checkbox. An automated workflow turns the submission into a pull request; a coordinator reviews it; only after the merge does the entry appear on the site.
+A lab entry is submitted by its principal investigator (PI), or with the PI's agreement, through the [Join page](../../join/). The form includes a required consent checkbox. A workflow prepares the data file and a coordinator reviews it before publication.
 
-A lab entry can contain these fields and nothing else:
+A lab entry may contain:
 
-- `pi`: the PI's name in Latin script
-- `pi_native`: the name in native script (optional)
-- `lab`: the lab name
-- `institution`, `institution_short`, `department` (optional)
-- `city`
-- `tier`: member or affiliate
-- `website`
-- `email` (optional; public if given)
-- `scholar`: Google Scholar link
-- `github`: GitHub link
-- `photo`
-- `keywords`: one to eight research topics
-- `description`: short lab text
-- `looking_for`: who the lab seeks (optional)
-- `joined`: the date the entry was approved
+- the PI's name, including an optional name in another script;
+- the lab name, institution, department and city;
+- member or affiliate status;
+- a lab website and research profile links, such as ORCID, Google Scholar or GitHub;
+- an optional public email address;
+- an optional photo;
+- research keywords, a short description and any stated recruitment or collaboration interests;
+- the entry date (the issue creation date for form submissions).
 
-The lab form has one field that is never published on the site: the PI's address, asked for only when somebody else fills the form in on their behalf, so that a coordinator can confirm the entry before it appears. It is not written to any data file. It is, however, typed into a GitHub issue, and issues in this repository are public, so an address given there is readable by anyone. Nobody has to give it: a submitter may leave it empty and ask the PI to comment on the issue instead, which confirms the entry without publishing an address.
+The underlying data file requires the PI's name, institution, city, research keywords and entry date. The submission form also requires a short description, member or affiliate selection, and confirmation of consent and authority to submit. Other profile fields are optional.
 
-The schema requires only name, institution, city, keywords and joining date; the form also asks for a short description. Leave any other field blank if you do not want it published.
+When someone submits on a PI's behalf, the form asks how the PI can confirm the entry. An email address entered in the issue is public even though it is not copied to the website's data file. The address field may be left blank and the PI may confirm directly in the issue instead.
 
-## Where the data is stored
+## Public storage and access
 
-Everything on this site is a file in a public GitHub repository, served by GitHub Pages. Both are hosted outside mainland China, and anyone can read, copy and fork the repository. Publishing a lab entry is therefore a voluntary, consent-based publication of professional information to a worldwide audience.
+Published website content is stored in a public GitHub repository and served through GitHub Pages. It is available to a worldwide audience, and others can read, copy or fork the repository. The repository and website are hosted outside mainland China.
 
-Hong Kong's Personal Data (Privacy) Ordinance requires that personal data be collected fairly, for a stated purpose, and used only for that purpose; the consent checkbox and this page serve that. The mainland Personal Information Protection Law treats sending personal information outside the mainland as needing the individual's separate consent and, in some settings, institutional approval. This page is not legal advice. PIs at mainland institutions may want to check their institution's rules on publishing staff profiles abroad before submitting.
+Please check any institutional requirements that apply before submitting professional information for publication. This page describes network practice and does not replace institutional or legal guidance.
 
 ## Photos
 
-Photos are optional; without one the roster shows initials. Before publication a photo is resized to 400 by 400 pixels, converted to WebP, and stripped of all metadata, including EXIF location. Photos are not covered by the CC BY licence. By submitting one you give the network permission to display it on its website and channels, nothing more, and you can withdraw that permission at any time.
+Photos are optional; entries without a photo show initials. The submission workflow resizes a lab photo to 400 by 400 pixels, converts it to WebP and removes metadata, including location metadata.
 
-## Correcting or removing an entry
+Photos are not covered by the text's CC BY licence. Submitting a photo gives the network permission to display it on its website and channels. It does not grant general permission for others to reuse it. That display permission may be withdrawn at any time.
 
-You can change or remove your entry at any time, without giving a reason:
+## Corrections and removal
 
-- open a pull request that edits or deletes your lab's file;
-- open an issue in the repository asking for the change;
-- write to the contact address on the [About page](../../about/).
+You may request a correction or removal without giving a reason:
 
-Coordinators act on removal requests within a reasonable time. Two limits apply. Git history, forks and public mirrors may keep earlier versions of a file after it leaves the live site. And because the text of an entry is published under CC BY 4.0, copies of that text made while it was public remain lawful; removal stops the network distributing the entry but does not recall existing copies. Photos are not licensed for reuse, so that limit does not extend to them.
+- submit a pull request editing or deleting the entry;
+- open an issue describing the requested change;
+- contact a coordinator listed on the [About page](../../about/).
+
+Use a private contact route if the request contains personal or sensitive information. Coordinators will act on removal requests within a reasonable time.
+
+Removing an entry from the live site does not remove earlier versions from Git history, forks or other copies. Text is published under CC BY 4.0, so copies already made under that licence may remain. Photos are not licensed for reuse.
 
 ## Speakers and recordings
 
-Event pages list a speaker's name, affiliation and link, supplied by the speaker or host. Talks are recorded only with the speaker's written consent, obtained by the host before the talk. Recordings go to Bilibili and YouTube and are linked from the event page. A speaker can withdraw consent at any time by writing to the host or the contact address, and the recording will be taken down from the network's channels. The same limits on existing copies apply.
+Event pages contain the speaker information provided by the speaker or host, such as name, affiliation and a research-page link.
+
+Talks are recorded only with the speaker's written consent, obtained before the session. Approved recordings are posted on Bilibili and YouTube and linked from the event page. Slides are published only with permission. A speaker may withdraw recording consent by contacting the host or a coordinator, and the network will remove the recording from its channels. Copies already made by others may remain.
 
 ## Speaker nominations
 
-Nominations are GitHub issues in the network's repository. They are not published on the site and coordinators handle them discreetly, but the repository is public, so an issue there can be read by anyone who goes looking. Write only what you would be comfortable with the nominee reading. The coordinators may move the queue to a private tracker.
+GitHub speaker nominations are public issues. They do not appear as listings on the website, but anyone can read the issues. Include only information suitable for public sharing. Contact a coordinator privately if a suggestion requires confidential details.
 
-## Cookies, analytics and fonts
+## Website services
 
-The site sets no cookies, runs no analytics and loads no fonts or scripts from third parties. GitHub, as host, keeps its own server logs under its privacy statement; the network does not see them.
+The website sets no cookies, uses no analytics and loads no fonts or scripts from third parties. GitHub maintains its own server logs under its privacy statement; the network does not have access to those logs. External sites linked from this website follow their own practices.
 
 ## Newsletter subscriptions
 
-Subscribing to [GBA-CCN Network Updates](https://buttondown.com/gba-ccn) is optional and does not require a GitHub account or lab membership. The signup link takes you to Buttondown, which manages subscriptions and sends the newsletter on the network's behalf. Your email address is provided directly to Buttondown and is not added to this public repository. We use the list for seminar announcements, research opportunities and network news. You can unsubscribe using the link in any newsletter email. Buttondown's own privacy policy applies to its handling of subscriber information.
+Subscribing to [GBA-CCN Network Updates](https://buttondown.com/gba-ccn) is optional and does not require a GitHub account or lab membership. Buttondown manages subscriptions and sends the newsletter on the network's behalf.
 
-## Contact
+Your email address is provided directly to Buttondown and is not added to this public repository. The list is used for seminars, events, open positions and network news. You can unsubscribe through the link in any newsletter email. Buttondown's privacy policy applies to its handling of subscriber information.
 
-Questions go to the contact address on the [About page](../../about/), or open an issue in the repository. This page changes by pull request, so its history is open to anyone.
+## Questions
+
+Contact a coordinator on the [About page](../../about/) with privacy questions. General suggestions about this document may be submitted through a public issue or pull request, without including private information.

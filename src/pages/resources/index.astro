@@ -13,11 +13,11 @@ const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
 const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await publishedLab(t.data.lab) })));
 ---
 
-<Base title="Resources" description="Tutorials, courses and lecture recordings from labs of the network, curated as an index.">
+<Base title="Resources" description="Learning resources shared by the network, including tutorials, courses and lecture recordings.">
   <h1>Resources</h1>
   <p class="lead">
-    Tutorials, courses and recordings from member labs, indexed here and hosted where their authors keep them.
-    Openings are on the <a href={url('positions/')}>positions page</a>; summer schools under <a href={url('events/')}>events</a>.
+    Tutorials, courses and recordings shared by the network. Each link takes you to material hosted by its authors.
+    See <a href={url('positions/')}>positions</a> for job and study opportunities, and <a href={url('events/')}>events</a> for seminars, workshops and schools.
   </p>
   <div class="actions" style="margin-top:0.5rem">
     <a class="btn small" href={forms.tutorial}>Add a tutorial</a>
@@ -25,7 +25,7 @@ const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await pu
 
   <h2 id="training">Training</h2>
   {tutorials.length === 0 ? (
-    <p class="quiet">Nothing indexed yet. A notebook, a course page or a lecture recording takes a minute to add.</p>
+    <p class="quiet">No resources are listed yet. You can share a notebook, course page or lecture recording using the form above.</p>
   ) : (
     <ul class="rows">
       {tutorials.map(({ t, lab }) => (

@@ -1,46 +1,50 @@
 ---
 title: Code of conduct
-summary: What we expect from everyone at GBA-CCN Network seminars, workshops, summer schools, the chat group and the repository, and what happens when someone falls short.
+summary: Expectations for respectful participation, how to report concerns and how they are handled.
 audience: public
 order: 20
 ---
 
-The GBA-CCN Network only works if people feel safe to present unfinished work, ask questions and disagree. This code sets out what we expect from each other and what we do when someone falls short.
+The GBA-CCN Network aims to provide a respectful setting where people can present work, ask questions and discuss different views. This code explains the expectations for participation and how concerns are handled.
 
 ## Where it applies
 
-It covers every activity run under the network's name: the seminar series, workshops, summer schools, the WeChat group and announcement list, and the repository. It applies to everyone taking part: speakers, hosts, coordinators and audience alike. Coordinators are held to it like everyone else.
+This code applies to all activities under the network's name: seminars, workshops, summer schools, the group chat, announcement list and repository. It applies to attendees, speakers, hosts and coordinators.
 
-## What we expect
+## Expected conduct
 
-- Be considerate. Many participants are students giving their first talk, often in a second or third language. Ask questions to understand, not to score points.
-- Criticise the work, not the person.
-- Let the chair run the session. Keep questions short so others get a turn.
-- Unpublished results shown in a talk stay in the talk unless the speaker says otherwise.
-- Keep the chat group for network business. No advertising, no chain messages.
+- Treat people with respect and allow for different levels of experience and language fluency.
+- Discuss ideas and evidence without personal criticism.
+- Follow the chair's guidance and leave time for others to speak.
+- Respect the speaker's instructions about unpublished work.
+- Keep the group chat relevant to network activities. Do not post advertising or chain messages.
+- Ask the organisers before sharing private meeting links or access details.
 
-## What we do not accept
+## Unacceptable conduct
 
-- Harassment, including unwelcome sexual attention, intimidation, and repeated contact after being asked to stop.
+- Harassment, including unwelcome sexual attention, intimidation or repeated contact after being asked to stop.
 - Discrimination or demeaning remarks about gender, sexual orientation, disability, appearance, ethnicity, nationality, religion, language, accent, institution or career stage.
-- Sustained disruption of a talk, a discussion or the chat group.
-- Recording, screenshotting or sharing any part of a session, including slides and chat messages, without the speaker's written consent. See [Privacy and consent](../privacy-and-consent/).
-- Doxxing: publishing someone's private information, such as a home address or personal phone number, or threatening to.
+- Repeated disruption of events or discussions.
+- Recording, taking screenshots of or sharing a speaker's presentation or slides without their written permission.
+- Sharing participants' private chat messages without their permission.
+- Publishing or threatening to publish someone's private information, such as a home address or personal phone number.
+
+The [privacy and consent statement](../privacy-and-consent/) gives further information about publication and recording.
 
 ## Languages
 
-The working language is English, but nobody is excluded for not being fluent in it. You may ask a question in Cantonese, Mandarin or English; if needed, the chair will summarise it in English. Do not mock anyone's language or accent.
+English is the usual language for talks. Questions may be asked in English, Cantonese or Mandarin; the chair will help summarise in English when needed. Fluency is not a condition of participation. Do not mock anyone's language or accent.
 
-## Reporting a problem
+## Reporting a concern
 
-If you experience or witness a breach, tell any coordinator, or write to the contact address on the [About](../../about/) page. During a session you can message the host privately. Say what happened, when, and who was involved, as far as you can. You do not have to be the target to report.
+Contact a coordinator listed on the [About page](../../about/) or message the host privately during an event. Describe what happened, when it happened and who was involved, as far as you can. Anyone who experiences or witnesses a concern may report it. Do not put private incident details in a public GitHub issue.
 
-Reports are handled by two coordinators not involved in the incident and not from the same lab as anyone involved. They will acknowledge the report within a week, hear the people concerned, and tell you the outcome. Reports are confidential: details go only to the coordinators handling the case and, where needed to act, to the person the report is about. Nobody faces consequences for reporting in good faith.
+Two coordinators who are not involved in the incident and are not from the same lab as the people involved will handle the report. They will acknowledge it within a week, hear from those concerned and communicate the outcome. Details are shared only with the coordinators handling the report and, when needed to address it, the person the report concerns. Retaliation against anyone who raises a concern in good faith is not allowed.
 
-## Consequences
+## Responses and review
 
-Depending on what happened, coordinators may give a warning; remove someone from an event, the chat group or the repository, for a period or permanently; or, as a last resort, delist a lab from the roster. Decisions are taken by the coordinators handling the report and confirmed by the coordinator group. Anyone affected may ask once for a review by coordinators who did not make the decision.
+Depending on the circumstances, coordinators may give a warning or remove someone from an event, the group chat or repository, temporarily or permanently. Removing a lab from the roster is a last resort. The coordinators handling the report make the decision, which is confirmed by the coordinator group. Anyone affected may ask once for a review by coordinators who did not make the original decision.
 
-## Review
+## Review of this code
 
-This is a first version, written for an online seminar series. Coordinators will review it with member labs before the network's first multi-day event and add what an in-person event needs, such as on-site contacts and venue rules. Suggestions are welcome as issues or pull requests in the repository.
+This version is written for the online seminar series. Before the first multi-day event, coordinators will review it with member labs and add relevant arrangements, such as on-site contacts and venue rules. Suggestions may be submitted through an issue or pull request.

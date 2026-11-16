@@ -65,7 +65,6 @@ jobs:
             --exclude example.invalid
             --exclude '^https://github.com/.*/issues/new'
             --exclude '^https://www\.psy\.cuhk\.edu\.hk/index\.php/component/sppagebuilder/'
-            --exclude-path dist/calendar.ics
             'dist/**/*.html'
           format: markdown
           output: .intake/lychee.md

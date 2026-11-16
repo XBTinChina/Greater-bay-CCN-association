@@ -1,60 +1,60 @@
 ---
 title: Operations handbook
-summary: How coordinators run the repository day to day, including the intake pipeline, what to check before merging, the Monday routine, and what to do when something breaks.
+summary: How coordinators review submissions, update the website, send newsletters and resolve problems.
 audience: coordinators
 order: 60
 ---
 
-This page is for the people who keep the site running. Everything on the site comes from files in one GitHub repository, submissions arrive through issue forms, and a workflow turns each submission into a pull request. Nothing is published until a coordinator merges that pull request, so the job is mostly reading, checking and merging, and this page says what to check. The field-by-field reference is the [data model](../data-model/); the seminar checklist is [hosting a seminar](../hosting-a-seminar/).
+This handbook is for coordinators who maintain the website. Lab, event, resource and position forms create public GitHub issues. Automation prepares a pull request for each valid submission; a coordinator reviews and merges it before it appears on the website. Speaker nominations stay as issues for discussion. See the [data model](../data-model/) for field definitions and [hosting a seminar](../hosting-a-seminar/) for the event checklist.
 
 ## The repository in brief
 
-- `data/network.yml`: network-wide settings (name, mission, the status banner shown on every page, contact email, the seminar slot, whether that slot is still marked proposed, the platform, coordinators, host institutions).
+- `data/network.yml`: network-wide settings (name, mission, the status banner shown on internal pages, contact email, newsletter address, seminar arrangements, coordinators and host institutions).
 - `data/labs/<pi-slug>.yml`, `data/events/<YYYY-MM-DD>-<slug>.md`, `data/tutorials/<slug>.yml`, `data/positions/<slug>.md`, `data/news/<YYYY-MM-DD>-<slug>.md`: one file per entry.
 - `docs/<slug>.md`: these documents.
-- `public/photos/<pi-slug>.webp`: PI photos, 400 by 400 pixels.
+- `public/photos/`: PI and speaker photos. The lab intake workflow produces 400 by 400 pixel WebP images.
 - `src/`: the Astro site. `scripts/intake.mjs`: the parser the intake workflow runs.
 - `.github/ISSUE_TEMPLATE/`: the forms. `.github/workflows/`: the automation.
 
-Every data folder contains an `example-*` file marked `draft: true`. Drafts are validated at build time but never published, so they are safe to copy from. The workflows use only official GitHub actions plus the lychee link checker, never pass user text through a shell, and cannot merge anything.
+The labs, events, tutorials and positions folders include example entries marked `draft: true`. Drafts are checked at build time but are not published. Copy an example when adding an entry by hand. The intake workflow prepares changes for review; a coordinator decides whether to merge them.
 
 ## The intake pipeline
 
-1. Someone fills in a form linked from the [Join page](../../join/) or opens one under Issues. The forms are lab (title prefix `[Lab]`), event (`[Event]`), tutorial (`[Tutorial]`), position (`[Position]`) and speaker nomination (`[Speaker]`). They are GitHub issue templates, so they need a free GitHub account. Each opens an issue labelled `intake` plus a type label such as `intake:lab`.
+1. Someone fills in a form linked from the [Join page](../../join/) or opens one under Issues. The listing forms are lab (title prefix `[Lab]`), event (`[Event]`), tutorial (`[Tutorial]`) and position (`[Position]`). Speaker nominations use a separate `[Speaker]` form and do not create a listing pull request. They are GitHub issue templates, so they need a free GitHub account. Each listing form opens an issue labelled `intake` plus a type label such as `intake:lab`. Nominations use the label `speaker-nomination`.
 2. The **Intake submissions** workflow runs when the issue is opened or edited. It parses the form, downloads and resizes the photo if there is one, writes the data file, and runs a validation build.
-3. If the build passes, it pushes a branch `intake/issue-<n>` and opens a pull request that closes the issue on merge. If it fails, it comments on the issue with the error and adds the label `needs-changes`. The submitter edits the issue, the workflow re-runs, and the same pull request is updated.
+3. If the build passes, it pushes a branch `intake/issue-<n>` and opens a pull request that closes the issue on merge. If it fails, it comments on the issue with the error and adds the label `needs-changes`. The submitter edits the issue, the workflow re-runs, and the same pull request is updated. If a coordinator has edited the branch manually, the workflow stops to preserve those edits; describe further changes on the pull request instead.
 4. A coordinator reviews the pull request and merges it. The **Deploy site** workflow then rebuilds and publishes the site.
 
 Pull requests opened by the workflow do not trigger the **Build check** (GitHub does not run checks on bot-created pull requests). That is why the intake workflow runs the validation build itself before opening the pull request.
 
-Anyone without a GitHub account submits by asking a colleague, or by writing to the contact address once one is set. A coordinator then fills the form in on their behalf.
+People without a GitHub account can ask a colleague or a coordinator listed on the [About page](../../about/) for help with a submission.
 
 ## Reviewing a lab submission
 
 Open the pull request and read the file. Check that:
 
-- It is a real lab led by a principal investigator at an institution in a Greater Bay Area city, or a genuine affiliate elsewhere with a stated connection to the region. A look at the institutional page or a recent paper is enough.
+- The lab is led by a principal investigator at an institution in the Greater Bay Area, or is applying as an affiliate from elsewhere. Check the affiliation and the stated connection to the network using a lab or institutional page.
 - The consent box was ticked in the issue.
-- If the submitter is not the PI, they gave an address for the PI and the PI has replied. The pull request says so in a warning, because the consent statements are written in the first person and only the PI can tick them. Do not merge on the submitter's word alone: three of the first fifteen submissions came from someone other than the PI.
+- If someone submitted on the PI's behalf, confirm the PI's agreement before merging. The PI can confirm on the issue or contact a coordinator directly. Do not require a private email address to be posted in a public issue.
 - If a photo was given, it is a head-and-shoulders picture of the PI, not a logo, a group photo or a stock image. A photo is optional; the roster shows initials otherwise.
-- Keywords are sensible and few. Five or six is plenty; trim a long list rather than reject.
-- The description is plain. No marketing language, no rankings, no superlatives. Edit lightly if needed and say so in a comment.
+- Keywords describe the research clearly. The form accepts up to eight; ask the submitter to shorten or clarify the list if needed.
+- The description explains the research in plain terms. Remove unsupported promotional claims, while preserving the lab's scientific meaning. Explain proposed wording changes to the submitter.
 
 If all of that holds, merge. When in doubt, ask a second coordinator on the pull request. If changes are needed, ask the submitter to edit the issue rather than rewriting the entry silently.
 
 ## Reviewing events, tutorials and positions
 
-- Events: a member or affiliate lab is hosting, the date and time are in Hong Kong Time, and there is no meeting link in the file. A seminar in the series sits on the second Friday of its month, 16:00 to 17:00, and on the host named in the rota; check the date against a calendar, because a date copied from an older file or an old template is likely to be a Thursday. Meeting links go out by email and the group chat only.
+- Events: confirm the host, date, weekday and time with the organiser. The usual seminar slot is the second Friday, 16:00–17:00 Hong Kong Time, but an event may have a different confirmed date. The event page is the source for that event's arrangements. The submission form rejects direct meeting URLs and passcodes; use a public event-information or registration page instead. Keep private access details out of public issues and files. Hosts share any private joining details directly with participants.
 - Tutorials: the linked material exists, is openly accessible without a login, and is what the entry says it is. Open the link yourself.
-- Positions: there is a real application deadline or an expiry date. The Monday build removes expired positions automatically; an entry without a date would sit there forever.
+- Positions: confirm an application deadline or removal date. If `expires` is set, it controls removal; otherwise the deadline is used. A listing is removed at the next build after that date.
 
 ## Speaker nominations
 
-Nominations stay as issues labelled `speaker-nomination`; nothing is published. Hosts and coordinators pick from the list when planning a seminar. The queue drains at twelve invitations a year, so a name can sit in it for a year or more: before inviting someone nominated long ago, check with the nominator that the suggestion still stands. Close the issue with a one-line note when the person has been invited or has declined. Issues are publicly readable, so keep comments discreet: no remarks about someone's availability, funding or personal circumstances.
+Nominations remain public GitHub issues labelled `speaker-nomination`; they do not appear as website listings. Hosts and coordinators pick from the list when planning a seminar. A nomination is a suggestion, not a commitment to invite someone. Before acting on an older nomination, check with the nominator that it is still relevant. When the person is invited, add the event page link when available and close the issue. If they decline, close it with a brief note. Issues are public. Include only professional information relevant to the nomination, and keep private availability or personal circumstances out of the discussion.
 
 ## The weekly routine
 
-Two workflows run every Monday morning. **Deploy site** runs at 00:00 UTC (08:00 Hong Kong Time) and rebuilds the site, which refreshes the split between upcoming and past events and drops expired positions. **Weekly digest** runs an hour later, at 09:00 Hong Kong Time, and runs the lychee link checker over the built site and opens, or updates, an issue labelled `weekly-digest` listing pending intake issues, open intake pull requests and broken links. The seminar is on a Friday and the upcoming and past split is computed at build time, so a talk that has already happened stays under upcoming until the Monday rebuild. With one seminar a month, most Mondays carry no seminar work at all.
+Two workflows run every Monday morning. **Deploy site** runs at 00:00 UTC (08:00 Hong Kong Time) and rebuilds the site, which refreshes the split between upcoming and past events and drops expired positions. **Weekly digest** runs an hour later, at 09:00 Hong Kong Time, and runs the lychee link checker over the built site and opens, or updates, an issue labelled `weekly-digest` listing pending intake issues, open intake pull requests and broken links. Because event status is computed at build time, a completed talk may remain under upcoming until the next rebuild. Use the date of the next confirmed event when preparing announcements.
 
 One coordinator reads the digest that day or the next. Merge what is ready, reply to what is stuck, and fix broken links by pull request.
 
@@ -62,11 +62,11 @@ One thing in that reading needs a coordinator rather than a reply: an accepted s
 
 ### Optional assisted triage
 
-A scheduled AI assistant session may help with this routine: it can triage new submissions, fix formatting, draft the next announcement text and poster, and post a summary in the digest. Announcement and poster work is live only in the fortnight before the second Friday, so in most weeks there is none. It never merges. Approval is a human act, and the review checklist above applies to anything it prepared.
+An assistant may help review submissions, fix formatting, and draft announcements or posters. Prepare event announcements in the two weeks before the confirmed event date. A coordinator must check and approve the result before publication; the same review checklist applies to human and automated drafts.
 
 ### Monthly sweep
 
-Once a month, look at anything in the digest older than 30 days and give it a decision: merge, ask for changes, or close with a short note explaining why. The week after the second Friday suits it, because the seminar is done and the next host can be confirmed in the same sitting.
+Once a month, look at anything in the digest older than 30 days and give it a decision: merge, ask for changes, or close with a short note explaining why. After a seminar is a useful time to confirm the next host and review outstanding items.
 
 ## Recordings
 
@@ -76,11 +76,11 @@ Record only with the speaker's written consent, given before the talk (see [priv
 
 [GBA-CCN Network Updates](https://buttondown.com/gba-ccn) is the optional email newsletter. Its subscription address is set in `data/network.yml` as `mailing_list_url`; the site's Subscribe links use that address. Subscribers sign up through Buttondown, and subscriber lists and account credentials stay outside this public repository.
 
-Sending is manual. Publishing a website update or running the weekly digest workflow does not send an email; no RSS-to-email automation is enabled.
+Sending is manual. Publishing a website update or running the weekly digest workflow does not send a newsletter.
 
 1. Sign in to the network's Buttondown account and create a draft with seminar announcements, research opportunities or network news, linking to the relevant website pages.
 2. Have a coordinator review the text, dates and links, and preview the email. Check the issue's archive visibility before including any private meeting links.
-3. Once the issue is ready, send it manually from Buttondown to subscribers. Keep automatic publishing and RSS campaigns off unless the network later chooses to enable them.
+3. Once the issue is ready, send it manually from Buttondown to subscribers. Do not enable automatic sending as part of a website update.
 
 ## Editing network.yml
 
@@ -91,14 +91,14 @@ The slot is two fields, not one. `seminar.slot` is the sentence the site prints.
 ## Adding or rotating a coordinator
 
 1. Add the person to the `coordinators` list in `data/network.yml` and remove anyone stepping down.
-2. Grant them write access to the repository. Keep at least two people with owner rights at all times.
+2. Arrange the repository access needed for their role and confirm that another coordinator can maintain the site during a handover.
 3. Tell the group chat and the announcement list.
 
-When the interim coordinator hands over, transfer the repository to a GitHub organisation so that the site address stops being a personal one. GitHub redirects the old address, and the Deploy site workflow needs no change.
+The coordinators may transfer the repository to a GitHub organisation. After a transfer, check the Pages settings, deployment configuration, website address and public links. Verify a successful deployment before announcing the new address.
 
 ## Backups and mainland access
 
-Every clone of the repository is a complete backup of every file and its history, so each coordinator should keep a local clone and pull now and then. GitHub Pages is usually reachable from the mainland. If access degrades for a sustained period, a Gitee mirror is an option, not a requirement; raise it with the other coordinators first.
+Keep an up-to-date full clone of the repository as a backup of its versioned files and history. Newsletter accounts and externally hosted recordings need separate arrangements. Access to GitHub services can vary by network. If participants report persistent problems, discuss an additional access route or mirror with the coordinators.
 
 ## When the build fails after a merge
 

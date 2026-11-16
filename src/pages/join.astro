@@ -13,8 +13,8 @@ const hasEmail = Boolean(network.contact_email);
   <h1>Join as a lab</h1>
   <p class="lead">
     {founding
-      ? 'Labs across the Greater Bay Area are invited to establish a shared seminar and collaboration network. Membership is by lab, there are no fees, and the labs that join now shape the rules.'
-      : 'Membership is by lab. A PI submits one entry; a coordinator reviews it; the lab appears on the roster.'}
+      ? 'Labs across the Greater Bay Area are welcome to join our shared seminar and collaboration network. Membership is by lab, there are no fees, and participating labs help shape how the network works.'
+      : 'Membership is by lab and there are no fees. The principal investigator (PI), or someone with their agreement, submits a lab entry, which a coordinator reviews before publication.'}
   </p>
 
   <div class="actions" style="margin-top:0">
@@ -26,32 +26,32 @@ const hasEmail = Boolean(network.contact_email);
     ) : (
       <a class="btn primary" href={forms.lab}>Submit your lab</a>
     )}
-    <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Subscribe to updates' : 'Follow the seminars'}</a>
+    <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Subscribe to newsletter' : 'Follow the seminars'}</a>
   </div>
   {!hasEmail && (
     <p class="small muted">
-      The lab submission form needs a free GitHub account. If that is a problem, ask any member PI to submit for you; an email route
-      will appear here once the network's address is set up.
+      The lab submission form needs a free GitHub account. If you need help with it, contact a
+      <a href={url('about/')}>coordinator</a> or a member lab.
     </p>
   )}
 
-  <h2>Who</h2>
+  <h2>Who can take part</h2>
   <dl class="facts">
     <dt>Member lab</dt>
-    <dd>A PI-led group at an institution in the Greater Bay Area. Listed, hosts a seminar in turn, invites speakers on behalf of all.</dd>
+    <dd>A research group led by a principal investigator (PI) at an institution in the Greater Bay Area. Member labs appear in the directory and take turns hosting seminars.</dd>
     <dt>Affiliate lab</dt>
-    <dd>A lab elsewhere that takes part regularly. Listed with a badge.</dd>
+    <dd>A lab based outside the Greater Bay Area that takes part regularly. Affiliate labs appear in the directory with an affiliate label.</dd>
     <dt>Students, postdocs, research staff and other participants</dt>
     <dd>
       {network.mailing_list_url ? (
-        <>No application. <a href={network.mailing_list_url}>Subscribe to email updates</a> on seminars, opportunities and network news.
-          Subscription is optional and needs no GitHub account. You can also <a href={url('calendar.ics')}>follow the seminar calendar</a>.</>
+        <>You are welcome to take part without applying for membership. <a href={network.mailing_list_url}>Subscribe to the newsletter</a> for seminars, events, open positions and network news.
+          Subscription is optional and needs no GitHub account.</>
       ) : (
-        <>No application. <a href={routes.follow}>Follow the seminars</a>
+        <>You are welcome to take part without applying for membership. <a href={url('events/')}>Browse the seminars</a>
           {hasEmail ? (
-            <> and <a href={routes.followEmail}>ask to join the announcement list</a>, which carries the meeting links.</>
+            <> and <a href={routes.followEmail}>ask to join the announcement list</a> for news about seminars, events and open positions. Check each event page or contact its host for joining details.</>
           ) : (
-            <>. The announcement list, which carries the meeting links, is passed on by any member PI.</>
+            <>. Contact a member lab for the announcement list and seminar joining details.</>
           )}
         </>
       )}
@@ -62,16 +62,16 @@ const hasEmail = Boolean(network.contact_email);
   <dl class="facts">
     <dt>Hosting</dt>
     <dd>
-      One seminar in turn, on the second Friday of a month. There are twelve a year and more labs than that, so a
-      turn comes round rather less often than once a year. Swap with another lab if the date does not work; tell
-      the coordinators.
+      Member labs take turns hosting the monthly seminar, usually on the second Friday.
+      With more labs than monthly slots, a lab's next turn may be more than a year away.
+      If a date does not work, arrange a swap or deferral with the coordinators.
     </dd>
     <dt>Sharing</dt>
-    <dd>Pass on tutorials, positions and speakers worth inviting. The forms are below.</dd>
+    <dd>Share useful learning resources, open positions and speaker suggestions. The forms are below.</dd>
     <dt>Confidential work</dt>
     <dd>No lab is expected to share unpublished data, research ideas, funding or other confidential material.</dd>
     <dt><a href={url('docs/code-of-conduct/')}>Code of conduct</a></dt>
-    <dd>Applies to every network activity, coordinators included.</dd>
+    <dd>Everyone taking part in network activities, including coordinators, follows the code of conduct.</dd>
   </dl>
   <p class="small muted">
     Affiliate labs are not in the hosting rotation; participants who are not in a listed lab have no obligations
@@ -79,7 +79,7 @@ const hasEmail = Boolean(network.contact_email);
     <a href={url('docs/member-guidelines/')}>member lab guidelines</a>.
   </p>
 
-  <h2>How</h2>
+  <h2>How to add your lab</h2>
   <ol class="steps">
     <li>
       {hasEmail ? (
@@ -88,36 +88,36 @@ const hasEmail = Boolean(network.contact_email);
         <>Open the <a href={forms.lab}>lab form</a>.</>
       )}
     </li>
-    <li>Name, institution, city, up to eight keywords, two sentences on the lab. A photo is optional; initials are shown otherwise.</li>
+    <li>Provide the PI's name, institution, city, up to eight research keywords and a short lab description. A photo is optional; initials are shown if no photo is supplied.</li>
     <li>
       Give consent. The entry's text is published under CC BY 4.0. A photo, if given, is displayed with your permission
       only and is not licensed for reuse.
     </li>
-    <li>A coordinator reviews the entry, usually within days, and the lab appears on the roster.</li>
+    <li>A coordinator reviews the entry and may ask for clarification. Approved entries appear in the lab directory.</li>
   </ol>
 
-  <h2>Also</h2>
+  <h2>Other ways to contribute</h2>
   <dl class="facts">
     <dt><a href={routes.nominateEmail || forms.nomination}>Nominate a speaker</a></dt>
     <dd>
-      Anyone may.
+      Anyone may suggest a speaker.
       {hasEmail ? (
         <> Nominations by email stay with the coordinators. The <a href={forms.nomination}>GitHub route</a> is a public issue.</>
       ) : (
-        <> Nominations are read by the coordinators and never published on the site; the form is a public GitHub issue, so write only what the nominee could read.</>
+        <> Coordinators review nominations. The form creates a public GitHub issue, so include only information you are comfortable sharing publicly.</>
       )}
     </dd>
     <dt><a href={forms.event}>Propose an event</a></dt>
-    <dd>Seminars, workshops, summer schools. See the <a href={url('docs/speaker-kit/')}>speaker kit</a> for the format.</dd>
+    <dd>Suggest a seminar, workshop or summer school. See the <a href={url('docs/speaker-kit/')}>speaker kit</a> for the seminar format.</dd>
     <dt><a href={forms.tutorial}>Share a tutorial</a></dt>
-    <dd>Notebooks, courses, recordings. The material stays where you host it.</dd>
+    <dd>Share a notebook, course or recording. The website links to the material where its author hosts it.</dd>
     <dt><a href={forms.position}>Post a position</a></dt>
-    <dd>PhD, postdoc, RA, faculty. Listings expire on their deadline.</dd>
+    <dd>Share PhD, postdoctoral, research assistant or faculty openings. Listings are removed after their closing or removal date when the website next updates.</dd>
   </dl>
 
   <p class="small muted" style="margin-top:2.5rem">
     To change or remove an entry, write to the coordinators or edit its file by pull request. The rules are in the{' '}
-    <a href={url('docs/charter/')}>charter</a>, a draft for ratification by the founding labs, the{' '}
+    <a href={url('docs/charter/')}>charter</a>{founding && ', currently a draft for approval by the member labs'}, the{' '}
     <a href={url('docs/member-guidelines/')}>member lab guidelines</a>, the{' '}
     <a href={url('docs/code-of-conduct/')}>code of conduct</a> and the{' '}
     <a href={url('docs/privacy-and-consent/')}>privacy statement</a>.

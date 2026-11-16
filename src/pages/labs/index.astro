@@ -14,11 +14,11 @@ const showFilters = labs.length >= 8;
 const cities = citiesOf(labs);
 ---
 
-<Base title="Labs" description="Computational and cognitive neuroscience labs in the Greater Bay Area, filterable by city, institution and research keyword.">
+<Base title="Labs" description="Computational and cognitive neuroscience labs in the Greater Bay Area and affiliate labs elsewhere, with research topics and contact links.">
   <h1>Labs</h1>
   <p class="lead">
     {labs.length} {labs.length === 1 ? 'lab' : 'labs'} across {institutions.length}{' '}
-    {institutions.length === 1 ? 'institution' : 'institutions'}. <a href={url('join/')}>Add yours.</a>
+    {institutions.length === 1 ? 'institution' : 'institutions'}. <a href={url('join/')}>Add your lab.</a>
   </p>
 
   {showFilters && (

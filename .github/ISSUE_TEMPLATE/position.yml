@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        An automated check turns this form into a listing and a pull request; a coordinator reviews it, usually within a few days. Listings disappear from the site automatically after the removal date, or after the deadline if no removal date is given, so please fill in at least one of the two.
+        This form creates a pull request for a coordinator to review. The listing appears after approval, merge and the next build. Provide a removal date or an application deadline. The listing is removed at the first site rebuild after that date; the removal date takes priority if both are given.
   - type: input
     id: title
     attributes:

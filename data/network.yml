@@ -7,37 +7,31 @@ short_name: GBA-CCN Network
 acronym: GBA-CCN
 name_native: 粤港澳大湾区计算神经科学与认知神经科学网络
 
-# founding: the home page is a recruitment page (no counters, "founding
-#           labs"). Whether the slot is shown as proposed is a separate flag,
-#           seminar.proposed below. Switch to active on the test in README
-#           step 12: a handful of labs across several institutions, and two
-#           or three sessions dated. One scheduled is no longer enough, since
-#           at one seminar a month a single dated talk leaves the upcoming
-#           list empty for weeks.
-# active:   the home page is a directory with counters.
+# founding: hides the homepage counters while labs help develop the network.
+# active: shows the homepage counters; change when the founding labs agree.
+# seminar.proposed separately controls whether the usual slot is proposed.
 stage: founding
 
 tagline: >-
-  A shared seminar and collaboration network for labs studying brain,
-  behaviour and computation across the Greater Bay Area.
-tagline_native: 连接粤港澳大湾区计算神经科学与认知神经科学实验室，共享讲座、培训资源与区域合作机会。
+  Connecting researchers and labs studying brains, behaviour and computation
+  across the Greater Bay Area.
+tagline_native: 连接粤港澳大湾区研究大脑、行为与计算的研究人员和实验室，共享讲座、学习资源与合作机会。
 pitch: >-
-  Member labs pool audiences, take turns hosting the monthly seminar, share
-  training resources, and make regional collaborators and opportunities easier
-  to find.
+  Member labs take turns hosting seminars and share methods and training
+  resources. Researchers at all career stages can take part, find collaborators
+  and explore research opportunities.
 mission: >-
-  We connect labs across the Greater Bay Area that study the brain with
-  computational and cognitive methods. Together we run a joint seminar series,
-  keep a public roster of participating labs, share teaching material, and pool
-  the audience that no single department has on its own, so that any member can
-  invite a speaker on behalf of all.
+  We bring together researchers and labs in computational and cognitive
+  neuroscience across the Greater Bay Area. We organise seminars, share methods
+  and training resources, and help people find collaborators and research
+  opportunities.
 
 # Shown as a thin line under the header on every page except the home page.
 # Plain HTML allowed; site-relative links such as href="join/" are fixed up.
-# Drop the first-session date once that seminar has been held.
+# Keep this invitation current; dated announcements belong in event entries.
 status_banner: >-
-  Founding cohort now forming. The series opens with a founding roundtable on Friday 16 October 2026.
-  <a href="join/">Join</a> or <a href="calendar.ics">follow the seminars</a>.
+  Researchers at all career stages are welcome.
+  <a href="events/">Explore events</a> or <a href="join/">join as a lab</a>.
 
 founded: 2026
 
@@ -46,7 +40,7 @@ founded: 2026
 contact_email: ""
 
 # One-step subscription page for the announcement list, when one exists.
-# Until then "Follow the seminars" points at the calendar feed.
+# Without one, subscription links use the contact address or event listings.
 mailing_list_url: https://buttondown.com/gba-ccn
 
 repo_url: https://github.com/XBTinChina/Greater-bay-CCN-association

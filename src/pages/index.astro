@@ -122,10 +122,10 @@ const jsonld = {
   </section>
 
   <section class="community-strip" aria-label="Explore the community">
-    <p class="community-audience">For undergraduates,<br />PhD students,<br />postdocs and faculty.</p>
+    <p class="community-audience">For students,<br />research staff,<br />postdocs and faculty.</p>
     <a href={url('labs/')}><strong>Meet the labs <span>↗</span></strong><span>Discover research across the region.</span></a>
-    <a href={url('events/')}><strong>Join the conversation <span>↗</span></strong><span>Bring a question. Meet a new perspective.</span></a>
-    <a href={url('positions/')}><strong>Find opportunities <span>↗</span></strong><span>Explore positions and shared resources.</span></a>
+    <a href={url('events/')}><strong>Join the conversation <span>↗</span></strong><span>Ask questions and share ideas.</span></a>
+    <a href={url('positions/')}><strong>Find opportunities <span>↗</span></strong><span>Find openings across the network.</span></a>
   </section>
 
   <div class="home-content">
@@ -133,8 +133,8 @@ const jsonld = {
       <div class="network-overview-copy">
         <p class="home-eyebrow">01 / Across the bay</p>
         <h2 id="across-the-bay">Different labs.<br />A shared conversation.</h2>
-        <p class="network-description">Our network connects labs across the Greater Bay Area that study brains, behaviour and intelligent systems. We bring computational models into conversation with experimental neuroscience, psychology and machine intelligence, helping ideas travel across disciplines and institutions.</p>
-        <p class="network-description">Through shared seminars, methods and training resources, we make it easier to meet collaborators beyond your own lab. Bring a question, share an approach or discover a new direction. Whether you are an undergraduate exploring the field, a PhD student, a postdoc or a faculty member, you are welcome to join the conversation.</p>
+        <p class="network-description">Our network connects labs across the Greater Bay Area that study brains, behaviour and intelligent systems. We bring together computational modelling, experimental neuroscience, psychology and machine intelligence so researchers can share methods and learn from one another.</p>
+        <p class="network-description">Through seminars and shared learning resources, we help people meet colleagues beyond their own lab. Students, research staff, postdocs and faculty are welcome, whether you are new to the field or have worked in it for many years. Join a seminar, ask a question, share an approach or explore a collaboration.</p>
         {network.name_native && <p class="network-native" lang="zh">{network.name_native}</p>}
         <p class="network-cities">{cityLine}</p>
         <div class="network-links">
@@ -169,10 +169,10 @@ const jsonld = {
           <Shuffle />
         </>
       ) : (
-        <p class="quiet">The first labs are joining now. <a href={url('join/')}>Be one of them.</a></p>
+        <p class="quiet">No labs are listed yet. <a href={url('join/')}>Add your lab.</a></p>
       )}
-      {founding && showcase.length > 0 && (
-        <p class="small muted founding-note">Participating labs are in {citySentence}. Every city of the Greater Bay Area is welcome.</p>
+      {founding && cities.length > 0 && (
+        <p class="small muted founding-note">Member labs are in {citySentence}. Labs from every city of the Greater Bay Area are welcome.</p>
       )}
     </section>
 
@@ -187,7 +187,7 @@ const jsonld = {
     <>
       <div class="section-head">
         <h2>Recent speakers</h2>
-        <a href={url('events/#past')}>Recordings</a>
+        <a href={url('events/#past')}>Past events</a>
       </div>
       <ul class="inline-list">
         {recentSpeakers.map((e) => (

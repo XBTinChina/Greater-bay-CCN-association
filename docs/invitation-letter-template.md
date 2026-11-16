@@ -1,81 +1,99 @@
 ---
 title: Invitation letter template
-summary: "Three texts for hosts: the invitation to a speaker, the logistics follow-up once they accept, and the announcement for WeChat and mailing lists."
+summary: Templates for a speaker invitation, a logistics follow-up and a public event announcement.
 audience: coordinators
 order: 50
 ---
 
-A host writes three things for each seminar. Copy the block you need, fill in the {placeholders}, delete what does not apply. The invitation goes out from the host PI on behalf of the coordinators: the network name and roster link introduce us, your own name makes it personal. The timeline is in [Hosting a seminar](../hosting-a-seminar/); what the speaker reads on our side is the [speaker kit](../speaker-kit/).
+Copy the template you need, replace the {placeholders} and remove any optional text that does not apply. Use the confirmed event details, including its date and time. The usual monthly slot may differ from an individual event.
+
+The [hosting checklist](../hosting-a-seminar/) explains the timeline, and the [speaker kit](../speaker-kit/) provides information to share with the speaker.
 
 ## 1. Invitation to a speaker
 
-Send it from your institutional address, with {N} and {institutions} taken from the [roster](../../labs/) on the day you write, so the numbers are current. Keep it short: a busy person decides whether to reply within two lines.
+Send the invitation from the host's institutional address about four months ahead. Confirm the assigned date with the coordinators before inviting the speaker. Agree any alternative with the coordinators and affected host lab first.
 
-Offer the one date your lab holds. The series has twelve slots a year, one on the second Friday of each month, so the next date is another lab's turn: agree a swap with that lab before you name a second date, and do not offer a third. Send the invitation about four months ahead, because a refusal costs a month and a second invitation another.
+Use the current [lab roster](../../labs/) for {N} and {institutions}. Include travel support or an in-person option only if the host institution has confirmed it.
 
 ```text
-Subject: Invitation to speak, GBA-CCN Network seminar series
+Subject: Invitation to speak in the GBA-CCN Network seminar series
 
-Dear {Title} {Surname},
+Dear {Name},
 
-I am writing on behalf of the Greater Bay Area Computational and Cognitive Neuroscience Network (GBA-CCN Network), a network of {N} computational and cognitive neuroscience labs across {institutions} in the Greater Bay Area. We run a joint online seminar series, one talk a month, and we would be delighted if you would give a talk.
+I am writing on behalf of the Greater Bay Area Computational and Cognitive Neuroscience Network (GBA-CCN Network), which connects {N} labs across {institutions} in the Greater Bay Area. We would like to invite you to speak in our monthly seminar series.
 
-We are inviting you because {one sentence on their work and why it matters to labs here}.
+We are interested in {one sentence about the speaker's work and its connection to the audience}.
 
-The format is a 45-minute talk followed by 15 minutes of questions, on the second Friday of the month at 16:00 Hong Kong Time (UTC+8), on Zoom. If you would like to visit in person, we can host you at {Institution} and run the session as a hybrid event. Talks are recorded only with your written consent. We are a volunteer network and cannot offer an honorarium; if you visit, {Institution} may be able to cover travel.
+Would you be available on {day and date} at {time} Hong Kong Time (UTC+8)? The usual format is a 45-minute talk followed by 15 minutes of questions, online on Zoom.
 
-Our date is Friday {date}, the second Friday of {month}. {If that does not suit you, we can also offer Friday {alternative date}, a month later.}
+Talks are recorded only with your written consent. The network does not normally offer an honorarium. {Add any confirmed travel support or in-person option here.}
 
-Who we are: {site_url}labs/. What to expect: {site_url}docs/speaker-kit/.
+Participating labs: {site_url}labs/
+Information for speakers: {site_url}docs/speaker-kit/
 
 With best wishes,
 
 {Host name}
 {Lab}, {Institution}
-on behalf of the coordinators of the GBA-CCN Network
+on behalf of the GBA-CCN Network coordinators
 ```
 
-## 2. Logistics follow-up once accepted
+## 2. Logistics follow-up after acceptance
 
-Send this as soon as the speaker confirms a date. Give the deadline as a date, not "four weeks before". For a speaker outside UTC+8, the time-zone line is what prevents a no-show. If the date has to move after this point it moves by at least a month, and the next slot belongs to another lab, so ask the coordinators rather than arranging it yourself.
+Send this when the speaker confirms. Give an actual deadline for materials and check the speaker's local time for the event date. If arrangements change, confirm them with the coordinators and update the event page.
+
+Private meeting links may be included in this direct message to the speaker. Do not copy private links or passcodes into the public repository.
 
 ```text
-Subject: GBA-CCN seminar on {date}: what we need from you
+Subject: GBA-CCN seminar on {date}: arrangements and materials
 
-Dear {First name},
+Dear {Name},
 
-Thank you for agreeing to speak on Friday {date} at 16:00 Hong Kong Time (UTC+8). In your time zone that is {local date and time}; please tell me if that is not what you expected.
+Thank you for agreeing to speak on {day and date} at {time} Hong Kong Time (UTC+8). In your time zone, this is {local date and time}. Please let me know if any of these details need changing.
 
-For the announcement and poster, please send by {date four weeks before the talk}:
+For the event page and announcement, please send the following by {date about four weeks before the talk}:
 
-- a title
-- an abstract of 150 to 250 words
-- a short bio, three to five sentences
-- a photo (we crop it square)
+- a title and an abstract of one or two paragraphs
+- a short biography of three or four sentences
+- a photo for the announcement, if you would like to provide one
+- any accessibility or technical requirements
 
-Your slot is 45 minutes plus 15 of questions. {A 15-minute talk by a student from our lab opens the session at 16:00; yours starts at about 16:15 and we finish by 17:15.} Zoom link: {Zoom link}. If Zoom fails for mainland participants we switch to Tencent Meeting: {Tencent Meeting link}. We will test both for ten minutes at {time} on the day.
+Your talk will last 45 minutes, followed by 15 minutes of questions.
+{If applicable: A 15-minute early-career talk opens the session at {time}; your talk begins at {time}, and the session ends at {time}.}
 
-Two questions; one line each is enough:
+Joining details: {meeting link or joining instructions}
+Fallback platform and details: {confirmed fallback arrangements}
+Technical check: {date and time}
 
-1. May we record the talk and post it on Bilibili and YouTube? Please reply "yes, record" or "no recording".
-2. May we share your slides as a PDF with attendees afterwards? Please reply "yes, share slides" or "no slides".
+Please also let us know:
 
-If only part of the talk may be recorded, say so and we will stop there.
+1. May we record the talk and publish it on Bilibili and YouTube?
+2. May we publish your slides as a PDF linked from the event page?
+
+You may decline either option. If only part of the talk may be recorded or shared, please specify which part.
 
 Best wishes,
 {Host name}
 ```
 
-## 3. Announcement for WeChat and mailing lists
+## 3. Public event announcement
 
-Post this to the announcement list, the WeChat group and your department list two weeks before the talk, again a week before, and again that morning. Three posts rather than two, because a month passes between seminars and a single reminder follows three weeks of silence. Attach the poster PNG from the Render poster workflow (run it with the event id and download the PNG artifact). The Chinese header line is optional: keep it for WeChat, drop it for English-only lists. The meeting link never goes in the post.
+Share the announcement through the newsletter, group chat and departmental lists about two weeks before the event, then send reminders one week before and on the day. Attach the poster from the **Render poster** workflow when available.
+
+Use the event page for public joining or registration details. Send any private meeting links or passcodes directly to attendees, and keep them out of public posts and publicly visible newsletter archives.
 
 ```text
-大湾区计算与认知神经科学网络 · 系列讲座
+粤港澳大湾区计算神经科学与认知神经科学网络 · 系列讲座
 GBA-CCN Network seminar
+
 {Speaker name}, {Affiliation}
-"{Talk title}"
-Friday {date}, 16:00 Hong Kong Time (UTC+8), online
-Link goes to the announcement list; reply to this message to receive it.
-Abstract and poster: {site_url}events/{event-id}/
+{Talk title}
+
+{Day and date}, {time} Hong Kong Time (UTC+8)
+{Online, hybrid or venue details}
+
+Event information and joining or registration details:
+{site_url}events/{event-id}/
+
+Host: {Host name and lab}
 ```

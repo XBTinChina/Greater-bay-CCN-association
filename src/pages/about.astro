@@ -39,23 +39,22 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
   <div class="prose">
     <p class="lead">{network.mission}</p>
     <p>
-      A network, not a society: no legal entity, no fees, no president. What exists is an agreement among labs to
-      host seminars together, keep a public roster, share teaching material, and let any member invite a speaker on
-      behalf of all. Should a legal form ever be needed, the decision will be taken openly and recorded in the charter.
+      The network is an informal collaboration among labs, with no membership fees. Member labs host seminars,
+      maintain a shared lab directory and share learning resources. The network is not a separate legal entity.
+      Any change to that arrangement would be discussed by the member labs and recorded in the charter.
     </p>
 
-    <h2>Why</h2>
+    <h2>Our purpose</h2>
     <p>
-      The field in the Greater Bay Area is spread across many campuses, a few labs each. No single department has
-      the audience to justify inviting the speakers its members want to hear, and no existing society spans the
-      border between Hong Kong, Macau and Guangdong. Pooling audiences and invitations solves both at once.
+      Connecting labs across campuses makes it easier to meet colleagues, share methods and invite speakers.
+      We aim to complement existing groups and societies and support collaboration across the Greater Bay Area.
     </p>
 
     <h2>Language</h2>
     <p>
-      English is the default working language, so that researchers across institutions can take part in the same
-      events. Names may appear in Chinese and English, and training material may be contributed in either language
-      when clearly labelled.
+      English is the usual working language for shared events. Names in other scripts are welcome alongside Latin-script names,
+      and learning resources may be shared in any language with a clear language label.
+      Please contact the organisers before an event with any language or access needs.
     </p>
 
     <h2>How it runs</h2>
@@ -69,21 +68,21 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
     )}
     <dl class="facts">
       <dt>Seminars</dt>
-      <dd>{slotLine}. Online on {network.seminar.platform}{network.seminar.fallback_platform ? `, ${network.seminar.fallback_platform} as fallback` : ''}.</dd>
+      <dd>{slotLine}. Usually online on {network.seminar.platform}{network.seminar.fallback_platform ? `, with ${network.seminar.fallback_platform} as a backup` : ''}. Check each event page for the confirmed date, time and platform.</dd>
       <dt>Hosts</dt>
-      <dd>Each seminar is hosted by one member lab in turn: it invites, chairs and circulates the link.</dd>
+      <dd>Member labs take turns inviting the speaker, chairing the seminar and sharing the meeting link with participants.</dd>
       <dt>Coordinators</dt>
-      <dd>A small group, one per institution where possible, on rotating terms. They keep the calendar, review submissions and hold the repository.</dd>
-      <dt>Tiers</dt>
-      <dd>Member labs are in the region; affiliates take part from elsewhere. Both reviewed before listing.</dd>
-      <dt>Delisting</dt>
-      <dd>On request, or when a PI leaves the region. The roster is refreshed annually.</dd>
-      <dt>In the open</dt>
-      <dd>Roster, calendar, charter and this site are files in a public repository. Changes are pull requests.</dd>
+      <dd>Coordinators manage the seminar schedule, review submissions and maintain the website and repository. Interim coordinators share this work during the founding stage. The draft charter proposes rotating terms, with one person per institution where possible.</dd>
+      <dt>Membership</dt>
+      <dd>Member labs are based in the Greater Bay Area. Affiliate labs participate from elsewhere. Coordinators review both before listing.</dd>
+      <dt>Keeping entries current</dt>
+      <dd>Labs can request an update or removal. Coordinators ask labs to confirm their details each year. See the <a href={url('docs/member-guidelines/')}>member lab guidelines</a>.</dd>
+      <dt>Public records</dt>
+      <dd>The lab directory, event listings, charter and website are stored in a public repository. Proposed changes are reviewed before publication.</dd>
     </dl>
   </div>
 
-  <h2>{founding ? 'Conveners' : 'Coordinators'}</h2>
+  <h2>Coordinators</h2>
   {network.coordinators.length === 0 ? (
     <p class="muted">To be announced.</p>
   ) : (
@@ -116,20 +115,19 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
           </dl>
         )}
         <p class="small muted">
-          Anything that is not private — a suggestion, a correction, a lab entry, a speaker —
-          is better <a href={forms.issues}>raised as an issue</a>: it is public, it stays on the
-          record, and anyone in the network can answer it.
+          You can <a href={forms.issues}>open a GitHub issue</a> for a public suggestion or correction.
+          Issues are visible to everyone. Send private matters directly to a coordinator.
         </p>
       </details>
     </>
   )}
   {founding && (
-    <p class="small muted">Founding conveners from several institutions and cities are named here as they confirm.</p>
+    <p class="small muted">This list is updated as coordinators confirm their participation.</p>
   )}
 
   {institutions.length > 0 && (
     <>
-      <h2>Institutions</h2>
+      <h2>Institutions of participating labs</h2>
       <ul class="inline-list">
         {institutions.map((i) => <li title={i.city}>{i.name}</li>)}
       </ul>
@@ -141,7 +139,7 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
 
   <h2>Documents</h2>
   {docs.length === 0 ? (
-    <p class="muted">Being drafted.</p>
+    <p class="muted">No documents are listed yet.</p>
   ) : (
     <dl class="facts">
       {docs.map((d) => (
@@ -162,18 +160,19 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
       </>
     ) : (
       <>
-        A role address is being set up. Meanwhile, <a href={forms.issues}>open an issue</a> or ask any member PI.
+        For a public enquiry, <a href={forms.issues}>open a GitHub issue</a> or contact a member lab.
+        Contact a coordinator directly for private matters.
       </>
     )}
   </p>
   <p>
     {network.mailing_list_url ? (
-      <><a href={network.mailing_list_url}>Subscribe to GBA-CCN Network Updates</a> for seminar announcements, research opportunities and network news.
+      <><a href={network.mailing_list_url}>Subscribe to GBA-CCN Network Updates</a> for seminars, events, open positions and network news.
         Subscription is optional, needs no GitHub account, and you can unsubscribe from any newsletter email.</>
     ) : network.contact_email ? (
-      <>To join the announcement list, which carries the meeting links, <a href={routes.followEmail}>send a short email</a>.</>
+      <>To receive news about seminars, events and open positions, <a href={routes.followEmail}>send a short email</a>.</>
     ) : (
-      <>The announcement list, which carries the meeting links, is passed on by any member PI.</>
+      <>Contact a member lab for the announcement list and seminar joining details.</>
     )}
   </p>
 </Base>

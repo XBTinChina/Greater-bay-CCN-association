@@ -3,7 +3,7 @@ import { TIME_ZONE, UTC_OFFSET } from './taxonomy';
 
 export type EventEntry = CollectionEntry<'events'>;
 
-/** YYYY-MM-DD of a date that was parsed from a plain calendar date (UTC midnight). */
+/** YYYY-MM-DD of a date-only value parsed as UTC midnight. */
 export function ymd(d: Date): string {
   return d.toISOString().slice(0, 10);
 }
@@ -37,7 +37,7 @@ export function formatDate(d: Date, opts: Intl.DateTimeFormatOptions = {}): stri
   }).format(d);
 }
 
-/** "Thu, 30 Oct 2026 · 16:00–17:00 HKT" */
+/** "Fri, 30 Oct 2026 · 16:00–17:00 HKT" */
 export function formatWhen(e: EventEntry): string {
   const first = formatDate(e.data.date);
   const range = e.data.end_date ? `${first} to ${formatDate(e.data.end_date)}` : first;

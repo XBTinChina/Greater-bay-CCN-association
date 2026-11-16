@@ -207,7 +207,7 @@ export const FORMS = Object.freeze({
     ],
   },
 
-  // Nominations are read by coordinators only. Listed here so that type
+  // Nominations are public issues reviewed by coordinators. Listed here so type
   // detection and the template check know about the form; no data file is
   // ever created from it.
   nomination: {

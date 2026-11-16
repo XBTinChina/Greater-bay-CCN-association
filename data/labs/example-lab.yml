@@ -25,4 +25,4 @@ description: >-
   One or two sentences on what the lab does, in plain English. This is what a
   visitor reads before deciding whether to click through.
 looking_for: PhD students with a computational background; collaborators with primate electrophysiology data.
-joined: 2026-09-03                # date the entry was approved
+joined: 2026-09-03                # entry date; form submissions use the issue creation date

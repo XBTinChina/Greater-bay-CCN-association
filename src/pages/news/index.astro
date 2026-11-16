@@ -11,7 +11,7 @@ const items = await Promise.all(entries.map(async (n) => ({ n, Content: (await r
 
 <Base title="News" description="Announcements from the network.">
   <h1>News</h1>
-  {items.length === 0 && <p class="muted">Nothing yet.</p>}
+  {items.length === 0 && <p class="muted">No news has been posted yet.</p>}
   <div>
     {items.map(({ n, Content }) => (
       <article class="entry" id={n.id}>

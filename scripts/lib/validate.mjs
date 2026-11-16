@@ -18,7 +18,7 @@
 //
 // Rules that span several fields (a member lab must be in the Greater Bay
 // Area, an end time must follow a start time, a deadline must not be past, no
-// meeting link may reach a public file) live here too, in crossChecks, so that
+// direct meeting links are not accepted through forms) live here too, in crossChecks, so that
 // they sit beside the per-field ladder rather than inside the builders.
 
 import { GBA_CITIES, OTHER_CITY, TIME_ZONE } from './forms.mjs';
@@ -34,7 +34,7 @@ export const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 export const EMAIL_RE = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9-]*\.)+[A-Za-z]{2,}$/;
 export const ORCID_RE = /^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/;
 export const DOI_RE = /^10\.\d{4,9}\/\S+$/i;
-// Meeting links and passcodes must never reach a public data file.
+// Submission forms reject direct meeting links and passcodes.
 export const MEETING_LINK_RE =
   /(zoom\.(?:us|com)\/(?:j|my|s|w)\/|voovmeeting\.com\/|meeting\.tencent\.com\/|teams\.microsoft\.com\/l\/meetup|meet\.google\.com\/[a-z]{3}-|webex\.com\/meet\/|\bpasscode\s*[:：])/i;
 
@@ -129,7 +129,7 @@ export function splitList(text) {
   return items;
 }
 
-/** The calendar date of an ISO timestamp in Hong Kong Time, as YYYY-MM-DD. */
+/** The date of an ISO timestamp in Hong Kong Time, as YYYY-MM-DD. */
 export function dateInHongKong(iso) {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) throw new Error(`The payload has no valid issue.created_at (got ${JSON.stringify(iso)}).`);
@@ -138,7 +138,7 @@ export function dateInHongKong(iso) {
 
 export function checkNoMeetingLinks(texts, problems) {
   if (texts.some((t) => t && MEETING_LINK_RE.test(t))) {
-    problems.push('The text contains a meeting link or passcode. Remove it: meeting details go to the announcement list, never into a public file.');
+    problems.push('The text contains a direct meeting link or passcode. Remove it from the form. You may provide a public event or registration page; the host shares private joining details directly.');
   }
 }
 
