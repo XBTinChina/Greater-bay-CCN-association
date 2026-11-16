@@ -88,8 +88,8 @@ const ogImage = absolute('og.png');
           {nav.map(([label, path]) => (
             <a href={url(path)} aria-current={isCurrent(path) ? 'page' : undefined}>{label}</a>
           ))}
-          <a class="follow" href={routes.follow} title={network.mailing_list_url ? 'Subscribe to email updates' : 'Follow the seminars'}>
-            {network.mailing_list_url ? 'Get updates ↗' : 'Follow seminars ↗'}
+          <a class="follow" href={routes.follow} title={network.mailing_list_url ? 'Subscribe to the newsletter for seminars, events, open positions and network news' : 'Follow the seminars'}>
+            {network.mailing_list_url ? 'Newsletter ↗' : 'Follow seminars ↗'}
           </a>
         </nav>
       </div>

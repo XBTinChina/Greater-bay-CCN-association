@@ -329,13 +329,14 @@ summary:focus-visible {
   align-items: center;
   gap: 0.6rem clamp(1rem, 2.2vw, 2rem);
   flex-wrap: wrap;
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 750;
 }
 .site-nav a {
   color: var(--ink);
   padding: 0.3rem 0;
   border-bottom: 2px solid transparent;
+  white-space: nowrap;
 }
 .site-nav a:hover {
   color: var(--accent);
@@ -359,7 +360,7 @@ summary:focus-visible {
   .brand-name { padding-left: 0.8rem; }
   .brand .brand-mark { width: 36px; height: 36px; }
   .brand-region { display: inline; font-size: 0.8rem; }
-  .site-nav { width: 100%; justify-content: space-between; gap: 0.35rem 0.75rem; font-size: 0.8rem; }
+  .site-nav { width: 100%; justify-content: space-between; gap: 0.35rem 0.75rem; font-size: 0.95rem; }
   .site-nav .follow { padding-left: 0.75rem; }
 }
 @media (max-width: 560px) {
@@ -368,6 +369,9 @@ summary:focus-visible {
 }
 @media (max-width: 380px) {
   .site-header .container { padding-left: 1.1rem; padding-right: 1.1rem; }
+  .brand { font-size: 1.35rem; gap: 0.6rem; }
+  .brand-name { padding-left: 0.6rem; }
+  .brand .brand-mark { width: 32px; height: 32px; }
   .site-nav .follow { right: 1.1rem; }
 }
 .site-nav .btn {
