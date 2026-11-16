@@ -70,7 +70,9 @@ const jsonld = {
   <section class="hero">
     <div class="kicker">{cityLine}</div>
     <div class="hero-copy">
-      <h1 class="identity">
+      <div class="hero-heading">
+        <h1 class="hero-slogan">Brains.<br />Models.<br /><em>People.</em></h1>
+        <div class="identity">
         <span class="fullname">
           {titleParts ? (
             <>
@@ -81,20 +83,21 @@ const jsonld = {
           ) : network.name}
         </span>
         <span class="acronym">{network.acronym}</span>
-      </h1>
-      <p class="lead">{network.tagline}</p>
-      {network.pitch && <p class="pitch">{network.pitch}</p>}
+        </div>
+      </div>
+      <p class="lead">Meet people who ask better questions about brains, behaviour and computation.</p>
+      <p class="pitch">For undergraduates, PhD students, postdocs and faculty across the Greater Bay Area. Share ideas, find collaborators and join the next conversation.</p>
       {network.tagline_native && <p class="native" lang="zh">{network.tagline_native}</p>}
       <div class="actions">
-        <a class="btn primary" href={url('join/')}>Join as a lab</a>
-        <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Subscribe to updates' : 'Follow the seminars'}</a>
+        <a class="btn primary" href={url('events/')}>Explore seminars ↗</a>
+        <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Get updates' : 'Follow the seminars'}</a>
       </div>
       {network.mailing_list_url && (
-        <p class="small muted">Optional email updates on seminars, opportunities and network news. No GitHub account needed.</p>
+        <p class="small muted">Seminars, opportunities and network news in your inbox. No GitHub account needed.</p>
       )}
       <ul class="inline-list commitments" aria-label="Terms of membership">
         <li>No fees</li>
-        <li>Membership by lab</li>
+        <li><a href={url('join/')}>Join as a lab</a></li>
         <li>Open to students and postdocs</li>
       </ul>
     </div>
@@ -155,18 +158,18 @@ const jsonld = {
 
   </div>
 
-  <section class="trio" aria-label="What member labs get">
+  <section class="trio" aria-label="Explore the community">
     <div>
-      <strong>A wider audience</strong>
-      <p>Invite speakers on behalf of a regional community rather than a single lab or department.</p>
+      <strong><a href={url('labs/')}>Meet the labs</a></strong>
+      <p>Discover researchers, methods and collaborators across the region.</p>
     </div>
     <div>
-      <strong>Easier regional connections</strong>
-      <p>Find labs, methods, facilities, collaborators, students and expertise across nearby cities.</p>
+      <strong><a href={url('events/')}>Join the next conversation</a></strong>
+      <p>Bring a question. Meet a new perspective. Share what you are working on.</p>
     </div>
     <div>
-      <strong>Shared training and opportunities</strong>
-      <p>Circulate tutorials, summer schools, positions, datasets and practical know-how across institutions.</p>
+      <strong><a href={url('positions/')}>Find opportunities</a></strong>
+      <p>Explore openings and connect with labs looking for people like you.</p>
     </div>
   </section>
 

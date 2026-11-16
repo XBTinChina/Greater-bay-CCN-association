@@ -429,18 +429,46 @@ main.home-page {
   min-width: 0;
   position: relative;
   z-index: 1;
+  container-type: inline-size;
+}
+.hero-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-bottom: 1.7rem;
+}
+.hero-slogan {
+  margin: 0;
+  font-size: clamp(3.35rem, 6.2vw, 5.7rem);
+  font-size: clamp(3.35rem, 14cqw, 5.7rem);
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.065em;
+  text-wrap: nowrap;
+}
+.hero-slogan em {
+  display: inline-block;
+  margin: 0.05em 0 0 -0.065em;
+  padding: 0 0.08em 0.06em 0.065em;
+  background: var(--mint);
+  font-style: italic;
+  font-weight: 900;
 }
 .hero .identity {
-  margin-bottom: 1.3rem;
+  min-width: 0;
+  max-width: 15rem;
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--ink);
 }
 .hero .identity .fullname {
   display: block;
-  font-size: clamp(2rem, 4.1vw, 3.25rem);
-  font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 1.04;
-  text-wrap: balance;
-  max-width: 23ch;
+  font-size: 1.06rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.22;
+  text-wrap: pretty;
 }
 .hero .identity-region,
 .hero .identity-field,
@@ -449,35 +477,46 @@ main.home-page {
 }
 .hero .identity-region {
   color: var(--accent);
-  font-size: 0.77em;
-  font-weight: 650;
-  letter-spacing: -0.035em;
-  margin-bottom: 0.24em;
+  font-weight: 750;
+  margin-bottom: 0.3em;
 }
 .hero .identity-field {
   color: var(--ink);
-  font-weight: 900;
-  line-height: 1.07;
+  font-weight: 650;
 }
 .hero .identity-community {
-  width: fit-content;
-  padding: 0.04em 0.16em 0.08em;
-  margin-left: -0.16em;
-  background: var(--mint);
   color: #9b342e;
   font-family: var(--mono);
-  font-size: 0.8em;
-  font-weight: 550;
-  letter-spacing: -0.055em;
-  margin-top: 0.2em;
+  font-size: 0.95em;
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  margin-top: 0.28em;
 }
 .hero .identity .acronym {
   display: block;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 0.13em;
   color: var(--accent);
-  margin-top: 1rem;
+  margin-top: 0.8rem;
+}
+/* Fit the heading to its text column, not to the wider browser viewport. */
+@container (max-width: 560px) {
+  .hero-heading {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 1.35rem;
+  }
+  .hero-slogan {
+    font-size: clamp(3.35rem, 22cqw, 5.7rem);
+  }
+  .hero .identity {
+    max-width: 24rem;
+    padding-left: 0.8rem;
+  }
+  .hero .identity .fullname {
+    font-size: 0.95rem;
+  }
 }
 .hero .lead {
   color: var(--ink);
@@ -710,17 +749,10 @@ main.home-page {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
-  .hero .identity .fullname {
-    font-size: clamp(2rem, 4.2vw, 2.8rem);
-  }
 }
 @media (max-width: 760px) {
   .hero {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .hero .identity .fullname {
-    font-size: clamp(2rem, 6.5vw, 3rem);
-    max-width: 26ch;
   }
   .hero .kicker {
     font-size: 0.65rem;
@@ -755,10 +787,6 @@ main.home-page {
   }
   .hero {
     padding: 1.5rem 1.15rem;
-  }
-  .hero .identity .fullname {
-    font-size: clamp(1.85rem, 7.8vw, 2.5rem);
-    letter-spacing: -0.04em;
   }
   .hero .actions {
     align-items: stretch;
@@ -868,6 +896,17 @@ main.home-page {
   line-height: 1.2;
   letter-spacing: -0.025em;
   margin-bottom: 0.55rem;
+}
+.trio a {
+  color: #fff5ff;
+  text-decoration: none;
+}
+.trio a:hover {
+  color: var(--mint);
+  text-decoration: underline;
+}
+.trio a:focus-visible {
+  outline-color: var(--mint);
 }
 .trio p {
   color: var(--muted);
