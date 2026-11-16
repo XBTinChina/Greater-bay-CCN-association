@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { Image } from 'astro:assets';
-import neuralGraph from '../assets/brand/neural-graph.png';
+import neuralIdentity from '../assets/brand/neural-identity.png';
 import GreaterBayMap from '../components/GreaterBayMap.astro';
 import LabCard from '../components/LabCard.astro';
 import Shuffle from '../components/Shuffle.astro';
@@ -101,10 +101,10 @@ const jsonld = {
     <div class="hero-art">
       <div class="hero-emblem">
         <Image
-          src={neuralGraph}
-          alt="A brain-shaped neural network crossed by a signal wave"
-          width={640}
-          height={640}
+          src={neuralIdentity}
+          alt="A flowing lavender and mint brain emblem crossed by a bright neural signal"
+          width={768}
+          height={512}
           format="webp"
           quality={85}
           loading="eager"
