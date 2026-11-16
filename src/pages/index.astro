@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import '../styles/home.css';
 import { Image } from 'astro:assets';
-import networkMark from '../assets/brand/network-mark.png';
+import neuralTides from '../assets/brand/neural-tides.webp';
 import GreaterBayMap from '../components/GreaterBayMap.astro';
 import LabCard from '../components/LabCard.astro';
 import Shuffle from '../components/Shuffle.astro';
@@ -85,12 +85,13 @@ const jsonld = {
       <p class="home-description">We connect labs studying brains, behaviour and computation. Meet researchers across the region, share ideas and join the next conversation.</p>
       <div class="actions">
         <a class="btn primary" href={url('events/')}>Explore seminars ↗</a>
-        <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Get updates' : 'Follow the seminars'}</a>
+        <a class="btn" href={routes.follow} aria-describedby={network.mailing_list_url ? 'newsletter-description' : undefined}>{network.mailing_list_url ? 'Subscribe to newsletter' : 'Follow the seminars'}</a>
       </div>
+      {network.mailing_list_url && <p id="newsletter-description" class="home-newsletter">Get seminars, events, open positions and network news in your inbox.</p>}
     </div>
     <div class="home-feature">
       <div class="signal-art" aria-hidden="true">
-        <Image src={networkMark} class="hero-logo" width={512} height={512} format="webp" quality={90} alt="" loading="eager" fetchpriority="high" />
+        <Image src={neuralTides} class="hero-artwork" widths={[480, 800, 1200, 1728]} sizes="(max-width: 760px) 100vw, (max-width: 1600px) 50vw, 800px" format="webp" quality={90} alt="" loading="eager" fetchpriority="high" />
       </div>
       <section class="next-event" aria-labelledby="next-event-label">
         <div class="next-event-copy">
@@ -132,10 +133,15 @@ const jsonld = {
       <div class="network-overview-copy">
         <p class="home-eyebrow">01 / Across the bay</p>
         <h2 id="across-the-bay">Different labs.<br />A shared conversation.</h2>
-        <p>Our network brings together computational and cognitive neuroscience across the Greater Bay Area, through shared seminars, training and regional collaboration.</p>
+        <p class="network-description">Our network connects labs across the Greater Bay Area that study brains, behaviour and intelligent systems. We bring computational models into conversation with experimental neuroscience, psychology and machine intelligence, helping ideas travel across disciplines and institutions.</p>
+        <p class="network-description">Through shared seminars, methods and training resources, we make it easier to meet collaborators beyond your own lab. Bring a question, share an approach or discover a new direction. Whether you are an undergraduate exploring the field, a PhD student, a postdoc or a faculty member, you are welcome to join the conversation.</p>
         {network.name_native && <p class="network-native" lang="zh">{network.name_native}</p>}
         <p class="network-cities">{cityLine}</p>
-        <div class="network-links"><a href={url('join/')}>Join as a lab ↗</a><a href={url('about/')}>About the network →</a><span>No fees · All career stages welcome</span></div>
+        <div class="network-links">
+          <a class="btn primary" href={url('join/')}>Join as a lab ↗</a>
+          <a class="btn" href={url('about/')}>About the network →</a>
+          <span>No fees · All career stages welcome</span>
+        </div>
       </div>
       <GreaterBayMap class="network-map" />
     </section>
