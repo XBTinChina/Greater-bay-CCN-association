@@ -1,4 +1,4 @@
-// Generate raster fallbacks and the sharing card from the current vector identity.
+// Generate web-sized logos, favicons and the sharing card from the current identity.
 // Runs before every production build; all artwork and fonts are local.
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -8,7 +8,9 @@ import { parse } from 'yaml';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const publicDir = path.join(root, 'public');
-const icon = await fs.readFile(path.join(publicDir, 'logo.svg'));
+const sourceIcon = await fs.readFile(path.join(root, 'src/assets/brand/network-mark.png'));
+const icon = await sharp(sourceIcon).resize(256, 256, { fit: 'contain', background: '#00000000' }).png().toBuffer();
+const svgIcon = (png, size) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><title>GBA-CCN neural machine</title><image width="${size}" height="${size}" href="data:image/png;base64,${png.toString('base64')}"/></svg>`;
 const network = parse(await fs.readFile(path.join(root, 'data/network.yml'), 'utf8'));
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[c]);
 const wrap = (text, width) => {
@@ -36,8 +38,11 @@ const card = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" 
   <rect x="152" y="569" width="40" height="5" fill="#ff7366"/>
 </svg>`;
 
-await fs.writeFile(path.join(publicDir, 'favicon.svg'), icon);
-await sharp(icon).resize(64, 64).png().toFile(path.join(publicDir, 'favicon.png'));
+await fs.writeFile(path.join(publicDir, 'logo.png'), icon);
+await fs.writeFile(path.join(publicDir, 'logo.svg'), svgIcon(icon, 256));
+const favicon = await sharp(sourceIcon).resize(64, 64).png().toBuffer();
+await fs.writeFile(path.join(publicDir, 'favicon.svg'), svgIcon(favicon, 64));
+await fs.writeFile(path.join(publicDir, 'favicon.png'), favicon);
 await sharp(icon).resize(180, 180).png().toFile(path.join(publicDir, 'apple-touch-icon.png'));
 await sharp(Buffer.from(card)).png().toFile(path.join(publicDir, 'og.png'));
-console.log('Built Signal Commons favicon, touch icon and sharing card.');
+console.log('Built neural-machine logo, favicon, touch icon and sharing card.');

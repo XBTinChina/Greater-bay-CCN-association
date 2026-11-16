@@ -27,8 +27,8 @@ const tutorialCount = (await getCollection('tutorials', (t) => !t.data.draft)).l
 
 const nav: Array<[string, string]> = [
   ['Labs', 'labs/'],
-  ['Events', 'events/'],
-  ['Positions', 'positions/'],
+  ['Seminars', 'events/'],
+  ['Opportunities', 'positions/'],
   ...(tutorialCount > 0 ? ([['Resources', 'resources/']] as Array<[string, string]>) : []),
   ['About', 'about/'],
 ];
@@ -77,22 +77,19 @@ const ogImage = absolute('og.png');
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <div class="band" aria-hidden="true"></div>
     <header class="site-header">
       <div class="container">
-        <a class="brand" href={url('')}>
-          <Mark size={44} />
-          <span>{network.short_name}</span>
+        <a class="brand" href={url('')} aria-label={`${network.acronym} — home`}>
+          <Mark size={48} />
+          <span class="brand-name">{network.acronym}</span>
+          <span class="brand-region">Greater Bay Area</span>
         </a>
         <nav class="site-nav" aria-label="Main">
           {nav.map(([label, path]) => (
             <a href={url(path)} aria-current={isCurrent(path) ? 'page' : undefined}>{label}</a>
           ))}
           <a class="follow" href={routes.follow} title={network.mailing_list_url ? 'Subscribe to email updates' : 'Follow the seminars'}>
-            {network.mailing_list_url ? 'Subscribe' : 'Follow'}
-          </a>
-          <a class="btn small primary" href={url('join/')} aria-current={isCurrent('join/') ? 'page' : undefined}>
-            Join
+            {network.mailing_list_url ? 'Get updates ↗' : 'Follow seminars ↗'}
           </a>
         </nav>
       </div>

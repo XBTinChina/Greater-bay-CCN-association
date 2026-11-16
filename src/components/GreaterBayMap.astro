@@ -1,27 +1,26 @@
 ---
 import { Image } from 'astro:assets';
-import bayCartoon from '../assets/brand/bay-cartoon.png';
+import bayIllustration from '../assets/brand/bay-illustration.png';
 
 interface Props {
   class?: string;
 }
 const { class: cls } = Astro.props;
-// The user's original artwork remains intact. Show the complete square in the
-// thumbnail and link to the unchanged original for viewing its finer details.
+// Show the full illustration without cropping, with a link to the larger image.
 ---
 
-<a class={cls} href={bayCartoon.src} aria-label="View the full Greater Bay Area illustration">
+<a class={cls} href={bayIllustration.src} aria-label="View the full Greater Bay Area illustration">
   <Image
-    src={bayCartoon}
-    width={384}
+    src={bayIllustration}
+    width={512}
     height={384}
     format="webp"
     quality={90}
-    alt="A cartoon bay with green shores, bridges, cities, neuron trees and brain scientists"
-    loading="eager"
+    alt="Stylised Pearl River Delta illustration showing Guangzhou, Shenzhen, Hong Kong, Zhuhai and Macau around the bay"
+    loading="lazy"
   />
   <span class="bay-caption">
-    Greater<br />Bay Area
+    <span>Greater Bay Area</span>
     <small>View full map ↗</small>
   </span>
 </a>

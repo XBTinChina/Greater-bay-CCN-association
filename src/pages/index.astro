@@ -1,22 +1,23 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import '../styles/home.css';
 import { Image } from 'astro:assets';
-import neuralIdentity from '../assets/brand/neural-identity.png';
+import networkMark from '../assets/brand/network-mark.png';
 import GreaterBayMap from '../components/GreaterBayMap.astro';
 import LabCard from '../components/LabCard.astro';
 import Shuffle from '../components/Shuffle.astro';
 import EventRow from '../components/EventRow.astro';
-import { network, forms, routes, founding, slotLine } from '../lib/network';
+import { network, routes, founding, slotLine } from '../lib/network';
 import { url, absolute } from '../lib/url';
 import { publishedLabs, institutionsOf, citiesOf } from '../lib/labs';
 import { GBA_CITIES } from '../lib/taxonomy';
-import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
+import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, formatWhen, ymd, speakerLine } from '../lib/events';
 
 const labs = await publishedLabs();
 const members = labs.filter((l) => l.data.tier === 'member');
 const institutions = institutionsOf(members);
-// Two different claims, so two different lists. The kicker states the region
+// Two different claims, so two different lists. The regional section lists
 // the network covers, which is every Greater Bay Area city whether or not a lab
 // has joined from it yet: a PI in Foshan should see Foshan and know they
 // qualify. The founding note below states where labs actually are, so it reads
@@ -31,6 +32,7 @@ const citySentence = new Intl.ListFormat('en-GB', { style: 'long', type: 'conjun
 
 const events = await publishedEvents();
 const upcoming = events.filter((e) => isUpcoming(e)).sort(byDateAsc);
+const nextEvent = upcoming[0];
 const past = events.filter((e) => !isUpcoming(e)).sort(byDateDesc);
 const talksHeld = past.filter((e) => e.data.type === 'seminar').length;
 const recentSpeakers = past.filter((e) => e.data.speaker).slice(0, 6);
@@ -67,111 +69,113 @@ const jsonld = {
 ---
 
 <Base hideBanner home jsonld={jsonld}>
-  <section class="hero">
-    <div class="kicker">{cityLine}</div>
-    <div class="hero-copy">
-      <div class="hero-heading">
-        <h1 class="hero-slogan">Brains.<br />Models.<br /><em>People.</em></h1>
-        <div class="identity">
-        <span class="fullname">
-          {titleParts ? (
-            <>
-              <span class="identity-region">{titleParts[1]}</span>{' '}
-              <span class="identity-field">{titleParts[2]}</span>{' '}
-              <span class="identity-community">{titleParts[3]}</span>
-            </>
-          ) : network.name}
-        </span>
-        <span class="acronym">{network.acronym}</span>
-        </div>
-      </div>
-      <p class="lead">Meet people who ask better questions about brains, behaviour and computation.</p>
-      <p class="pitch">For undergraduates, PhD students, postdocs and faculty across the Greater Bay Area. Share ideas, find collaborators and join the next conversation.</p>
-      {network.tagline_native && <p class="native" lang="zh">{network.tagline_native}</p>}
+  <section class="home-hero" aria-labelledby="network-title">
+    <div class="home-intro">
+      <p class="home-eyebrow">A community across the Greater Bay Area</p>
+      <h1 id="network-title" class="network-title">
+        {titleParts ? (
+          <>
+            <span class="network-region">{titleParts[1]}</span>{' '}
+            <span>{titleParts[2]}</span>{' '}
+            <span class="network-community">{titleParts[3]}</span>
+          </>
+        ) : network.name}
+      </h1>
+      <p class="home-slogan">Brains. Models. <em>People.</em></p>
+      <p class="home-description">We connect labs studying brains, behaviour and computation. Meet researchers across the region, share ideas and join the next conversation.</p>
       <div class="actions">
         <a class="btn primary" href={url('events/')}>Explore seminars ↗</a>
         <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Get updates' : 'Follow the seminars'}</a>
       </div>
-      {network.mailing_list_url && (
-        <p class="small muted">Seminars, opportunities and network news in your inbox. No GitHub account needed.</p>
-      )}
-      <ul class="inline-list commitments" aria-label="Terms of membership">
-        <li>No fees</li>
-        <li><a href={url('join/')}>Join as a lab</a></li>
-        <li>Open to students and postdocs</li>
-      </ul>
     </div>
-    <div class="hero-art">
-      <div class="hero-emblem">
-        <Image
-          src={neuralIdentity}
-          alt="A flowing lavender and mint brain emblem crossed by a bright neural signal"
-          width={768}
-          height={512}
-          format="webp"
-          quality={85}
-          loading="eager"
-          fetchpriority="high"
-        />
+    <div class="home-feature">
+      <div class="signal-art" aria-hidden="true">
+        <Image src={networkMark} class="hero-logo" width={512} height={512} format="webp" quality={90} alt="" loading="eager" fetchpriority="high" />
       </div>
-      <GreaterBayMap class="hero-map" />
+      <section class="next-event" aria-labelledby="next-event-label">
+        <div class="next-event-copy">
+          <p id="next-event-label" class="home-eyebrow"><span>{nextEvent ? `Next ${nextEvent.data.type}` : 'Seminar series'}</span></p>
+          {nextEvent ? (
+            <>
+              <h2><a href={url(`events/${nextEvent.id}/`)}>{nextEvent.data.title}</a></h2>
+              {nextEvent.data.speaker && <p class="event-speaker">{nextEvent.data.speaker}</p>}
+              <p class="event-details">{formatWhen(nextEvent)}</p>
+              <a class="event-link" href={url(`events/${nextEvent.id}/`)}>View event →</a>
+            </>
+          ) : (
+            <>
+              <h2>The next conversation starts here.</h2>
+              <p class="event-details">{slotLine}. The next speaker will be announced here.</p>
+              <a class="event-link" href={routes.follow}>Follow the seminars →</a>
+            </>
+          )}
+        </div>
+        {nextEvent && (
+          <time class="event-date" datetime={ymd(nextEvent.data.date)} aria-label={formatDate(nextEvent.data.date)}>
+            <strong>{String(nextEvent.data.date.getUTCDate()).padStart(2, '0')}</strong>
+            <span>{formatDate(nextEvent.data.date, { weekday: undefined, day: undefined, year: undefined })}</span>
+          </time>
+        )}
+      </section>
     </div>
   </section>
 
-  {!founding && (
-    <section class="stats" aria-label="Network at a glance">
-      <div class="stat"><div class="n">{members.length}</div><div class="l">{plural(members.length, 'member lab', 'member labs')}</div></div>
-      <div class="stat"><div class="n">{institutions.length}</div><div class="l">{plural(institutions.length, 'institution', 'institutions')}</div></div>
-      <div class="stat"><div class="n">{cities.length}</div><div class="l">{plural(cities.length, 'city', 'cities')}</div></div>
-      <div class="stat"><div class="n">{talksHeld}</div><div class="l">{plural(talksHeld, 'seminar held', 'seminars held')}</div></div>
+  <section class="community-strip" aria-label="Explore the community">
+    <p class="community-audience">For undergraduates,<br />PhD students,<br />postdocs and faculty.</p>
+    <a href={url('labs/')}><strong>Meet the labs <span>↗</span></strong><span>Discover research across the region.</span></a>
+    <a href={url('events/')}><strong>Join the conversation <span>↗</span></strong><span>Bring a question. Meet a new perspective.</span></a>
+    <a href={url('positions/')}><strong>Find opportunities <span>↗</span></strong><span>Explore positions and shared resources.</span></a>
+  </section>
+
+  <div class="home-content">
+    <section class="network-overview" aria-labelledby="across-the-bay">
+      <div class="network-overview-copy">
+        <p class="home-eyebrow">01 / Across the bay</p>
+        <h2 id="across-the-bay">Different labs.<br />A shared conversation.</h2>
+        <p>Our network brings together computational and cognitive neuroscience across the Greater Bay Area, through shared seminars, training and regional collaboration.</p>
+        {network.name_native && <p class="network-native" lang="zh">{network.name_native}</p>}
+        <p class="network-cities">{cityLine}</p>
+        <div class="network-links"><a href={url('join/')}>Join as a lab ↗</a><a href={url('about/')}>About the network →</a><span>No fees · All career stages welcome</span></div>
+      </div>
+      <GreaterBayMap class="network-map" />
     </section>
-  )}
 
-  {!founding && institutions.length > 0 && (
-    <ul class="inline-list" aria-label="Participating institutions">
-      {institutions.map((i) => (
-        <li title={`${i.name} · ${i.count} ${plural(i.count, 'lab', 'labs')}`}>{i.short}</li>
-      ))}
-    </ul>
-  )}
-
-  <div class="home-events">
-    <div class="section-head">
-      <h2>{upcoming.length > 0 ? 'Next event' : 'Seminars'}</h2>
-      <a href={url('events/')}>All events</a>
-    </div>
-    {upcoming.length > 0 ? (
-      <ul class="rows">
-        {upcoming.slice(0, 2).map((e, i) => <EventRow event={e} featured={i === 0} />)}
-      </ul>
-    ) : (
-      <p class="quiet">
-        {!founding
-          ? 'To be announced. '
-          : network.seminar.proposed
-            ? 'The first event will be a roundtable, where each lab introduces itself and the seminar format is agreed. '
-            : 'The first event will be a roundtable, where each lab introduces itself. '}
-        {slotLine}. <a href={routes.follow}>Follow the seminars</a> or{' '}
-        <a href={routes.nominateEmail || forms.nomination}>nominate a speaker</a>.
-      </p>
+    {!founding && (
+      <section class="stats" aria-label="Network at a glance">
+        <div class="stat"><div class="n">{members.length}</div><div class="l">{plural(members.length, 'member lab', 'member labs')}</div></div>
+        <div class="stat"><div class="n">{institutions.length}</div><div class="l">{plural(institutions.length, 'institution', 'institutions')}</div></div>
+        <div class="stat"><div class="n">{cities.length}</div><div class="l">{plural(cities.length, 'city', 'cities')}</div></div>
+        <div class="stat"><div class="n">{talksHeld}</div><div class="l">{plural(talksHeld, 'seminar held', 'seminars held')}</div></div>
+      </section>
     )}
 
-  </div>
+    <section class="home-labs" aria-labelledby="participating-labs">
+      <div class="section-head">
+        <div><p class="home-eyebrow">02 / The community</p><h2 id="participating-labs">Participating labs</h2></div>
+        <a href={url('labs/')}>Explore all labs ↗</a>
+      </div>
+      {showcase.length > 0 ? (
+        <>
+          <div class="lab-grid sample">
+            {showcase.map((lab) => <LabCard lab={lab} compact />)}
+          </div>
+          {/* Shuffle targets its previous sibling: keep it next to the grid. */}
+          <Shuffle />
+        </>
+      ) : (
+        <p class="quiet">The first labs are joining now. <a href={url('join/')}>Be one of them.</a></p>
+      )}
+      {founding && showcase.length > 0 && (
+        <p class="small muted founding-note">Participating labs are in {citySentence}. Every city of the Greater Bay Area is welcome.</p>
+      )}
+    </section>
 
-  <section class="trio" aria-label="Explore the community">
-    <div>
-      <strong><a href={url('labs/')}>Meet the labs</a></strong>
-      <p>Discover researchers, methods and collaborators across the region.</p>
-    </div>
-    <div>
-      <strong><a href={url('events/')}>Join the next conversation</a></strong>
-      <p>Bring a question. Meet a new perspective. Share what you are working on.</p>
-    </div>
-    <div>
-      <strong><a href={url('positions/')}>Find opportunities</a></strong>
-      <p>Explore openings and connect with labs looking for people like you.</p>
-    </div>
-  </section>
+    {upcoming.length > 1 && (
+      <section class="home-more-events" aria-labelledby="more-events">
+        <div class="section-head"><h2 id="more-events">More upcoming events</h2><a href={url('events/')}>All events →</a></div>
+        <ul class="rows">{upcoming.slice(1, 3).map((event) => <EventRow event={event} />)}</ul>
+      </section>
+    )}
 
   {recentSpeakers.length > 0 && (
     <>
@@ -207,25 +211,5 @@ const jsonld = {
     </>
   )}
 
-  <div class="section-head">
-    <h2>Participating labs</h2>
-    <a href={url('labs/')}>All labs</a>
   </div>
-  {showcase.length > 0 ? (
-    <>
-      <div class="lab-grid sample">
-        {showcase.map((lab) => <LabCard lab={lab} compact />)}
-      </div>
-      {/* Shuffles the grid above it, so it has to stay the next sibling. */}
-      <Shuffle />
-    </>
-  ) : (
-    <p class="quiet">The first labs are joining now. <a href={url('join/')}>Be one of them.</a></p>
-  )}
-  {founding && showcase.length > 0 && (
-    <p class="small muted" style="margin-top:1.2rem">
-      Participating labs are in {citySentence}. Every city of the Greater Bay Area is welcome, and the roster
-      grows as labs join.
-    </p>
-  )}
 </Base>

@@ -130,7 +130,7 @@ It is short, and we mean it.
 │   ├── positions/         Openings; expire automatically → /positions/
 │   └── news/              Announcements                  → /news/
 ├── docs/                  Charter, code of conduct, handbooks → /docs/
-├── public/logo.svg        Signal Commons Bay Graph identity
+├── public/logo.png        Cyberpunk neural-machine identity
 ├── public/photos/         PI photos, 400×400 WebP, metadata stripped
 ├── src/                   The Astro site (MIT)
 │   ├── content.config.ts  Schemas: what each data file must contain
@@ -176,8 +176,10 @@ Actions. No server, no database: the pages are generated from the files in
   content; Positions is always there so labs can post openings; the lab filters
   render only once eight labs are listed.
 - **The visual identity.** Signal Commons uses a fixed lavender, violet, lime and coral
-  palette in `src/styles/global.css`. The Bay Graph mark is in
-  `src/components/Mark.astro` and `public/logo.svg`; keep their geometry in sync.
+  palette in `src/styles/global.css`. The cyberpunk neural-machine mark is in
+  `src/assets/brand/network-mark.png`; `src/components/Mark.astro` displays its
+  web-sized copy. The simplified bay illustration is in
+  `src/assets/brand/bay-illustration.png`.
   `npm run build` runs `scripts/blue-hour-brand.mjs` to generate the favicon,
   touch icon and sharing card. The original artwork remains in `brand/` as
   an archive. No fonts or scripts are loaded from external services.
