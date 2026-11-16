@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import BlueHourArt from '../components/BlueHourArt.astro';
+import { Image } from 'astro:assets';
+import neuralGraph from '../assets/brand/neural-graph.png';
+import GreaterBayMap from '../components/GreaterBayMap.astro';
 import LabCard from '../components/LabCard.astro';
 import Shuffle from '../components/Shuffle.astro';
 import EventRow from '../components/EventRow.astro';
@@ -46,6 +48,10 @@ const news = (await getCollection('news', (n) => !n.data.draft))
 
 const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 
+// Keep the name in the network settings as the source of truth. The three
+// visual groups express place, field and community without changing the name.
+const titleParts = network.name.match(/^(Greater Bay Area) (.+) (Network)$/);
+
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -65,7 +71,15 @@ const jsonld = {
     <div class="kicker">{cityLine}</div>
     <div class="hero-copy">
       <h1 class="identity">
-        <span class="fullname">{network.name}</span>
+        <span class="fullname">
+          {titleParts ? (
+            <>
+              <span class="identity-region">{titleParts[1]}</span>{' '}
+              <span class="identity-field">{titleParts[2]}</span>{' '}
+              <span class="identity-community">{titleParts[3]}</span>
+            </>
+          ) : network.name}
+        </span>
         <span class="acronym">{network.acronym}</span>
       </h1>
       <p class="lead">{network.tagline}</p>
@@ -84,7 +98,21 @@ const jsonld = {
         <li>Open to students and postdocs</li>
       </ul>
     </div>
-    <BlueHourArt class="hero-art" />
+    <div class="hero-art">
+      <div class="hero-emblem">
+        <Image
+          src={neuralGraph}
+          alt="A brain-shaped neural network crossed by a signal wave"
+          width={640}
+          height={640}
+          format="webp"
+          quality={85}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <GreaterBayMap class="hero-map" />
+    </div>
   </section>
 
   {!founding && (

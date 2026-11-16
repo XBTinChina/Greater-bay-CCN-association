@@ -412,7 +412,7 @@ main.home-page {
   --line: #67609b;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
   gap: 2rem clamp(1.5rem, 3vw, 3rem);
   align-items: center;
   margin: 0;
@@ -439,6 +439,31 @@ main.home-page {
   line-height: 1.04;
   text-wrap: balance;
   max-width: 23ch;
+}
+.hero .identity-region,
+.hero .identity-field,
+.hero .identity-community {
+  display: block;
+}
+.hero .identity-region {
+  color: var(--mint);
+  font-size: 0.77em;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  margin-bottom: 0.24em;
+}
+.hero .identity-field {
+  color: #ded9ff;
+  font-weight: 800;
+  line-height: 1.07;
+}
+.hero .identity-community {
+  color: var(--peach);
+  font-family: var(--mono);
+  font-size: 0.8em;
+  font-weight: 550;
+  letter-spacing: -0.055em;
+  margin-top: 0.2em;
 }
 .hero .identity .acronym {
   display: block;
@@ -474,13 +499,37 @@ main.home-page {
   margin: 0;
 }
 .hero .hero-art {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 480 / 822;
+  min-width: 0;
+  align-self: center;
+  justify-self: center;
+  overflow: hidden;
+  border: 1px solid #67609b;
+  border-radius: 12px;
+}
+.hero-emblem {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  background: #30286e;
+}
+.hero-emblem img {
   display: block;
   width: 100%;
   height: 100%;
-  min-width: 0;
-  min-height: 430px;
-  align-self: stretch;
-  color: var(--periwinkle);
+  min-height: 0;
+  object-fit: contain;
+}
+.hero .hero-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-top: 1px solid #67609b;
 }
 .hero .actions + .small {
   margin-top: 0.8rem;
@@ -620,7 +669,7 @@ main.home-page {
     gap: 0.5rem 1rem;
   }
   .hero {
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
   .hero .identity .fullname {
@@ -638,10 +687,6 @@ main.home-page {
   .hero .kicker {
     font-size: 0.65rem;
     letter-spacing: 0.025em;
-  }
-  .hero .hero-art {
-    height: 220px;
-    min-height: 0;
   }
 }
 @media (max-width: 560px) {
