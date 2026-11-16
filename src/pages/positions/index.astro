@@ -34,11 +34,11 @@ const cities = [...new Set(open.map((p) => p.data.city))].sort((a, b) => a.local
 const showFilters = open.length >= 3;
 ---
 
-<Base title="Positions" description="PhD, postdoc, research assistant and faculty openings in computational and cognitive neuroscience labs across the Greater Bay Area.">
-  <h1>Positions</h1>
+<Base title="Opportunities" description="PhD, postdoc, research assistant and faculty openings shared by Greater Bay Area member labs and affiliate labs elsewhere.">
+  <h1>Opportunities</h1>
   <p class="lead">
-    Openings in member and affiliate labs: PhD, postdoc, research assistant and faculty. One board for the whole region;
-    listings leave on their deadline.
+    PhD, postdoctoral, research assistant and faculty openings shared by member and affiliate labs.
+    Check each listing's application link for current details and requirements.
   </p>
   <div class="actions" style="margin-top:0.5rem">
     <a class="btn primary" href={forms.position}>Post a position</a>
@@ -47,19 +47,19 @@ const showFilters = open.length >= 3;
     Any member or affiliate lab may post.
     The form needs a free GitHub account
     {network.contact_email ? <>, or <a href={`mailto:${network.contact_email}?subject=${encodeURIComponent('[Position] New opening')}`}>email the listing</a> to the coordinators</> : ''}.
-    A coordinator checks it and it appears within days.
+    A coordinator reviews each submission before it is published.
   </p>
 
   {showFilters && (
     <>
       <form class="filters" id="position-filters" role="search" aria-label="Filter positions" onsubmit="return false">
         <input type="search" id="f-text" aria-label="Search positions" placeholder="Search" autocomplete="off" />
-        <select id="f-rank" aria-label="Rank">
-          <option value="">All ranks</option>
+        <select id="f-rank" aria-label="Position type">
+          <option value="">All position types</option>
           {ranks.map((t) => <option value={t}>{POSITION_TYPE_LABELS[t]}</option>)}
         </select>
-        <select id="f-city" aria-label="Place">
-          <option value="">All places</option>
+        <select id="f-city" aria-label="City">
+          <option value="">All cities</option>
           {cities.map((c) => <option value={c}>{c}</option>)}
         </select>
       </form>
@@ -68,7 +68,7 @@ const showFilters = open.length >= 3;
   )}
 
   {rendered.length === 0 ? (
-    <p class="quiet">No open positions right now. Member labs post theirs here as they open.</p>
+    <p class="quiet">No open positions are listed at the moment. Member and affiliate labs can add new openings here.</p>
   ) : (
     <ul class="rows" id="position-list">
       {rendered.map(({ p, Content }) => (
@@ -83,7 +83,7 @@ const showFilters = open.length >= 3;
         >
           <div class="when">
             <b>{POSITION_TYPE_LABELS[p.data.type]}</b>
-            <span>{p.data.deadline ? `Deadline ${formatDate(p.data.deadline, { weekday: undefined })}` : 'Open until filled'}</span>
+            <span>{p.data.deadline ? `Deadline ${formatDate(p.data.deadline, { weekday: undefined })}` : 'Deadline not specified'}</span>
             <span><br />posted {formatDate(p.data.posted, { weekday: undefined })}</span>
           </div>
           <div>
@@ -108,7 +108,7 @@ const showFilters = open.length >= 3;
   <ExpandCards />
 
   <p class="small muted" style="margin-top:2.5rem">
-    Looking for people rather than a post? Member labs list what they are looking for on the <a href={url('labs/')}>labs page</a>.
+    Interested in a collaboration? Visit the <a href={url('labs/')}>labs page</a> to learn about research interests and collaboration requests.
   </p>
 </Base>
 

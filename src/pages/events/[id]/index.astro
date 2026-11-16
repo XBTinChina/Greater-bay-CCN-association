@@ -82,7 +82,7 @@ const jsonld = {
         {d.location_url ? <a href={d.location_url}>{d.location}</a> : d.location}
         {d.platform && ` · ${d.platform}`}
         {upcoming && !d.location_url && d.location.toLowerCase().includes('online') && (
-          <span class="muted small"> · link on the announcement list</span>
+          <span class="muted small"> · organisers share the meeting link with participants</span>
         )}
       </dd>
       {host && (
@@ -93,7 +93,7 @@ const jsonld = {
       )}
       {d.junior_speaker && (
         <>
-          <dt>Junior talk</dt>
+          <dt>Early-career talk</dt>
           <dd>
             {d.junior_speaker.name}
             {d.junior_speaker.affiliation && `, ${d.junior_speaker.affiliation}`}

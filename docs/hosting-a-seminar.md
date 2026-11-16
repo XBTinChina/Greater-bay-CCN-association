@@ -1,70 +1,68 @@
 ---
 title: Hosting a seminar
-summary: A timeline checklist for the member lab hosting a GBA-CCN Network seminar, from picking the speaker four months out to posting the recording a week after.
+summary: A checklist for host labs, from inviting a speaker to sharing approved recordings and materials.
 audience: coordinators
 order: 40
 ---
 
-Every seminar is hosted by one member lab. The host picks the speaker, invites them, creates the event, announces it, chairs the session and posts the recording. This page is the checklist. Seminars run on the second Friday of each month at 16:00 Hong Kong Time, 45 minutes of talk plus 15 minutes of questions, on Zoom with Tencent Meeting (VooV) as the fallback. An optional 15-minute junior talk can go before the main talk, in which case the session runs 16:00 to 17:15.
+Member labs take turns hosting the seminar series. The host invites the speaker, prepares the event page and announcement, chairs the session and shares any materials the speaker has agreed to publish.
 
-## Rotation and swapping
+The usual slot is the second Friday of the month at 16:00 Hong Kong Time (UTC+8), on Zoom with Tencent Meeting (VooV) as a fallback. The usual format is a 45-minute talk followed by 15 minutes of questions. An optional 15-minute early-career talk by a student or postdoc can open the session, extending it to 17:15. Individual events may use a different date or time; confirm the details with the speaker and coordinators and keep the event page current.
 
-- Coordinators keep the roster of upcoming hosts and publish it at least six months ahead. Check it as soon as your name appears: there are twelve slots a year, the invitation goes out about four months before the talk, so two months' notice is already late.
-- If your date does not work, agree a swap with another lab and tell the coordinators the new order. A swap now moves both labs by a month or more, so raise it as early as you can rather than in the last fortnight. Never leave a slot empty: with twelve slots a year, an empty one is a month with no seminar.
-- One person in your lab owns the seminar end to end. Name them to the coordinators.
+## Rotation and date changes
 
-## T-4 months: pick and invite the speaker
+- Coordinators maintain the host rotation and publish it at least six months ahead. Check your assigned slot early.
+- If your lab cannot host on that date, arrange a swap or discuss a later turn with the coordinators. Confirm changes before offering a date to a speaker.
+- Name one person in the host lab as the main contact for the speaker and coordinators.
 
-Four months, not eight weeks: candidate dates are a month apart, so one refusal and a second invitation can use up the whole of a shorter run-up.
+## About four months before: invite the speaker
 
-- Look at the nomination queue first: open GitHub issues labelled `speaker-nomination` in the repository. You may also propose your own speaker.
-- Invite them with the [invitation letter template](../invitation-letter-template/). Offer the second Friday your lab holds. A second date is the next month's slot and belongs to another lab, so agree the swap with that lab before you offer it.
-- Agree the date, the format (45 + 15) and whether a junior speaker goes first.
-- Send the [speaker kit](../speaker-kit/) once they accept.
+- Check the nomination queue: GitHub issues labelled `speaker-nomination`. You may also suggest a speaker directly.
+- Use the [invitation letter template](../invitation-letter-template/). Offer the agreed slot; discuss any alternative date with the coordinators and affected host lab first.
+- Confirm the date, time, format and whether an early-career talk will open the session.
+- Send the [speaker kit](../speaker-kit/) after the speaker accepts.
 
-## T-4 weeks: materials and the event page
+## About four weeks before: prepare the event page
 
-- Collect the title, abstract, a short bio and a photo.
-- Collect written recording consent (an email is enough). No consent, no recording.
-- Create the event in one of two ways:
-  - Submit the Event issue form (template `event.yml`, title prefix `[Event]`). The intake workflow turns it into a pull request.
-  - Or add `data/events/<YYYY-MM-DD>-<slug>.md` directly by pull request. The fields are documented in the [data model](../data-model/).
-- Do not put the meeting link in the event file. It never goes on the site.
-- Once merged, check the page under [events](../../events/) and the poster at `/events/<id>/poster/`.
-- Run the "Render poster" GitHub Actions workflow (manual, input: the event id) to get the 1080x1350 PNG for WeChat and mailing lists.
+- Collect the title, abstract, short biography and any photo the speaker wishes to provide.
+- Ask for written recording consent; an email is enough. Do not record without consent.
+- Create the event through the Event issue form, or add `data/events/<YYYY-MM-DD>-<slug>.md` by pull request. The [data model](../data-model/) explains the fields.
+- In forms, use a public event or registration page URL. Forms do not accept direct meeting URLs or passcodes. Keep private access details out of public submissions.
+- After the change is merged, check the [event page](../../events/) and the poster at `/events/<id>/poster/`.
+- Run the **Render poster** workflow with the event ID to create a PNG for announcements.
 
-## T-2 weeks: announce
+## About two weeks before: announce
 
-- Post the poster and the announcement text (template in the invitation letter document) in the WeChat group and your departmental lists. Ask the other member labs to forward it.
-- The calendar feed at `/calendar.ics` updates itself when the event is merged and the site rebuilds (on merge and every Monday). Nothing to do there. A Friday seminar stays in the upcoming list over the weekend and moves to past at the Monday rebuild; that is the build schedule, not a fault.
-- Send the meeting link to the announcement list and the WeChat group only.
+- Share the poster and announcement through the newsletter, group chat and departmental lists. The [invitation letter template](../invitation-letter-template/) includes announcement wording.
+- Check that the public event page shows the confirmed date, time, speaker and host. It updates when the site rebuilds after a merged change.
+- Share any private access details directly with attendees. Do not include them in public posts or publicly visible newsletter archives.
 
-## T-1 week: rehearse
+## About one week before: rehearse
 
-- Send a reminder with the poster and the link.
-- If the speaker is new to Zoom, do a ten-minute test call: screen sharing, audio, slides in presenter mode.
-- Set up the Tencent Meeting fallback and keep its link ready.
-- Assign a chair and a separate Q&A monitor. The monitor watches the chat and collects questions.
-- Confirm with the junior speaker, if there is one.
+- Send a reminder through the announcement channels.
+- Arrange a short test with the speaker if needed, including screen sharing and audio.
+- Prepare the Tencent Meeting fallback and keep its link ready.
+- Confirm the chair and a person to monitor the chat and questions.
+- Confirm the early-career talk, if there is one.
 
-## The day
+## On the day
 
-- Open the room 10 minutes early. Let the speaker in first and check their audio and screen.
-- Start recording at 16:00 if consent was given. Say aloud that the session is being recorded.
-- Introduce the network in one sentence. Introduce the speaker in three.
-- Keep time. Warn the speaker at 40 minutes. Stop the junior talk at 15.
-- Collect questions from the chat and from raised hands. Questions may be asked in Cantonese, Mandarin or English; the chair summarises in English if the speaker does not follow.
-- Thank the speaker and give the audience the date of the next seminar, the second Friday of next month. It is a month away and this is the only spoken reminder they get, so check the rota beforehand and name the date and the host lab.
+- Open the room ten minutes early and check the speaker's audio and screen sharing.
+- If recording was agreed, announce it before recording begins.
+- Briefly introduce the network, speaker and session format.
+- Keep to the agreed timings. Give the main speaker a reminder at about 40 minutes and keep any opening talk to 15 minutes.
+- Take questions from raised hands and the chat. Questions may be in English, Cantonese or Mandarin; the chair helps summarise in English when needed.
+- Thank the speaker and announce the next confirmed seminar date and host, if available. Check the event listing rather than assuming it follows the usual slot.
 
-## T+1 week: wrap up
+## Within one week after: follow up
 
-- Upload the recording to both Bilibili and YouTube. Trim the start and the end.
-- Add `recording.bilibili`, `recording.youtube` and `slides_url` to the event file by pull request.
-- Send the speaker a thank-you note with the links.
-- Close the nomination issue with a comment linking the event page.
+- If recording was agreed, trim the start and end and upload it to Bilibili and YouTube.
+- Add the recording links and any slides approved for publication to the event file by pull request.
+- Send the speaker a thank-you note and the published links.
+- If the nomination issue is still open, close it with a link to the event page.
 
-## If things go wrong
+## If plans change
 
-- Speaker no-show. Message and call them at 16:00. If there is a junior talk it runs first as planned. If the main speaker has not appeared by 16:20 (16:10 when there is no junior talk), tell the audience the session is postponed and tell the coordinators within a week. The next slot is a month away and already belongs to another lab, so the replacement date is a rota decision and may be months out.
-- Platform failure. Switch to the Tencent Meeting fallback and post the new link in the chat, the WeChat group and the announcement list. Keep the recording going on the new platform.
-- Disruption. Follow the [code of conduct](../code-of-conduct/): mute the person, remove them from the meeting if it continues, and report the incident to a coordinator or the contact address on the [About](../../about/) page.
+- **Speaker absent:** contact the speaker at the agreed start time. An opening talk may go ahead as planned. If the speaker has not arrived after 20 minutes, or after ten minutes when there is no opening talk, tell attendees that the session is postponed. Inform the coordinators within a week and agree a replacement date with them.
+- **Platform failure:** switch to the prepared fallback and share the new link through the appropriate attendee channels. Record only if consent was given.
+- **Disruption:** follow the [code of conduct](../code-of-conduct/). The host may mute a participant, remove them if disruption continues and report the incident to a coordinator.

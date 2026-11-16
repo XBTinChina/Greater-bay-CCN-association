@@ -10,13 +10,13 @@ One or two lines.
 Every pull request:
 
 - [ ] The site builds (the Build check is green, or `npm run build` passed locally)
-- [ ] No meeting links or passcodes anywhere in the files
+- [ ] No private meeting links, passcodes or other private access details in the files
 - [ ] No large binaries: recordings, slides and datasets are linked, not committed; photos are 400x400 WebP under 100 KB
 
 Lab entries:
 
-- [ ] A real, PI-led lab at an institution in a Greater Bay Area city, or a genuine affiliate elsewhere with `tier: affiliate`
+- [ ] The entry identifies a PI-led lab in a Greater Bay Area city, or an affiliate lab elsewhere with `tier: affiliate`
 - [ ] Consent ticked in the source issue (or given in writing by the PI for a hand-edited entry)
 - [ ] If a photo was given, it is a head-and-shoulders photo of the PI, not a logo, group photo or stock image
-- [ ] 1 to 8 sensible keywords
+- [ ] 1 to 8 keywords describing the lab's research
 - [ ] A plain description: no marketing language, rankings or superlatives

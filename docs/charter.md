@@ -1,92 +1,94 @@
 ---
 title: Charter
-summary: What the network is, who belongs to it, how it is run, and how this document changes.
+summary: The network's purpose, membership, coordination and proposed rules.
 audience: public
 order: 10
 ---
 
-This is the founding document of the network: what it is, who belongs to it, who coordinates it, how the seminars run, and how the document is amended. It is a draft until the founding labs ratify it; see the note at the end. The seminar slot in section 6 is the exception: the coordinators settled it in September 2026, so it does not wait on ratification.
+This draft describes the network's purpose, membership, coordination and seminar arrangements. It remains subject to ratification by the founding labs. The coordinators have already agreed the usual seminar slot described in section 6.
 
 ## 1. Name
 
 - Full name: Greater Bay Area Computational and Cognitive Neuroscience Network.
 - Short name: GBA-CCN Network. Acronym: GBA-CCN.
-- Chinese name, for posters and institutional paperwork only: 粤港澳大湾区计算与认知神经科学网络.
+- Chinese name: 粤港澳大湾区计算神经科学与认知神经科学网络.
 
-English is the default working language, so that researchers across institutions can take part in the same events. Names may be listed in Chinese and English. Teaching material may be contributed in either language when clearly labelled.
+English is the default working language for shared events. Names in other scripts are welcome alongside Latin-script names. Learning resources may be shared in any language when clearly labelled.
 
 ## 2. Purpose
 
-- Pool the audience that no single department has, so that any member lab can invite a speaker on behalf of a network of labs across the participating institutions rather than on behalf of one department.
+- Connect researchers across institutions and provide a shared audience for invited speakers.
 - Run a joint seminar series with rotating hosts.
-- Keep a public, curated roster of participating labs.
-- Index tutorials and teaching material, and list open positions.
-- Host summer schools and other multi-day events when ready.
+- Maintain a public list of participating labs.
+- Share links to teaching resources and open positions.
+- Develop summer schools and other activities as the network grows.
 
-## 3. What the network is and is not
+## 3. Organisation
 
-The network is an agreement among labs. It is not a legal entity, a registered society or a 学会. It has no membership fee, no president and no board, and owns nothing except the files in its public repository. Registering a society in Hong Kong or an association on the mainland carries legal duties the group does not want yet.
+The network is a voluntary collaboration among labs. It is not a separate legal entity or registered society. There is no membership fee, president or board.
 
-Formalisation clause. If the network ever needs a legal form, the decision is taken openly: proposed as a pull request against this charter, open for comment for at least 30 days, agreed by consensus of the coordinators and a majority of member labs, and recorded in the amendment log. Nobody may register an entity in the network's name without this.
+Any proposal to establish a legal entity in the network's name must be submitted as a pull request against this charter, remain open for comment for at least 30 days, receive the coordinators' consensus and approval from a majority of member labs, and be recorded in the amendment log. No one may register an entity in the network's name without completing this process.
 
 ## 4. Membership
 
-The unit of membership is the lab: a group led by a principal investigator at a university, institute or hospital. Individuals do not join. Students and postdocs take part as audience through the calendar feed and the announcement list; there is nothing to apply for.
+Membership is organised by lab: a group led by a principal investigator at a university, institute or hospital. Individuals at all career stages are welcome to attend events and subscribe to the newsletter without lab membership or an application.
 
-- Member lab: a PI-led group at an institution in a Greater Bay Area city: Hong Kong, Shenzhen, Guangzhou, Macau, Zhuhai, Foshan, Dongguan, Huizhou, Zhongshan, Jiangmen or Zhaoqing.
-- Affiliate lab: a PI-led group elsewhere, for example in Beijing, Shanghai or abroad, that takes part regularly. Affiliates are listed with a badge.
+- **Member lab:** a PI-led group at an institution in Hong Kong, Shenzhen, Guangzhou, Macau, Zhuhai, Foshan, Dongguan, Huizhou, Zhongshan, Jiangmen or Zhaoqing.
+- **Affiliate lab:** a PI-led group outside the Greater Bay Area that takes part regularly. Affiliate status is shown in its listing.
 
-"Computational and cognitive neuroscience" is read broadly: computational modelling of brain and behaviour; systems and cognitive neuroscience using computational methods; neuroAI and brain-inspired computing; and neural data science.
+The network welcomes work on computational models of brain and behaviour, systems and cognitive neuroscience, neuroAI, brain-inspired computing and neural data science.
 
-Membership is light but not passive. A member lab is expected to take part in network activities and to take its turn in the seminar rotation, because the network has no staff and no budget: what it does, member labs do. There are twelve seminars a year, so a roster of more than twelve labs leaves some of them without a turn in a given calendar year; a year with no turn is the ordinary working of the rotation rather than a lapse. There is no minimum attendance requirement, and a quiet year is not by itself grounds for removal, though the annual confirmation of an entry still has to be answered; a lab leaves the roster only as section 8 describes, or under the [code of conduct](../code-of-conduct/).
+Member labs are expected to take part in activities and take turns hosting seminars. With a monthly series, a lab may host less than once a year when more than twelve labs take part. There is no minimum attendance requirement, and a quiet year alone is not grounds for removal. Labs should respond to the annual request to confirm their entry. Removal follows section 8 or the [code of conduct](../code-of-conduct/).
 
-No lab is expected to share unpublished data, research ideas, funding or other confidential material with the network or with another member lab. What the network asks for is time and attention. The [member lab guidelines](../member-guidelines/) set out what taking part looks like in practice.
+Labs are not expected to share unpublished data, research ideas, funding or confidential information. The [member lab guidelines](../member-guidelines/) explain how labs can take part.
 
-Labs apply through the "[Lab]" issue form, linked from the [join page](../../join/). Intake is automatic; approval is human. A coordinator reviews every application, and nothing appears on the site until the pull request is merged, because the roster is only a credential if it is curated. The entry lists the PI, lab name, institution and city, keywords, links and, with permission, a photo that is displayed on the network's channels only.
+The [Join page](../../join/) explains how to submit a lab entry. A coordinator reviews each submission before publication. Listings include the PI, institution and city, research topics, links and any optional information the lab chooses to provide. Photos are displayed only with permission.
 
 ## 5. Coordinators
 
-The network is run by three to seven coordinators, one per participating institution where possible.
+The proposed coordinator group has three to seven members, with one per participating institution where possible.
 
-- Term: two years, staggered so that roughly half change each year; consecutive terms are allowed.
-- Selection: nominated by member labs, confirmed by consensus of the sitting coordinators; if consensus fails, by a simple majority of member labs.
-- Responsibilities: review submissions; keep the seminar calendar and host rotation; hold the speaker nomination queue; maintain the site and repository; answer the contact address on the About page.
-- Decisions: by consensus, with a simple majority of coordinators as fallback, recorded in the repository.
-- Repository ownership: at least two coordinators hold owner rights at all times, so no single person can lock the network out of its own files.
+- **Term:** two years, staggered so that roughly half change each year. Consecutive terms are allowed.
+- **Selection:** member labs nominate coordinators. The sitting coordinators confirm nominations by consensus; if consensus is not reached, a simple majority of member labs decides.
+- **Responsibilities:** review submissions, maintain the seminar schedule and host rotation, manage speaker nominations, maintain the website and repository, and respond to enquiries.
+- **Decisions:** by consensus, with a simple majority of coordinators as fallback. Decisions are recorded in the repository.
+- **Repository ownership:** at least two coordinators hold owner rights so that access does not depend on one person.
 
-Until the founding labs confirm the first coordinators, interim conveners share the work: Xiangbin Teng (滕相斌) of The Chinese University of Hong Kong maintains the site and repository, Qihong Lu (吕其鸿) of City University of Hong Kong convenes the seminars, and Jixing Li (李吉星) of The Hong Kong Polytechnic University handles membership. That is three institutions, which meets the minimum above. The current list and how to reach each of them are on the About page.
+Until the founding labs confirm the first coordinator group, interim conveners share the work: Xiangbin Teng (滕相斌) of The Chinese University of Hong Kong maintains the website and repository; Qihong Lu (吕其鸿) of City University of Hong Kong convenes the seminars; and Jixing Li (李吉星) of The Hong Kong Polytechnic University handles membership. Current roles and contact details are on the [About page](../../about/).
 
 ## 6. Seminar series
 
-- Slot: the second Friday of every month, 16:00 to 17:00 Hong Kong Time (UTC+8), on Zoom, with Tencent Meeting (VooV) as fallback. The coordinators settled this slot in September 2026, so it is the one part of this charter that does not wait on ratification. The first seminar on it is Friday 13 November 2026; a founding roundtable opens the series a month earlier, on Friday 16 October 2026, off the regular slot.
-- Rotating hosts: each seminar is hosted by one member lab in turn. There are twelve seminars a year and more member labs than there are slots, so a turn comes round rather less often than once a year and some labs have no turn in a given calendar year. The host invites the speaker, chairs, and circulates the meeting link to the announcement list; links are never published on the site.
-- Swaps and deferrals: a lab may exchange its slot with another lab, or ask the coordinators to move it to a later round. A swap moves a lab by a month; a deferral to a later round moves it by a full turn of the rotation, which is a year or more. A lab that swaps tells the coordinators the new order, because they keep the calendar and the rotation. A slot is never left empty without telling them, because an empty slot is a month with no seminar at all.
-- Junior slot: the host may open with a 15-minute talk by a student or postdoc, which extends that session to 17:15. The hour above is the session without one.
-- Speaker nominations: anyone may nominate through the "[Speaker]" issue form. The queue is read by the coordinators and never published on the site. Nominations are GitHub issues in a public repository, so they should say only what the nominee could read.
-- Recording: only with the speaker's written consent, given before the talk; recordings go to both Bilibili and YouTube.
-- Honorarium: none by default. A host institution may fund travel for an in-person visit.
+- **Usual slot:** the second Friday of each month, 16:00–17:00 Hong Kong Time (UTC+8), on Zoom with Tencent Meeting (VooV) as a fallback. Individual events may use a different date or time. The confirmed event page and invitation provide the details.
+- **Rotating hosts:** member labs take turns inviting a speaker, chairing the session and sharing the announcement. Event pages provide public joining or registration details; hosts share any private access details directly with attendees.
+- **Date changes:** a lab may agree a swap with another host or ask the coordinators for a later turn. All changes must be confirmed with the coordinators. A later turn may be a year or more away, depending on the rotation.
+- **Early-career talk:** a session may begin with a 15-minute talk by a student or postdoc. For a 16:00 start, the extended session ends at 17:15.
+- **Speaker nominations:** anyone may suggest a speaker. GitHub nominations are public issues, although they are not listed on the website. Avoid private or sensitive information in public nominations.
+- **Recording:** only with the speaker's written consent before the session. Approved recordings are posted on Bilibili and YouTube.
+- **Honorarium:** none by default. A host institution may fund travel for an in-person visit.
 
 ## 7. Other activities
 
-- Learning index: the [resources page](../../resources/) is an index, not a file host. Tutorials stay where their authors host them. Larger material produced by the network, such as summer school recordings, goes in a separate materials repository using GitHub Releases, connected to Zenodo so each edition receives a DOI.
-- Positions: member and affiliate labs may list open positions; listings are removed when their closing date passes.
-- Events: everything with a date is an event, whether seminar, workshop, summer school, hackathon or journal club. The [code of conduct](../code-of-conduct/) applies to every one of them; coordinators will review it with member labs and add what an in-person event needs before the network's first multi-day event.
+- **Learning resources:** the [resources page](../../resources/) links to materials where their authors host them. The proposed approach for larger network materials, such as summer school recordings, is a separate materials repository with GitHub Releases and Zenodo records.
+- **Positions:** member and affiliate labs may list openings. Listings are removed after their expiry date, or their application deadline when no separate expiry is given.
+- **Events:** the network may list seminars, workshops, summer schools, hackathons and journal clubs. The [code of conduct](../code-of-conduct/) applies to all of them. Coordinators and member labs will review the arrangements needed for in-person and multi-day events before organising them.
 
-## 8. Delisting and annual refresh
+## 8. Removal and annual refresh
 
-A lab is removed when its PI asks or leaves the region; in the second case affiliate status is offered. Each year the coordinators ask every listed lab to confirm its entry. Entries unconfirmed after two reminders are removed at the next refresh.
+A lab is removed when its PI requests it or leaves the region; in the latter case, affiliate status is offered. Each year, coordinators ask listed labs to confirm their entries. Entries still unconfirmed after two reminders are removed at the next refresh.
 
 ## 9. Data, consent and openness
 
-Everything the network publishes is a file in a public repository, and every change is a pull request anyone can read. Data is hosted on GitHub, outside mainland China. Labs publish their entries voluntarily, through a consent box on the form. Text content is CC BY 4.0; code is MIT; photographs are displayed with permission and are not licensed for reuse. What is collected, how photos are processed and how a lab withdraws are described in [Privacy and consent](../privacy-and-consent/), which reads Hong Kong PDPO and mainland PIPL in plain terms. Neither that document nor this one is legal advice.
+Website content and its change history are held in a public GitHub repository. Labs submit their entries voluntarily with consent to publication. Text content is licensed under CC BY 4.0 and code under MIT. Photographs are displayed with permission and are not licensed for reuse.
+
+[Privacy and consent](../privacy-and-consent/) explains what is collected, where it is stored and how to request a correction or removal. Private meeting access details and subscriber lists are not published in the repository.
 
 ## 10. Amendments
 
-Anyone may propose an amendment as a pull request against this file. It stays open for comment for at least 14 days, announced on the list, and is merged on the coordinators' consensus, with a simple majority as fallback. Typo and link fixes skip the comment period.
+Anyone may propose an amendment through a pull request. Proposed amendments remain open for comment for at least 14 days and are announced to the network. Coordinators decide by consensus, with a simple majority as fallback. Typo and link fixes do not require the comment period.
 
 ---
 
-Draft for ratification by the founding labs, apart from the seminar slot in section 6, which the coordinators settled in September 2026. Adopted: not yet.
+Draft awaiting ratification by the founding labs. The usual seminar slot has already been agreed by the coordinators. The charter has not yet been adopted.
 
 ### Amendment log
 

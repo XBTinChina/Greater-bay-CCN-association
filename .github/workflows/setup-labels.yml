@@ -28,7 +28,7 @@ jobs:
           create "intake:event" 2a9aa6 "Event submission"
           create "intake:tutorial" 3aa9b4 "Tutorial submission"
           create "intake:position" 4bb8c2 "Position submission"
-          create speaker-nomination 7057ff "Proposed speaker, coordinators only"
+          create speaker-nomination 7057ff "Public speaker suggestion for coordinator review"
           create needs-changes e4b429 "The submission needs a fix; edit the issue"
           create weekly-digest bfdadc "Automated weekly digest"
           create automation ededed "Opened by a workflow"

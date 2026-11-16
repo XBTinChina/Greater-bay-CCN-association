@@ -1,11 +1,13 @@
 ---
 title: Data model
-summary: Every field the site accepts in data/ and docs/, what the build checks, and how files refer to each other.
+summary: Fields accepted by the website, validation rules and references between data files.
 audience: public
 order: 70
 ---
 
-Everything on this site is a file in the public repository: labs, events, tutorials, positions and news in `data/`, one file per entry; documents in `docs/`; network settings in `data/network.yml`. At build time every file is checked against a schema in `src/content.config.ts` (settings against `src/lib/network.ts`) using the vocabularies in `src/lib/taxonomy.ts`. This page lists exactly what those schemas enforce. Most people should use the forms on the [Join page](../../join/) instead. How submissions are reviewed and merged is in the [operations handbook](../operations/).
+Website content is stored as files in the public repository: labs, events, tutorials, positions and news in `data/`; documents in `docs/`; and network settings in `data/network.yml`. Each entry has its own file. The build validates entries against `src/content.config.ts` and settings against `src/lib/network.ts`, using the vocabularies in `src/lib/taxonomy.ts`.
+
+This reference is for contributors editing files directly. The [Join page](../../join/) links to submission forms, and the [operations handbook](../operations/) explains review and publication. Forms may apply additional checks, including restrictions on direct meeting URLs and passcodes.
 
 ## Conventions used below
 
@@ -14,7 +16,7 @@ Everything on this site is a file in the public repository: labs, events, tutori
 - Date means YYYY-MM-DD, unquoted.
 - Time means 24-hour HH:MM in Hong Kong Time, quoted ("16:00"), because unquoted YAML may read it as a number.
 - Quote titles that contain a colon.
-- Every collection has `draft` (yes/no, default false). See Drafts and examples.
+- Every collection has `draft` (boolean: `true` or `false`, default `false`). See Drafts and examples.
 - `.md` files carry YAML frontmatter between two `---` lines, then a Markdown body.
 
 ## Labs
@@ -41,7 +43,7 @@ Location: `data/labs/<pi-name>.yml`. Member labs must be in a Greater Bay Area c
 | keywords | list of text | Yes | 1 to 8 items, none empty |
 | description | text | No | At most 700 characters |
 | looking_for | text | No | At most 300 characters |
-| joined | date | Yes | Approval date |
+| joined | date | Yes | Entry date; form submissions use the issue creation date |
 
 Minimal complete example:
 
@@ -56,7 +58,7 @@ joined: 2026-09-03
 
 ## Events
 
-Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.md`. The body is the abstract, optionally followed by a short biography. Use `location_url` for a venue link the organizer has requested to make public.
+Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.md`. The body is the abstract, optionally followed by a short biography. Use the confirmed date and time for the event, even when it differs from the usual monthly slot. Use `location_url` for a venue link intended for public use. Keep private access details out of these public files; forms reject direct meeting URLs and passcodes.
 
 | Field | Type | Required | Notes |
 | --- | --- | --- | --- |
@@ -71,7 +73,7 @@ Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.m
 | speaker_affiliation | text | No | |
 | speaker_url | URL | No | |
 | speaker_photo | file name | No | Portrait in public/photos/; same filename rules as lab photos |
-| junior_speaker | object | No | Sub-fields: name (required), affiliation, title |
+| junior_speaker | object | No | Optional early-career talk; sub-fields: name (required), affiliation, title |
 | host_lab | text | No | Id of a file in data/labs/ |
 | host_institution | text | No | Fallback when host_lab is absent |
 | location | text | No, default Online | Or a room and campus |
@@ -81,7 +83,7 @@ Location: `data/events/YYYY-MM-DD-slug.md`; the id is the whole name without `.m
 | recording | object | No | Optional URL sub-fields: bilibili, youtube, other |
 | slides_url | URL | No | |
 | materials_url | URL | No | |
-| poster | yes/no | No, default yes | Set false to omit the poster page and link |
+| poster | boolean | No, default `true` | Set `false` to omit the poster page and link |
 
 Minimal complete example:
 
@@ -208,25 +210,31 @@ Location: `data/network.yml`, one file edited by coordinators and parsed once at
 | short_name | text | Yes | |
 | acronym | text | Yes | |
 | name_native | text | No | |
+| stage | founding or active | No, default founding | Controls founding-stage wording and homepage statistics |
 | tagline | text | Yes | |
+| tagline_native | text | No | |
+| pitch | text | No | Short description of how the network works |
 | mission | text | Yes | |
-| status_banner | text | No | Banner on every page; plain HTML allowed |
+| status_banner | text | No | Optional notice; plain HTML allowed; omitted on pages that hide the banner |
 | founded | whole number | Yes | Year |
 | contact_email | email or empty | No, default empty | Empty falls back to GitHub issues |
+| mailing_list_url | URL or empty | No, default empty | Optional newsletter subscription page |
 | repo_url | URL | Yes | Builds the issue-form links |
-| seminar | object | Yes | Sub-fields: slot and platform (required), fallback_platform, recording_note |
-| coordinators | list of people | No, default empty | Each person: name, institution, role (required), name_native, url (a URL) |
+| seminar | object | Yes | Required: slot, platform. Optional: proposed (yes/no, default false), fallback_platform, recording_note |
+| coordinators | list of people | No, default empty | Required: name, institution, role (at most 30 characters). Optional: name_native, role_detail, url, email |
 | host_institutions | list of text | No, default empty | |
 
 A minimal file has name, short_name, acronym, tagline, mission, founded, repo_url and a seminar block with slot and platform.
 
 ## Drafts and examples
 
-An entry with `draft: true` is validated like any other but never published, not even in the calendar feed or on a poster. Each data folder holds an example draft such as `data/labs/example-lab.yml`. To add an entry by hand, copy the example, rename it, fill it in and delete the `draft: true` line. Leave the examples in place.
+An entry with `draft: true` is validated like any other but never published on the site or on a poster. The labs, events, tutorials and positions folders hold example drafts such as `data/labs/example-lab.yml`. To add an entry by hand, copy the example, rename it, fill it in and delete the `draft: true` line. Leave the examples in place.
 
 ## How validation works
 
-The build checks every file against its schema. If one field fails, the build stops, the pull request check turns red and nothing is published. The error names the collection and entry, then the field path and a message; for an unquoted time it reads roughly: events, 2027-02-12-example-seminar, data does not match collection schema; start: Use 24-hour HH:MM, quoted, e.g. "16:00". A member lab outside the region fails on city with the allowed cities listed; a bad URL or email is reported as invalid; a missing required field as required. Fix the named field and push again. A mistake in `data/network.yml` stops the build the same way. Unknown fields are ignored. Defaults apply only when a field is absent, not when it is left empty.
+The build checks each file against its schema. If validation fails, the build stops and that version is not published. The error identifies the collection, entry and field to correct. For example, an invalid start time prompts: `Use 24-hour HH:MM, quoted, e.g. "16:00"`.
+
+Correct the named field and submit the change again. Network settings are validated in the same way. Unknown fields are ignored. Defaults apply when a field is absent, not when it is present but empty.
 
 ## Photos
 
@@ -238,6 +246,6 @@ A lab photo is a square head-and-shoulders image at `public/photos/<lab-id>.webp
 
 ## Dates, times and the weekly rebuild
 
-All times are Hong Kong Time (UTC+8, no daylight saving). An event ends at `end` on its last day. A single-day event with a `start` but no `end` ends one hour after it starts; otherwise, with no `end`, it ends at the end of its last day. It counts as upcoming until then. A position is listed until one day after `expires`, or after `deadline` if there is no expiry; with neither it stays until removed.
+All times are Hong Kong Time (UTC+8, no daylight saving). An event ends at `end` on its last day. An event with a `start` but no `end` or `end_date` ends one hour after it starts; otherwise, with no `end`, it ends at the end of its last day. It counts as upcoming until then. A position is listed until one day after `expires`, or after `deadline` if there is no expiry; with neither it stays until removed.
 
-These lists are computed at build time. The site is rebuilt on every merge and every Monday, so an event can stay under upcoming, or a position remain visible, for up to a week. Nothing needs fixing; the calendar feed and the [events](../../events/) and [positions](../../positions/) pages update together at the next build.
+These lists are computed at build time. The site rebuilds after merged changes and every Monday. An event may therefore remain under upcoming, or an expired position may remain visible, until the next build. The [events](../../events/) and [positions](../../positions/) pages refresh together.

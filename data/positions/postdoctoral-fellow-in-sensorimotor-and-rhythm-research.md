@@ -13,9 +13,9 @@ deadline: 2026-12-31
 expires: 2027-06-01
 ---
 
-The [SMRT Lab](https://labsmrt.github.io/), in the Department of Psychology at The Chinese University of Hong Kong, is seeking a Postdoctoral Fellow to investigate sensorimotor coordination and the perception and production of rhythm, while developing AI-assisted workflows for scientific research.
+The [SMRT Lab](https://xbtinchina.github.io/SMRTLab-everything/), in the Department of Psychology at The Chinese University of Hong Kong, is seeking a Postdoctoral Fellow to investigate sensorimotor coordination and the perception and production of rhythm, while developing AI-assisted workflows for scientific research.
 
-Our research asks how the brain detects temporal patterns, anticipates upcoming events, and coordinates perception and action, particularly in speech and music. We combine behavioural experiments, neuroscience methods, and computational modelling to understand these processes. Learn more about our [research directions](https://labsmrt.github.io/research/).
+Our research asks how the brain detects temporal patterns, anticipates upcoming events, and coordinates perception and action, particularly in speech and music. We combine behavioural experiments, neuroscience methods, and computational modelling to understand these processes. Learn more on our [lab website](https://xbtinchina.github.io/SMRTLab-everything/).
 
 This position brings together experimental and computational research with the practical development of AI-assisted research tools.
 

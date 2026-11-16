@@ -162,7 +162,7 @@ function buildLab(v, ctx) {
   // issue, which is public, and does not need a second public copy.
   if (v.pi_email) {
     warnings.push(
-      'Submitted by somebody other than the PI, who gave an address for confirmation in the issue. Write to the PI and wait for a reply before merging: the consent boxes are worded in the first person, so only the PI can tick them.',
+      'Submitted by somebody other than the PI. Confirm the PI’s agreement directly before merging.',
     );
   }
   const city = v.city === OTHER_CITY ? v.city_other : v.city;
@@ -462,7 +462,7 @@ export async function runIntake({ eventPath, outRoot = REPO_ROOT }) {
   const labels = (issue.labels ?? []).map((l) => (typeof l === 'string' ? l : l?.name)).filter(Boolean);
   const type = detectType(labels, issue.title);
   if (!type) return { type: null, files: [], message: 'This issue is not a form submission (no intake label or known title prefix); nothing to do.' };
-  if (type === 'nomination') return { type, files: [], message: 'Speaker nominations stay with the coordinators; no data file is created.' };
+  if (type === 'nomination') return { type, files: [], message: 'Speaker nominations are reviewed as public issues; no data file is created.' };
 
   const problems = [];
   const warnings = [];

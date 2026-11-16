@@ -9,7 +9,7 @@ export function url(path = ''): string {
   return `${base}/${path.replace(/^\/+/, '')}`;
 }
 
-/** Absolute URL, for calendar feeds, posters and social cards. */
+/** Absolute URL, for event metadata, posters and social cards. */
 export function absolute(path = ''): string {
   const site = import.meta.env.SITE || 'http://localhost:4321';
   return new URL(url(path), site).href;
