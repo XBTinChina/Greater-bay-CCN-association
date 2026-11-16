@@ -65,6 +65,10 @@ Nominations are GitHub issues in the network's repository. They are not publishe
 
 The site sets no cookies, runs no analytics and loads no fonts or scripts from third parties. GitHub, as host, keeps its own server logs under its privacy statement; the network does not see them.
 
+## Newsletter subscriptions
+
+Subscribing to [GBA-CCN Network Updates](https://buttondown.com/gba-ccn) is optional and does not require a GitHub account or lab membership. The signup link takes you to Buttondown, which manages subscriptions and sends the newsletter on the network's behalf. Your email address is provided directly to Buttondown and is not added to this public repository. We use the list for seminar announcements, research opportunities and network news. You can unsubscribe using the link in any newsletter email. Buttondown's own privacy policy applies to its handling of subscriber information.
+
 ## Contact
 
 Questions go to the contact address on the [About page](../../about/), or open an issue in the repository. This page changes by pull request, so its history is open to anyone.

@@ -74,8 +74,11 @@ const jsonld = {
       {network.tagline_native && <p class="native" lang="zh">{network.tagline_native}</p>}
       <div class="actions">
         <a class="btn primary" href={url('join/')}>Join as a lab</a>
-        <a class="btn" href={routes.follow}>Follow the seminars</a>
+        <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Subscribe to updates' : 'Follow the seminars'}</a>
       </div>
+      {network.mailing_list_url && (
+        <p class="small muted">Optional email updates on seminars, opportunities and network news. No GitHub account needed.</p>
+      )}
       <ul class="inline-list commitments" aria-label="Terms of membership">
         <li>No fees</li>
         <li>Membership by lab</li>
