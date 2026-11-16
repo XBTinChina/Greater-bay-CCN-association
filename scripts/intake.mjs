@@ -462,7 +462,7 @@ export async function runIntake({ eventPath, outRoot = REPO_ROOT }) {
   const labels = (issue.labels ?? []).map((l) => (typeof l === 'string' ? l : l?.name)).filter(Boolean);
   const type = detectType(labels, issue.title);
   if (!type) return { type: null, files: [], message: 'This issue is not a form submission (no intake label or known title prefix); nothing to do.' };
-  if (type === 'nomination') return { type, files: [], message: 'Speaker nominations are reviewed as public issues; no website data file is created.' };
+  if (type === 'nomination') return { type, files: [], message: 'Speaker nominations are reviewed as public issues; no data file is created.' };
 
   const problems = [];
   const warnings = [];
