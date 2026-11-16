@@ -369,6 +369,7 @@ summary:focus-visible {
 }
 @media (max-width: 380px) {
   .site-header .container { padding-left: 1.1rem; padding-right: 1.1rem; }
+  .site-nav { column-gap: 0.5rem; }
   .brand { font-size: 1.35rem; gap: 0.6rem; }
   .brand-name { padding-left: 0.6rem; }
   .brand .brand-mark { width: 32px; height: 32px; }
