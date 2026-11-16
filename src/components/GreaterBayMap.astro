@@ -1,23 +1,22 @@
 ---
-import { Image } from 'astro:assets';
-import bayIllustration from '../assets/brand/bay-illustration.png';
+import { url } from '../lib/url';
 
 interface Props {
   class?: string;
 }
 const { class: cls } = Astro.props;
-// Show the full illustration without cropping, with a link to the larger image.
+const mapUrl = url('greater-bay-area.svg');
+// Scalable, geographically grounded overview covering all eleven GBA cities.
 ---
 
-<a class={cls} href={bayIllustration.src} aria-label="View the full Greater Bay Area illustration">
-  <Image
-    src={bayIllustration}
-    width={512}
-    height={384}
-    format="webp"
-    quality={90}
-    alt="Stylised Pearl River Delta illustration showing Guangzhou, Shenzhen, Hong Kong, Zhuhai and Macau around the bay"
+<a class={cls} href={mapUrl} aria-label="View the full map of all eleven Greater Bay Area cities">
+  <img
+    src={mapUrl}
+    width={960}
+    height={820}
+    alt="Greater Bay Area map showing Guangzhou, Shenzhen, Hong Kong, Macau, Zhuhai, Foshan, Dongguan, Huizhou, Zhongshan, Jiangmen and Zhaoqing"
     loading="lazy"
+    decoding="async"
   />
   <span class="bay-caption">
     <span>Greater Bay Area</span>
