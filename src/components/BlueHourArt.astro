@@ -1,0 +1,27 @@
+---
+// Decorative, static contour field inspired by the approved Blue Hour concept.
+// Inline SVG stays crisp, works offline and introduces no animation or requests.
+interface Props {
+  class?: string;
+}
+const { class: cls } = Astro.props;
+const contours = Array.from({ length: 14 }, (_, i) => {
+  const x = 38 + i * 39;
+  return `M${x} -30 C${x - 155} 130 ${x - 80} 190 ${x + 95} 262 S${x + 145} 425 ${x - 24} 540 S${x - 140} 680 ${x - 105} 790`;
+});
+---
+
+<svg class={cls} viewBox="0 0 640 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <path d="M115 0H640V760H0C12 633 47 574 156 497S301 342 162 270 15 156 115 0Z" fill="#8583f5" />
+  <g fill="none" stroke="#30286e" stroke-width="1.6" opacity="0.65">
+    {contours.map((d) => <path d={d} />)}
+  </g>
+  <g fill="none" stroke-width="3.5" stroke-linecap="round">
+    <path d="M254 -30C99 130 174 190 349 262S399 425 230 540 114 680 149 790" stroke="#bdf4c9" />
+    <path d="M410 -30C255 130 330 190 505 262S555 425 386 540 270 680 305 790" stroke="#ffc4ad" />
+    <path d="M98 -30C-57 130 18 190 193 262S243 425 74 540-42 680-7 790" stroke="#ffc4ad" />
+  </g>
+  <circle cx="349" cy="262" r="12" fill="#bdf4c9" />
+  <circle cx="386" cy="540" r="12" fill="#ffc4ad" />
+  <circle cx="74" cy="540" r="12" fill="#bdf4c9" />
+</svg>

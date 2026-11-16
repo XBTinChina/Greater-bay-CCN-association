@@ -1,5 +1,5 @@
 ---
-// The mark: three spikes on the viridis scale. Used in the header and the poster.
+// Bay Graph: a sparse network around an open bay. One colour at every size.
 interface Props {
   size?: number;
   class?: string;
@@ -7,11 +7,13 @@ interface Props {
 const { size = 26, class: cls } = Astro.props;
 ---
 
-<svg class={cls} viewBox="0 0 32 32" width={size} height={size} aria-hidden="true" focusable="false">
-  <rect width="32" height="32" rx="7" fill="currentColor" />
-  <g stroke-width="3" stroke-linecap="round">
-    <line x1="9.5" y1="21" x2="9.5" y2="13" stroke="#5b3a8c" />
-    <line x1="16" y1="24" x2="16" y2="8" stroke="#21918c" />
-    <line x1="22.5" y1="21" x2="22.5" y2="15.5" stroke="#9ad83b" />
+<svg class={cls} viewBox="0 0 64 64" width={size} height={size} aria-hidden="true" focusable="false">
+  <path d="M51 15 29 7 10 27 16 49 43 55M10 27 51 15" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" />
+  <g fill="currentColor">
+    <circle cx="51" cy="15" r="5.5" />
+    <circle cx="29" cy="7" r="5.5" />
+    <circle cx="10" cy="27" r="5.5" />
+    <circle cx="16" cy="49" r="5.5" />
+    <circle cx="43" cy="55" r="5.5" />
   </g>
 </svg>

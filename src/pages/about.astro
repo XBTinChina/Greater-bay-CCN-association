@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import { network, forms, routes, founding, slotLine } from '../lib/network';
 import { url } from '../lib/url';
 import { publishedLabs, institutionsOf } from '../lib/labs';
-import { brand, hasBrand } from '../lib/brand';
+import Mark from '../components/Mark.astro';
 
 const labs = await publishedLabs();
 const institutions = institutionsOf(labs.filter((l) => l.data.tier === 'member'));
@@ -13,9 +13,7 @@ const institutions = institutionsOf(labs.filter((l) => l.data.tier === 'member')
 // list of distinct values, not a hash of its text, so two institutions can
 // never land on the same colour while there are six or fewer of them. Same
 // institution, same hue: that is the one thing colour says here that the words
-// do not. Roles start half a palette along, so the cool end of viridis reads
-// as where someone is and the warm end as what they do; with three of each
-// the two codings cannot be confused for one another.
+// do not. Roles start half a palette along to distinguish affiliation and role.
 const HUES = 6;
 const distinct = (key: 'institution' | 'role') => [...new Set(network.coordinators.map((c) => c[key]))];
 const affs = distinct('institution');
@@ -30,14 +28,14 @@ const docs = (await getCollection('docs', (d) => !d.data.draft && d.data.audienc
 
 <Base title="About" description={network.mission}>
   <h1>About</h1>
-  {hasBrand ? (
-    <picture>
-      {brand.lockupLight && <source srcset={brand.lockupLight} media="(prefers-color-scheme: dark)" />}
-      <img class="lockup" src={brand.lockup} alt={`${network.acronym} logo: ${network.name}`} />
-    </picture>
-  ) : (
-    network.name_native && <p class="muted" lang="zh" style="margin-top:-0.3rem">{network.name_native}</p>
-  )}
+  <div class="about-identity">
+    <Mark size={64} />
+    <div>
+      <strong>{network.acronym}</strong>
+      <p>{network.name}</p>
+      {network.name_native && <p lang="zh">{network.name_native}</p>}
+    </div>
+  </div>
   <div class="prose">
     <p class="lead">{network.mission}</p>
     <p>
