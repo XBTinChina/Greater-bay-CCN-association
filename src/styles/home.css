@@ -161,6 +161,7 @@ main.home-page {
 .community-strip {
   display: grid;
   grid-template-columns: 0.9fr 1fr 1.15fr 1fr;
+  margin-top: 1rem;
 }
 .community-strip > * {
   min-width: 0;
@@ -187,7 +188,7 @@ main.home-page {
   --tile-arrow: var(--mint);
 }
 .community-strip > :nth-child(3) {
-  --tile-background: var(--mint);
+  --tile-background: #57d5f3;
   --tile-ink: var(--indigo);
   --tile-arrow: var(--indigo);
 }
