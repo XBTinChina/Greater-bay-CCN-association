@@ -877,13 +877,18 @@ main.home-page {
      its toggle. At two the column is nearer 440px and most entries fit. */
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-/* The home page strip is compact cards, a name and three keywords, so it keeps
-   filling the width rather than leaving half of it empty. */
+/* Six featured labs form a balanced three-by-two grid on wide screens. */
 .lab-grid.sample {
-  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 900px) {
+  .lab-grid.sample {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 620px) {
-  .lab-grid {
+  .lab-grid,
+  .lab-grid.sample {
     grid-template-columns: 1fr;
   }
 }
