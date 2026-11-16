@@ -130,7 +130,7 @@ It is short, and we mean it.
 │   ├── positions/         Openings; expire automatically → /positions/
 │   └── news/              Announcements                  → /news/
 ├── docs/                  Charter, code of conduct, handbooks → /docs/
-├── brand/logo.png         The logo; scripts/brand.mjs derives the rest
+├── public/logo.svg        Blue Hour Bay Graph identity
 ├── public/photos/         PI photos, 400×400 WebP, metadata stripped
 ├── src/                   The Astro site (MIT)
 │   ├── content.config.ts  Schemas: what each data file must contain
@@ -175,10 +175,12 @@ Actions. No server, no database: the pages are generated from the files in
   series would. The Resources page appears in the navigation only when it has
   content; Positions is always there so labs can post openings; the lab filters
   render only once eight labs are listed.
-- **The logo.** Replace `brand/logo.png` (dark artwork on white) and run
-  `node scripts/brand.mjs`. It writes the header mark and its dark-mode variant,
-  the lockup on the About page, the favicons and the sharing image; the pages
-  pick them up at the next build.
+- **The visual identity.** Blue Hour uses a fixed indigo, periwinkle and mint
+  palette in `src/styles/global.css`. The Bay Graph mark is in
+  `src/components/Mark.astro` and `public/logo.svg`; keep their geometry in sync.
+  `npm run build` runs `scripts/blue-hour-brand.mjs` to generate the favicon,
+  touch icon and sharing card. The original artwork remains in `brand/` as
+  an archive. No fonts or scripts are loaded from external services.
 - **Ordinary routes alongside GitHub.** Set `contact_email` and, if you run one,
   `mailing_list_url`, and the site offers pre-filled email for joining,
   following and nominating, with the GitHub forms as the open alternative.

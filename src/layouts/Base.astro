@@ -4,7 +4,6 @@ import '../styles/global.css';
 import Mark from '../components/Mark.astro';
 import { network, forms, routes } from '../lib/network';
 import { url, absolute } from '../lib/url';
-import { brand, hasBrand } from '../lib/brand';
 
 interface Props {
   title?: string;
@@ -13,11 +12,13 @@ interface Props {
   noindex?: boolean;
   /** The home page carries the message itself, so it hides the notice line. */
   hideBanner?: boolean;
+  /** Enables the homepage's Blue Hour composition without changing its copy. */
+  home?: boolean;
   /** Structured data (schema.org) for this page. */
   jsonld?: Record<string, unknown>;
 }
 
-const { title, description = network.tagline, noindex = false, hideBanner = false, jsonld } = Astro.props;
+const { title, description = network.tagline, noindex = false, hideBanner = false, home = false, jsonld } = Astro.props;
 const fullTitle = title ? `${title} · ${network.short_name}` : network.name;
 
 // Resources (training material) appears in the navigation once there is
@@ -52,14 +53,9 @@ const ogImage = absolute('og.png');
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
-    {hasBrand ? (
-      <>
-        <link rel="icon" href={url('favicon.png')} type="image/png" sizes="64x64" />
-        <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
-      </>
-    ) : (
-      <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
-    )}
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={url('favicon.png')} type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <link rel="alternate" type="text/calendar" title={`${network.short_name} events`} href={url('calendar.ics')} />
     <link rel="alternate" type="application/rss+xml" title={`${network.short_name} news and events`} href={url('feed.xml')} />
     <link rel="sitemap" href={url('sitemap-index.xml')} />
@@ -76,7 +72,7 @@ const ogImage = absolute('og.png');
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="theme-color" content="#15171c" />
+    <meta name="theme-color" content="#30286e" />
     {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
   </head>
   <body>
@@ -85,14 +81,7 @@ const ogImage = absolute('og.png');
     <header class="site-header">
       <div class="container">
         <a class="brand" href={url('')}>
-          {hasBrand ? (
-            <picture>
-              {brand.markLight && <source srcset={brand.markLight} media="(prefers-color-scheme: dark)" />}
-              <img src={brand.mark} alt="" width="42" height="42" class="brand-mark" />
-            </picture>
-          ) : (
-            <Mark />
-          )}
+          <Mark size={44} />
           <span>{network.short_name}</span>
         </a>
         <nav class="site-nav" aria-label="Main">
@@ -113,7 +102,7 @@ const ogImage = absolute('og.png');
         <div class="container" set:html={banner} />
       </div>
     )}
-    <main id="main" class="container">
+    <main id="main" class:list={['container', { 'home-page': home }]}>
       <slot />
     </main>
     <footer class="site-footer">

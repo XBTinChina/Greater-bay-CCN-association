@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import Raster from '../components/Raster.astro';
+import BlueHourArt from '../components/BlueHourArt.astro';
 import LabCard from '../components/LabCard.astro';
 import Shuffle from '../components/Shuffle.astro';
 import EventRow from '../components/EventRow.astro';
@@ -10,7 +10,6 @@ import { url, absolute } from '../lib/url';
 import { publishedLabs, institutionsOf, citiesOf } from '../lib/labs';
 import { GBA_CITIES } from '../lib/taxonomy';
 import { publishedEvents, isUpcoming, byDateAsc, byDateDesc, formatDate, speakerLine } from '../lib/events';
-import { brand, hasBrand } from '../lib/brand';
 
 const labs = await publishedLabs();
 const members = labs.filter((l) => l.data.tier === 'member');
@@ -61,10 +60,10 @@ const jsonld = {
 };
 ---
 
-<Base hideBanner jsonld={jsonld}>
+<Base hideBanner home jsonld={jsonld}>
   <section class="hero">
     <div class="kicker">{cityLine}</div>
-    <div>
+    <div class="hero-copy">
       <h1 class="identity">
         <span class="fullname">{network.name}</span>
         <span class="acronym">{network.acronym}</span>
@@ -85,14 +84,7 @@ const jsonld = {
         <li>Open to students and postdocs</li>
       </ul>
     </div>
-    {hasBrand ? (
-      <picture class="hero-logo">
-        {brand.markLight && <source srcset={brand.markLight} media="(prefers-color-scheme: dark)" />}
-        <img src={brand.mark} alt="" width="512" height="512" />
-      </picture>
-    ) : (
-      <Raster class="raster" />
-    )}
+    <BlueHourArt class="hero-art" />
   </section>
 
   {!founding && (
@@ -112,6 +104,29 @@ const jsonld = {
     </ul>
   )}
 
+  <div class="home-events">
+    <div class="section-head">
+      <h2>{upcoming.length > 0 ? 'Next event' : 'Seminars'}</h2>
+      <a href={url('events/')}>All events</a>
+    </div>
+    {upcoming.length > 0 ? (
+      <ul class="rows">
+        {upcoming.slice(0, 2).map((e, i) => <EventRow event={e} featured={i === 0} />)}
+      </ul>
+    ) : (
+      <p class="quiet">
+        {!founding
+          ? 'To be announced. '
+          : network.seminar.proposed
+            ? 'The first event will be a roundtable, where each lab introduces itself and the seminar format is agreed. '
+            : 'The first event will be a roundtable, where each lab introduces itself. '}
+        {slotLine}. <a href={routes.follow}>Follow the seminars</a> or{' '}
+        <a href={routes.nominateEmail || forms.nomination}>nominate a speaker</a>.
+      </p>
+    )}
+
+  </div>
+
   <section class="trio" aria-label="What member labs get">
     <div>
       <strong>A wider audience</strong>
@@ -126,26 +141,6 @@ const jsonld = {
       <p>Circulate tutorials, summer schools, positions, datasets and practical know-how across institutions.</p>
     </div>
   </section>
-
-  <div class="section-head">
-    <h2>{upcoming.length > 0 ? 'Next event' : 'Seminars'}</h2>
-    <a href={url('events/')}>All events</a>
-  </div>
-  {upcoming.length > 0 ? (
-    <ul class="rows">
-      {upcoming.slice(0, 2).map((e, i) => <EventRow event={e} featured={i === 0} />)}
-    </ul>
-  ) : (
-    <p class="quiet">
-      {!founding
-        ? 'To be announced. '
-        : network.seminar.proposed
-          ? 'The first event will be a roundtable, where each lab introduces itself and the seminar format is agreed. '
-          : 'The first event will be a roundtable, where each lab introduces itself. '}
-      {slotLine}. <a href={routes.follow}>Follow the seminars</a> or{' '}
-      <a href={routes.nominateEmail || forms.nomination}>nominate a speaker</a>.
-    </p>
-  )}
 
   {recentSpeakers.length > 0 && (
     <>
