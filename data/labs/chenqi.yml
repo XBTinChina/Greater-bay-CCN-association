@@ -1,0 +1,17 @@
+# Created from issue #59 by the intake workflow. Edit this file by pull request.
+
+pi: Chenqi
+pi_native: 陈琦
+lab: Chenqi Lab
+institution: Shenzhen University
+department: School of Psychology
+city: Shenzhen
+tier: member
+website: https://github.com/SchoolPsyShenzhenU/ChenLab_shenzhenUniversity
+email: meining@szu.edu.cn
+github: https://github.com/SchoolPsyShenzhenU/ChenLab_shenzhenUniversity
+keywords:
+  - cognitive flexibility
+  - metacognition
+description: nan
+joined: 2026-11-17
