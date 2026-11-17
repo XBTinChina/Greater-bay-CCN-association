@@ -71,7 +71,7 @@ const jsonld = {
 <Base hideBanner home jsonld={jsonld}>
   <section class="home-hero" aria-labelledby="network-title">
     <div class="home-intro">
-      <p class="home-eyebrow">A community across the Greater Bay Area</p>
+      <p class="home-eyebrow">A Greater Bay Area network, open to the world</p>
       <h1 id="network-title" class="network-title">
         {titleParts ? (
           <>
@@ -82,7 +82,7 @@ const jsonld = {
         ) : network.name}
       </h1>
       <p class="home-slogan">Brains. Models. <em>People.</em></p>
-      <p class="home-description">We connect labs studying brains, behaviour and computation. Meet researchers across the region, share ideas and join the next conversation.</p>
+      <p class="home-description"><strong>We welcome researchers from the Greater Bay Area and around the world.</strong> Labs outside the region can <a href={url('join/')}>join as affiliates</a>.</p>
       <div class="actions">
         <a class="btn primary" href={url('events/')}>Explore seminars ↗</a>
         <a class="btn" href={routes.follow} aria-describedby={network.mailing_list_url ? 'newsletter-description' : undefined}>{network.mailing_list_url ? 'Subscribe to newsletter' : 'Follow the seminars'}</a>
@@ -133,7 +133,7 @@ const jsonld = {
       <div class="network-overview-copy">
         <p class="home-eyebrow">01 / Across the bay</p>
         <h2 id="across-the-bay">Different labs.<br />A shared conversation.</h2>
-        <p class="network-description">Our network connects labs across the Greater Bay Area that study brains, behaviour and intelligent systems. We bring together computational modelling, experimental neuroscience, psychology and machine intelligence so researchers can share methods and learn from one another.</p>
+        <p class="network-description">Our network connects labs in the Greater Bay Area and beyond that study brains, behaviour and intelligent systems. We bring together computational modelling, experimental neuroscience, psychology and machine intelligence so researchers can share methods and learn from one another.</p>
         <p class="network-description">Through seminars and shared learning resources, we help people meet colleagues beyond their own lab. Students, research staff, postdocs and faculty are welcome, whether you are new to the field or have worked in it for many years. Join a seminar, ask a question, share an approach or explore a collaboration.</p>
         {network.name_native && <p class="network-native" lang="zh">{network.name_native}</p>}
         <p class="network-cities">{cityLine}</p>
@@ -172,7 +172,7 @@ const jsonld = {
         <p class="quiet">No labs are listed yet. <a href={url('join/')}>Add your lab.</a></p>
       )}
       {founding && cities.length > 0 && (
-        <p class="small muted founding-note">Member labs are in {citySentence}. Labs from every city of the Greater Bay Area are welcome.</p>
+        <p class="small muted founding-note">Member labs are in {citySentence}. Affiliate labs from around the world are welcome.</p>
       )}
     </section>
 
