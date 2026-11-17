@@ -7,7 +7,7 @@ lab: jixing-li
 pi: Jixing Li
 institution: The Hong Kong Polytechnic University
 city: Hong Kong
-contact_email: jixingli@cityu.edu.hk
+contact_email: jixing.us@gmail.com
 posted: 2026-09-17
 deadline: 2027-04-01
 expires: 2027-06-01
