@@ -156,12 +156,13 @@ const normOption = (label) => collapse(plainLabel(label)).toLowerCase();
 function checkedFlags(field, tickedLabels, problems) {
   const label = plainLabel(field.label);
   const ticked = new Set(Array.from(tickedLabels, normOption));
+  const isChecked = (option) => [option.label, ...(option.aliases ?? [])].some((label) => ticked.has(normOption(label)));
   for (const option of field.options) {
-    if (option.required && !ticked.has(normOption(option.label))) {
+    if (option.required && !isChecked(option)) {
       problems.push(`Tick the box "${plainLabel(option.label)}" under "${label}".`);
     }
   }
-  return field.options.map((option) => ticked.has(normOption(option.label)));
+  return field.options.map(isChecked);
 }
 
 /** Every kind except checkboxes, from one raw string. */

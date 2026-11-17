@@ -98,17 +98,17 @@ end: "17:00"
 The abstract goes here.
 ```
 
-## Tutorials
+## Resources
 
-Location: `data/tutorials/<slug>.yml`. An index entry; the material stays where its authors host it.
+Location: `data/tutorials/<slug>.yml`. This existing path stores all resource types: datasets, courses, videos, paper collections, tools and other learning or reference materials. Each entry links to the original source; the material stays with its authors or maintainers.
 
 | Field | Type | Required | Notes |
 | --- | --- | --- | --- |
 | title | text | Yes | |
-| authors | list of text | Yes | At least one, none empty |
+| authors | list of text | Yes | Authors, data providers, maintainers or curators; at least one, none empty |
 | lab | text | No | Id of a file in data/labs/ |
-| format | notebook, slides, video, course, book, software, dataset or other | No, default other | |
-| level | introductory, intermediate or advanced | No, default introductory | |
+| format | notebook, slides, video, course, book, software, dataset, paper-collection or other | No, default other | |
+| level | introductory, intermediate, advanced or not-applicable | No, default not-applicable | Use not-applicable when a teaching level does not fit; it is hidden on the page |
 | language | English, Chinese, Bilingual or Other | No, default English | |
 | url | URL | Yes | |
 | doi | text | No | Not checked |

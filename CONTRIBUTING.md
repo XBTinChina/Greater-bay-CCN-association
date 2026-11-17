@@ -17,7 +17,7 @@ with other submissions, ask a colleague or a coordinator listed on the About pag
 |---|---|
 | List my lab | [GitHub form or email template](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) |
 | Announce a seminar, workshop or summer school | [Event](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=event.yml) |
-| Add a tutorial or course to the learning index | [Tutorial](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
+| Share a dataset, course, video, paper collection or other resource | [Resource](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
 | Post a research or teaching position | [Position](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml) |
 | Suggest a speaker | [Speaker nomination](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
 

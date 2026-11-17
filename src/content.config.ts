@@ -123,7 +123,7 @@ const tutorials = defineCollection({
     authors: z.array(z.string().min(1)).min(1),
     lab: z.string().optional(),
     format: z.enum(TUTORIAL_FORMATS).default('other'),
-    level: z.enum(LEVELS).default('introductory'),
+    level: z.enum(LEVELS).default('not-applicable'),
     language: z.enum(MATERIAL_LANGUAGES).default('English'),
     url: httpUrl,
     doi: z.string().optional(),

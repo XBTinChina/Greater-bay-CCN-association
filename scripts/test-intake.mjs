@@ -114,6 +114,7 @@ await test('detectType prefers labels and falls back to the title prefix', () =>
   assert.equal(detectType(['intake', 'intake:lab'], 'anything'), 'lab');
   assert.equal(detectType(['intake:event'], '[Lab] wrong prefix'), 'event');
   assert.equal(detectType([], '  [tutorial] lower case'), 'tutorial');
+  assert.equal(detectType([], '  [Resource] A public dataset'), 'tutorial');
   assert.equal(detectType([], '[Position] RA'), 'position');
   assert.equal(detectType(['speaker-nomination'], ''), 'nomination');
   assert.equal(detectType([], '[Speaker] Someone'), 'nomination');
@@ -773,6 +774,49 @@ await test('tutorial fixture produces a YAML entry with a bare DOI', async () =>
   assert.deepEqual(data.topics, ['decision making', 'Bayesian inference', 'Python']);
   assert.equal(String(data.added), '2026-09-03');
   generated.push(...r.summary.files);
+});
+
+await test('resource submissions accept public paper collections and datasets without a teaching level', async () => {
+  for (const format of ['paper-collection', 'dataset']) {
+    const values = {
+      ...SAMPLES.tutorial,
+      title: `Public ${format} fixture`,
+      authors: 'Example collection curators',
+      format,
+      level: '',
+      doi: '',
+      consent: requiredBoxes('tutorial', 'consent'),
+    };
+    const payload = await loadFixture('tutorial', (p) => {
+      p.issue.title = `[Resource] ${values.title}`;
+      p.issue.labels = []; // Exercise title-based intake as well as the new form values.
+      p.issue.body = renderBody(FORMS.tutorial, values);
+      return p;
+    });
+    const eventFile = await writeEvent(`resource-${format}`, payload);
+    const result = runIntake(eventFile);
+    assert.equal(result.status, 0, result.stderr);
+    const data = parseYaml(await readGenerated(result.summary.files[0]));
+    assert.equal(data.format, format);
+    assert.equal(data.level, 'not-applicable');
+    assert.deepEqual(data.authors, ['Example collection curators']);
+    generated.push(...result.summary.files);
+  }
+});
+
+await test('resource confirmation remains required for current and legacy forms', () => {
+  for (const consent of [[], ['Some unrelated checked line']]) {
+    const problems = [];
+    readValues(FORMS.tutorial, { ...SAMPLES.tutorial, consent }, problems);
+    assert.ok(problems.some((p) => p.includes('Tick the box')));
+  }
+  const legacyProblems = [];
+  const legacyValues = readValues(FORMS.tutorial, {
+    ...SAMPLES.tutorial,
+    consent: ["The material is openly accessible at the link and I am an author or have the authors' permission"],
+  }, legacyProblems);
+  assert.deepEqual(legacyProblems, []);
+  assert.deepEqual(legacyValues.consent, [true]);
 });
 
 await test('position fixture produces Markdown with frontmatter and body', async () => {
