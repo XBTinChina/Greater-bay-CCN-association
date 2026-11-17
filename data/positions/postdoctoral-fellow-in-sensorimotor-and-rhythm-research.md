@@ -3,6 +3,8 @@
 
 title: Postdoctoral Fellow in Sensorimotor and Rhythm Research with AI-Assisted Automation
 type: postdoc
+# Position filled; withdrawn from public listings on 2026-11-17.
+draft: true
 lab: xiangbin-teng
 pi: Xiangbin Teng
 institution: The Chinese University of Hong Kong
