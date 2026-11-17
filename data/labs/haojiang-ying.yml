@@ -1,0 +1,25 @@
+# Created from issue #61 by the intake workflow. Edit this file by pull request.
+
+pi: Haojiang Ying
+pi_native: 应浩江
+lab: Ying's Lab for Computational Vision
+institution: Soochow University
+city: Suzhou
+tier: affiliate
+website: https://web.suda.edu.cn/hjying/
+email: hjying@suda.edu.cn
+scholar: https://scholar.google.com/citations?user=SrOF0WoAAAAJ
+orcid: https://orcid.org/0000-0002-6371-6650
+keywords:
+  - Face Perception
+  - Computational Vision
+  - DCNN
+  - ComputerVision
+  - Neural Networks
+description: >-
+  Dr Haojiang Ying’s research interests range from (1) high-level vision (face perception), (2) the
+  statistical properties of vision processing as an information processing system, and (3)
+  computational vision, as a formal system, using psychophysical methods, computational modeling,
+  information theory, computability theory, and artificial neural networks.
+looking_for: collaborators on computational vision
+joined: 2026-11-17
