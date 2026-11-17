@@ -4,7 +4,6 @@ import LabCard from '../../components/LabCard.astro';
 import Shuffle from '../../components/Shuffle.astro';
 import ExpandCards from '../../components/ExpandCards.astro';
 import { url } from '../../lib/url';
-import { forms } from '../../lib/network';
 import { publishedLabs, institutionsOf, citiesOf } from '../../lib/labs';
 
 const labs = await publishedLabs();
@@ -52,7 +51,7 @@ const cities = citiesOf(labs);
       <ExpandCards />
     </>
   ) : (
-    <p class="quiet">No labs listed yet. <a href={forms.lab}>Submit the first one.</a></p>
+    <p class="quiet">No labs listed yet. <a href={url('join/')}>Submit the first one.</a></p>
   )}
   <p class="quiet" id="no-results" hidden>No labs match these filters.</p>
 </Base>

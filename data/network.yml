@@ -35,8 +35,8 @@ status_banner: >-
 
 founded: 2026
 
-# Role address for joining, nominations and the announcement list. When set,
-# the site offers email as the first route and GitHub as the open alternative.
+# General contact for nominations and the announcement list. Lab applications
+# go to the Membership coordinator below, falling back to this address.
 contact_email: ""
 
 # One-step subscription page for the announcement list, when one exists.
@@ -85,8 +85,9 @@ coordinators:
     institution: The Hong Kong Polytechnic University
     role: Membership
     role_detail: Lab applications, entries and the roster
-    # A CityU address while the lab moves to PolyU, which is where she is
-    # listed. Ask her to confirm which address to publish once the move is done.
+    # Her lab's published contact as checked on 17 November 2026:
+    # https://compneurolinglab.github.io/people.html
+    # Replace when her new PolyU address is confirmed.
     email: jixingli@cityu.edu.hk
 
 # Universities that formally co-host the seminar series. Add as agreed. There

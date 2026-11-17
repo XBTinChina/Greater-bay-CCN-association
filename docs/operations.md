@@ -5,7 +5,7 @@ audience: coordinators
 order: 60
 ---
 
-This handbook is for coordinators who maintain the website. Lab, event, resource and position forms create public GitHub issues. Automation prepares a pull request for each valid submission; a coordinator reviews and merges it before it appears on the website. Speaker nominations stay as issues for discussion. See the [data model](../data-model/) for field definitions and [hosting a seminar](../hosting-a-seminar/) for the event checklist.
+This handbook is for coordinators who maintain the website. GitHub lab, event, resource and position forms create public issues. Automation prepares a pull request for each valid submission; a coordinator reviews and merges it before it appears on the website. Labs can also apply by email, as described below. Speaker nominations stay as issues for discussion. See the [data model](../data-model/) for field definitions and [hosting a seminar](../hosting-a-seminar/) for the event checklist.
 
 ## The repository in brief
 
@@ -27,20 +27,26 @@ The labs, events, tutorials and positions folders include example entries marked
 
 Pull requests opened by the workflow do not trigger the **Build check** (GitHub does not run checks on bot-created pull requests). That is why the intake workflow runs the validation build itself before opening the pull request.
 
-People without a GitHub account can ask a colleague or a coordinator listed on the [About page](../../about/) for help with a submission.
+## Lab applications by email
+
+The [Join page](../../join/) offers a GitHub form and an email template as two ways to apply. The email option does not need a GitHub account. It prepares a draft for the applicant to check and send in their email app, with an option to copy the completed email. The website does not send or store the completed template.
+
+Email applications go to the coordinator whose role is `Membership` in `data/network.yml`, currently Jixing Li. This address is separate from the general `contact_email`. The membership coordinator confirms the submitter's authority and the PI's publication consent, prepares the agreed listing fields in a pull request, and follows the review checklist below. Keep private correspondence and contact addresses out of the repository unless the applicant explicitly agrees to publish them. Process any supplied photo to the same 400 by 400 pixel WebP format as a GitHub submission and remove its metadata before publication.
+
+For other submissions, people without a GitHub account can ask a colleague or a coordinator listed on the [About page](../../about/) for help.
 
 ## Reviewing a lab submission
 
 Open the pull request and read the file. Check that:
 
 - The lab is led by a principal investigator at an institution in the Greater Bay Area, or is applying as an affiliate from elsewhere. Check the affiliation and the stated connection to the network using a lab or institutional page.
-- The consent box was ticked in the issue.
+- The GitHub consent box was ticked, or written consent was included in the email application. Confirm authority to submit, consent to publish the listing text under CC BY 4.0, permission to display any supplied photo without licensing it for reuse, and confirmation that the applicant has read the privacy page.
 - If someone submitted on the PI's behalf, confirm the PI's agreement before merging. The PI can confirm on the issue or contact a coordinator directly. Do not require a private email address to be posted in a public issue.
 - If a photo was given, it is a head-and-shoulders picture of the PI, not a logo, a group photo or a stock image. A photo is optional; the roster shows initials otherwise.
 - Keywords describe the research clearly. The form accepts up to eight; ask the submitter to shorten or clarify the list if needed.
 - The description explains the research in plain terms. Remove unsupported promotional claims, while preserving the lab's scientific meaning. Explain proposed wording changes to the submitter.
 
-If all of that holds, merge. When in doubt, ask a second coordinator on the pull request. If changes are needed, ask the submitter to edit the issue rather than rewriting the entry silently.
+If all of that holds, merge. When in doubt, ask a second coordinator on the pull request. If changes are needed, ask the submitter through the same channel they used to apply: an issue reply or email. Agree changes with them rather than rewriting the entry silently.
 
 ## Reviewing events, tutorials and positions
 
