@@ -1,0 +1,150 @@
+---
+import { labEmailFields, labEmailConfirmations } from '../lib/lab-application.mjs';
+import { url } from '../lib/url';
+
+interface Props {
+  name: string;
+  email: string;
+  subject: string;
+  templateHref: string;
+}
+
+const { name, email, subject, templateHref } = Astro.props;
+---
+
+<details id="email-form" class="email-form-panel">
+  <summary>Fill in the email form</summary>
+  <div class="email-form-content">
+    <p>
+      Complete the fields below, then prepare an email to <strong>{name}</strong>, our membership coordinator,
+      at <a href={`mailto:${email}`}>{email}</a>. Check the draft and send it from your email app.
+    </p>
+    <p class="small muted">Fields marked * are required. This website does not send or store your application.</p>
+    <noscript>
+      <p>To apply without JavaScript, <a href={templateHref}>open the email template</a>, fill it in and send it to {email}.</p>
+    </noscript>
+    <form id="lab-email-form" data-recipient={email} data-subject={subject} hidden>
+      <div class="email-fields">
+        {labEmailFields.map((field) => (
+          <div class:list={['email-field', { wide: field.type === 'textarea' }]}>
+            <label for={`lab-email-${field.name}`}>
+              {field.label}{field.required ? ' *' : ' (optional)'}
+            </label>
+            {field.type === 'textarea' ? (
+              <textarea id={`lab-email-${field.name}`} name={field.name} required={field.required} maxlength={field.maxLength} rows={3} aria-describedby={field.help ? `lab-email-${field.name}-help` : undefined}></textarea>
+            ) : field.type === 'select' ? (
+              <select id={`lab-email-${field.name}`} name={field.name} required>
+                <option value="">Choose an option</option>
+                <option value="Member lab (Greater Bay Area)">Member lab — in the Greater Bay Area</option>
+                <option value="Affiliate lab (outside the Greater Bay Area)">Affiliate lab — outside the Greater Bay Area</option>
+              </select>
+            ) : (
+              <input id={`lab-email-${field.name}`} name={field.name} type={field.type || 'text'} required={field.required} aria-describedby={field.help ? `lab-email-${field.name}-help` : undefined} />
+            )}
+            {field.help && <p class="field-help" id={`lab-email-${field.name}-help`}>{field.help}</p>}
+          </div>
+        ))}
+      </div>
+      <p class="small">A photo is optional. Attach it to the email after preparing your draft.</p>
+      <fieldset class="email-confirmations">
+        <legend>Confirm before sending</legend>
+        <p class="small"><a href={url('docs/privacy-and-consent/')} target="_blank" rel="noopener">Read the privacy and consent statement (opens in a new tab)</a>.</p>
+        {labEmailConfirmations.map(({ name, label }) => (
+          <label class="confirmation"><input type="checkbox" name={name} value="yes" required /> <span>{label}</span></label>
+        ))}
+      </fieldset>
+      <div class="actions">
+        <button class="btn primary" type="submit">Prepare email to {name}</button>
+        <button class="btn" type="button" id="copy-lab-email">Copy completed email</button>
+      </div>
+      <p id="lab-email-status" class="small" role="status" aria-live="polite"></p>
+      <div id="lab-email-preview" hidden>
+        <label for="lab-email-draft">Your email draft</label>
+        <p class="small muted">If your email app does not open, copy this text into a new email to {email}.</p>
+        <textarea id="lab-email-draft" readonly rows={12} spellcheck="false"></textarea>
+      </div>
+    </form>
+  </div>
+</details>
+
+<script>
+  import { labApplicationBody, labApplicationMailto, labApplicationErrors } from '../lib/lab-application.mjs';
+
+  const panel = document.querySelector<HTMLDetailsElement>('#email-form');
+  const form = document.querySelector<HTMLFormElement>('#lab-email-form');
+  const status = document.querySelector<HTMLElement>('#lab-email-status');
+  const preview = document.querySelector<HTMLElement>('#lab-email-preview');
+  const draft = document.querySelector<HTMLTextAreaElement>('#lab-email-draft');
+  const copy = document.querySelector<HTMLButtonElement>('#copy-lab-email');
+
+  if (panel && form && status && preview && draft && copy) {
+    form.hidden = false;
+    const openPanel = () => { if (location.hash === '#email-form') panel.open = true; };
+    openPanel();
+    window.addEventListener('hashchange', openPanel);
+    document.querySelectorAll<HTMLAnchorElement>('a[href="#email-form"]').forEach((link) => {
+      link.addEventListener('click', () => { panel.open = true; });
+    });
+    const validate = () => {
+      const values = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      const errors = labApplicationErrors(values);
+      form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]').forEach((field) => {
+        field.setCustomValidity(errors[field.name] || '');
+      });
+      return values;
+    };
+    form.addEventListener('input', validate);
+    form.addEventListener('change', validate);
+
+    const prepare = () => {
+      const values = validate();
+      if (!form.reportValidity()) return null;
+      const body = labApplicationBody(values);
+      const recipient = form.dataset.recipient!;
+      const subject = form.dataset.subject!;
+      draft.value = `To: ${recipient}\nSubject: ${subject}\n\n${body}`;
+      preview.hidden = false;
+      return labApplicationMailto(recipient, subject, body);
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const href = prepare();
+      if (!href) return;
+      status.textContent = 'Your draft is ready. Check it and send it in your email app. If no app opens, copy the draft below.';
+      window.location.href = href;
+    });
+    copy.addEventListener('click', async () => {
+      if (!prepare()) return;
+      try {
+        await navigator.clipboard.writeText(draft.value);
+        status.textContent = 'Copied. Paste the draft into your email app, check it and send it.';
+      } catch {
+        draft.focus();
+        draft.select();
+        status.textContent = 'Select and copy the draft below, then paste it into your email app.';
+      }
+    });
+  }
+</script>
+
+<style>
+  .email-form-panel { margin: 1.25rem 0 2.5rem; border: 1px solid var(--line); border-radius: var(--radius); scroll-margin-top: 1rem; }
+  summary { padding: 1.1rem 1.4rem; font-size: 1.2rem; font-weight: 750; cursor: pointer; }
+  .email-form-content { padding: 0 1.4rem 1.4rem; }
+  .email-form-content > p { max-width: 78ch; }
+  .email-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+  .email-field { min-width: 0; }
+  .wide { grid-column: 1 / -1; }
+  label, legend { font-weight: 650; }
+  input:not([type="checkbox"]), textarea, select { display: block; width: 100%; margin-top: .35rem; padding: .75rem; border: 1px solid var(--muted); border-radius: 4px; background: #fffaff; color: var(--ink); font: inherit; }
+  textarea { resize: vertical; }
+  textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .field-help { margin: .3rem 0 0; color: var(--muted); font-size: .85rem; }
+  .email-confirmations { margin: 1.25rem 0; padding: 1rem 1.25rem; border: 1px solid var(--line); min-width: 0; }
+  .confirmation { display: flex; align-items: flex-start; gap: .65rem; margin-top: .75rem; font-weight: 400; }
+  .confirmation input { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; margin-top: .25rem; accent-color: var(--accent); }
+  #lab-email-preview { margin-top: 1.25rem; }
+  #lab-email-draft { font-family: var(--mono); font-size: .85rem; }
+  @media (max-width: 640px) { .email-fields { grid-template-columns: minmax(0, 1fr); } .email-form-content { padding: 0 1rem 1rem; } summary { padding: 1rem; } }
+</style>

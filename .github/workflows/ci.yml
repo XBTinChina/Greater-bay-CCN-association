@@ -27,5 +27,7 @@ jobs:
         run: npm ci
       - name: Build the site
         run: npm run build
-      - name: Test the intake script
-        run: node scripts/test-intake.mjs
+      - name: Test submission routes
+        run: |
+          node scripts/test-intake.mjs
+          node scripts/test-lab-email.mjs

@@ -20,10 +20,11 @@ information and private correspondence are kept outside the repository.
 
 ## Take part
 
-**Lead a lab in the Greater Bay Area?** Use the
-[lab submission form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml)
-to apply for a member lab listing. Labs elsewhere can apply as affiliates through
-the same form.
+**Lead a lab in the Greater Bay Area?** Apply for a member lab listing through
+the [Join page](https://xbtinchina.github.io/Greater-bay-CCN-association/join/).
+Choose the GitHub form, which needs a free GitHub account, or complete the email
+template and send it to membership coordinator Jixing Li. The email option does
+not need GitHub. Labs elsewhere can use either option to apply as affiliates.
 
 **Want to attend or follow the network?** No membership application is needed.
 The optional [newsletter](https://buttondown.com/gba-ccn) shares seminars,
@@ -31,20 +32,23 @@ events, open positions and network news. Anyone can suggest a speaker.
 
 | I want to… | How |
 |---|---|
-| List my lab | [Lab submission form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml) |
+| List my lab | [GitHub form or email template](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) |
 | Suggest a speaker | [Speaker nomination](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=speaker-nomination.yml) |
 | Receive news and announcements | [Newsletter signup](https://buttondown.com/gba-ccn) |
 | Announce a seminar, workshop or summer school | [Event form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=event.yml) |
 | Share a resource | [Resource submission form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
 | Post a research or teaching opening | [Position form](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml) |
 
-Lab, event, resource and position forms create a pull request for a coordinator
+GitHub lab, event, resource and position forms create a pull request for a coordinator
 to review. Approved entries appear after the pull request is merged and the
 site is rebuilt. Speaker nominations create an issue for the coordinators,
 not a website listing.
 
-The forms need a free GitHub account. If you cannot use GitHub, ask a colleague
-to submit with your permission, or contact a coordinator listed on the
+The GitHub forms need a free GitHub account. Lab applications can also be sent
+by email using the Join page. It prepares an email draft for you to check and send
+in your email app, with a copy option if needed; the website does not send or store
+your completed template. For help with other submissions, ask a colleague to submit
+with your permission, or contact a coordinator listed on the
 [About page](https://xbtinchina.github.io/Greater-bay-CCN-association/about/).
 GitHub issues are public, including speaker nominations. Include only information
 you are comfortable sharing publicly.
@@ -140,8 +144,9 @@ The site has no application database or visitor accounts.
   `src/assets/brand/neural-tides.webp`, and the regional map is in
   `public/greater-bay-area.svg`. The map records its source attribution.
   `npm run build` runs `scripts/blue-hour-brand.mjs` to generate icons and the sharing card.
-- **Contact routes:** `contact_email` enables pre-filled email links for lab
-  applications and speaker nominations. `mailing_list_url` supplies the newsletter
+- **Contact routes:** lab application emails go to the coordinator whose role is
+  `Membership` in `data/network.yml`. The general `contact_email` remains separate
+  and enables email speaker nominations. `mailing_list_url` supplies the newsletter
   signup link. Email correspondence is separate from public GitHub issues.
 - **Validation:** schemas in `src/content.config.ts` check required fields, dates
   and allowed values. Review the content as well; a successful build does not

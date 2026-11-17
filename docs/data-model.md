@@ -217,11 +217,11 @@ Location: `data/network.yml`, one file edited by coordinators and parsed once at
 | mission | text | Yes | |
 | status_banner | text | No | Optional notice; plain HTML allowed; omitted on pages that hide the banner |
 | founded | whole number | Yes | Year |
-| contact_email | email or empty | No, default empty | Empty falls back to GitHub issues |
+| contact_email | email or empty | No, default empty | General contact; lab applications use the Membership coordinator's email first |
 | mailing_list_url | URL or empty | No, default empty | Optional newsletter subscription page |
 | repo_url | URL | Yes | Builds the issue-form links |
 | seminar | object | Yes | Required: slot, platform. Optional: proposed (yes/no, default false), fallback_platform, recording_note |
-| coordinators | list of people | No, default empty | Required: name, institution, role (at most 30 characters). Optional: name_native, role_detail, url, email |
+| coordinators | list of people | No, default empty | Required: name, institution, role (at most 30 characters). Optional: name_native, role_detail, url, email. The Membership coordinator's email receives lab applications |
 | host_institutions | list of text | No, default empty | |
 
 A minimal file has name, short_name, acronym, tagline, mission, founded, repo_url and a seminar block with slot and platform.

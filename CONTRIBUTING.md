@@ -5,14 +5,17 @@ so you do not need programming experience to suggest a change.
 
 ## Adding or changing content
 
-**Use the forms.** Lab, event, resource and position forms create a pull request
+**Use a submission form or the lab email template.** GitHub lab, event, resource and position forms create a pull request
 for a coordinator to review. Speaker nominations create a public issue for
-discussion and do not create a website listing. The forms need a GitHub account;
-if you need help, ask a colleague or a coordinator listed on the About page.
+discussion and do not create a website listing. The GitHub forms need a free GitHub
+account. For lab applications, you can instead complete the email template on the
+[Join page](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) and send it
+to membership coordinator Jixing Li. This option does not need GitHub. For help
+with other submissions, ask a colleague or a coordinator listed on the About page.
 
-| I want to… | Form |
+| I want to… | How |
 |---|---|
-| List my lab | [Lab submission](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=lab.yml) |
+| List my lab | [GitHub form or email template](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) |
 | Announce a seminar, workshop or summer school | [Event](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=event.yml) |
 | Add a tutorial or course to the learning index | [Tutorial](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=tutorial.yml) |
 | Post a research or teaching position | [Position](https://github.com/XBTinChina/Greater-bay-CCN-association/issues/new?template=position.yml) |
@@ -41,6 +44,7 @@ npm ci          # install
 npm run dev     # local preview at http://localhost:4321/Greater-bay-CCN-association/
 npm run build   # full build and validation of all data files
 node scripts/test-intake.mjs
+node scripts/test-lab-email.mjs
 ```
 
 The site is a static [Astro](https://astro.build) project. Content schemas
@@ -53,7 +57,8 @@ Keep these requirements in mind:
 - **Keep page assets local.** Do not add external fonts, analytics or third-party
   scripts. This reduces dependencies and helps access across different networks.
 - **No large binaries.** Recordings, slide decks and datasets are linked, not
-  committed. Photos go through the intake pipeline, which produces small WebP files.
+  committed. The intake pipeline processes photos into small WebP files; coordinators
+  prepare photos from emailed lab applications to the same format.
 - **Protect private information.** Do not include private meeting links,
   passcodes or personal correspondence in public files. Submission forms accept
   public event or registration pages, not direct meeting links or passcodes.

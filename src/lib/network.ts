@@ -3,6 +3,7 @@ import { z } from 'astro/zod';
 // Inlined by Vite at build time, so it works wherever the bundle ends up.
 import raw from '../../data/network.yml?raw';
 import { url } from './url';
+import { labApplicationBody, labApplicationMailto } from './lab-application.mjs';
 
 // Network-wide settings live in data/network.yml so that coordinators can
 // edit them without touching code. Validated once at build time.
@@ -77,21 +78,12 @@ const enc = encodeURIComponent;
 const mailto = (subject: string, body: string) =>
   network.contact_email ? `mailto:${network.contact_email}?subject=${enc(subject)}&body=${enc(body)}` : '';
 
-const JOIN_TEMPLATE = `PI name (Latin script):
-Name in native script (optional):
-Lab name (optional):
-Institution and department:
-City:
-Member lab (in the Greater Bay Area) or affiliate lab (elsewhere):
-Lab website:
-ORCID or other research profile:
-Up to eight research keywords:
-Two sentences on what the lab does:
-Looking for (students, collaborators, data, equipment; optional):
-
-Photo: attach a square head-and-shoulders photo, or leave it out.
-
-I consent to the publication of this lab entry under CC BY 4.0 and to the display of the photo, if provided, on the network's website and channels. I have read the privacy statement.`;
+const membershipCoordinator = network.coordinators.find((person) => person.role.toLowerCase() === 'membership');
+export const membershipContact = {
+  name: membershipCoordinator?.name || 'the coordinators',
+  email: membershipCoordinator?.email || network.contact_email,
+};
+export const labApplicationSubject = `[Lab] Joining the ${network.short_name}`;
 
 const NOMINATE_TEMPLATE = `Nominee:
 Affiliation:
@@ -107,12 +99,13 @@ Institution:
 Role (faculty, postdoc, student, other):`;
 
 /**
- * Ordinary routes that need no GitHub account. Empty strings until the role
- * address (contact_email) or a subscription page (mailing_list_url) exists;
- * pages fall back to the GitHub forms and the event listings.
+ * Lab applications go to the membership coordinator. Other email routes use
+ * contact_email; newsletter links prefer the configured subscription page.
  */
 export const routes = {
-  joinEmail: mailto(`[Lab] Joining the ${network.short_name}`, JOIN_TEMPLATE),
+  joinEmail: membershipContact.email
+    ? labApplicationMailto(membershipContact.email, labApplicationSubject, labApplicationBody())
+    : '',
   nominateEmail: mailto(`[Speaker] Nomination for the ${network.short_name}`, NOMINATE_TEMPLATE),
   followEmail: mailto('Announcement list', FOLLOW_TEMPLATE),
   /** Subscribe to the newsletter, contact the organisers, or browse events. */

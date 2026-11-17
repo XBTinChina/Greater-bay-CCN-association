@@ -9,7 +9,9 @@ This page describes the network's practices for publishing professional informat
 
 ## Lab entries
 
-A lab entry is submitted by its principal investigator (PI), or with the PI's agreement, through the [Join page](../../join/). The form includes a required consent checkbox. A workflow prepares the data file and a coordinator reviews it before publication.
+A lab entry is submitted by its principal investigator (PI), or with the PI's agreement, through the [Join page](../../join/). Choose the GitHub form or complete the email template and send it to membership coordinator Jixing Li. Both routes require confirmation of authority to submit, consent to publish the listing text under CC BY 4.0, permission to display any photo without licensing it for reuse, and confirmation that this privacy page has been read. A coordinator reviews the entry before publication.
+
+The GitHub form creates a public issue and a workflow prepares the data file. The email template prepares a draft for you to check and send in your email app; you can also copy the completed email. The website does not send or store the completed template. The coordinator uses emailed applications to prepare a listing for review, keeping private correspondence and contact details out of the repository unless you explicitly agree to publish them.
 
 A lab entry may contain:
 
@@ -20,11 +22,11 @@ A lab entry may contain:
 - an optional public email address;
 - an optional photo;
 - research keywords, a short description and any stated recruitment or collaboration interests;
-- the entry date (the issue creation date for form submissions).
+- the entry date (the issue creation date for GitHub form submissions).
 
-The underlying data file requires the PI's name, institution, city, research keywords and entry date. The submission form also requires a short description, member or affiliate selection, and confirmation of consent and authority to submit. Other profile fields are optional.
+The underlying data file requires the PI's name, institution, city, research keywords and entry date. Both application routes also require a short description, member or affiliate selection, and confirmation of consent and authority to submit. Other profile fields are optional.
 
-When someone submits on a PI's behalf, the form asks how the PI can confirm the entry. An email address entered in the issue is public even though it is not copied to the website's data file. The address field may be left blank and the PI may confirm directly in the issue instead.
+When someone submits on a PI's behalf, the coordinator confirms the PI's agreement before publication. The GitHub form asks how the PI can confirm the entry. An email address entered in the issue is public even though it is not copied to the website's data file. The address field may be left blank and the PI may confirm directly in the issue or by email instead.
 
 ## Public storage and access
 

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { network, forms, routes, founding } from '../lib/network';
+import LabEmailForm from '../components/LabEmailForm.astro';
+import { network, forms, routes, founding, membershipContact, labApplicationSubject } from '../lib/network';
 import { url } from '../lib/url';
 
 const hasEmail = Boolean(network.contact_email);
@@ -8,7 +9,7 @@ const hasEmail = Boolean(network.contact_email);
 
 <Base
   title="Join as a lab"
-  description="How a lab joins the network, how to follow the seminars, and how to nominate a speaker."
+  description="Join your lab through the GitHub form or email a completed application to Jixing Li, our membership coordinator."
 >
   <h1>Join as a lab</h1>
   <p class="lead">
@@ -17,23 +18,30 @@ const hasEmail = Boolean(network.contact_email);
       : 'Membership is by lab and there are no fees. The principal investigator (PI), or someone with their agreement, submits a lab entry, which a coordinator reviews before publication.'}
   </p>
 
-  <div class="actions" style="margin-top:0">
-    {hasEmail ? (
-      <>
-        <a class="btn primary" href={routes.joinEmail}>Join by email</a>
-        <a class="btn" href={forms.lab}>Join via GitHub</a>
-      </>
-    ) : (
-      <a class="btn primary" href={forms.lab}>Submit your lab</a>
-    )}
-    <a class="btn" href={routes.follow}>{network.mailing_list_url ? 'Subscribe to newsletter' : 'Follow the seminars'}</a>
+  <p>Choose either option below. The PI, or someone with the PI's agreement, can submit the lab entry.</p>
+  <div class="join-options" aria-label="Two ways to join as a lab">
+    <section class="join-option" aria-labelledby="join-github">
+      <p class="option-number">Option 1</p>
+      <h2 id="join-github">Join through GitHub</h2>
+      <p>Fill in the GitHub lab submission form. <strong>A free GitHub account is required.</strong></p>
+      <p class="small muted">Your submission creates a public issue. A coordinator reviews it before adding your lab.</p>
+      <a class="btn primary" href={forms.lab}>Open GitHub form ↗</a>
+    </section>
+    <section class="join-option join-option-email" aria-labelledby="join-email">
+      <p class="option-number">Option 2</p>
+      <h2 id="join-email">Join by email</h2>
+      <p>Fill in the email form and send it to <strong>{membershipContact.name}</strong>, our membership coordinator. <strong>No GitHub account is needed.</strong></p>
+      {membershipContact.email ? (
+        <>
+          <p class="small muted"><a href={`mailto:${membershipContact.email}`}>{membershipContact.email}</a><br />{membershipContact.name} reviews new lab applications and helps prepare the listing.</p>
+          <a class="btn" href="#email-form">Fill in email form ↓</a>
+        </>
+      ) : (
+        <a class="btn" href={url('about/')}>Contact a coordinator</a>
+      )}
+    </section>
   </div>
-  {!hasEmail && (
-    <p class="small muted">
-      The lab submission form needs a free GitHub account. If you need help with it, contact a
-      <a href={url('about/')}>coordinator</a> or a member lab.
-    </p>
-  )}
+  {membershipContact.email && <LabEmailForm name={membershipContact.name} email={membershipContact.email} subject={labApplicationSubject} templateHref={routes.joinEmail} />}
 
   <h2>Who can take part</h2>
   <dl class="facts">
@@ -82,8 +90,8 @@ const hasEmail = Boolean(network.contact_email);
   <h2>How to add your lab</h2>
   <ol class="steps">
     <li>
-      {hasEmail ? (
-        <>Send the <a href={routes.joinEmail}>pre-filled email</a>, or open the <a href={forms.lab}>GitHub form</a> if you prefer.</>
+      {membershipContact.email ? (
+        <>Complete the <a href={forms.lab}>GitHub form</a>, or fill in the <a href="#email-form">email form</a> and send it to {membershipContact.name}.</>
       ) : (
         <>Open the <a href={forms.lab}>lab form</a>.</>
       )}
@@ -123,3 +131,15 @@ const hasEmail = Boolean(network.contact_email);
     <a href={url('docs/privacy-and-consent/')}>privacy statement</a>.
   </p>
 </Base>
+
+<style>
+  .join-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin: 1.5rem 0 0; }
+  .join-option { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: clamp(1.25rem, 3vw, 2rem); border: 1.5px solid var(--accent); border-radius: var(--radius); background: #f7f0ff; }
+  .join-option-email { border-color: var(--ink); background: var(--soft); }
+  .option-number { margin: 0 0 .75rem; font-size: .85rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-strong); }
+  .join-option h2 { margin: 0 0 1rem; font-size: clamp(1.5rem, 2.3vw, 2rem); }
+  .join-option p { margin-top: 0; }
+  .join-option a { overflow-wrap: anywhere; }
+  .join-option .btn { margin-top: auto; font-size: 1.05rem; }
+  @media (max-width: 700px) { .join-options { grid-template-columns: minmax(0, 1fr); } }
+</style>
