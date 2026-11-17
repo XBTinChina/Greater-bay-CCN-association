@@ -76,10 +76,14 @@ Record only with the speaker's written consent, given before the talk (see [priv
 
 [GBA-CCN Network Updates](https://buttondown.com/gba-ccn) is the optional email newsletter. Its subscription address is set in `data/network.yml` as `mailing_list_url`; the site's Subscribe links use that address. Subscribers sign up through Buttondown, and subscriber lists and account credentials stay outside this public repository.
 
+Use the [newsletter templates](../newsletter-templates/) for event announcements, weekly updates, monthly summaries and positions. Each includes the standard website and subscription links.
+
+Check for newsletter items weekly. Send only when there is new or meaningfully changed information to share; otherwise skip the week. Combine routine items into one email. A useful monthly summary can replace that week's update. Use separate announcements for timely notices or important changes, and check sent issues in Buttondown to avoid duplicates.
+
 Sending is manual. Publishing a website update or running the weekly digest workflow does not send a newsletter.
 
-1. Sign in to the network's Buttondown account and create a draft with seminar announcements, research opportunities or network news, linking to the relevant website pages.
-2. Have a coordinator review the text, dates and links, and preview the email. Check the issue's archive visibility before including any private meeting links.
+1. Sign in to the network's Buttondown account, choose a newsletter template and fill it with confirmed announcements and full public links. Remove all placeholders and empty sections; keep the shared footer and Buttondown's recipient-specific unsubscribe links.
+2. Have a coordinator review the text, dates, links and intended audience, and preview the email. Link to public event or registration pages; send private meeting links directly to attendees.
 3. Once the issue is ready, send it manually from Buttondown to subscribers. Do not enable automatic sending as part of a website update.
 
 ## Editing network.yml
