@@ -1,0 +1,20 @@
+# Created from issue #59 by the intake workflow. Edit this file by pull request.
+
+pi: Qi Chen
+pi_native: 陈琦
+lab: Chenqi Lab
+institution: Shenzhen University
+institution_short: SZU
+department: School of Psychology
+city: Shenzhen
+tier: member
+website: https://psy.szu.edu.cn/info/1018/1070.htm
+email: meining@szu.edu.cn
+keywords:
+  - cognitive flexibility
+  - metacognition
+description: >-
+  We study how people adapt their thinking and behaviour to changing situations, with a focus on
+  cognitive flexibility and computational psychiatry. We combine computational models with
+  behavioural and brain measurements to test how these processes work.
+joined: 2026-11-17
