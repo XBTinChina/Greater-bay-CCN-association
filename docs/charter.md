@@ -54,7 +54,7 @@ The proposed coordinator group has three to seven members, with one per particip
 - **Decisions:** by consensus, with a simple majority of coordinators as fallback. Decisions are recorded in the repository.
 - **Repository ownership:** at least two coordinators hold owner rights so that access does not depend on one person.
 
-Until the founding labs confirm the first coordinator group, interim conveners share the work: Xiangbin Teng (滕相斌) of The Chinese University of Hong Kong maintains the website and repository; Qihong Lu (吕其鸿) of City University of Hong Kong convenes the seminars; and Jixing Li (李吉星) of The Hong Kong Polytechnic University handles membership. Current roles and contact details are on the [About page](../../about/).
+Until the founding labs confirm the first coordinator group, interim conveners share the work: Xiangbin Teng (滕相斌) of The Chinese University of Hong Kong maintains the website and repository; Qihong Lu (吕其鸿) of City University of Hong Kong convenes the seminars; Jixing Li (李吉星) of The Hong Kong Polytechnic University handles membership; and Chuanliang Han (韩传亮) of Shenzhen University leads outreach and communications, promoting the network and its activities. Current roles and contact details are on the [About page](../../about/).
 
 ## 6. Seminar series
 

@@ -89,6 +89,12 @@ coordinators:
     # https://compneurolinglab.github.io/people.html
     # Replace when her new PolyU address is confirmed.
     email: jixingli@cityu.edu.hk
+  - name: Chuanliang Han
+    name_native: 韩传亮
+    institution: Shenzhen University
+    role: Outreach and Communications
+    role_detail: Promotes the network and its activities to researchers and labs
+    url: https://sites.google.com/view/neural-oscillation-lab
 
 # Universities that formally co-host the seminar series. Add as agreed. There
 # are twelve slots a year, so a list longer than twelve cannot give every
