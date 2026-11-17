@@ -27,9 +27,20 @@ main.home-page {
   line-height: 1.5;
   text-transform: uppercase;
 }
-.home-intro > .home-eyebrow {
-  margin-bottom: 1.4rem;
-  color: var(--muted);
+.worldwide-welcome {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0 0 1.5rem;
+  padding: 0.55rem 0.85rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  background: #57d5f3;
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 .network-title {
   width: 100%;
@@ -274,7 +285,6 @@ main.home-page {
 }
 @media (max-width: 1100px) and (min-width: 761px) {
   .home-intro { padding: 2rem 1.8rem; }
-  .home-intro > .home-eyebrow { max-width: 28ch; }
   .network-title { font-size: clamp(2.1rem, 4.05vw, 2.85rem); }
   .home-description { font-size: 0.9rem; }
   .home-intro .actions { gap: 0.65rem; }
@@ -286,7 +296,6 @@ main.home-page {
 @media (max-width: 760px) {
   .home-hero { grid-template-columns: 1fr; }
   .home-intro { padding: 2.3rem 1.5rem 2.5rem; }
-  .home-intro > .home-eyebrow { font-size: 0.62rem; margin-bottom: 1.25rem; }
   .network-title { font-size: clamp(2.05rem, 7.7vw, 3.35rem); max-width: 20ch; }
   .home-slogan { font-size: clamp(1.5rem, 5.5vw, 2rem); margin-top: 1.3rem; }
   .home-description { max-width: 48ch; }
