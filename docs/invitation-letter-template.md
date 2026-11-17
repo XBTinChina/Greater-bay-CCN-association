@@ -78,7 +78,7 @@ Best wishes,
 
 ## 3. Public event announcement
 
-Share the announcement through the newsletter, group chat and departmental lists about two weeks before the event, then send reminders one week before and on the day. Attach the poster from the **Render poster** workflow when available.
+Share the announcement about two weeks before the event through group chats and departmental lists, and include it in the next newsletter. Use the [newsletter templates](../newsletter-templates/) for email, or the short version below for other channels. Send a separate newsletter when timely notice is needed. Use group or attendee channels for routine reminders; avoid repeating an unchanged announcement in separate newsletters. Attach the poster from the **Render poster** workflow when available.
 
 Use the event page for public joining or registration details. Send any private meeting links or passcodes directly to attendees, and keep them out of public posts and publicly visible newsletter archives.
 
