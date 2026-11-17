@@ -33,13 +33,13 @@ The usual slot is the second Friday of the month at 16:00 Hong Kong Time (UTC+8)
 
 ## About two weeks before: announce
 
-- Share the poster and announcement through the newsletter, group chat and departmental lists. The [invitation letter template](../invitation-letter-template/) includes announcement wording.
+- Share the poster and announcement through group chats and departmental lists, and include it in the next newsletter. Use the [newsletter templates](../newsletter-templates/) for email, or the short announcement in the [invitation letter template](../invitation-letter-template/) for other channels. Send a separate newsletter when timely notice is needed.
 - Check that the public event page shows the confirmed date, time, speaker and host. It updates when the site rebuilds after a merged change.
 - Share any private access details directly with attendees. Do not include them in public posts or publicly visible newsletter archives.
 
 ## About one week before: rehearse
 
-- Send a reminder through the announcement channels.
+- Remind attendees through the appropriate group or attendee channels. Send another newsletter only for a useful update, such as a changed time or approaching registration deadline.
 - Arrange a short test with the speaker if needed, including screen sharing and audio.
 - Prepare the Tencent Meeting fallback and keep its link ready.
 - Confirm the chair and a person to monitor the chat and questions.

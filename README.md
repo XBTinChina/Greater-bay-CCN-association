@@ -121,6 +121,7 @@ The labs, events, tutorials and positions folders include an example marked
 | [Speaker kit](docs/speaker-kit.md) | Format, platform, recording and preparation for speakers. |
 | [Hosting a seminar](docs/hosting-a-seminar.md) | A host's preparation checklist. |
 | [Invitation letter template](docs/invitation-letter-template.md) | Invitation, logistics and announcement templates. |
+| [Newsletter templates](docs/newsletter-templates.md) | Event announcements, weekly updates, monthly summaries and positions, with shared links. |
 | [Operations handbook](docs/operations.md) | Submission review, maintenance and announcements. |
 | [Data model](docs/data-model.md) | Field reference for contributors. |
 
@@ -149,7 +150,9 @@ The site has no application database or visitor accounts.
   build time. The site rebuilds on each change and every Monday morning in Hong
   Kong. Listings can therefore remain visible until the next build.
 - **Newsletter:** coordinators send announcements manually through
-  [Buttondown](https://buttondown.com/gba-ccn). Publishing a website change does not send an email.
+  [Buttondown](https://buttondown.com/gba-ccn), using the [newsletter templates](docs/newsletter-templates.md).
+  Check weekly and send only when there is something new or meaningfully changed to share.
+  Publishing a website change does not send an email.
 - **Posters:** event poster views are available at `/events/<id>/poster/` unless
   disabled for that event. The *Render poster* workflow produces a PNG for sharing.
 - **Site address:** the deployment workflow supplies the origin and base path.
