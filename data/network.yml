@@ -85,10 +85,7 @@ coordinators:
     institution: The Hong Kong Polytechnic University
     role: Membership
     role_detail: Lab applications, entries and the roster
-    # Her lab's published contact as checked on 17 November 2026:
-    # https://compneurolinglab.github.io/people.html
-    # Replace when her new PolyU address is confirmed.
-    email: jixingli@cityu.edu.hk
+    email: jixing.us@gmail.com
   - name: Chuanliang Han
     name_native: 韩传亮
     institution: Shenzhen University
