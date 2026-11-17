@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import Mark from '../components/Mark.astro';
 import { network, forms, routes } from '../lib/network';
@@ -21,15 +20,11 @@ interface Props {
 const { title, description = network.tagline, noindex = false, hideBanner = false, home = false, jsonld } = Astro.props;
 const fullTitle = title ? `${title} · ${network.short_name}` : network.name;
 
-// Resources (training material) appears in the navigation once there is
-// something in it; Positions is always there so labs can post openings.
-const tutorialCount = (await getCollection('tutorials', (t) => !t.data.draft)).length;
-
 const nav: Array<[string, string]> = [
   ['Labs', 'labs/'],
   ['Seminars', 'events/'],
   ['Opportunities', 'positions/'],
-  ...(tutorialCount > 0 ? ([['Resources', 'resources/']] as Array<[string, string]>) : []),
+  ['Resources', 'resources/'],
   ['About', 'about/'],
 ];
 
