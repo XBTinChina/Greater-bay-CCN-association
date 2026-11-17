@@ -1,0 +1,32 @@
+# Created from issue #57 by the intake workflow. Edit this file by pull request.
+
+pi: Linlin SHANG
+pi_native: 尚林霖
+lab: Shang Lab for Visual Representation & Computation
+institution: Liaoning University
+institution_short: LNU
+city: Shenyang
+tier: affiliate
+website: https://shangll.github.io/lab/
+email: shanglinlin@lnu.edu.cn
+scholar: https://scholar.google.com/citations?user=qEiCW44AAAAJ&hl=en
+github: https://github.com/shangll
+orcid: https://orcid.org/0000-0003-1193-0142
+profile: https://xlcs.lnu.edu.cn/info/1024/1416.htm
+keywords:
+  - integration of perceptual and conceptual dimensions
+  - visual object recognition
+  - psychophysics
+  - cognitive neuroscience
+  - ANN
+description: >-
+  We use methods from psychophysics, EEG, MRI, representational similarity analysis (RSA),
+  reinforcement learning (RL), machine learning (ML), and artificial neural networks (ANNs) to study
+  how humans integrate visual structure, categorical knowledge, and semantic information. We also
+  compare the human visual system with deep neural networks to identify shared and distinct
+  principles underlying representational formation and recognition decisions. This work connects to
+  interdisciplinary research in cognitive neuroscience, artificial intelligence (AI), computer
+  vision, multimodal representation, large language models (LLM), and brain-computer interfaces
+  (BCI).
+looking_for: Collaborators & equipment
+joined: 2026-11-17
