@@ -8,8 +8,8 @@ authors:
   - Jane Doe
   - Wei Zhang
 lab: example-lab                  # optional; id of a file in data/labs/
-format: notebook                  # notebook | slides | video | course | book | software | dataset | other
-level: introductory               # introductory | intermediate | advanced
+format: notebook                  # notebook | slides | video | course | book | software | dataset | paper-collection | other
+level: introductory               # introductory | intermediate | advanced | not-applicable
 language: English                 # English | Chinese | Bilingual | Other
 url: https://github.com/doelab/ddm-tutorial
 doi: 10.5281/zenodo.0000000       # optional; DOI of the archived material or version

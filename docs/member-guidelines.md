@@ -40,13 +40,13 @@ If the assigned slot does not work, agree a swap with another lab or ask the coo
 
 Labs can also share:
 
-- public teaching materials, such as notebooks, courses, recordings, datasets and tutorials;
+- public learning and reference materials, such as datasets, courses, videos, paper collections, tools and guides;
 - open positions, from student opportunities to faculty posts;
 - speaker suggestions, including researchers outside the network;
 - opportunities for students and postdocs to attend or give an early-career talk;
 - ideas for activities across institutions, such as workshops or summer schools.
 
-The [Join page](../../join/) links to forms for tutorials, positions, events and speaker nominations. For other suggestions, contact a coordinator. The [resources page](../../resources/) links to materials where their authors host them.
+The [Join page](../../join/) links to forms for resources, positions, events and speaker nominations. For other suggestions, contact a coordinator. The [resources page](../../resources/) links to materials where their authors host them.
 
 Labs are not expected to share unpublished data, research ideas, funding or confidential information. Any collaboration is agreed directly between the people or labs involved; it is not a condition of membership.
 

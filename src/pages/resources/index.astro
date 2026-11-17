@@ -4,35 +4,59 @@ import Base from '../../layouts/Base.astro';
 import { forms } from '../../lib/network';
 import { url } from '../../lib/url';
 import { labName, publishedLab } from '../../lib/labs';
+import { RESOURCE_FORMAT_LABELS } from '../../lib/taxonomy';
 
-// Training material: an index of tutorials, courses and recordings, hosted
-// where their authors keep them. Positions have their own page.
+// Keep the existing collection so earlier submissions and links remain valid.
 const entries = (await getCollection('tutorials', (t) => !t.data.draft)).sort(
   (a, b) => b.data.added.getTime() - a.data.added.getTime(),
 );
-const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await publishedLab(t.data.lab) })));
+const resources = await Promise.all(entries.map(async (t) => ({ t, lab: await publishedLab(t.data.lab) })));
+const examples = [
+  { icon: '▦', title: 'Datasets', detail: 'Open data, benchmarks and repositories.' },
+  { icon: '▤', title: 'Courses & tutorials', detail: 'Courses, practical lessons and lecture notes.' },
+  { icon: '▶', title: 'Videos', detail: 'Talks, demonstrations and recorded lectures.' },
+  { icon: '≡', title: 'Paper collections', detail: 'Reading lists, reviews and thematic collections.' },
+  { icon: '⌘', title: 'Tools & notebooks', detail: 'Software, code and analysis workflows.' },
+  { icon: '✦', title: 'Other useful materials', detail: 'Guides, protocols and reference pages.' },
+];
 ---
 
-<Base title="Resources" description="Learning resources shared by the network, including tutorials, courses and lecture recordings.">
+<Base title="Resources" description="Datasets, courses, videos, paper collections, tools and other learning and reference materials shared by the network.">
   <h1>Resources</h1>
   <p class="lead">
-    Tutorials, courses and recordings shared by the network. Each link takes you to material hosted by its authors.
-    See <a href={url('positions/')}>positions</a> for job and study opportunities, and <a href={url('events/')}>events</a> for seminars, workshops and schools.
+    Useful links for learning and research: datasets, courses, videos, paper collections, tools and more.
+    Share your own work or recommend something by others.
   </p>
   <div class="actions" style="margin-top:0.5rem">
-    <a class="btn small" href={forms.tutorial}>Add a tutorial</a>
+    <a class="btn primary" href={forms.tutorial}>Share a resource</a>
   </div>
+  <p class="small muted resource-note">We link to the original source and credit its authors or curators. Submissions are reviewed before listing.</p>
 
-  <h2 id="training">Training</h2>
-  {tutorials.length === 0 ? (
-    <p class="quiet">No resources are listed yet. You can share a notebook, course page or lecture recording using the form above.</p>
+  <section class="resource-guide" aria-labelledby="resource-examples-title">
+    <h2 id="resource-examples-title">What you can share</h2>
+    <ul class="resource-examples">
+      {examples.map(({ icon, title, detail }) => (
+        <li>
+          <span class="resource-icon" aria-hidden="true">{icon}</span>
+          <div>
+            <h3>{title}</h3>
+            <p>{detail}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <h2 id="training">Shared resources</h2>
+  {resources.length === 0 ? (
+    <p class="quiet">No resources yet. Share a useful link to start the collection.</p>
   ) : (
     <ul class="rows">
-      {tutorials.map(({ t, lab }) => (
+      {resources.map(({ t, lab }) => (
         <li class="row">
           <div class="when">
-            <b>{t.data.format}</b>
-            <span>{t.data.level}</span>
+            <b>{RESOURCE_FORMAT_LABELS[t.data.format]}</b>
+            {t.data.level !== 'not-applicable' && <span>{t.data.level}</span>}
             {t.data.language !== 'English' && <span><br />{t.data.language}</span>}
           </div>
           <div>
@@ -53,4 +77,24 @@ const tutorials = await Promise.all(entries.map(async (t) => ({ t, lab: await pu
       ))}
     </ul>
   )}
+  <p class="small muted resource-related">
+    Looking for <a href={url('positions/')}>positions</a> or <a href={url('events/')}>events</a>?
+  </p>
 </Base>
+
+<style>
+  .resource-note { max-width: 48rem; margin: 0.8rem 0 0; }
+  .resource-guide { margin: 2.4rem 0 2.6rem; }
+  .resource-guide h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+  .resource-examples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; padding: 0; margin: 0; list-style: none; }
+  .resource-examples li { display: flex; align-items: flex-start; gap: 0.8rem; min-width: 0; padding: 1.15rem; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 255, 255, 0.65); }
+  .resource-icon { display: grid; place-items: center; flex: 0 0 2.4rem; width: 2.4rem; height: 2.4rem; border-radius: 9px; background: #eee4ff; color: #4c17b8; font-size: 1.6rem; line-height: 1; }
+  .resource-examples li:nth-child(3n + 2) .resource-icon { background: #edf6c6; color: #43500c; }
+  .resource-examples li:nth-child(3n) .resource-icon { background: #ffebe6; color: #9b3a2b; }
+  .resource-examples h3 { margin: 0 0 0.35rem; font-size: 1.05rem; line-height: 1.35; }
+  .resource-examples p { margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+  .resource-related { margin-top: 2rem; }
+  @media (max-width: 800px) { .resource-examples { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .resource-examples li { display: block; padding: 1rem; } .resource-icon { margin-bottom: 0.7rem; } }
+  @media (max-width: 340px) { .resource-examples { grid-template-columns: 1fr; } }
+</style>

@@ -1,25 +1,28 @@
-# Tutorial form. Field ids and labels are mirrored in scripts/lib/forms.mjs;
+# Resource form; the existing filename and intake label remain compatible. Field ids and labels are mirrored in scripts/lib/forms.mjs;
 # scripts/test-intake.mjs fails if the two drift apart.
-name: Tutorial
-description: Add a tutorial, course, notebook, recording, book, software package or dataset to the learning index.
-title: "[Tutorial] "
+name: Resource
+description: Share a dataset, course, video, paper collection, tool or other useful learning and reference material.
+title: "[Resource] "
 labels: ["intake", "intake:tutorial"]
 body:
   - type: markdown
     attributes:
       value: |
-        The resource stays on its original website. This form creates a pull request for a coordinator to review; the network lists a link after approval, merge and the next build.
+        Recommend a useful public resource: a dataset, course, video, reading list, tool, guide or other learning and reference material. You do not need to be its author. Link to the original source and credit its authors, maintainers or curators.
+
+        A coordinator reviews the submission before it appears on the website. The material stays on its original website.
   - type: input
     id: title
     attributes:
       label: Title
-      placeholder: Fitting drift-diffusion models to choice and reaction-time data
+      placeholder: An open EEG dataset, a neuroscience course or a curated reading list
     validations:
       required: true
   - type: input
     id: authors
     attributes:
       label: Authors (comma-separated)
+      description: Credit the authors, data providers, organisations, maintainers or collection curators.
       placeholder: Jane Doe, Wei Zhang
     validations:
       required: true
@@ -41,15 +44,20 @@ body:
         - book
         - software
         - dataset
+        - paper-collection
         - other
+      default: 8
   - type: dropdown
     id: level
     attributes:
       label: Level
+      description: Optional. Choose not-applicable for datasets, reference lists or materials without a teaching level.
       options:
         - introductory
         - intermediate
         - advanced
+        - not-applicable
+      default: 3
   - type: dropdown
     id: language
     attributes:
@@ -83,11 +91,11 @@ body:
     id: description
     attributes:
       label: Description (max 700 characters)
-      description: What it covers, how long it takes, what a reader should know beforehand.
+      description: What it contains, who may find it useful, and any access, licence or prerequisite information.
   - type: checkboxes
     id: consent
     attributes:
       label: Confirmation
       options:
-        - label: The material is openly accessible at the link and I am an author or have the authors' permission
+        - label: The link points to a publicly accessible source, and the authors or curators are credited
           required: true

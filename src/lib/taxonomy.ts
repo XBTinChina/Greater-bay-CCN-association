@@ -50,11 +50,18 @@ export const TUTORIAL_FORMATS = [
   'book',
   'software',
   'dataset',
+  'paper-collection',
   'other',
 ] as const;
 export type TutorialFormat = (typeof TUTORIAL_FORMATS)[number];
 
-export const LEVELS = ['introductory', 'intermediate', 'advanced'] as const;
+export const RESOURCE_FORMAT_LABELS: Record<TutorialFormat, string> = {
+  notebook: 'Notebook', slides: 'Slides', video: 'Video', course: 'Course',
+  book: 'Book', software: 'Software', dataset: 'Dataset',
+  'paper-collection': 'Paper collection', other: 'Resource',
+};
+
+export const LEVELS = ['introductory', 'intermediate', 'advanced', 'not-applicable'] as const;
 export type Level = (typeof LEVELS)[number];
 
 export const MATERIAL_LANGUAGES = ['English', 'Chinese', 'Bilingual', 'Other'] as const;

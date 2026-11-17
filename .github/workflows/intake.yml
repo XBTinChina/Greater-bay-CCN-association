@@ -66,7 +66,7 @@ jobs:
             case "$title" in
               "[lab]"*) type=lab ;;
               "[event]"*) type=event ;;
-              "[tutorial]"*) type=tutorial ;;
+              "[resource]"*|"[tutorial]"*) type=tutorial ;;
               "[position]"*) type=position ;;
               "[speaker]"*) type=nomination ;;
             esac

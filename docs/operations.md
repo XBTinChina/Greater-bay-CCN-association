@@ -20,7 +20,7 @@ The labs, events, tutorials and positions folders include example entries marked
 
 ## The intake pipeline
 
-1. Someone fills in a form linked from the [Join page](../../join/) or opens one under Issues. The listing forms are lab (title prefix `[Lab]`), event (`[Event]`), tutorial (`[Tutorial]`) and position (`[Position]`). Speaker nominations use a separate `[Speaker]` form and do not create a listing pull request. They are GitHub issue templates, so they need a free GitHub account. Each listing form opens an issue labelled `intake` plus a type label such as `intake:lab`. Nominations use the label `speaker-nomination`.
+1. Someone fills in a form linked from the [Join page](../../join/) or opens one under Issues. The listing forms are lab (title prefix `[Lab]`), event (`[Event]`), resource (`[Resource]`; earlier `[Tutorial]` submissions remain supported) and position (`[Position]`). Speaker nominations use a separate `[Speaker]` form and do not create a listing pull request. They are GitHub issue templates, so they need a free GitHub account. Each listing form opens an issue labelled `intake` plus a type label such as `intake:lab`. Nominations use the label `speaker-nomination`.
 2. The **Intake submissions** workflow runs when the issue is opened or edited. It parses the form, downloads and resizes the photo if there is one, writes the data file, and runs a validation build.
 3. If the build passes, it pushes a branch `intake/issue-<n>` and opens a pull request that closes the issue on merge. If it fails, it comments on the issue with the error and adds the label `needs-changes`. The submitter edits the issue, the workflow re-runs, and the same pull request is updated. If a coordinator has edited the branch manually, the workflow stops to preserve those edits; describe further changes on the pull request instead.
 4. A coordinator reviews the pull request and merges it. The **Deploy site** workflow then rebuilds and publishes the site.
@@ -48,10 +48,10 @@ Open the pull request and read the file. Check that:
 
 If all of that holds, merge. When in doubt, ask a second coordinator on the pull request. If changes are needed, ask the submitter through the same channel they used to apply: an issue reply or email. Agree changes with them rather than rewriting the entry silently.
 
-## Reviewing events, tutorials and positions
+## Reviewing events, resources and positions
 
 - Events: confirm the host, date, weekday and time with the organiser. The usual seminar slot is the second Friday, 16:00–17:00 Hong Kong Time, but an event may have a different confirmed date. The event page is the source for that event's arrangements. The submission form rejects direct meeting URLs and passcodes; use a public event-information or registration page instead. Keep private access details out of public issues and files. Hosts share any private joining details directly with participants.
-- Tutorials: the linked material exists, is openly accessible without a login, and is what the entry says it is. Open the link yourself.
+- Resources: the linked material exists at the original public source and matches its description. Check attribution to authors, maintainers or curators, and any access or licence conditions. Recommending someone else's public resource is welcome; we list links rather than hosting copies.
 - Positions: confirm an application deadline or removal date. If `expires` is set, it controls removal; otherwise the deadline is used. A listing is removed at the next build after that date.
 
 ## Speaker nominations

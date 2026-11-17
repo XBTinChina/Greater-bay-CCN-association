@@ -28,8 +28,8 @@ export const GBA_CITIES = Object.freeze([
 
 export const TIERS = Object.freeze(['member', 'affiliate']);
 export const EVENT_TYPES = Object.freeze(['seminar', 'workshop', 'summer-school', 'hackathon', 'journal-club', 'other']);
-export const TUTORIAL_FORMATS = Object.freeze(['notebook', 'slides', 'video', 'course', 'book', 'software', 'dataset', 'other']);
-export const LEVELS = Object.freeze(['introductory', 'intermediate', 'advanced']);
+export const TUTORIAL_FORMATS = Object.freeze(['notebook', 'slides', 'video', 'course', 'book', 'software', 'dataset', 'paper-collection', 'other']);
+export const LEVELS = Object.freeze(['introductory', 'intermediate', 'advanced', 'not-applicable']);
 export const MATERIAL_LANGUAGES = Object.freeze(['English', 'Chinese', 'Bilingual', 'Other']);
 export const POSITION_TYPES = Object.freeze(['phd', 'postdoc', 'research-assistant', 'faculty', 'internship', 'other']);
 
@@ -164,13 +164,13 @@ export const FORMS = Object.freeze({
     type: 'tutorial',
     template: 'tutorial.yml',
     label: 'intake:tutorial',
-    prefix: '[Tutorial]',
+    prefix: '[Resource]',
     fields: [
       f('title', 'Title', 'title', 'text', { required: true }),
       f('authors', 'Authors (comma-separated)', 'authors', 'list', { required: true, min: 1, max: 40 }),
       f('lab', 'Lab id', 'lab', 'id'),
       f('format', 'Format', 'format', 'enum', { options: TUTORIAL_FORMATS, default: 'other' }),
-      f('level', 'Level', 'level', 'enum', { options: LEVELS, default: 'introductory' }),
+      f('level', 'Level', 'level', 'enum', { options: LEVELS, default: 'not-applicable' }),
       f('language', 'Language', 'language', 'enum', { options: MATERIAL_LANGUAGES, default: 'English' }),
       f('url', 'Link to the material', 'url', 'url', { required: true }),
       f('doi', 'DOI', 'doi', 'doi'),
@@ -179,7 +179,9 @@ export const FORMS = Object.freeze({
       f('consent', 'Confirmation', null, 'checkboxes', {
         options: [
           {
-            label: "The material is openly accessible at the link and I am an author or have the authors' permission",
+            label: "The link points to a publicly accessible source, and the authors or curators are credited",
+            // Older submissions already made the stronger authorship/permission confirmation.
+            aliases: ["The material is openly accessible at the link and I am an author or have the authors' permission"],
             required: true,
           },
         ],
@@ -247,5 +249,7 @@ export function detectType(labelNames, title) {
   for (const type of Object.keys(FORMS)) {
     if (lower.startsWith(FORMS[type].prefix.toLowerCase())) return type;
   }
+  // Keep title-only submissions made with the earlier form recognisable.
+  if (lower.startsWith('[tutorial]')) return 'tutorial';
   return null;
 }
