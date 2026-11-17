@@ -11,7 +11,9 @@ Use these templates whenever preparing a GBA-CCN newsletter. This page is the sh
 
 Use a compact masthead and issue date, one clear lead item, short labelled sections and a consistent footer. Link the headlines and highlight the facts that help readers decide whether to follow them. Use a short inbox preview sentence when the sending editor supports it. Recurring digests start with the news; a greeting and sign-off are optional for personal messages such as a welcome.
 
-For the visual version, use the website's lavender and violet identity with a white reading area, dark text, a small existing logo and a single column about 640 pixels wide. Body text should be at least 16 pixels, with comfortable line spacing. Colour supports the structure; all essential information must remain readable as text with images blocked. Avoid large decorative banners and sidebars. The HTML preview demonstrates the layout; its rendering has not been tested in every email client.
+Use the homepage's [neural-tides artwork](../src/assets/brand/neural-tides.webp) as a compact top image strip across all four formats: about 120 pixels high on desktop and 96 pixels on mobile. Follow it with a pale-lavender masthead, dark text and the existing small logo. Keep the newsletter title as live text below the artwork. Use a white reading area in a single column about 640 pixels wide, with body text at least 16 pixels and comfortable line spacing. All essential information must remain readable with images blocked. Avoid oversized banners and sidebars.
+
+The HTML preview loads the existing homepage artwork from GitHub and needs an internet connection to display it. It demonstrates the layout; email-client rendering is not yet verified. For delivery, use stable, publicly hosted JPEG or PNG images and check the sending platform's preview.
 
 Use as few words as possible without losing the facts needed to decide whether to click. Make titles clickable; bold dates, deadlines and other deciding facts. Prefer one descriptive link per item over a second “Read more” link to the same page. Add a separate registration or application link only when it serves a different action.
 
@@ -195,3 +197,4 @@ These are layout references, not sources for GBA-CCN announcements. Our wording 
 - [CNS newsletter](https://www.cogneurosociety.org/newsletter/): stable society, meeting and recruitment sections. Borrow the hierarchy while keeping our listings shorter.
 - [SfN Nexus, issue displayed as 1 November 2024](https://www.sfn.org/publications/nexus-member-newsletter): linked headlines with short descriptions and concrete actions.
 - [OHBMonthly, May 2024](https://humanbrainmapping.org/i4a/email/browserEmailMessage.cfm?bTest=1&campaignID=4085&contactID=%25%25contactID%25%25&recipID=%25%25recipID%25%25): contents and deadlines, short job summaries and an invitation to contribute.
+
