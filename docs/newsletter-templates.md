@@ -11,9 +11,9 @@ Use these templates whenever preparing a GBA-CCN newsletter. This page is the sh
 
 Use a compact masthead and issue date, one clear lead item, short labelled sections and a consistent footer. Link the headlines and highlight the facts that help readers decide whether to follow them. Use a short inbox preview sentence when the sending editor supports it. Recurring digests start with the news; a greeting and sign-off are optional for personal messages such as a welcome.
 
-Use the homepage's [neural-tides artwork](../src/assets/brand/neural-tides.webp) as a compact top image strip across all four formats: about 120 pixels high on desktop and 96 pixels on mobile. Follow it with a pale-lavender masthead, dark text and the existing small logo. Keep the newsletter title as live text below the artwork. Use a white reading area in a single column about 640 pixels wide, with body text at least 16 pixels and comfortable line spacing. All essential information must remain readable with images blocked. Avoid oversized banners and sidebars.
+Keep all four formats light: a compact white masthead with dark text and the existing small logo, a near-white page background and fine borders. Use the newsletter title as live text, with no banner image or reserved image space. Keep a white reading area in a single column about 640 pixels wide, with body text at least 16 pixels and comfortable line spacing. Use pale colour accents for key facts and violet for links. All essential information must remain readable with images blocked.
 
-The HTML preview loads the existing homepage artwork from GitHub and needs an internet connection to display it. It demonstrates the layout; email-client rendering is not yet verified. For delivery, use stable, publicly hosted JPEG or PNG images and check the sending platform's preview.
+The HTML preview is self-contained and demonstrates the layout; email-client rendering is not yet verified. Check the sending platform's preview before delivery.
 
 Use as few words as possible without losing the facts needed to decide whether to click. Make titles clickable; bold dates, deadlines and other deciding facts. Prefer one descriptive link per item over a second “Read more” link to the same page. Add a separate registration or application link only when it serves a different action.
 
