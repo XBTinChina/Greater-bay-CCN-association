@@ -1,220 +1,200 @@
 ---
 title: Newsletter templates
-summary: Copy-ready event, weekly update, monthly summary and position emails, with shared website and subscription links.
+summary: Four concise newsletter formats with a shared masthead, clear action links and a consistent footer.
 audience: coordinators
 order: 55
 ---
 
-Use these templates whenever preparing a GBA-CCN newsletter. This page is the shared reference for coordinators and assistants. Keep the templates here up to date rather than maintaining separate copies in different tools.
+Use these templates whenever preparing a GBA-CCN newsletter. This page is the shared reference for coordinators and assistants. The [filled weekly preview](https://github.com/XBTinChina/Greater-bay-CCN-association/blob/newsletter-design-draft/templates/newsletter/preview.html) illustrates the proposed layout; it is a review draft, not a sent issue.
+
+## Design
+
+Use a compact masthead and issue date, one clear lead item, short labelled sections and a consistent footer. Link the headlines and highlight the facts that help readers decide whether to follow them. Use a short inbox preview sentence when the sending editor supports it. Recurring digests start with the news; a greeting and sign-off are optional for personal messages such as a welcome.
+
+Keep all four formats light: a compact white masthead with dark text and the existing small logo, a near-white page background and fine borders. Use the newsletter title as live text, with no banner image or reserved image space. Keep a white reading area in a single column about 640 pixels wide, with body text at least 16 pixels and comfortable line spacing. Use pale colour accents for key facts and violet for links. All essential information must remain readable with images blocked.
+
+The HTML preview is self-contained and demonstrates the layout; email-client rendering is not yet verified. Check the sending platform's preview before delivery.
+
+Use as few words as possible without losing the facts needed to decide whether to click. Make titles clickable; bold dates, deadlines and other deciding facts. Prefer one descriptive link per item over a second “Read more” link to the same page. Add a separate registration or application link only when it serves a different action.
+
+Keep each item to a linked title, essential facts and at most one short sentence. Usually 20–40 words for the lead and 10–25 for another item are enough, excluding names and required conditions; these are ceilings to aim below, not quotas. A three-item weekly email can fit in roughly 100–180 words including the footer. Keep dates, time zones, deadlines and relevant restrictions in the email; put full abstracts, biographies, job descriptions and application instructions behind the links. Remove greetings, sign-offs, repeated introductions, redundant summaries and empty sections.
 
 ## When to send
 
-- **Check weekly; send only when there is something useful to share.** New events, openings, resources, network news, important changes and approaching deadlines can qualify. If there is nothing new or meaningfully changed, skip the week.
-- **Combine routine items into one weekly email.** A monthly summary is optional and replaces that week's update.
-- **Use a separate event or position email when waiting would make the notice less useful.** Use attendee or group channels for routine event reminders. Send a correction, cancellation or important change promptly when subscribers need it.
-- **Avoid duplicates.** Check the sent issues in Buttondown before drafting. Mention an already announced item again only when there is a useful update or reminder, and say what is new.
-- These are reusable templates, not a scheduled sending service. The repository's **Weekly digest** is a separate internal maintenance report and does not email subscribers.
+- Check weekly. Send only when there is something new or meaningfully changed to share; otherwise skip the week.
+- Combine routine items into one email. A monthly summary is optional and replaces that week's update.
+- Send a separate event or position announcement when waiting would make it less useful. Use attendee or group channels for routine event reminders.
+- Check the sent issues in Buttondown to avoid duplicates. Repeat an item only for a useful update or approaching deadline, and say what has changed.
+- These templates do not schedule or send emails. The repository's Weekly digest is an internal maintenance report.
 
 ## How to use
 
-1. Choose a template below. Copy its subject into Buttondown's subject field, without the `Subject:` label, and copy the remaining block into the email body. Do not copy the surrounding code fences.
-2. Replace every `{placeholder}`. Remove unused fields, optional instructions and empty sections. Use concise English; names and titles in other scripts can appear alongside it. Write for students, research staff, postdocs, faculty and other interested readers.
-3. Use the published event page or employer's advert as the source. Include a full date with year; put the time zone beside event times and timed deadlines. Do not assume an event uses the network's usual seminar slot.
-4. Keep the shared footer already included in each template. The blocks use Markdown; use the editor's Markdown mode or format the headings and links in its rich-text editor, then check the preview.
-5. Have a coordinator review the facts, links, audience and preview before sending. Publishing a template or a website update does not authorise or trigger a newsletter send.
+1. Choose a template. Put its subject in Buttondown's subject field, without the `Subject:` label. If a preview-text field is available, put the `Preview text:` line there. Neither label belongs in the body. If there is no preview-text field, omit that line.
+2. Copy the remaining Markdown body without its code fences. Use Markdown mode or apply the headings and links in the rich-text editor. The visual preview is a design reference, not a change to Buttondown's account-wide theme.
+3. Replace every `{placeholder}`; remove unused instructions, fields and sections. Use concise English, with names or titles in other scripts alongside it where helpful.
+4. Use the published event page or recruiting institution's advert as the source. Include the year in dates, the time zone beside event times and timed deadlines, and an end time only when confirmed. Do not invent a closing time for a date-only deadline. If the employer explicitly says “Open until filled”, use that wording instead of “Apply by”.
+5. Match each linked title or action label to its destination. Link event titles to public event pages and use “Register” only for a registration page. For a lead that is not an event, change both the title and its URL. Position links go to the employer's advert or the network's positions list; the website has no individual position pages.
+6. Keep the masthead and common footer. Have a coordinator review the facts, audience, links and preview before sending. A request for a draft does not authorise sending it.
 
-## What every email includes
+## The shared footer
 
-Each template has a clear subject, a short message, a relevant action link and the same network footer. The footer links to the website, events, positions, resources, contribution routes, coordinators and newsletter signup.
+The same footer appears in every template: a contribution invitation, stable website links, contact and signup routes, and a short explanation of why the reader receives it. The worldwide welcome belongs in the masthead.
 
-Buttondown adds the recipient-specific unsubscribe and subscription-management links below the message. Keep that automatic footer enabled. Never copy a recipient's personalised unsubscribe URL into a template or replace it with a generic link. The templates do not rely on a monitored reply address; use the coordinator page for general contact.
+Buttondown adds recipient-specific unsubscribe and subscription-management links. Preserve that automatic footer; never paste a recipient's personal link into a reusable template. The HTML preview shows where those controls belong, without creating fake unsubscribe links. General contact uses the coordinator page rather than assuming replies are monitored.
 
-Keep private meeting links, passcodes, subscriber details and private correspondence out of newsletters and this public repository. Link to public event or registration pages, and share private access details through the appropriate attendee channel. Share recordings and slides only when permission to publish has been confirmed.
-
-If the network name or website changes, update all four copies of the common footer together. There are no individual position pages on this website: link to the employer's advert/application page, or the [positions list](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) when appropriate.
+Keep private meeting links, passcodes, subscriber details and private correspondence out of newsletters and this public repository. Use public event or registration pages; send private access details through the appropriate attendee channel. Share recordings and slides only with permission.
 
 ## 1. Event announcement
 
-Use for a seminar, workshop or other confirmed event. Normally include the announcement in the weekly update; use a separate email when it needs timely notice. Delete speaker or host fields that do not apply. Do not imply attendance is unrestricted if registration, eligibility or capacity limits apply.
+Use for a confirmed seminar, workshop or other event. Put the date, time, place and action near the title. Include attendance restrictions or registration requirements only as confirmed; omit unneeded fields.
 
 ```markdown
-Subject: GBA-CCN | {Event title} | {Day Month Year}
+Subject: GBA-CCN | {Short event title} | {Day Month Year}
+Preview text: {Speaker} · {Time and time zone} · {Online or city}
 
-Dear colleagues,
+# GBA-CCN Network Updates
 
-You are invited to {event title}.
+**Event · {Issue date}**  
+*Greater Bay Area · Open worldwide*
 
-{One or two plain sentences about the topic and who may find it useful.}
+## [{Short event title}]({Full public event-page URL})
 
-- **Speaker:** {Name, institution}
-- **When:** {Weekday, day month year}, {start–end time} Hong Kong Time (UTC+8)
-- **Where:** {Online platform, or venue and city}
-- **Host:** {Lab or institution}
-- **Attendance:** {Registration requirements, any restrictions and confirmed fee or free admission}
+**{Weekday, day month year} · {Time and time zone}** · {Online platform or venue}
 
-[Event details and registration]({Full public event-page URL})
+**{Speaker}** · {Institution}  
+{One short sentence on the topic; omit if the title says enough.}
 
-{Optional: Register by {date, time and time zone}.}
-
-Best wishes,
-GBA-CCN Network
+{If registration is required: **[Register by {confirmed deadline}]({Public registration URL})**.}
+{If needed: {Confirmed eligibility, capacity or fee information}.}
 
 ---
-**GBA-CCN Network**  
+**[Share an event, opening or resource](https://xbtinchina.github.io/Greater-bay-CCN-association/join/)**
+
+[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/) · [Contact](https://xbtinchina.github.io/Greater-bay-CCN-association/about/) · [Subscribe](https://buttondown.com/gba-ccn)
+
 Greater Bay Area Computational and Cognitive Neuroscience Network  
-粤港澳大湾区计算神经科学与认知神经科学网络
-
-[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Open positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/)
-
-[Contribute or list your lab](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) · [Contact coordinators](https://xbtinchina.github.io/Greater-bay-CCN-association/about/)
-
-Forwarded this email? [Subscribe to the newsletter](https://buttondown.com/gba-ccn). You can unsubscribe or manage your subscription using the links below.
+You received this because you subscribed. Unsubscribe or manage preferences below.
 ```
 
 ## 2. Weekly update
 
-This is the default newsletter. Cover new or meaningfully changed items since the last sent issue, even if a quiet week was skipped. Remove empty sections. Repeat item blocks only as needed; aim for three to five useful items rather than filling every category.
+The default. One useful item is enough. Use linked headlines and essential facts; omit an “In this issue” line in a short email. An approaching deadline or important change can lead instead of an event. Remove unused sections or metadata that does not apply.
 
 ```markdown
-Subject: GBA-CCN | Weekly update | {Day Month Year}
+Subject: GBA-CCN | {Lead topic} + {Other main item}
+Preview text: {Next event date or deadline and one useful detail}
 
-Dear colleagues,
+# GBA-CCN Network Updates
 
-Here are the latest updates from the network: {one short sentence naming the main items}.
+**Weekly · {Day Month Year}**  
+*Greater Bay Area · Open worldwide*
 
-## Upcoming events
+## [{Lead item: specific title}]({Full public details URL})
 
-**{Event title}** — {Day month year, time and time zone}  
-{Speaker or organiser, institution}. {One sentence about the topic or what has changed.}  
-[Details and registration]({Full public event-page URL})
+**{Essential date, time and time zone}** · {Location or format}  
+{Speaker or organiser}. {Optional short sentence on the topic.}
 
-## New positions
+## Opportunities
 
-**{Role} — {Lab or institution}, {City}**  
-{One sentence about the research area or role.}  
-Deadline: {Confirmed date, time and time zone, or employer-confirmed "Open until filled"}.  
-[Details and how to apply]({Full employer or application URL})
+**[{Role or research area}]({Full employer advert URL or network positions URL})**  
+{Lab or institution} · {City}  
+**Apply by {confirmed deadline}.** {Optional: one essential detail.}
 
-## Resources and network news
+## Around the network
 
-**{Resource or news title}**  
-{One sentence about what is new and why it may be useful.}  
-[Read more]({Full public URL})
-
-Best wishes,
-GBA-CCN Network
+**[{New lab, resource or update}]({Full public URL})**  
+{One short sentence saying what is new; omit if the title says enough.}
 
 ---
-**GBA-CCN Network**  
+**[Share an event, opening or resource](https://xbtinchina.github.io/Greater-bay-CCN-association/join/)**
+
+[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/) · [Contact](https://xbtinchina.github.io/Greater-bay-CCN-association/about/) · [Subscribe](https://buttondown.com/gba-ccn)
+
 Greater Bay Area Computational and Cognitive Neuroscience Network  
-粤港澳大湾区计算神经科学与认知神经科学网络
-
-[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Open positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/)
-
-[Contribute or list your lab](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) · [Contact coordinators](https://xbtinchina.github.io/Greater-bay-CCN-association/about/)
-
-Forwarded this email? [Subscribe to the newsletter](https://buttondown.com/gba-ccn). You can unsubscribe or manage your subscription using the links below.
+You received this because you subscribed. Unsubscribe or manage preferences below.
 ```
 
 ## 3. Monthly summary
 
-Use when a monthly overview is useful. It replaces that week's update, rather than repeating it in a second email. Include new outcomes, materials or next steps; do not resend the month's weekly updates unchanged. Skip it if there is nothing useful to add. Remove empty sections.
+Optional; replaces that week's update. Use a few linked highlights, then upcoming events and deadlines. Delete empty sections and unchanged repeats.
 
 ```markdown
-Subject: GBA-CCN | Monthly summary | {Month Year}
+Subject: GBA-CCN | {Month Year} | {Lead highlight}
+Preview text: {Main highlight} · {Next event or deadline}
 
-Dear colleagues,
+# GBA-CCN Network Updates
 
-Here is a brief look at {month}'s activities and what is coming next.
+**Monthly · {Month Year}**  
+*Greater Bay Area · Open worldwide*
 
-## This month's highlights
+## Highlights
 
-**{Activity or development}**  
-{One or two sentences about the outcome or what is now available.}  
-[Read more]({Full public URL})
-
-## Recordings and resources
-
-**{Title}** — {Speaker or author}  
-{One sentence about the material and its language.}  
-[View the resource]({Full public event or resource URL})
+**[{Outcome or resource}]({Full public URL})**  
+{One short sentence on what is new or available.}
 
 ## Coming up
 
-**{Event title}** — {Day month year, time and time zone}  
-{Speaker or organiser, institution}. {One sentence about the topic.}  
-[Details and registration]({Full public event-page URL})
+**[{Event title}]({Full public event-page URL})**  
+**{Day month year, time and time zone}** · {Location or format}  
+{Speaker or organiser}.
 
-## Open positions
+## Opportunities
 
-**{Role} — {Lab or institution}, {City}**  
-{One sentence about the role or an approaching deadline.}  
-Deadline: {Confirmed date, time and time zone, or employer-confirmed "Open until filled"}.  
-[Details and how to apply]({Full employer or application URL})
-
-Best wishes,
-GBA-CCN Network
+**[{Role}]({Full employer advert URL or network positions URL})**  
+{Lab or institution} · {City}  
+**Apply by {confirmed deadline}.**
 
 ---
-**GBA-CCN Network**  
+**[Share an event, opening or resource](https://xbtinchina.github.io/Greater-bay-CCN-association/join/)**
+
+[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/) · [Contact](https://xbtinchina.github.io/Greater-bay-CCN-association/about/) · [Subscribe](https://buttondown.com/gba-ccn)
+
 Greater Bay Area Computational and Cognitive Neuroscience Network  
-粤港澳大湾区计算神经科学与认知神经科学网络
-
-[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Open positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/)
-
-[Contribute or list your lab](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) · [Contact coordinators](https://xbtinchina.github.io/Greater-bay-CCN-association/about/)
-
-Forwarded this email? [Subscribe to the newsletter](https://buttondown.com/gba-ccn). You can unsubscribe or manage your subscription using the links below.
+You received this because you subscribed. Unsubscribe or manage preferences below.
 ```
 
 ## 4. Position announcement
 
-Usually include openings in the weekly update. Use a separate announcement when timely notice is needed, or combine several new roles in one email. Use the employer's current advert for eligibility, funding, salary and deadlines. Do not infer that a position is funded or open until filled. Delete optional fields if unconfirmed.
+Usually include openings in the weekly update. For a separate announcement, retain the role, institution, location, deadline and essential eligibility. Link the title to the full advert. Add funding or duration only when useful and confirmed.
 
 ```markdown
-Subject: GBA-CCN | {Role} at {Institution} | {City}
+Subject: GBA-CCN | {Role} at {Institution}
+Preview text: {Research area} · {City} · {Confirmed deadline}
 
-Dear colleagues,
+# GBA-CCN Network Updates
 
-{Lab or institution} is recruiting a {role} in {research area}.
+**Position · {Issue date}**  
+*Greater Bay Area · Open worldwide*
 
-{One or two sentences describing the work and the kind of experience sought.}
+## [{Role or research area}]({Full employer advert URL or network positions URL})
 
-- **Institution and lab:** {Institution; lab or PI}
-- **Location:** {City; on-site, hybrid or remote if confirmed}
-- **Role:** {Position type; full-time or part-time if confirmed}
-- **Eligibility:** {Key requirements from the employer's advert}
-- **Deadline:** {Confirmed date, time and time zone, or employer-confirmed "Open until filled"}
-- **Start date and duration:** {Optional: confirmed details}
-- **Funding or salary:** {Optional: confirmed details}
+**{Lab or institution} · {City}**  
+**Apply by {confirmed deadline}**
 
-[Full advert and how to apply]({Full employer or application URL})
+{One short sentence on the work.}
 
-Questions about the role: {Public recruitment contact from the employer's advert}.
-
-Please follow the employer's application instructions. Applications are handled by the recruiting institution.
-
-Best wishes,
-GBA-CCN Network
+**Required:** {Essential qualification or eligibility only}.
+{If useful: **Start / duration / funding:** {Confirmed details}.}
 
 ---
-**GBA-CCN Network**  
+**[Share an event, opening or resource](https://xbtinchina.github.io/Greater-bay-CCN-association/join/)**
+
+[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/) · [Contact](https://xbtinchina.github.io/Greater-bay-CCN-association/about/) · [Subscribe](https://buttondown.com/gba-ccn)
+
 Greater Bay Area Computational and Cognitive Neuroscience Network  
-粤港澳大湾区计算神经科学与认知神经科学网络
-
-[Website](https://xbtinchina.github.io/Greater-bay-CCN-association/) · [Events](https://xbtinchina.github.io/Greater-bay-CCN-association/events/) · [Open positions](https://xbtinchina.github.io/Greater-bay-CCN-association/positions/) · [Resources](https://xbtinchina.github.io/Greater-bay-CCN-association/resources/)
-
-[Contribute or list your lab](https://xbtinchina.github.io/Greater-bay-CCN-association/join/) · [Contact coordinators](https://xbtinchina.github.io/Greater-bay-CCN-association/about/)
-
-Forwarded this email? [Subscribe to the newsletter](https://buttondown.com/gba-ccn). You can unsubscribe or manage your subscription using the links below.
+You received this because you subscribed. Unsubscribe or manage preferences below.
 ```
 
 ## Before sending
 
-- No placeholders, optional instructions or empty sections remain.
-- Names, dates, time zones, deadlines and links match the current source; expired openings and past events are not presented as upcoming.
-- A poster supplements the written event details rather than replacing them.
-- The rendered preview is readable on a narrow screen, links work, and Buttondown's unsubscribe footer is present.
-- The intended active subscribers are selected, and the issue does not repeat a recent send without a useful change.
+Check for unfilled placeholders and empty sections; verify current dates, eligibility and deadlines; open the links; preview at a narrow width; and confirm the intended audience and automatic unsubscribe footer. After sending, use Buttondown's sent record as the history. Keep subscriber addresses and delivery reports out of the repository.
 
-After sending, use the issue's Buttondown record as the sending history. Do not copy subscriber addresses or delivery reports into the public repository.
+## Examples used to inform this revision
+
+These are layout references, not sources for GBA-CCN announcements. Our wording and artwork are our own.
+
+- [SNL, September 2025](https://www.neurolang.org/newsletters/SNL_September_2025.pdf): dated masthead, society news before grouped opportunities, clear submission route.
+- [CNS newsletter](https://www.cogneurosociety.org/newsletter/): stable society, meeting and recruitment sections. Borrow the hierarchy while keeping our listings shorter.
+- [SfN Nexus, issue displayed as 1 November 2024](https://www.sfn.org/publications/nexus-member-newsletter): linked headlines with short descriptions and concrete actions.
+- [OHBMonthly, May 2024](https://humanbrainmapping.org/i4a/email/browserEmailMessage.cfm?bTest=1&campaignID=4085&contactID=%25%25contactID%25%25&recipID=%25%25recipID%25%25): contents and deadlines, short job summaries and an invitation to contribute.
+
